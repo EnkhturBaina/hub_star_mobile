@@ -31,16 +31,6 @@ const LoginScreen = (props) => {
 
   const [loadingAction, setLoadingAction] = useState(false);
   const [loadingActionReset, setLoadingActionReset] = useState(false);
-  useEffect(() => {
-    (async () => {
-      const compatible = await LocalAuthentication.hasHardwareAsync();
-      setIsBiometricSupported(compatible);
-
-      await AsyncStorage.getItem("password").then(async (value) => {
-        state.setPassword(value);
-      });
-    })();
-  }, []);
 
   //Snacbkbar харуулах
   const onToggleSnackBar = (msg) => {

@@ -9,7 +9,7 @@ export const MainStore = (props) => {
   const navigation = useNavigation();
 
   const [userId, setUserId] = useState("");
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
 
   var date = new Date();
@@ -29,6 +29,8 @@ export const MainStore = (props) => {
       value={{
         userId,
         logout,
+        isLoading,
+        isLoggedIn,
       }}
     >
       {props.children}

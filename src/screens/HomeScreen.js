@@ -27,6 +27,7 @@ const HomeScreen = (props) => {
         translucent
         barStyle={Platform.OS == "ios" ? "dark-content" : "default"}
       />
+      <Text>zzzzzzzzzz</Text>
     </View>
   );
 };
