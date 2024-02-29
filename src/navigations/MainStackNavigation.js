@@ -9,15 +9,17 @@ import HomeScreen from "../screens/HomeScreen";
 import ProfileScreen from "../screens/Profile/ProfileScreen";
 import CategoryScreen from "../screens/Category/CategoryScreen";
 import ChatScreen from "../screens/Chat/ChatScreen";
+import IntroSliderScreen from "../screens/IntroSliderScreen";
 
 const Stack = createStackNavigator();
 const width = Dimensions.get("screen").width;
 
 const LoginStackNavigator = (props) => {
   const state = useContext(MainContext);
+  console.log("state.isLoggedIn", state.isLoggedIn);
   return (
     <Stack.Navigator
-      initialRouteName="LoginTab"
+      initialRouteName={!state.isLoggedIn ? "IntroSlider" : "LoginTab"}
       screenOptions={{
         headerStyle: {
           shadowColor: "transparent",
@@ -25,6 +27,16 @@ const LoginStackNavigator = (props) => {
         },
       }}
     >
+      <Stack.Screen
+        name="IntroSlider"
+        component={IntroSliderScreen}
+        options={{
+          title: "",
+          headerShown: false,
+          headerTitleStyle: {},
+          headerLeft: () => <></>,
+        }}
+      />
       <Stack.Screen
         name="LoginTab"
         component={LoginScreen}

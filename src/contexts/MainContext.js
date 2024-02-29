@@ -9,8 +9,8 @@ export const MainStore = (props) => {
   const navigation = useNavigation();
 
   const [userId, setUserId] = useState("");
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   var date = new Date();
 

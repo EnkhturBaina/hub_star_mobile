@@ -65,7 +65,9 @@ const LoginScreen = (props) => {
         contentContainerStyle={styles.container}
         bounces={false}
         showsVerticalScrollIndicator={false}
-      ></ScrollView>
+      >
+        <Text>LOGIIIIIIIIIIIN</Text>
+      </ScrollView>
     </KeyboardAvoidingView>
   );
 };
