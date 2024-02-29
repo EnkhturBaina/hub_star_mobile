@@ -4,6 +4,7 @@ import { MainStore } from "./src/contexts/MainContext";
 import HomeScreenTabNavigation from "./src/navigations/HomeScreenTabNavigation";
 import MainDrawerNavigation from "./src/navigations/MainDrawerNavigation";
 import { SafeAreaProvider } from "react-native-safe-area-context";
+import BottomBar from "./src/navigations/BottomBar";
 
 export default function App() {
   return (
@@ -12,7 +13,8 @@ export default function App() {
         <MainStore>
           {/* <MainDrawerNavigation /> */}
           {/* Drawer нэмэгдэхээр бол дээрхи кодны коммент -г авах */}
-          <HomeScreenTabNavigation />
+          {/* <HomeScreenTabNavigation /> */}
+          <BottomBar />
         </MainStore>
       </NavigationContainer>
     </SafeAreaProvider>

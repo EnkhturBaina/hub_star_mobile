@@ -78,6 +78,7 @@ function MyTabBar({ state, descriptors, navigation }) {
         justifyContent: "space-between",
         backgroundColor: "red",
       }}
+      key={state.index}
     >
       {state.routes.map((route, index) => {
         const { options } = descriptors[route.key];

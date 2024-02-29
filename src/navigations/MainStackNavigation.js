@@ -6,7 +6,9 @@ import MainContext from "../contexts/MainContext";
 
 import LoginScreen from "../screens/LoginScreen";
 import HomeScreen from "../screens/HomeScreen";
-import ProfileScreen from "../screens/ProfileScreen";
+import ProfileScreen from "../screens/Profile/ProfileScreen";
+import CategoryScreen from "../screens/Category/CategoryScreen";
+import ChatScreen from "../screens/Chat/ChatScreen";
 
 const Stack = createStackNavigator();
 const width = Dimensions.get("screen").width;
@@ -63,6 +65,58 @@ const HomeScreenStackNavigator = (props) => {
   );
 };
 
+const CategoryStackNavigator = (props) => {
+  return (
+    <Stack.Navigator
+      initialRouteName="CategoryScreen"
+      screenOptions={{
+        // headerShown: false,
+        headerStyle: {
+          shadowColor: "transparent",
+          elevation: 0,
+        },
+      }}
+    >
+      <Stack.Screen
+        name="CategoryScreen"
+        component={CategoryScreen}
+        options={{
+          headerShown: false,
+          title: "",
+          headerTitleStyle: {},
+          headerLeft: () => <></>,
+        }}
+      />
+    </Stack.Navigator>
+  );
+};
+
+const ChatStackNavigator = (props) => {
+  return (
+    <Stack.Navigator
+      initialRouteName="ChatScreen"
+      screenOptions={{
+        // headerShown: false,
+        headerStyle: {
+          shadowColor: "transparent",
+          elevation: 0,
+        },
+      }}
+    >
+      <Stack.Screen
+        name="ChatScreen"
+        component={ChatScreen}
+        options={{
+          headerShown: false,
+          title: "",
+          headerTitleStyle: {},
+          headerLeft: () => <></>,
+        }}
+      />
+    </Stack.Navigator>
+  );
+};
+
 const ProfileStackNavigator = (props) => {
   return (
     <Stack.Navigator
@@ -87,7 +141,13 @@ const ProfileStackNavigator = (props) => {
   );
 };
 
-export { LoginStackNavigator, HomeScreenStackNavigator, ProfileStackNavigator };
+export {
+  LoginStackNavigator,
+  HomeScreenStackNavigator,
+  CategoryStackNavigator,
+  ChatStackNavigator,
+  ProfileStackNavigator,
+};
 
 const styles = StyleSheet.create({
   headerLeftContainer: {

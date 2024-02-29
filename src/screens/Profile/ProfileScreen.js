@@ -9,8 +9,8 @@ import {
 } from "react-native";
 import React, { useContext, useState } from "react";
 import { Icon } from "@rneui/base";
-import MainContext from "../contexts/MainContext";
-import CustomSnackbar from "../components/CustomSnackbar";
+import MainContext from "../../contexts/MainContext";
+import CustomSnackbar from "../../components/CustomSnackbar";
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 
 const ProfileScreen = (props) => {
