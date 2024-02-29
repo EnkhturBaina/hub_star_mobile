@@ -1,7 +1,7 @@
-import { StyleSheet, View, Image, LogBox } from "react-native";
+import { StyleSheet, View, Image, LogBox, ImageBackground } from "react-native";
 import React, { useEffect, useRef } from "react";
-// import talent_logo from "../../assets/talent_logo.png";
-// import LottieView from "lottie-react-native";
+import splash_logo from "../../assets/splash_logo.png";
+import LottieView from "lottie-react-native";
 
 if (__DEV__) {
   const ignoreWarns = [
@@ -32,30 +32,37 @@ const SplashScreen = () => {
 
   useEffect(() => {}, []);
   return (
-    <View
+    <ImageBackground
+      source={require("../../assets/splash_bg.png")}
       style={{
         flex: 1,
         backgroundColor: "#fff",
         alignItems: "center",
         justifyContent: "center",
+        resizeMode: "contain",
       }}
+      resizeMode="cover"
     >
       <Image
-        style={{ resizeMode: "contain", width: "70%", height: "50%" }}
-        // source={talent_logo}
-        // source={talent_logo}
+        style={{
+          resizeMode: "contain",
+          width: "40%",
+          height: "60%",
+          zIndex: 999,
+        }}
+        source={splash_logo}
       />
-      {/* <LottieView
+      <LottieView
         autoPlay
         ref={animation}
         style={{
-          width: 100,
-          height: 100,
+          width: 150,
+          height: 150,
           backgroundColor: "transparent",
         }}
-        source={require("../../assets/loader.json")}
-      /> */}
-    </View>
+        source={require("../../assets/hub_star_loader.json")}
+      />
+    </ImageBackground>
   );
 };
 

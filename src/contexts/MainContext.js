@@ -10,7 +10,7 @@ export const MainStore = (props) => {
 
   const [userId, setUserId] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(true);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   var date = new Date();
 

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Image, View, StyleSheet, Text } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { BlurView } from "expo-blur";
@@ -7,9 +7,12 @@ import {
   CategoryStackNavigator,
   ChatStackNavigator,
   HomeScreenStackNavigator,
+  LoginStackNavigator,
   ProfileStackNavigator,
 } from "./MainStackNavigation";
 import { MAIN_COLOR } from "../constant";
+import MainContext from "../contexts/MainContext";
+import SplashScreen from "../screens/SplashScreen";
 
 const DummyTabScene = () => {
   return (
@@ -62,77 +65,81 @@ const TABS = [
   },
 ];
 
-// We're showing an indicator image in place of the label
-const tabBarLabel = ({ focused }) => (
-  <Image
-    style={{ width: 14, height: 5, opacity: focused ? 1 : 0 }}
-    source={require("../../assets/icon.png")}
-  />
-);
-
 const BottomTab = createBottomTabNavigator();
 
-const BottomBar = () => (
-  // <NavigationContainer>
-  <BottomTab.Navigator
-    screenOptions={{
-      headerShown: false,
-      tabBarStyle: {
-        position: "absolute",
-        borderTopLeftRadius: 20,
-        borderTopRightRadius: 20,
-        shadowColor: "rgb(47, 64, 85)",
-        shadowOffset: { width: 0, height: -4 },
-        shadowOpacity: 0.12,
-        shadowRadius: 16,
-      },
-      tabBarBackground: () => (
-        <BlurView
-          // tint="light"
-          // control the intensity of the blur effect
-          intensity={80}
-          style={{
-            ...StyleSheet.absoluteFillObject,
+const BottomBar = () => {
+  const state = useContext(MainContext);
+  if (state.isLoading) {
+    // Апп ачааллах бүрт SplashScreen харуулах
+    return <SplashScreen />;
+  } else if (!state.isLoading && !state.isLoggedIn) {
+    // Нэвтрээгүй үед
+    return <LoginStackNavigator />;
+  } else {
+    return (
+      <BottomTab.Navigator
+        screenOptions={{
+          headerShown: false,
+          tabBarStyle: {
+            position: "absolute",
             borderTopLeftRadius: 20,
             borderTopRightRadius: 20,
-            overflow: "hidden",
-            backgroundColor: "transparent",
-          }}
-        />
-      ),
-    }}
-  >
-    {TABS.map((tab, index) => (
-      <BottomTab.Screen
-        key={`${tab.title}_${index}`}
-        name={tab.title}
-        component={tab.component}
-        options={{
-          tabBarIcon: ({ focused }) => (
-            <Icon
-              name={focused ? tab.iconActive : tab.icon}
-              type={tab.iconType}
-              size={25}
-              color={focused ? MAIN_COLOR : "#000"}
+            shadowColor: "rgb(47, 64, 85)",
+            shadowOffset: { width: 0, height: -4 },
+            shadowOpacity: 0.12,
+            shadowRadius: 16,
+          },
+          tabBarBackground: () => (
+            <BlurView
+              // tint="light"
+              // control the intensity of the blur effect
+              intensity={80}
+              style={{
+                ...StyleSheet.absoluteFillObject,
+                borderTopLeftRadius: 20,
+                borderTopRightRadius: 20,
+                overflow: "hidden",
+                backgroundColor: "transparent",
+              }}
             />
           ),
-          tabBarLabel: ({ focused }) => (
-            <Text
-              style={{
-                textAlign: "center",
-                fontSize: 13,
-                color: focused ? MAIN_COLOR : "#000",
-              }}
-            >
-              {tab.title}
-            </Text>
-          ),
-          tabBarLabelPosition: "below-icon",
         }}
-      />
-    ))}
-  </BottomTab.Navigator>
-  // </NavigationContainer>
-);
+      >
+        {TABS.map((tab, index) => (
+          <BottomTab.Screen
+            key={`${tab.title}_${index}`}
+            name={tab.title}
+            component={tab.component}
+            options={{
+              tabBarIcon: ({ focused }) => (
+                <Icon
+                  name={focused ? tab.iconActive : tab.icon}
+                  type={tab.iconType}
+                  size={25}
+                  color={focused ? MAIN_COLOR : "#000"}
+                />
+              ),
+              tabBarLabel: ({ focused }) => (
+                <Text
+                  style={{
+                    textAlign: "center",
+                    fontSize: 13,
+                    color: focused ? MAIN_COLOR : "#000",
+                  }}
+                >
+                  {tab.title}
+                </Text>
+              ),
+              tabBarLabelPosition: "below-icon",
+            }}
+          />
+        ))}
+      </BottomTab.Navigator>
+    );
+  }
+};
+// <NavigationContainer>
+
+// </NavigationContainer>
 
 export default BottomBar;
