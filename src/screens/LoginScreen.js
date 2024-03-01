@@ -7,23 +7,20 @@ import {
   ScrollView,
   KeyboardAvoidingView,
   Platform,
-  ActivityIndicator,
-  Linking,
   TextInput,
   StatusBar,
 } from "react-native";
-import React, { useContext, useEffect, useState } from "react";
-import { Icon, CheckBox, Button } from "@rneui/themed";
+import React, { useContext, useState } from "react";
+import { Icon, CheckBox } from "@rneui/themed";
 import MainContext from "../contexts/MainContext";
 import CustomSnackbar from "../components/CustomSnackbar";
 // import talent_logo from "../../assets/talent_logo.png";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import axios from "axios";
 import splash_logo from "../../assets/splash_logo.png";
 import {
   GRAY_ICON_COLOR,
   MAIN_BG_GRAY,
   MAIN_COLOR,
+  MAIN_COLOR_GRAY,
   MAIN_DISABLED_BG,
 } from "../constant";
 import { Divider } from "@rneui/base";
@@ -36,15 +33,8 @@ const LoginScreen = (props) => {
   const [password, setPassword] = useState("");
   const [hidePassword, setHidePassword] = useState(true);
 
-  const [isBiometricSupported, setIsBiometricSupported] = useState(false);
-
   const [visibleSnack, setVisibleSnack] = useState(false);
   const [snackBarMsg, setSnackBarMsg] = useState("");
-
-  const regex_email = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
-
-  const [loadingAction, setLoadingAction] = useState(false);
-  const [loadingActionReset, setLoadingActionReset] = useState(false);
 
   const onToggleSnackBar = (msg) => {
     setVisibleSnack(!visibleSnack);
@@ -55,10 +45,6 @@ const LoginScreen = (props) => {
 
   const checkHandle = () => {
     state.setRemember(!state.remember);
-  };
-
-  const checkHandleUseBiometric = () => {
-    state.setIsUseBiometric(!state.isUseBiometric);
   };
 
   const hideShowPassword = () => {
@@ -109,7 +95,6 @@ const LoginScreen = (props) => {
         />
         <Text className="font-bold text-2xl mb-4">Нэвтрэх хэсэг</Text>
         <View style={styles.stackSection}>
-          {/* <Text style={{ color: "red" }}>{state.loginMsg}</Text> */}
           <View style={styles.sectionStyle}>
             <Icon
               name="mobile"
@@ -180,20 +165,39 @@ const LoginScreen = (props) => {
             checkedColor={MAIN_COLOR}
             uncheckedColor={MAIN_COLOR}
           />
-          <TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => props.navigation.navigate("ResetPassword")}
+          >
             <Text className="text-blue-500">Нууц үг мартсан</Text>
           </TouchableOpacity>
         </View>
-        <View className="w-11/12 mt-2">
+        <View className="w-full mt-2">
           <GradientButton text="Нэвтрэх" action={login} />
         </View>
-        <View className="flex-row items-center my-4">
+        <View
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+            marginVertical: 10,
+          }}
+        >
           <Divider style={{ width: "33%" }} />
-          <Text className="text-gray-300 font-medium text-xl mx-5">Эсвэл</Text>
+          <Text
+            className="text-gray-300 font-medium text-xl text-center"
+            style={{ width: "33%" }}
+          >
+            Эсвэл
+          </Text>
           <Divider style={{ width: "33%" }} />
         </View>
-        <View className="flex-row justify-evenly w-full">
-          <View className="flex-row rounded-lg items-center py-4 bg-white w-5/12 justify-center border border-gray-300">
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-between",
+            width: "100%",
+          }}
+        >
+          <View style={styles.socialBtn}>
             <Image
               style={{
                 resizeMode: "contain",
@@ -205,7 +209,7 @@ const LoginScreen = (props) => {
             />
             <Text className="font-medium text-base">Facebook</Text>
           </View>
-          <View className="flex-row rounded-lg items-center py-4 bg-white w-5/12 justify-center border border-gray-300">
+          <View style={styles.socialBtn}>
             <Image
               style={{
                 resizeMode: "contain",
@@ -223,7 +227,7 @@ const LoginScreen = (props) => {
           <TouchableOpacity
             onPress={() => props.navigation.navigate("RegisterScreen")}
           >
-            <Text className="text-blue-500">Бүртгүүлэх</Text>
+            <Text className="text-blue-500 ml-2">Бүртгүүлэх</Text>
           </TouchableOpacity>
         </Text>
       </ScrollView>
@@ -238,21 +242,13 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     backgroundColor: MAIN_BG_GRAY,
     alignItems: "center",
-  },
-  loginImageContainer: {
-    alignItems: "center",
+    paddingHorizontal: 20,
   },
   stackSection: {
     width: "100%",
     flexDirection: "column",
     justifyContent: "space-between",
     alignItems: "center",
-  },
-  loginImg: {
-    width: 250,
-    height: 200,
-    resizeMode: "contain",
-    marginTop: "30%",
   },
   generalInput: {
     width: "80%",
@@ -262,25 +258,16 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    width: "90%",
-  },
-  stackSection3: {
-    width: "80%",
-    alignItems: "center",
-    marginRight: "auto",
-    marginLeft: "auto",
-    marginTop: 10,
+    width: "100%",
   },
   imageStyle: {
     position: "absolute",
     zIndex: 999,
-    right: "5%",
-  },
-  customCheckBox: {
-    padding: 0,
-    margin: 0,
-    marginLeft: 0,
-    alignItems: "center",
+    right: 0,
+    alignSelf: "center",
+    justifyContent: "center",
+    height: 50,
+    width: 50,
   },
   sectionStyle: {
     flexDirection: "row",
@@ -288,12 +275,23 @@ const styles = StyleSheet.create({
     backgroundColor: MAIN_DISABLED_BG,
     height: 50,
     margin: 10,
-    marginRight: "auto",
-    marginLeft: "auto",
+    width: "100%",
     borderRadius: 8,
   },
   inputIcon: {
     marginLeft: 15,
     marginHorizontal: 10,
+  },
+  socialBtn: {
+    flexDirection: "row",
+    backgroundColor: "#fff",
+    paddingVertical: 4,
+    borderRadius: 12,
+    justifyContent: "center",
+    alignItems: "center",
+    borderWidth: 1,
+    borderColor: MAIN_COLOR_GRAY,
+    width: "48%",
+    height: 50,
   },
 });

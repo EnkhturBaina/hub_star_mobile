@@ -1,7 +1,12 @@
 import { StyleSheet, Text, View, Image } from "react-native";
 import React, { useContext } from "react";
 import AppIntroSlider from "react-native-app-intro-slider";
-import { MAIN_COLOR, MAIN_COLOR_GRAY } from "../constant";
+import {
+  GRADIENT_END,
+  GRADIENT_START,
+  MAIN_COLOR,
+  MAIN_COLOR_GRAY,
+} from "../constant";
 import { LinearGradient } from "expo-linear-gradient";
 import MainContext from "../contexts/MainContext";
 
@@ -28,8 +33,17 @@ export default function IntroSliderScreen(props) {
   const _renderNextButton = () => {
     return (
       <LinearGradient
-        colors={[MAIN_COLOR, MAIN_COLOR]}
-        style={styles.nextButton}
+        colors={[GRADIENT_START, GRADIENT_END]}
+        style={{
+          borderRadius: 8,
+          height: 40,
+          width: 100,
+          opacity: props.disabled ? 0.6 : 1,
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+        start={{ x: 0, y: 0 }}
+        end={{ x: 1, y: 0 }}
       >
         <Text style={styles.generalTextNextButton}>Дараах</Text>
       </LinearGradient>
@@ -38,8 +52,17 @@ export default function IntroSliderScreen(props) {
   const _renderDoneButton = () => {
     return (
       <LinearGradient
-        colors={[MAIN_COLOR, MAIN_COLOR]}
-        style={styles.nextButton}
+        colors={[GRADIENT_START, GRADIENT_END]}
+        style={{
+          borderRadius: 8,
+          height: 40,
+          width: 100,
+          opacity: props.disabled ? 0.6 : 1,
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+        start={{ x: 0, y: 0 }}
+        end={{ x: 1, y: 0 }}
       >
         <Text style={styles.generalTextNextButton}>Болсон</Text>
       </LinearGradient>
@@ -122,19 +145,15 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     padding: 10,
-  },
-  nextButton: {
-    backgroundColor: MAIN_COLOR,
-    borderRadius: 8,
-    justifyContent: "center",
-    alignItems: "center",
-    padding: 10,
+    height: 40,
+    width: 100,
   },
   generalText: {
     // fontFamily: FONT_FAMILY_BOLD,
   },
   generalTextNextButton: {
     color: "#fff",
+    fontWeight: 800,
     // fontFamily: FONT_FAMILY_BOLD,
   },
 });

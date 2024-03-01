@@ -17,6 +17,9 @@ import OTPScreen from "../screens/Register/OTPScreen";
 import BioScreen from "../screens/Register/BioScreen";
 import { Icon } from "@rneui/base";
 import { useNavigation } from "@react-navigation/native";
+import ResetPassword from "../screens/ResetPassword/ResetPassword";
+import ConfirmPassword from "../screens/ResetPassword/ConfirmPassword";
+import ChangePassword from "../screens/ResetPassword/ChangePassword";
 
 const Stack = createStackNavigator();
 const width = Dimensions.get("screen").width;
@@ -154,6 +157,78 @@ const LoginStackNavigator = (props) => {
               style={styles.headerLeftContainer}
               onPress={() => {
                 navigation.navigate("OTPScreen");
+              }}
+            >
+              <Icon
+                type="material-icons"
+                name="keyboard-arrow-left"
+                size={30}
+              />
+            </TouchableOpacity>
+          ),
+        }}
+      />
+      <Stack.Screen
+        name="ResetPassword"
+        component={ResetPassword}
+        options={{
+          title: "Нууц үг мартсан",
+          headerTitleStyle: {
+            fontWeight: 800,
+          },
+          headerLeft: () => (
+            <TouchableOpacity
+              style={styles.headerLeftContainer}
+              onPress={() => {
+                navigation.navigate("LoginScreen");
+              }}
+            >
+              <Icon
+                type="material-icons"
+                name="keyboard-arrow-left"
+                size={30}
+              />
+            </TouchableOpacity>
+          ),
+        }}
+      />
+      <Stack.Screen
+        name="ConfirmPassword"
+        component={ConfirmPassword}
+        options={{
+          title: "Баталгаажуулалт",
+          headerTitleStyle: {
+            fontWeight: 800,
+          },
+          headerLeft: () => (
+            <TouchableOpacity
+              style={styles.headerLeftContainer}
+              onPress={() => {
+                navigation.navigate("ResetPassword");
+              }}
+            >
+              <Icon
+                type="material-icons"
+                name="keyboard-arrow-left"
+                size={30}
+              />
+            </TouchableOpacity>
+          ),
+        }}
+      />
+      <Stack.Screen
+        name="ChangePassword"
+        component={ChangePassword}
+        options={{
+          title: "Нууц үг мартсан",
+          headerTitleStyle: {
+            fontWeight: 800,
+          },
+          headerLeft: () => (
+            <TouchableOpacity
+              style={styles.headerLeftContainer}
+              onPress={() => {
+                navigation.navigate("ConfirmPassword");
               }}
             >
               <Icon
