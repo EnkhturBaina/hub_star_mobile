@@ -1,10 +1,12 @@
 import { StyleSheet, Text, View, Image } from "react-native";
-import React from "react";
+import React, { useContext } from "react";
 import AppIntroSlider from "react-native-app-intro-slider";
 import { MAIN_COLOR, MAIN_COLOR_GRAY } from "../constant";
 import { LinearGradient } from "expo-linear-gradient";
+import MainContext from "../contexts/MainContext";
 
 export default function IntroSliderScreen(props) {
+  const state = useContext(MainContext);
   const introData = [
     {
       id: 1,
@@ -57,7 +59,7 @@ export default function IntroSliderScreen(props) {
         style={{
           flex: 1,
           alignItems: "center",
-          justifyContent: "center",
+          justifyContent: "space-evenly",
         }}
       >
         <Image
@@ -66,7 +68,6 @@ export default function IntroSliderScreen(props) {
             width: "100%",
             height: 250,
             resizeMode: "contain",
-            backgroundColor: "red",
           }}
         />
         <Text
@@ -75,7 +76,6 @@ export default function IntroSliderScreen(props) {
             fontSize: 30,
             fontWeight: "bold",
             color: MAIN_COLOR,
-            backgroundColor: "green",
           }}
         >
           {item.text}
@@ -96,7 +96,8 @@ export default function IntroSliderScreen(props) {
         activeDotStyle={styles.activeDotStyle}
         showSkipButton
         onDone={() => {
-          props.navigation.navigate("LoginTab");
+          state.setIsIntroShow(false),
+            props.navigation.navigate("LoginOrRegisterTab");
         }}
       />
     </View>

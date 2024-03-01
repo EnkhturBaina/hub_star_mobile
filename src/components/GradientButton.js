@@ -1,6 +1,6 @@
 import { StyleSheet, Text, TouchableOpacity, Platform } from "react-native";
 import React from "react";
-import { FONT_FAMILY_BOLD, MAIN_COLOR } from "../constant";
+import { GRADIENT_END, GRADIENT_START } from "../constant";
 import { LinearGradient } from "expo-linear-gradient";
 
 const GradientButton = (props) => {
@@ -12,12 +12,14 @@ const GradientButton = (props) => {
       disabled={props.disabled}
     >
       <LinearGradient
-        colors={[MAIN_COLOR, MAIN_COLOR]}
+        colors={[GRADIENT_START, GRADIENT_END]}
         style={{
           borderRadius: 8,
           height: 45,
           opacity: props.disabled ? 0.6 : 1,
         }}
+        start={{ x: 0, y: 0 }}
+        end={{ x: 1, y: 0 }}
       >
         <Text style={styles.btnText}>{props.text}</Text>
       </LinearGradient>
@@ -34,7 +36,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   btnText: {
-    fontFamily: FONT_FAMILY_BOLD,
+    fontWeight: "bold",
     fontSize: 18,
     color: "#fff",
     textAlign: "center",

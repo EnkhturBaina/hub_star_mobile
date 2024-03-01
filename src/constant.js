@@ -6,6 +6,10 @@ export const MAIN_COLOR_RED = "#FF6100";
 export const MAIN_COLOR_PURPLE = "#443099";
 export const FONT_FAMILY_BOLD = "Nunito-Bold";
 export const FONT_FAMILY_LIGHT = "Nunito-Light";
+export const MAIN_BG_GRAY = "#fafafa";
+export const GRADIENT_START = "#e38b21";
+export const GRADIENT_END = "#ea5838";
+export const MAIN_DISABLED_BG = "#f0f0f0";
 
 export const MAIN_BORDER_RADIUS = 12;
 

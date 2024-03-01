@@ -4,6 +4,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 
 import MainContext from "../contexts/MainContext";
 
+import LoginOrRegisterScreen from "../screens/LoginOrRegisterScreen";
 import LoginScreen from "../screens/LoginScreen";
 import HomeScreen from "../screens/HomeScreen";
 import ProfileScreen from "../screens/Profile/ProfileScreen";
@@ -19,7 +20,11 @@ const LoginStackNavigator = (props) => {
   console.log("state.isLoggedIn", state.isLoggedIn);
   return (
     <Stack.Navigator
-      initialRouteName={!state.isLoggedIn ? "IntroSlider" : "LoginTab"}
+      initialRouteName={
+        !state.isLoggedIn && !state.isIntroShow
+          ? "IntroSlider"
+          : "LoginOrRegisterTab"
+      }
       screenOptions={{
         headerStyle: {
           shadowColor: "transparent",
@@ -38,7 +43,17 @@ const LoginStackNavigator = (props) => {
         }}
       />
       <Stack.Screen
-        name="LoginTab"
+        name="LoginOrRegisterTab"
+        component={LoginOrRegisterScreen}
+        options={{
+          title: "",
+          headerShown: false,
+          headerTitleStyle: {},
+          headerLeft: () => <></>,
+        }}
+      />
+      <Stack.Screen
+        name="LoginScreen"
         component={LoginScreen}
         options={{
           title: "",

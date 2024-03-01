@@ -11,6 +11,7 @@ export const MainStore = (props) => {
   const [userId, setUserId] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [isIntroShow, setIsIntroShow] = useState(true);
 
   var date = new Date();
 
@@ -31,6 +32,9 @@ export const MainStore = (props) => {
         logout,
         isLoading,
         isLoggedIn,
+        isIntroShow,
+        setIsIntroShow,
+        setIsLoggedIn,
       }}
     >
       {props.children}

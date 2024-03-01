@@ -9,29 +9,26 @@ import {
   Platform,
   ActivityIndicator,
   Linking,
-  TextInput,
-  StatusBar,
 } from "react-native";
 import React, { useContext, useEffect, useState } from "react";
 import { Icon, CheckBox, Button } from "@rneui/themed";
 import MainContext from "../contexts/MainContext";
 import CustomSnackbar from "../components/CustomSnackbar";
 // import talent_logo from "../../assets/talent_logo.png";
+import { TextInput } from "react-native-paper";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 import splash_logo from "../../assets/splash_logo.png";
 import fb_logo from "../../assets/fb.png";
 import google_logo from "../../assets/google.png";
-import { MAIN_BG_GRAY, MAIN_COLOR, MAIN_DISABLED_BG } from "../constant";
+import { MAIN_BG_GRAY } from "../constant";
 import { Divider } from "@rneui/base";
 import GradientButton from "../components/GradientButton";
 
-const LoginScreen = (props) => {
+const LoginOrRegisterScreen = (props) => {
   const state = useContext(MainContext);
-  const [password, setPassword] = useState("");
-  const [hidePassword, setHidePassword] = useState(true);
-
   const [isBiometricSupported, setIsBiometricSupported] = useState(false);
+  const [hidePassword, setHidePassword] = useState(true);
 
   const [visibleSnack, setVisibleSnack] = useState(false);
   const [snackBarMsg, setSnackBarMsg] = useState("");
@@ -41,16 +38,14 @@ const LoginScreen = (props) => {
   const [loadingAction, setLoadingAction] = useState(false);
   const [loadingActionReset, setLoadingActionReset] = useState(false);
 
+  //Snacbkbar харуулах
   const onToggleSnackBar = (msg) => {
     setVisibleSnack(!visibleSnack);
     setSnackBarMsg(msg);
   };
 
+  //Snacbkbar хаах
   const onDismissSnackBar = () => setVisibleSnack(false);
-
-  const checkHandle = () => {
-    state.setRemember(!state.remember);
-  };
 
   const checkHandleUseBiometric = () => {
     state.setIsUseBiometric(!state.isUseBiometric);
@@ -72,91 +67,51 @@ const LoginScreen = (props) => {
         flexDirection: "column",
       }}
     >
-      <StatusBar
-        translucent
-        barStyle={Platform.OS == "ios" ? "dark-content" : "default"}
-      />
       <ScrollView
         contentContainerStyle={styles.container}
         bounces={false}
         showsVerticalScrollIndicator={false}
       >
-        <CustomSnackbar
-          visible={visibleSnack}
-          dismiss={onDismissSnackBar}
-          text={snackBarMsg}
-        />
         <Image
           style={{
             resizeMode: "contain",
             width: "40%",
-            height: "50%",
+            height: "60%",
             zIndex: 999,
           }}
           source={splash_logo}
         />
         <Text className="font-bold text-2xl mb-4">Нэвртэх хэсэг</Text>
-        <View style={styles.stackSection}>
-          {/* <Text style={{ color: "red" }}>{state.loginMsg}</Text> */}
-          <TextInput
-            style={styles.generalInput}
-            value={state.mobileNumber}
-            onChangeText={(e) => {
-              // state.setMobileNumber(e);
+        <View className="mb-2 flex-row rounded-lg items-center py-4 bg-white w-11/12 justify-center border border-gray-300 mx-4">
+          <Image
+            style={{
+              resizeMode: "contain",
+              width: 24,
+              height: 24,
+              marginRight: 10,
             }}
-            placeholder="Утасны дугаар"
-            placeholderTextColor={"black"}
-            keyboardType="number-pad"
-            returnKeyType="done"
-            maxLength={8}
+            source={fb_logo}
           />
-          <View style={styles.sectionStyle}>
-            <Icon
-              name="key"
-              type="ionicon"
-              size={20}
-              style={styles.inputIcon}
-            />
-            <TextInput
-              placeholder="Нууц үг"
-              value={password}
-              onChangeText={setPassword}
-              style={styles.generalInput}
-              returnKeyType="done"
-              secureTextEntry={hidePassword}
-              onFocus={() => onFocus("password")}
-              onBlur={() => onBlur("password")}
-            />
-            <TouchableOpacity
-              style={styles.imageStyle}
-              onPress={() => hideShowPassword()}
-            >
-              <Icon name={hidePassword ? "eye" : "eye-closed"} type="octicon" />
-            </TouchableOpacity>
-          </View>
+          <Text className="font-medium text-base">
+            Facebook хаягаар нэвтрэх
+          </Text>
         </View>
-        <View style={styles.stackSection2}>
-          <CheckBox
-            containerStyle={{
-              padding: 0,
-              margin: 0,
-              marginLeft: 0,
-              alignItems: "center",
+        <View className="flex-row rounded-lg items-center py-4 bg-white w-11/12 justify-center border border-gray-300 mx-4">
+          <Image
+            style={{
+              resizeMode: "contain",
+              width: 24,
+              height: 24,
+              marginRight: 10,
             }}
-            textStyle={{
-              fontWeight: "normal",
-              marginLeft: 5,
-            }}
-            title="Утасны дугаар сануулах"
-            iconType="material-community"
-            checkedIcon="checkbox-outline"
-            uncheckedIcon="checkbox-blank-outline"
-            checked={state.remember}
-            onPress={checkHandle}
-            checkedColor={MAIN_COLOR}
-            uncheckedColor={MAIN_COLOR}
+            source={google_logo}
           />
-          <Text className="text-blue-500">Нууц үг мартсан</Text>
+          <Text className="font-medium text-base">Google хаягаар нэвтрэх</Text>
+        </View>
+        <View className="flex-row items-center my-4">
+          <Divider style={{ width: "33%" }} />
+          <Text className="text-gray-300 font-medium text-xl mx-5">Эсвэл</Text>
+          <Divider style={{ width: "33%" }} />
         </View>
         <View className="w-11/12">
           <GradientButton
@@ -175,7 +130,7 @@ const LoginScreen = (props) => {
   );
 };
 
-export default LoginScreen;
+export default LoginOrRegisterScreen;
 
 const styles = StyleSheet.create({
   container: {
@@ -200,7 +155,10 @@ const styles = StyleSheet.create({
   },
   generalInput: {
     width: "80%",
-    height: 50,
+    // height: 40,
+    backgroundColor: "#fff",
+    marginTop: 10,
+    padding: 0,
   },
   stackSection2: {
     flexDirection: "row",
@@ -221,27 +179,13 @@ const styles = StyleSheet.create({
   imageStyle: {
     position: "absolute",
     zIndex: 999,
-    right: "5%",
+    right: "15%",
+    top: "45%",
   },
   customCheckBox: {
     padding: 0,
     margin: 0,
     marginLeft: 0,
     alignItems: "center",
-  },
-  sectionStyle: {
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: "#fff",
-    borderWidth: 0.5,
-    height: 50,
-    margin: 10,
-    marginRight: "auto",
-    marginLeft: "auto",
-    width: "80%",
-  },
-  inputIcon: {
-    marginLeft: 15,
-    marginHorizontal: 10,
   },
 });
