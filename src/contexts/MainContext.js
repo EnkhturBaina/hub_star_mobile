@@ -11,7 +11,7 @@ export const MainStore = (props) => {
   const [userId, setUserId] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [isIntroShow, setIsIntroShow] = useState(false);
+  const [isIntroShow, setIsIntroShow] = useState(true);
   const [remember, setRemember] = useState(false);
   const [mobileNumber, setMobileNumber] = useState("");
 
