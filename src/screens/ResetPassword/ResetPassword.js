@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View } from "react-native";
 import React from "react";
 
-const ResetPassword = () => {
+const ResetPassword = (props) => {
   return (
     <View>
       <Text>ResetPassword</Text>
