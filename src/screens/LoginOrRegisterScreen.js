@@ -81,7 +81,7 @@ const LoginOrRegisterScreen = (props) => {
           }}
           source={splash_logo}
         />
-        <Text className="font-bold text-2xl mb-4">Нэвртэх хэсэг</Text>
+        <Text className="font-bold text-2xl mb-4">Нэвтрэх хэсэг</Text>
         <View className="mb-2 flex-row rounded-lg items-center py-4 bg-white w-11/12 justify-center border border-gray-300 mx-4">
           <Image
             style={{
@@ -115,7 +115,7 @@ const LoginOrRegisterScreen = (props) => {
         </View>
         <View className="w-11/12">
           <GradientButton
-            text="Нэвртэх"
+            text="Нэвтрэх"
             action={() => {
               props.navigation.navigate("LoginScreen");
             }}

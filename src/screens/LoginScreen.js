@@ -20,11 +20,16 @@ import CustomSnackbar from "../components/CustomSnackbar";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 import splash_logo from "../../assets/splash_logo.png";
-import fb_logo from "../../assets/fb.png";
-import google_logo from "../../assets/google.png";
-import { MAIN_BG_GRAY, MAIN_COLOR, MAIN_DISABLED_BG } from "../constant";
+import {
+  GRAY_ICON_COLOR,
+  MAIN_BG_GRAY,
+  MAIN_COLOR,
+  MAIN_DISABLED_BG,
+} from "../constant";
 import { Divider } from "@rneui/base";
 import GradientButton from "../components/GradientButton";
+import fb_logo from "../../assets/fb.png";
+import google_logo from "../../assets/google.png";
 
 const LoginScreen = (props) => {
   const state = useContext(MainContext);
@@ -60,9 +65,15 @@ const LoginScreen = (props) => {
     setHidePassword(!hidePassword);
   };
 
-  // var tempUUID = uuidv4();
-
-  const login = async () => {};
+  const login = () => {
+    if (state.mobileNumber == "") {
+      onToggleSnackBar("Утасны дугаар оруулна уу.");
+    } else if (password == "") {
+      onToggleSnackBar("Нууц үгээ оруулна уу?");
+    } else {
+      state.login(state.mobileNumber, password, state.remember);
+    }
+  };
 
   return (
     <KeyboardAvoidingView
@@ -72,6 +83,11 @@ const LoginScreen = (props) => {
         flexDirection: "column",
       }}
     >
+      <CustomSnackbar
+        visible={visibleSnack}
+        dismiss={onDismissSnackBar}
+        text={snackBarMsg}
+      />
       <StatusBar
         translucent
         barStyle={Platform.OS == "ios" ? "dark-content" : "default"}
@@ -81,41 +97,46 @@ const LoginScreen = (props) => {
         bounces={false}
         showsVerticalScrollIndicator={false}
       >
-        <CustomSnackbar
-          visible={visibleSnack}
-          dismiss={onDismissSnackBar}
-          text={snackBarMsg}
-        />
         <Image
           style={{
             resizeMode: "contain",
             width: "40%",
-            height: "50%",
+            height: "40%",
             zIndex: 999,
+            marginTop: 30,
           }}
           source={splash_logo}
         />
-        <Text className="font-bold text-2xl mb-4">Нэвртэх хэсэг</Text>
+        <Text className="font-bold text-2xl mb-4">Нэвтрэх хэсэг</Text>
         <View style={styles.stackSection}>
           {/* <Text style={{ color: "red" }}>{state.loginMsg}</Text> */}
-          <TextInput
-            style={styles.generalInput}
-            value={state.mobileNumber}
-            onChangeText={(e) => {
-              // state.setMobileNumber(e);
-            }}
-            placeholder="Утасны дугаар"
-            placeholderTextColor={"black"}
-            keyboardType="number-pad"
-            returnKeyType="done"
-            maxLength={8}
-          />
           <View style={styles.sectionStyle}>
             <Icon
-              name="key"
-              type="ionicon"
+              name="mobile"
+              type="fontisto"
               size={20}
               style={styles.inputIcon}
+              color={GRAY_ICON_COLOR}
+            />
+            <TextInput
+              style={styles.generalInput}
+              value={state.mobileNumber}
+              placeholder="Утасны дугаар"
+              keyboardType="number-pad"
+              returnKeyType="done"
+              maxLength={8}
+              onChangeText={(e) => {
+                state.setMobileNumber(e);
+              }}
+            />
+          </View>
+          <View style={styles.sectionStyle}>
+            <Icon
+              name="lock"
+              type="font-awesome"
+              size={20}
+              style={styles.inputIcon}
+              color={GRAY_ICON_COLOR}
             />
             <TextInput
               placeholder="Нууц үг"
@@ -124,14 +145,16 @@ const LoginScreen = (props) => {
               style={styles.generalInput}
               returnKeyType="done"
               secureTextEntry={hidePassword}
-              onFocus={() => onFocus("password")}
-              onBlur={() => onBlur("password")}
             />
             <TouchableOpacity
               style={styles.imageStyle}
               onPress={() => hideShowPassword()}
             >
-              <Icon name={hidePassword ? "eye" : "eye-closed"} type="octicon" />
+              <Icon
+                name={hidePassword ? "eye" : "eye-closed"}
+                type="octicon"
+                color={GRAY_ICON_COLOR}
+              />
             </TouchableOpacity>
           </View>
         </View>
@@ -142,12 +165,13 @@ const LoginScreen = (props) => {
               margin: 0,
               marginLeft: 0,
               alignItems: "center",
+              backgroundColor: MAIN_BG_GRAY,
             }}
             textStyle={{
               fontWeight: "normal",
               marginLeft: 5,
             }}
-            title="Утасны дугаар сануулах"
+            title="Сануулах"
             iconType="material-community"
             checkedIcon="checkbox-outline"
             uncheckedIcon="checkbox-blank-outline"
@@ -156,19 +180,51 @@ const LoginScreen = (props) => {
             checkedColor={MAIN_COLOR}
             uncheckedColor={MAIN_COLOR}
           />
-          <Text className="text-blue-500">Нууц үг мартсан</Text>
+          <TouchableOpacity>
+            <Text className="text-blue-500">Нууц үг мартсан</Text>
+          </TouchableOpacity>
         </View>
-        <View className="w-11/12">
-          <GradientButton
-            text="Нэвртэх"
-            action={() => {
-              props.navigation.navigate("LoginScreen");
-            }}
-          />
+        <View className="w-11/12 mt-2">
+          <GradientButton text="Нэвтрэх" action={login} />
+        </View>
+        <View className="flex-row items-center my-4">
+          <Divider style={{ width: "33%" }} />
+          <Text className="text-gray-300 font-medium text-xl mx-5">Эсвэл</Text>
+          <Divider style={{ width: "33%" }} />
+        </View>
+        <View className="flex-row justify-evenly w-full">
+          <View className="flex-row rounded-lg items-center py-4 bg-white w-5/12 justify-center border border-gray-300">
+            <Image
+              style={{
+                resizeMode: "contain",
+                width: 24,
+                height: 24,
+                marginRight: 10,
+              }}
+              source={fb_logo}
+            />
+            <Text className="font-medium text-base">Facebook</Text>
+          </View>
+          <View className="flex-row rounded-lg items-center py-4 bg-white w-5/12 justify-center border border-gray-300">
+            <Image
+              style={{
+                resizeMode: "contain",
+                width: 24,
+                height: 24,
+                marginRight: 10,
+              }}
+              source={google_logo}
+            />
+            <Text className="font-medium text-base">Google</Text>
+          </View>
         </View>
         <Text className="font-medium text-base my-2">
-          Та бүртгэл үүсэгсэн үү?{" "}
-          <Text className="text-blue-500">Бүртгүүлэх</Text>
+          Та бүртгэл үүсэгсэн үү?
+          <TouchableOpacity
+            onPress={() => props.navigation.navigate("RegisterScreen")}
+          >
+            <Text className="text-blue-500">Бүртгүүлэх</Text>
+          </TouchableOpacity>
         </Text>
       </ScrollView>
     </KeyboardAvoidingView>
@@ -206,10 +262,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    marginTop: 10,
-    width: "80%",
-    marginRight: "auto",
-    marginLeft: "auto",
+    width: "90%",
   },
   stackSection3: {
     width: "80%",
@@ -232,13 +285,12 @@ const styles = StyleSheet.create({
   sectionStyle: {
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: "#fff",
-    borderWidth: 0.5,
+    backgroundColor: MAIN_DISABLED_BG,
     height: 50,
     margin: 10,
     marginRight: "auto",
     marginLeft: "auto",
-    width: "80%",
+    borderRadius: 8,
   },
   inputIcon: {
     marginLeft: 15,

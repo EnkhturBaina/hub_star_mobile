@@ -7,7 +7,7 @@ export default function ({ visible, dismiss, text, topPos }) {
     <Snackbar
       visible={visible}
       onDismiss={dismiss}
-      wrapperStyle={{ top: topPos, zIndex: 9999 }}
+      wrapperStyle={{ top: topPos ? topPos : 50, zIndex: 9999 }}
       duration={2000}
       style={{ backgroundColor: "#89898c" }}
       action={{

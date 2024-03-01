@@ -11,11 +11,18 @@ import ProfileScreen from "../screens/Profile/ProfileScreen";
 import CategoryScreen from "../screens/Category/CategoryScreen";
 import ChatScreen from "../screens/Chat/ChatScreen";
 import IntroSliderScreen from "../screens/IntroSliderScreen";
+import RegisterScreen from "../screens/Register/RegisterScreen";
+import ConfirmScreen from "../screens/Register/ConfirmScreen";
+import OTPScreen from "../screens/Register/OTPScreen";
+import BioScreen from "../screens/Register/BioScreen";
+import { Icon } from "@rneui/base";
+import { useNavigation } from "@react-navigation/native";
 
 const Stack = createStackNavigator();
 const width = Dimensions.get("screen").width;
 
 const LoginStackNavigator = (props) => {
+  const navigation = useNavigation();
   const state = useContext(MainContext);
   console.log("state.isLoggedIn", state.isLoggedIn);
   return (
@@ -60,6 +67,102 @@ const LoginStackNavigator = (props) => {
           headerShown: false,
           headerTitleStyle: {},
           headerLeft: () => <></>,
+        }}
+      />
+      <Stack.Screen
+        name="RegisterScreen"
+        component={RegisterScreen}
+        options={{
+          title: "Бүртгүүлэх",
+          headerTitleStyle: {
+            fontWeight: 800,
+          },
+          headerLeft: () => (
+            <TouchableOpacity
+              style={styles.headerLeftContainer}
+              onPress={() => {
+                navigation.navigate("LoginScreen");
+              }}
+            >
+              <Icon
+                type="material-icons"
+                name="keyboard-arrow-left"
+                size={30}
+              />
+            </TouchableOpacity>
+          ),
+        }}
+      />
+      <Stack.Screen
+        name="ConfirmScreen"
+        component={ConfirmScreen}
+        options={{
+          title: "Бүртгүүлэх",
+          headerTitleStyle: {
+            fontWeight: 800,
+          },
+          headerLeft: () => (
+            <TouchableOpacity
+              style={styles.headerLeftContainer}
+              onPress={() => {
+                navigation.navigate("RegisterScreen");
+              }}
+            >
+              <Icon
+                type="material-icons"
+                name="keyboard-arrow-left"
+                size={30}
+              />
+            </TouchableOpacity>
+          ),
+        }}
+      />
+      <Stack.Screen
+        name="OTPScreen"
+        component={OTPScreen}
+        options={{
+          title: "Бүртгүүлэх",
+          headerTitleStyle: {
+            fontWeight: 800,
+          },
+          headerLeft: () => (
+            <TouchableOpacity
+              style={styles.headerLeftContainer}
+              onPress={() => {
+                navigation.navigate("ConfirmScreen");
+              }}
+            >
+              <Icon
+                type="material-icons"
+                name="keyboard-arrow-left"
+                size={30}
+              />
+            </TouchableOpacity>
+          ),
+        }}
+      />
+      <Stack.Screen
+        name="BioScreen"
+        component={BioScreen}
+        options={{
+          title: "Бүртгүүлэх",
+          headerTitleStyle: {
+            fontWeight: 800,
+          },
+          headerLeft: () => (
+            <TouchableOpacity
+              style={styles.headerLeftContainer}
+              onPress={() => {
+                navigation.navigate("OTPScreen");
+              }}
+            >
+              <Icon
+                type="material-icons"
+                name="keyboard-arrow-left"
+                size={30}
+              />
+            </TouchableOpacity>
+          ),
         }}
       />
     </Stack.Navigator>
@@ -181,10 +284,10 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     flexDirection: "row",
     alignItems: "center",
-    width: width - 20,
   },
-  headerLeftText: {
-    marginLeft: 5,
-    fontSize: 18,
+  headerRightContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginRight: 15,
   },
 });
