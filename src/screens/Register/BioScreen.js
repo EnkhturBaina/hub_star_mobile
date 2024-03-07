@@ -31,7 +31,7 @@ const BioScreen = (props) => {
       <Text className="font-bold mb-5">Та хурууны хээгээ таниулна уу?</Text>
       <View
         style={{
-          backgroundColor: "red",
+          width: "100%",
           flexDirection: "row",
           justifyContent: "space-between",
         }}
@@ -40,15 +40,19 @@ const BioScreen = (props) => {
           containerStyle={{
             width: "48%",
             borderRadius: 8,
-            height: 45,
             borderColor: MAIN_COLOR,
             borderWidth: 2,
+            alignItems: "center",
           }}
           title="Алгасах"
           type="clear"
           titleStyle={{
             color: "black",
             fontSize: 16,
+            alignItems: "center",
+            fontWeight: "bold",
+            color: MAIN_COLOR,
+            marginTop: 3,
           }}
           onPress={() => {}}
         />

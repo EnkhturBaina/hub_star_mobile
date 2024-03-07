@@ -6,11 +6,10 @@ import {
   Image,
   ScrollView,
   TouchableOpacity,
-  ActivityIndicator,
   StatusBar,
-  Linking,
   Animated,
   Dimensions,
+  ImageBackground,
 } from "react-native";
 import React, { useContext, useEffect, useState, useRef } from "react";
 import axios from "axios";
@@ -19,8 +18,6 @@ import Constants from "expo-constants";
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 import { Icon } from "@rneui/base";
 import {
-  GRADIENT_END,
-  GRADIENT_START,
   GRAY_ICON_COLOR,
   MAIN_BORDER_RADIUS,
   MAIN_COLOR,
@@ -29,6 +26,8 @@ import {
 } from "../constant";
 import Carousel from "react-native-reanimated-carousel";
 import featuresData from "../featuresData";
+import gridData from "../gridData";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 
 const HomeScreen = (props) => {
   const state = useContext(MainContext);
@@ -51,7 +50,7 @@ const HomeScreen = (props) => {
     extrapolate: "clamp",
   });
   return (
-    <View
+    <SafeAreaProvider
       style={{
         flex: 1,
         paddingTop: Constants.statusBarHeight,
@@ -59,150 +58,196 @@ const HomeScreen = (props) => {
         paddingBottom: tabBarHeight,
       }}
     >
-      <StatusBar
-        translucent
-        barStyle={Platform.OS == "ios" ? "dark-content" : "default"}
-      />
-      <View style={styles.headerContainer}>
-        <Image
-          style={styles.headerLogo}
-          source={require("../../assets/Logo.png")}
+      <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+        <StatusBar
+          translucent
+          barStyle={Platform.OS == "ios" ? "dark-content" : "default"}
         />
-        <View style={styles.headerIcons}>
-          <Icon
-            name="bell"
-            type="feather"
-            size={28}
-            style={{ marginRight: 10 }}
-            onPress={() => console.log("X")}
+        <View style={styles.headerContainer}>
+          <Image
+            style={styles.headerLogo}
+            source={require("../../assets/Logo.png")}
           />
-          <Icon
-            name="chatbox-ellipses-outline"
-            type="ionicon"
-            size={30}
-            onPress={() => console.log("X")}
-          />
+          <View style={styles.headerIcons}>
+            <Icon
+              name="bell"
+              type="feather"
+              size={28}
+              style={{ marginRight: 10 }}
+              onPress={() => console.log("X")}
+            />
+            <Icon
+              name="chatbox-ellipses-outline"
+              type="ionicon"
+              size={30}
+              onPress={() => console.log("X")}
+            />
+          </View>
         </View>
-      </View>
-      <TouchableOpacity
-        style={styles.searchContainer}
-        activeOpacity={1}
-        onPress={() => {
-          // props.navigation.navigate("SearchScreen")
-        }}
-      >
-        <View style={styles.searchInput}>
+        <TouchableOpacity
+          style={styles.searchContainer}
+          activeOpacity={1}
+          onPress={() => {
+            // props.navigation.navigate("SearchScreen")
+          }}
+        >
+          <View style={styles.searchInput}>
+            <Icon
+              name="search"
+              type="feather"
+              size={20}
+              color={GRAY_ICON_COLOR}
+            />
+            <Text
+              style={{
+                color: GRAY_ICON_COLOR,
+                marginLeft: 10,
+              }}
+            >
+              Хайх
+            </Text>
+          </View>
           <Icon
-            name="search"
+            name="sliders"
             type="feather"
             size={20}
             color={GRAY_ICON_COLOR}
           />
-          <Text
-            style={{
-              color: GRAY_ICON_COLOR,
-              marginLeft: 10,
-            }}
+        </TouchableOpacity>
+        <View style={{ marginVertical: 10 }}>
+          <ScrollView
+            horizontal={true}
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={{ paddingRight: 20 }}
           >
-            Хайх
-          </Text>
-        </View>
-        <Icon name="sliders" type="feather" size={20} color={GRAY_ICON_COLOR} />
-      </TouchableOpacity>
-      <View style={{ marginVertical: 10 }}>
-        <ScrollView
-          horizontal={true}
-          showsHorizontalScrollIndicator={false}
-          contentContainerStyle={{ paddingRight: 20 }}
-        >
-          {state.customerTypes?.map((el, index) => {
-            return (
-              <TouchableOpacity
-                key={index}
-                style={[
-                  styles.typeContainer,
-                  {
-                    marginLeft: index == 0 ? 20 : 10,
-                    backgroundColor:
-                      index == selectedType ? MAIN_COLOR : "#fff",
-                  },
-                ]}
-                onPress={() => setSelectedType(index)}
-              >
-                <Image
-                  style={styles.typeLogo}
-                  source={{ uri: SERVER_URL + "images/" + el.logo?.path }}
-                />
-                <Text
+            {state.customerTypes?.map((el, index) => {
+              return (
+                <TouchableOpacity
+                  key={index}
                   style={[
-                    styles.typeText,
+                    styles.typeContainer,
                     {
-                      color: index == selectedType ? "#fff" : "#000",
+                      marginLeft: index == 0 ? 20 : 10,
+                      backgroundColor:
+                        index == selectedType ? MAIN_COLOR : "#fff",
                     },
                   ]}
+                  onPress={() => setSelectedType(index)}
                 >
-                  {el.name}
-                </Text>
-              </TouchableOpacity>
+                  <Image
+                    style={styles.typeLogo}
+                    source={{ uri: SERVER_URL + "images/" + el.logo?.path }}
+                  />
+                  <Text
+                    style={[
+                      styles.typeText,
+                      {
+                        color: index == selectedType ? "#fff" : "#000",
+                      },
+                    ]}
+                  >
+                    {el.name}
+                  </Text>
+                </TouchableOpacity>
+              );
+            })}
+          </ScrollView>
+        </View>
+        <Animated.View
+          style={{
+            height: headerScrollHeight,
+            width: "100%",
+            overflow: "hidden",
+            zIndex: 999,
+          }}
+        >
+          <View style={{ marginHorizontal: 20 }}>
+            <Carousel
+              width={width - 40}
+              ref={ref}
+              data={[...new Array(6).keys()]}
+              pagingEnabled
+              autoPlay
+              autoPlayInterval={5000}
+              style={{
+                borderRadius: 8,
+                height: height * 0.2,
+              }}
+              renderItem={({ item, index }) => (
+                <Image
+                  source={{
+                    uri: `https://dummyjson.com/image/400x200/282828?text=${index}!`,
+                  }}
+                  style={{
+                    width: width - 24,
+                    flex: 1,
+                  }}
+                  resizeMode="cover"
+                />
+              )}
+              onSnapToItem={(e) => {}}
+            />
+          </View>
+        </Animated.View>
+        <Text style={{ fontWeight: 500, fontSize: 16, marginLeft: 20 }}>
+          Онцгой үйлчилгээ
+        </Text>
+        <View style={styles.gridContainer}>
+          {featuresData?.map((el, index) => {
+            return (
+              <View style={styles.gridItem} key={index}>
+                <Image style={styles.featureIcon} source={el.icon} />
+                <Text style={styles.featureText}>{el.title}</Text>
+              </View>
             );
           })}
-        </ScrollView>
-      </View>
-      <Animated.View
-        style={{
-          height: headerScrollHeight,
-          width: "100%",
-          overflow: "hidden",
-          zIndex: 999,
-        }}
-      >
-        <View style={{ marginHorizontal: 20 }}>
-          <Carousel
-            width={width - 40}
-            ref={ref}
-            data={[...new Array(6).keys()]}
-            pagingEnabled
-            autoPlay
-            autoPlayInterval={5000}
-            style={{
-              borderRadius: 8,
-              height: height * 0.2,
-            }}
-            renderItem={({ item, index }) => (
-              <Image
-                source={{
-                  uri: `https://dummyjson.com/image/400x200/282828?text=${index}!`,
-                }}
-                style={{
-                  width: width - 24,
-                  flex: 1,
-                }}
-                resizeMode="cover"
-              />
-            )}
-            onSnapToItem={(e) => {}}
-          />
         </View>
-      </Animated.View>
-      <Text style={{ fontWeight: 500, fontSize: 16, marginLeft: 20 }}>
-        Онцгой үйлчилгээ
-      </Text>
-      <View style={styles.gridContainer}>
-        {featuresData?.map((el, index) => {
-          return (
-            <View style={styles.gridItem} key={index}>
-              <Image style={styles.featureIcon} source={el.icon} />
-              <Text style={styles.featureText}>{el.title}</Text>
-            </View>
-          );
-        })}
-      </View>
-      <Text
-        style={{ fontWeight: 500, fontSize: 16, marginLeft: 20, marginTop: 10 }}
-      >
-        Үндсэн үйлчилгээ
-      </Text>
-    </View>
+        <Text
+          style={{
+            fontWeight: 500,
+            fontSize: 16,
+            marginLeft: 20,
+            marginTop: 10,
+          }}
+        >
+          Үндсэн үйлчилгээ
+        </Text>
+        <View style={{ marginVertical: 10 }}>
+          <ScrollView
+            horizontal={true}
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={{ flexGrow: 1, paddingRight: 20 }}
+          >
+            {gridData.map((el, index) => {
+              return (
+                <TouchableOpacity
+                  key={index}
+                  style={[
+                    styles.mainServiceContainer,
+                    {
+                      marginLeft: index == 0 ? 20 : 10,
+                    },
+                  ]}
+                  onPress={() => setSelectedType(index)}
+                >
+                  <ImageBackground
+                    source={el.icon}
+                    resizeMode="cover"
+                    style={{
+                      flex: 1,
+                      justifyContent: "center",
+                    }}
+                    imageStyle={{ borderRadius: MAIN_BORDER_RADIUS }}
+                  >
+                    <Text style={styles.mainServiceText}>{el.name}</Text>
+                  </ImageBackground>
+                </TouchableOpacity>
+              );
+            })}
+          </ScrollView>
+        </View>
+      </ScrollView>
+    </SafeAreaProvider>
   );
 };
 
@@ -304,5 +349,23 @@ const styles = StyleSheet.create({
     color: "#798585",
     fontWeight: 500,
     flexShrink: 1,
+  },
+  mainServiceContainer: {
+    flex: 1,
+    width: 180,
+    height: 120,
+    shadowOpacity: 0.2,
+    shadowRadius: 3,
+    shadowOffset: {
+      height: 1,
+      width: 0,
+    },
+    elevation: 2,
+  },
+  mainServiceText: {
+    fontWeight: 500,
+    color: "#fff",
+    textAlign: "center",
+    fontSize: 20,
   },
 });
