@@ -52,13 +52,15 @@ const LoginScreen = (props) => {
   };
 
   const login = () => {
-    if (state.mobileNumber == "") {
-      onToggleSnackBar("Утасны дугаар оруулна уу.");
-    } else if (password == "") {
-      onToggleSnackBar("Нууц үгээ оруулна уу?");
-    } else {
-      state.login(state.mobileNumber, password, state.remember);
-    }
+    // if (state.mobileNumber == "") {
+    //   onToggleSnackBar("Утасны дугаар оруулна уу.");
+    // } else if (password == "") {
+    //   onToggleSnackBar("Нууц үгээ оруулна уу?");
+    // } else {
+    //   state.login(state.mobileNumber, password, state.remember);
+    // }
+    state.setIsLoggedIn(true);
+    state.setIsLoading(false);
   };
 
   return (
@@ -67,6 +69,7 @@ const LoginScreen = (props) => {
       style={{
         flex: 1,
         flexDirection: "column",
+        backgroundColor: MAIN_BG_GRAY,
       }}
     >
       <CustomSnackbar
@@ -78,6 +81,17 @@ const LoginScreen = (props) => {
         translucent
         barStyle={Platform.OS == "ios" ? "dark-content" : "default"}
       />
+      <TouchableOpacity
+        onPress={() => props.navigation.goBack()}
+        style={{ justifyContent: "flex-start", flexDirection: "row" }}
+      >
+        <Icon
+          name="arrow-left"
+          type="feather"
+          size={30}
+          style={{ paddingTop: 60, paddingLeft: 20 }}
+        />
+      </TouchableOpacity>
       <ScrollView
         contentContainerStyle={styles.container}
         bounces={false}
@@ -243,6 +257,7 @@ const styles = StyleSheet.create({
     backgroundColor: MAIN_BG_GRAY,
     alignItems: "center",
     paddingHorizontal: 20,
+    marginBottom: 50,
   },
   stackSection: {
     width: "100%",

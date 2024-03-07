@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 import { useNavigation } from "@react-navigation/native";
+import { API_KEY, SERVER_URL } from "../constant";
 
 const MainContext = React.createContext();
 
@@ -15,9 +16,12 @@ export const MainStore = (props) => {
   const [remember, setRemember] = useState(false);
   const [mobileNumber, setMobileNumber] = useState("");
 
+  const [customerTypes, setCustomerTypes] = useState(null);
   var date = new Date();
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    getCustomerTypes();
+  }, []);
 
   const login = async (mobileNumber, password, remember) => {
     try {
@@ -78,6 +82,28 @@ export const MainStore = (props) => {
       setIsLoggedIn(false);
     });
   };
+  const getCustomerTypes = async () => {
+    await axios({
+      method: "get",
+      url: `${SERVER_URL}reference/category`,
+      headers: {
+        "X-API-KEY": API_KEY,
+      },
+    })
+      .then((response) => {
+        // console.log(
+        //   "get Customer Types",
+        //   JSON.stringify(response.data.response)
+        // );
+        setCustomerTypes(response?.data?.response);
+      })
+      .catch(function (error) {
+        if (error.response) {
+          console.log("error getIntro Data status", error.response.status);
+          // console.log("error getIntro Data data", error.response.data);
+        }
+      });
+  };
   return (
     <MainContext.Provider
       value={{
@@ -88,11 +114,13 @@ export const MainStore = (props) => {
         isIntroShow,
         setIsIntroShow,
         setIsLoggedIn,
+        setIsLoading,
         remember,
         setRemember,
         login,
         mobileNumber,
         setMobileNumber,
+        customerTypes,
       }}
     >
       {props.children}
