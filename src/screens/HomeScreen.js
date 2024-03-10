@@ -58,7 +58,10 @@ const HomeScreen = (props) => {
         paddingBottom: tabBarHeight,
       }}
     >
-      <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+      <ScrollView
+        contentContainerStyle={{ flexGrow: 1 }}
+        showsVerticalScrollIndicator={false}
+      >
         <StatusBar
           translucent
           barStyle={Platform.OS == "ios" ? "dark-content" : "default"}
