@@ -20,6 +20,14 @@ import { useNavigation } from "@react-navigation/native";
 import ResetPassword from "../screens/ResetPassword/ResetPassword";
 import ConfirmPassword from "../screens/ResetPassword/ConfirmPassword";
 import ChangePassword from "../screens/ResetPassword/ChangePassword";
+import EditProfile from "../screens/Profile/EditProfile";
+import Notification from "../screens/Profile/Notification";
+import Account from "../screens/Profile/Account";
+import Confirmation from "../screens/Profile/Confirmation";
+import Security from "../screens/Profile/Security";
+import Language from "../screens/Profile/Language";
+import QAs from "../screens/Profile/QAs";
+import Invite from "../screens/Profile/Invite";
 
 const Stack = createStackNavigator();
 const width = Dimensions.get("screen").width;
@@ -340,6 +348,198 @@ const ProfileStackNavigator = (props) => {
           title: "",
           headerShown: false,
           headerLeft: () => <></>,
+        }}
+      />
+      <Stack.Screen
+        name="EditProfile"
+        component={EditProfile}
+        options={{
+          title: "Профайл засах",
+          headerTitleStyle: {
+            fontWeight: 800,
+          },
+          headerLeft: () => (
+            <TouchableOpacity
+              style={styles.headerLeftContainer}
+              onPress={() => {
+                navigation.navigate("EditProfile");
+              }}
+            >
+              <Icon
+                type="material-icons"
+                name="keyboard-arrow-left"
+                size={30}
+              />
+            </TouchableOpacity>
+          ),
+        }}
+      />
+      <Stack.Screen
+        name="Notification"
+        component={Notification}
+        options={{
+          title: "Мэдэгдэл",
+          headerTitleStyle: {
+            fontWeight: 800,
+          },
+          headerLeft: () => (
+            <TouchableOpacity
+              style={styles.headerLeftContainer}
+              onPress={() => {
+                navigation.navigate("Notification");
+              }}
+            >
+              <Icon
+                type="material-icons"
+                name="keyboard-arrow-left"
+                size={30}
+              />
+            </TouchableOpacity>
+          ),
+        }}
+      />
+      <Stack.Screen
+        name="Account"
+        component={Account}
+        options={{
+          title: "Дансны мэдээлэл",
+          headerTitleStyle: {
+            fontWeight: 800,
+          },
+          headerLeft: () => (
+            <TouchableOpacity
+              style={styles.headerLeftContainer}
+              onPress={() => {
+                navigation.navigate("Account");
+              }}
+            >
+              <Icon
+                type="material-icons"
+                name="keyboard-arrow-left"
+                size={30}
+              />
+            </TouchableOpacity>
+          ),
+        }}
+      />
+      <Stack.Screen
+        name="Confirmation"
+        component={Confirmation}
+        options={{
+          title: "Баталгаажуулалт",
+          headerTitleStyle: {
+            fontWeight: 800,
+          },
+          headerLeft: () => (
+            <TouchableOpacity
+              style={styles.headerLeftContainer}
+              onPress={() => {
+                navigation.navigate("Confirmation");
+              }}
+            >
+              <Icon
+                type="material-icons"
+                name="keyboard-arrow-left"
+                size={30}
+              />
+            </TouchableOpacity>
+          ),
+        }}
+      />
+      <Stack.Screen
+        name="Security"
+        component={Security}
+        options={{
+          title: "Нууцлал",
+          headerTitleStyle: {
+            fontWeight: 800,
+          },
+          headerLeft: () => (
+            <TouchableOpacity
+              style={styles.headerLeftContainer}
+              onPress={() => {
+                navigation.navigate("Security");
+              }}
+            >
+              <Icon
+                type="material-icons"
+                name="keyboard-arrow-left"
+                size={30}
+              />
+            </TouchableOpacity>
+          ),
+        }}
+      />
+      <Stack.Screen
+        name="Language"
+        component={Language}
+        options={{
+          title: "Хэл солих",
+          headerTitleStyle: {
+            fontWeight: 800,
+          },
+          headerLeft: () => (
+            <TouchableOpacity
+              style={styles.headerLeftContainer}
+              onPress={() => {
+                navigation.navigate("Language");
+              }}
+            >
+              <Icon
+                type="material-icons"
+                name="keyboard-arrow-left"
+                size={30}
+              />
+            </TouchableOpacity>
+          ),
+        }}
+      />
+      <Stack.Screen
+        name="QAs"
+        component={QAs}
+        options={{
+          title: "Түгээмэл асуулт",
+          headerTitleStyle: {
+            fontWeight: 800,
+          },
+          headerLeft: () => (
+            <TouchableOpacity
+              style={styles.headerLeftContainer}
+              onPress={() => {
+                navigation.navigate("QAs");
+              }}
+            >
+              <Icon
+                type="material-icons"
+                name="keyboard-arrow-left"
+                size={30}
+              />
+            </TouchableOpacity>
+          ),
+        }}
+      />
+      <Stack.Screen
+        name="Invite"
+        component={Invite}
+        options={{
+          title: "Найзаа урих",
+          headerTitleStyle: {
+            fontWeight: 800,
+          },
+          headerLeft: () => (
+            <TouchableOpacity
+              style={styles.headerLeftContainer}
+              onPress={() => {
+                navigation.navigate("Invite");
+              }}
+            >
+              <Icon
+                type="material-icons"
+                name="keyboard-arrow-left"
+                size={30}
+              />
+            </TouchableOpacity>
+          ),
         }}
       />
     </Stack.Navigator>

@@ -48,56 +48,107 @@ const ProfileScreen = (props) => {
     {
       id: 1,
       name: "Профайл засах",
-      icon: <Icon name="user-circle-o" type="font-awesome" size={30} />,
-      nav: "",
+      icon: (
+        <Icon
+          name="account-circle-outline"
+          type="material-community"
+          size={25}
+          color={GRAY_ICON_COLOR}
+        />
+      ),
+      nav: "EditProfile",
     },
     {
       id: 2,
       name: "Мэдэгдэл",
-      icon: <Icon name="chatbox-ellipses-outline" type="ionicon" size={30} />,
+      icon: (
+        <Icon
+          name="options-outline"
+          type="ionicon"
+          size={25}
+          color={GRAY_ICON_COLOR}
+        />
+      ),
 
-      nav: "",
+      nav: "Notification",
     },
     {
       id: 3,
       name: "Дансны мэдээлэл",
-      icon: <Icon name="chatbox-ellipses-outline" type="ionicon" size={30} />,
-      nav: "",
+      icon: (
+        <Icon
+          name="credit-card-edit-outline"
+          type="material-community"
+          size={25}
+          color={GRAY_ICON_COLOR}
+        />
+      ),
+      nav: "Account",
     },
     {
       id: 4,
       name: "Баталгаажуулалт",
-      icon: <Icon name="chatbox-ellipses-outline" type="ionicon" size={30} />,
+      icon: (
+        <Icon
+          name="shield-lock"
+          type="octicon"
+          size={25}
+          color={GRAY_ICON_COLOR}
+        />
+      ),
 
-      nav: "",
+      nav: "Confirmation",
     },
     {
       id: 5,
       name: "Нууцлал",
-      icon: <Icon name="chatbox-ellipses-outline" type="ionicon" size={30} />,
+      icon: (
+        <Icon
+          name="shield-lock"
+          type="octicon"
+          size={25}
+          color={GRAY_ICON_COLOR}
+        />
+      ),
 
-      nav: "",
+      nav: "Security",
     },
     {
       id: 6,
       name: "Хэл солих",
-      icon: <Icon name="chatbox-ellipses-outline" type="ionicon" size={30} />,
+      icon: (
+        <Icon name="flag" type="feather" size={25} color={GRAY_ICON_COLOR} />
+      ),
 
-      nav: "",
+      nav: "Language",
     },
     {
       id: 7,
       name: "Түгээмэл асуулт хариулт",
-      icon: <Icon name="chatbox-ellipses-outline" type="ionicon" size={30} />,
+      icon: (
+        <Icon
+          name="file-document-outline"
+          type="material-community"
+          size={25}
+          color={GRAY_ICON_COLOR}
+        />
+      ),
 
-      nav: "",
+      nav: "QAs",
     },
     {
       id: 8,
       name: "Найзуудаа урих",
-      icon: <Icon name="chatbox-ellipses-outline" type="ionicon" size={30} />,
+      icon: (
+        <Icon
+          name="account-multiple-outline"
+          type="material-community"
+          size={25}
+          color={GRAY_ICON_COLOR}
+        />
+      ),
 
-      nav: "",
+      nav: "Invite",
     },
   ];
   return (
@@ -112,6 +163,7 @@ const ProfileScreen = (props) => {
       <ScrollView
         contentContainerStyle={{ flexGrow: 1 }}
         showsVerticalScrollIndicator={false}
+        bounces={false}
       >
         <StatusBar
           translucent
@@ -121,17 +173,7 @@ const ProfileScreen = (props) => {
           style={styles.headerBg}
           source={require("../../../assets/splash_bg_1.jpg")}
         />
-        <View
-          style={{
-            height: 120,
-            flexDirection: "row",
-            top: -50,
-            paddingHorizontal: 20,
-            paddingBottom: 5,
-            borderBottomWidth: 1,
-            borderBottomColor: MAIN_COLOR_GRAY,
-          }}
-        >
+        <View style={styles.profileCircle}>
           <Image
             style={styles.userIcon}
             source={require("../../../assets/PersonCircle.png")}
@@ -151,18 +193,28 @@ const ProfileScreen = (props) => {
             </Text>
           </View>
         </View>
-        <View style={{ flexDirection: "column" }}>
+        <View
+          style={{
+            flexDirection: "column",
+            marginTop: 110,
+          }}
+        >
           {menuList.map((el, index) => {
             return (
               <TouchableOpacity
                 key={index}
-                style={{ flexDirection: "row", alignItems: "center" }}
+                style={styles.gridMenus}
+                onPress={() => props.navigation.navigate(el.nav)}
               >
                 {el.icon}
-                <Text>{el.name}</Text>
+                <Text style={styles.menuText}>{el.name}</Text>
               </TouchableOpacity>
             );
           })}
+          <TouchableOpacity style={styles.gridMenus}>
+            <Icon name="log-out" type="feather" size={25} color="red" />
+            <Text style={styles.lastText}>Системээс гарах</Text>
+          </TouchableOpacity>
         </View>
       </ScrollView>
     </SafeAreaProvider>
@@ -184,5 +236,30 @@ const styles = StyleSheet.create({
     borderWidth: 4,
     borderRadius: 120,
     borderColor: "#fff",
+  },
+  gridMenus: {
+    flexDirection: "row",
+    alignItems: "center",
+    paddingHorizontal: 25,
+    marginBottom: 20,
+  },
+  lastText: {
+    color: "red",
+    fontWeight: 500,
+    marginLeft: 20,
+  },
+  menuText: {
+    color: GRAY_ICON_COLOR,
+    fontWeight: 500,
+    marginLeft: 20,
+  },
+  profileCircle: {
+    position: "absolute",
+    flexDirection: "row",
+    top: 100,
+    paddingHorizontal: 20,
+    paddingBottom: 30,
+    borderBottomWidth: 1,
+    borderBottomColor: MAIN_COLOR_GRAY,
   },
 });

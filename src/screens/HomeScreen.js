@@ -61,6 +61,7 @@ const HomeScreen = (props) => {
       <ScrollView
         contentContainerStyle={{ flexGrow: 1 }}
         showsVerticalScrollIndicator={false}
+        bounces={false}
       >
         <StatusBar
           translucent
@@ -307,8 +308,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     marginVertical: 5,
     alignSelf: "flex-start",
-    paddingVertical: 8,
-    paddingHorizontal: 18,
+    paddingVertical: 5,
+    paddingHorizontal: 15,
     borderRadius: MAIN_BORDER_RADIUS,
   },
   typeText: {
@@ -327,7 +328,7 @@ const styles = StyleSheet.create({
   gridItem: {
     marginTop: 10,
     borderRadius: MAIN_BORDER_RADIUS,
-    height: 70,
+    height: 65,
     paddingHorizontal: 10,
     flexDirection: "row",
     alignItems: "center",
