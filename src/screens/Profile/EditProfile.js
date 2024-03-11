@@ -1,40 +1,47 @@
 import {
   StyleSheet,
-  Text,
   View,
-  Image,
-  TouchableOpacity,
-  Linking,
-  ScrollView,
-  StatusBar,
   Platform,
+  ScrollView,
+  KeyboardAvoidingView,
 } from "react-native";
-import React, { useContext, useState } from "react";
-import { Icon } from "@rneui/base";
+import React, { useState, useEffect, useContext } from "react";
+import { MAIN_COLOR_GRAY } from "../../constant";
 import MainContext from "../../contexts/MainContext";
+import LoanInput from "../../components/LoanInput";
+import CustomDialog from "../../components/CustomDialog";
+import axios from "axios";
+import Loader from "../../components/Loader";
 import CustomSnackbar from "../../components/CustomSnackbar";
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
-import bg from "../../../assets/splash_bg.png";
-import { SafeAreaProvider } from "react-native-safe-area-context";
-import Constants from "expo-constants";
-import { GRAY_ICON_COLOR, MAIN_COLOR_GRAY } from "../../constant";
-import { Divider } from "react-native-paper";
+import GradientButton from "../../components/GradientButton";
 
 const EditProfile = (props) => {
   const state = useContext(MainContext);
 
   const tabBarHeight = useBottomTabBarHeight();
-  const onToggleSwitch = () => {
-    onToggleSnackBar("Ирц бүртгэл сануулах тохиргоо хийгдлээ");
-  };
+
+  const [loading, setLoading] = useState(false);
+  const [loadingAction, setLoadingAction] = useState(false);
 
   const [visibleDialog, setVisibleDialog] = useState(false); //Dialog харуулах
   const [dialogType, setDialogType] = useState("warning"); //Dialog харуулах төрөл
-  const [dialogText, setDialogText] = useState("Апп -с гарах уу?"); //Dialog -н текст
+  const [dialogText, setDialogText] = useState(""); //Dialog -н текст
+
+  const [profileData, setProfileData] = useState("");
+  const [editableData, setEditableData] = useState({
+    FirstName: "",
+    LastName: "",
+    position: "",
+    BirthDate: "",
+    CitizenshipNumber: "",
+    ERPGenderTemplateId: "",
+    Mobile: "",
+    email: "",
+  });
 
   const [visibleSnack, setVisibleSnack] = useState(false);
   const [snackBarMsg, setSnackBarMsg] = useState("");
-
   //Snacbkbar харуулах
   const onToggleSnackBar = (msg) => {
     setVisibleSnack(!visibleSnack);
@@ -44,69 +51,152 @@ const EditProfile = (props) => {
   //Snacbkbar хаах
   const onDismissSnackBar = () => setVisibleSnack(false);
 
+  useEffect(() => {}, []);
+
+  const saveProfileData = async () => {
+    if (!editableData.LastName) {
+      onToggleSnackBar("Овог оруулна уу.");
+    } else if (!editableData.FirstName) {
+      onToggleSnackBar("Нэр оруулна уу.");
+    } else if (!editableData.jobPosition) {
+      onToggleSnackBar("Албан тушаал оруулна уу.");
+    } else if (!editableData.mobileNumber) {
+      onToggleSnackBar("Утасны дугаар оруулна уу.");
+    } else if (!editableData.Address) {
+      onToggleSnackBar("Хаяг оруулна уу.");
+    } else {
+    }
+  };
+
   return (
-    <SafeAreaProvider
+    <View
       style={{
         flex: 1,
-        paddingTop: Constants.statusBarHeight,
         backgroundColor: "#fff",
         paddingBottom: tabBarHeight,
       }}
     >
-      <ScrollView
-        contentContainerStyle={{ flexGrow: 1 }}
-        showsVerticalScrollIndicator={false}
-        bounces={false}
+      <CustomSnackbar
+        visible={visibleSnack}
+        dismiss={onDismissSnackBar}
+        text={snackBarMsg}
+        topPos={30}
+      />
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        style={{ flex: 1 }}
       >
-        <StatusBar
-          translucent
-          barStyle={Platform.OS == "ios" ? "dark-content" : "default"}
+        {/* <HeaderUser /> */}
+
+        {loading ? (
+          <Loader />
+        ) : (
+          <View style={{ flex: 1 }}>
+            <ScrollView
+              contentContainerStyle={styles.scrollContainer}
+              bounces={false}
+            >
+              <LoanInput
+                label="Овог"
+                value={editableData.LastName}
+                onChangeText={(e) =>
+                  setEditableData((prevState) => ({
+                    ...prevState,
+                    LastName: e,
+                  }))
+                }
+              />
+              <LoanInput
+                label="Нэр"
+                value={editableData.FirstName}
+                onChangeText={(e) =>
+                  setEditableData((prevState) => ({
+                    ...prevState,
+                    FirstName: e,
+                  }))
+                }
+              />
+              <LoanInput
+                label="Албан тушаал"
+                value={profileData?.jobPosition}
+                onChangeText={(e) =>
+                  setEditableData((prevState) => ({
+                    ...prevState,
+                    jobPosition: e,
+                  }))
+                }
+              />
+              <LoanInput
+                label="Утасны дугаар"
+                value={profileData?.MobileNumber}
+                onChangeText={(e) =>
+                  setEditableData((prevState) => ({
+                    ...prevState,
+                    MobileNumber: e,
+                  }))
+                }
+              />
+              <LoanInput
+                label="Хаяг"
+                value={profileData?.Address}
+                onChangeText={(e) =>
+                  setEditableData((prevState) => ({
+                    ...prevState,
+                    Address: e,
+                  }))
+                }
+                multiline={true}
+                textAlignVertical="top"
+              />
+              <View className="w-full mt-2">
+                <GradientButton text="Хадгалах" action={() => {}} />
+              </View>
+            </ScrollView>
+          </View>
+        )}
+        <CustomDialog
+          visible={visibleDialog}
+          confirmFunction={() => {
+            setVisibleDialog(false);
+            // dialogType == "success" && props.navigation.goBack();
+          }}
+          declineFunction={() => {}}
+          text={dialogText}
+          confirmBtnText="Хаах"
+          DeclineBtnText=""
+          type={dialogType}
         />
-        <Text>EditProfile</Text>
-      </ScrollView>
-    </SafeAreaProvider>
+      </KeyboardAvoidingView>
+    </View>
   );
 };
 
 export default EditProfile;
 
 const styles = StyleSheet.create({
-  headerBg: {
-    width: "100%",
-    height: 150,
-    resizeMode: "cover",
-  },
-  userIcon: {
-    width: 100,
-    height: 100,
-    resizeMode: "contain",
-    borderWidth: 4,
-    borderRadius: 120,
-    borderColor: "#fff",
-  },
-  gridMenus: {
-    flexDirection: "row",
-    alignItems: "center",
-    paddingHorizontal: 25,
-    marginBottom: 20,
-  },
-  lastText: {
-    color: "red",
-    fontWeight: 500,
-    marginLeft: 20,
-  },
-  menuText: {
-    color: GRAY_ICON_COLOR,
-    fontWeight: 500,
-    marginLeft: 20,
-  },
-  profileCircle: {
-    position: "absolute",
-    flexDirection: "row",
-    top: 100,
+  scrollContainer: {
+    flexGrow: 1,
+    backgroundColor: "#fff",
     paddingHorizontal: 20,
-    paddingBottom: 30,
-    borderBottomWidth: 1,
-    borderBottomColor: MAIN_COLOR_GRAY,
+    paddingTop: 10,
+  },
+  label: {
+    fontWeight: "bold",
+    padding: 5,
+  },
+  touchableSelectContainer: {
+    marginBottom: 5,
+  },
+  touchableSelect: {
+    flexDirection: "row",
+    width: "100%",
+    justifyContent: "space-between",
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: MAIN_COLOR_GRAY,
+    height: 40,
+    alignItems: "center",
+    paddingLeft: 15,
+    paddingRight: 10,
   },
 });

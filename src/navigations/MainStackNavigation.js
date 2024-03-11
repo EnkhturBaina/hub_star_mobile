@@ -331,6 +331,7 @@ const ChatStackNavigator = (props) => {
 };
 
 const ProfileStackNavigator = (props) => {
+  const navigation = useNavigation();
   return (
     <Stack.Navigator
       initialRouteName="ProfileScreen"
@@ -362,7 +363,7 @@ const ProfileStackNavigator = (props) => {
             <TouchableOpacity
               style={styles.headerLeftContainer}
               onPress={() => {
-                navigation.navigate("EditProfile");
+                navigation.navigate("ProfileScreen");
               }}
             >
               <Icon
@@ -386,7 +387,7 @@ const ProfileStackNavigator = (props) => {
             <TouchableOpacity
               style={styles.headerLeftContainer}
               onPress={() => {
-                navigation.navigate("Notification");
+                navigation.navigate("ProfileScreen");
               }}
             >
               <Icon
@@ -410,7 +411,7 @@ const ProfileStackNavigator = (props) => {
             <TouchableOpacity
               style={styles.headerLeftContainer}
               onPress={() => {
-                navigation.navigate("Account");
+                navigation.navigate("ProfileScreen");
               }}
             >
               <Icon
@@ -434,7 +435,7 @@ const ProfileStackNavigator = (props) => {
             <TouchableOpacity
               style={styles.headerLeftContainer}
               onPress={() => {
-                navigation.navigate("Confirmation");
+                navigation.navigate("ProfileScreen");
               }}
             >
               <Icon
@@ -458,7 +459,7 @@ const ProfileStackNavigator = (props) => {
             <TouchableOpacity
               style={styles.headerLeftContainer}
               onPress={() => {
-                navigation.navigate("Security");
+                navigation.navigate("ProfileScreen");
               }}
             >
               <Icon
@@ -482,7 +483,7 @@ const ProfileStackNavigator = (props) => {
             <TouchableOpacity
               style={styles.headerLeftContainer}
               onPress={() => {
-                navigation.navigate("Language");
+                navigation.navigate("ProfileScreen");
               }}
             >
               <Icon
@@ -506,7 +507,7 @@ const ProfileStackNavigator = (props) => {
             <TouchableOpacity
               style={styles.headerLeftContainer}
               onPress={() => {
-                navigation.navigate("QAs");
+                navigation.navigate("ProfileScreen");
               }}
             >
               <Icon
@@ -530,7 +531,7 @@ const ProfileStackNavigator = (props) => {
             <TouchableOpacity
               style={styles.headerLeftContainer}
               onPress={() => {
-                navigation.navigate("Invite");
+                navigation.navigate("ProfileScreen");
               }}
             >
               <Icon

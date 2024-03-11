@@ -25,65 +25,10 @@ const BottomSheet = ({
   backClick, //sheet -н гадна дарж хаах
   displayName,
 }) => {
-  const RegView = () => {
-    return (
-      <FlatList
-        columnWrapperStyle={{ flex: 1, justifyContent: "space-around" }}
-        data={bodyText}
-        renderItem={({ item }) => (
-          <View style={{ flexDirection: "column", margin: 1 }}>
-            <TouchableOpacity
-              onPress={() => {
-                setDataFunction(item);
-                sheetRef.current.close();
-              }}
-            >
-              <Text style={styles.bottomSheetBodyReg}>{item}</Text>
-            </TouchableOpacity>
-          </View>
-        )}
-        numColumns={6}
-        keyExtractor={(item, index) => index}
-      />
-    );
-  };
-
-  const InfoView = () => {
-    return <Text style={styles.bottomSheetBody}>{bodyText}</Text>;
-  };
-
-  const LookupView = () => {
-    return (
-      <View style={styles.lookupcontainer}>
-        <ScrollView
-          showsVerticalScrollIndicator={false}
-          contentContainerStyle={{
-            backgroundColor: "#fff",
-          }}
-        >
-          {bodyText?.map((el, index) => {
-            return (
-              <TouchableOpacity
-                key={index}
-                onPress={() => {
-                  setDataFunction(el);
-                  sheetRef.current.close();
-                }}
-              >
-                <Text style={styles.bottomSheetBodyLookup}>
-                  {el[displayName]}
-                </Text>
-              </TouchableOpacity>
-            );
-          })}
-        </ScrollView>
-      </View>
-    );
-  };
   return (
     <RBSheet
       ref={sheetRef}
-      height={sheetheight}
+      height={400}
       closeOnDragDown={dragDown} //sheet -г доош чирж хаах
       closeOnPressMask={backClick} //sheet -н гадна дарж хаах
       customStyles={{

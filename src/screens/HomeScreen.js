@@ -28,6 +28,7 @@ import Carousel from "react-native-reanimated-carousel";
 import featuresData from "../featuresData";
 import gridData from "../gridData";
 import { SafeAreaProvider } from "react-native-safe-area-context";
+import RBSheet from "react-native-raw-bottom-sheet";
 
 const HomeScreen = (props) => {
   const state = useContext(MainContext);
@@ -35,6 +36,7 @@ const HomeScreen = (props) => {
   const [selectedType, setSelectedType] = useState(null);
 
   const ref = useRef();
+  const sheetRef = useRef(); //*****Bottomsheet
 
   const width = Dimensions.get("window").width;
   const height = Dimensions.get("window").height;
@@ -111,12 +113,21 @@ const HomeScreen = (props) => {
               Хайх
             </Text>
           </View>
-          <Icon
-            name="sliders"
-            type="feather"
-            size={20}
-            color={GRAY_ICON_COLOR}
-          />
+          <TouchableOpacity
+            style={{
+              height: "100%",
+              justifyContent: "center",
+              width: 40,
+            }}
+          >
+            <Icon
+              name="sliders"
+              type="feather"
+              size={20}
+              color={GRAY_ICON_COLOR}
+              onPress={() => sheetRef.current.open()}
+            />
+          </TouchableOpacity>
         </TouchableOpacity>
         <View style={{ marginVertical: 10 }}>
           <ScrollView
@@ -251,6 +262,43 @@ const HomeScreen = (props) => {
           </ScrollView>
         </View>
       </ScrollView>
+      <RBSheet
+        ref={sheetRef}
+        height={height - 100}
+        closeOnDragDown={true} //*****sheet -г доош чирж хаах
+        closeOnPressMask={true} //*****sheet -н гадна дарж хаах
+        dragFromTopOnly={true}
+        customStyles={{
+          container: {
+            backgroundColor: "#fff",
+            flexDirection: "column",
+            borderTopEndRadius: 16,
+            borderTopStartRadius: 16,
+          },
+        }}
+      >
+        <View
+          style={{
+            width: "100%",
+            height: "100%",
+            justifyContent: "flex-start",
+          }}
+        >
+          <ScrollView nestedScrollEnabled>
+            {state?.mainDirection?.map((el, index) => {
+              return (
+                <View key={index} style={{}}>
+                  <Image
+                    style={{ width: 20, height: 20 }}
+                    source={{ uri: SERVER_URL + "images/" + el?.logo?.path }}
+                  />
+                  <Text></Text>
+                </View>
+              );
+            })}
+          </ScrollView>
+        </View>
+      </RBSheet>
     </SafeAreaProvider>
   );
 };
@@ -280,8 +328,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: MAIN_COLOR_GRAY,
     borderRadius: MAIN_BORDER_RADIUS,
-    paddingVertical: 15,
-    paddingHorizontal: 20,
+    height: 50,
+    paddingLeft: 20,
+    paddingRight: 10,
     marginTop: 10,
     marginHorizontal: 20,
   },

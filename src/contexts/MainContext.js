@@ -17,11 +17,15 @@ export const MainStore = (props) => {
   const [mobileNumber, setMobileNumber] = useState("");
 
   const [customerTypes, setCustomerTypes] = useState(null);
-  var date = new Date();
 
-  useEffect(() => {
-    getCustomerTypes();
-  }, []);
+  const [directionLoading, setDirectionLoading] = useState(true);
+  const [mainDirection, setMainDirection] = useState([]);
+  const [direction, setDirection] = useState([]);
+  const [subDirection, setSubDirection] = useState([]);
+
+  const [custTypeData, setCustTypeData] = useState([]);
+
+  var date = new Date();
 
   const login = async (mobileNumber, password, remember) => {
     try {
@@ -104,6 +108,88 @@ export const MainStore = (props) => {
         }
       });
   };
+
+  const getMainDirection = async () => {
+    await axios({
+      method: "get",
+      url: `${SERVER_URL}reference/main-direction`,
+      headers: {
+        "X-API-KEY": API_KEY,
+      },
+    })
+      .then((response) => {
+        // console.log("getMain Direction response", response);
+        const result = response.data?.response?.map((item) => {
+          return {
+            ...item,
+            children: direction.filter((el) => el.mainDirectionId === item.id),
+          };
+        });
+
+        setMainDirection(result);
+      })
+      .then(() => {
+        setDirectionLoading(false);
+      })
+      .catch((error) => {
+        console.error("Error fetching :", error);
+      });
+  };
+  const getDirection = async () => {
+    await axios({
+      method: "get",
+      url: `${SERVER_URL}reference/main-direction/direction`,
+      headers: {
+        "X-API-KEY": API_KEY,
+      },
+    })
+      .then((response) => {
+        // console.log("get Direction response", response);
+        const result = response.data?.response?.map((item) => {
+          return {
+            ...item,
+            sub_children: subDirection.filter(
+              (el) => el.directionId === item.id
+            ),
+          };
+        });
+
+        // console.log("get Direction result ===>", result);
+        setDirection(result);
+      })
+      .catch((error) => {
+        console.error("Error fetching :", error);
+      });
+  };
+  const getSubDirection = async () => {
+    await axios({
+      method: "get",
+      url: `${SERVER_URL}reference/main-direction/direction/sub-direction`,
+      headers: {
+        "X-API-KEY": API_KEY,
+      },
+    })
+      .then((response) => {
+        // console.log("getSubDirection response", response);
+        setSubDirection(response.data.response);
+      })
+      .catch((error) => {
+        console.error("Error fetching :", error);
+      });
+  };
+
+  useEffect(() => {
+    getCustomerTypes();
+    getSubDirection();
+  }, []);
+
+  useEffect(() => {
+    getDirection();
+  }, [subDirection]);
+
+  useEffect(() => {
+    getMainDirection();
+  }, [direction]);
   return (
     <MainContext.Provider
       value={{
@@ -121,6 +207,10 @@ export const MainStore = (props) => {
         mobileNumber,
         setMobileNumber,
         customerTypes,
+        mainDirection,
+        direction,
+        subDirection,
+        custTypeData,
       }}
     >
       {props.children}
