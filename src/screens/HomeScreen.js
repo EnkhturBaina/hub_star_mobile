@@ -19,6 +19,7 @@ import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 import { Icon, ListItem } from "@rneui/base";
 import {
   GRAY_ICON_COLOR,
+  MAIN_BG_GRAY,
   MAIN_BORDER_RADIUS,
   MAIN_COLOR,
   MAIN_COLOR_GRAY,
@@ -29,7 +30,6 @@ import featuresData from "../featuresData";
 import gridData from "../gridData";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import RBSheet from "react-native-raw-bottom-sheet";
-import { List } from "react-native-paper";
 
 const HomeScreen = (props) => {
   const state = useContext(MainContext);
@@ -83,14 +83,14 @@ const HomeScreen = (props) => {
             <Icon
               name="bell"
               type="feather"
-              size={28}
+              size={23}
               style={{ marginRight: 10 }}
               onPress={() => console.log("X")}
             />
             <Icon
               name="chatbox-ellipses-outline"
               type="ionicon"
-              size={30}
+              size={25}
               onPress={() => console.log("X")}
             />
           </View>
@@ -275,7 +275,7 @@ const HomeScreen = (props) => {
         dragFromTopOnly={true}
         customStyles={{
           container: {
-            backgroundColor: "#fff",
+            backgroundColor: MAIN_BG_GRAY,
             flexDirection: "column",
             borderTopEndRadius: 16,
             borderTopStartRadius: 16,
@@ -297,6 +297,7 @@ const HomeScreen = (props) => {
               flexDirection: "column",
               paddingBottom: 40,
             }}
+            bounces={false}
           >
             {state?.mainDirection?.map((el, index) => {
               return (
@@ -305,6 +306,9 @@ const HomeScreen = (props) => {
                     style={{
                       flexDirection: "row",
                       alignItems: "center",
+                      borderBottomWidth: 1,
+                      borderBottomColor: GRAY_ICON_COLOR,
+                      paddingBottom: 3,
                     }}
                   >
                     <Image
@@ -323,43 +327,61 @@ const HomeScreen = (props) => {
                   </View>
                   <View
                     style={{
-                      borderBottomWidth: 1,
-                      borderBottomColor: GRAY_ICON_COLOR,
+                      // borderBottomWidth: 3,
+                      // borderBottomColor: GRAY_ICON_COLOR,
                       marginBottom: 10,
                       paddingBottom: 10,
+                      paddingTop: 10,
                     }}
                   >
                     {el.children?.map((child, index2) => {
                       const checkOpen = expanded[index + "-" + index2];
                       return (
                         <ListItem.Accordion
+                          noIcon={child?.sub_children != "" ? false : true}
                           key={index + "-" + index2}
                           content={
                             <ListItem.Content>
-                              <ListItem.Title>{child.name}</ListItem.Title>
+                              <ListItem.Title
+                                style={{
+                                  color: checkOpen ? MAIN_COLOR : "#000",
+                                  fontWeight: checkOpen ? "500" : "normal",
+                                }}
+                              >
+                                {child.name}
+                              </ListItem.Title>
                             </ListItem.Content>
                           }
                           isExpanded={checkOpen}
                           onPress={() => {
-                            setExpanded((prevState) => ({
-                              ...prevState,
-                              [index + "-" + index2]:
-                                !prevState[index + "-" + index2],
-                            }));
+                            child?.sub_children != "" &&
+                              setExpanded((prevState) => ({
+                                ...prevState,
+                                [index + "-" + index2]:
+                                  !prevState[index + "-" + index2],
+                              }));
                           }}
                           containerStyle={{
-                            paddingVertical: 5,
+                            paddingVertical: 8,
                             paddingHorizontal: 3,
+                            backgroundColor: MAIN_BG_GRAY,
                           }}
                         >
                           <ListItem
-                            style={{
+                            containerStyle={{
                               flexDirection: "column",
+                              alignItems: "flex-start",
+                              backgroundColor: MAIN_BG_GRAY,
                             }}
                           >
                             {child?.sub_children?.map((sub, indexSub) => {
                               return (
-                                <View key={indexSub}>
+                                <View
+                                  key={indexSub}
+                                  style={{
+                                    marginBottom: 15,
+                                  }}
+                                >
                                   <Text>{sub.name}</Text>
                                 </View>
                               );
