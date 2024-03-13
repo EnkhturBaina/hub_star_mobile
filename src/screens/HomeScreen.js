@@ -301,7 +301,12 @@ const HomeScreen = (props) => {
             {state?.mainDirection?.map((el, index) => {
               return (
                 <View key={index} style={{ flexDirection: "column" }}>
-                  <View style={{ flexDirection: "row", alignItems: "center" }}>
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      alignItems: "center",
+                    }}
+                  >
                     <Image
                       style={{ width: 20, height: 20 }}
                       source={{ uri: SERVER_URL + "images/" + el?.logo?.path }}
@@ -316,7 +321,14 @@ const HomeScreen = (props) => {
                       {el.name}
                     </Text>
                   </View>
-                  <View style={{}}>
+                  <View
+                    style={{
+                      borderBottomWidth: 1,
+                      borderBottomColor: GRAY_ICON_COLOR,
+                      marginBottom: 10,
+                      paddingBottom: 10,
+                    }}
+                  >
                     {el.children?.map((child, index2) => {
                       const checkOpen = expanded[index + "-" + index2];
                       return (
@@ -335,14 +347,21 @@ const HomeScreen = (props) => {
                                 !prevState[index + "-" + index2],
                             }));
                           }}
-                          style={{ backgroundColor: "red" }}
+                          containerStyle={{
+                            paddingVertical: 5,
+                            paddingHorizontal: 3,
+                          }}
                         >
-                          <ListItem>
+                          <ListItem
+                            style={{
+                              flexDirection: "column",
+                            }}
+                          >
                             {child?.sub_children?.map((sub, indexSub) => {
                               return (
-                                <ListItem.Content key={indexSub}>
+                                <View key={indexSub}>
                                   <Text>{sub.name}</Text>
-                                </ListItem.Content>
+                                </View>
                               );
                             })}
                           </ListItem>
