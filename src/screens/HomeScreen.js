@@ -16,7 +16,7 @@ import axios from "axios";
 import MainContext from "../contexts/MainContext";
 import Constants from "expo-constants";
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
-import { Icon } from "@rneui/base";
+import { Icon, ListItem } from "@rneui/base";
 import {
   GRAY_ICON_COLOR,
   MAIN_BORDER_RADIUS,
@@ -29,11 +29,13 @@ import featuresData from "../featuresData";
 import gridData from "../gridData";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import RBSheet from "react-native-raw-bottom-sheet";
+import { List } from "react-native-paper";
 
 const HomeScreen = (props) => {
   const state = useContext(MainContext);
   const tabBarHeight = useBottomTabBarHeight();
   const [selectedType, setSelectedType] = useState(null);
+  const [expanded, setExpanded] = useState({});
 
   const ref = useRef();
   const sheetRef = useRef(); //*****Bottomsheet
@@ -51,6 +53,9 @@ const HomeScreen = (props) => {
     outputRange: [H_MAX_HEIGHT - 20, H_MIN_HEIGHT - 20],
     extrapolate: "clamp",
   });
+
+  const handlePress = () => setExpanded(!expanded);
+
   return (
     <SafeAreaProvider
       style={{
@@ -284,15 +289,67 @@ const HomeScreen = (props) => {
             justifyContent: "flex-start",
           }}
         >
-          <ScrollView nestedScrollEnabled>
+          <ScrollView
+            nestedScrollEnabled
+            contentContainerStyle={{
+              flexGrow: 1,
+              paddingHorizontal: 10,
+              flexDirection: "column",
+              paddingBottom: 40,
+            }}
+          >
             {state?.mainDirection?.map((el, index) => {
               return (
-                <View key={index} style={{}}>
-                  <Image
-                    style={{ width: 20, height: 20 }}
-                    source={{ uri: SERVER_URL + "images/" + el?.logo?.path }}
-                  />
-                  <Text></Text>
+                <View key={index} style={{ flexDirection: "column" }}>
+                  <View style={{ flexDirection: "row", alignItems: "center" }}>
+                    <Image
+                      style={{ width: 20, height: 20 }}
+                      source={{ uri: SERVER_URL + "images/" + el?.logo?.path }}
+                    />
+                    <Text
+                      style={{
+                        fontWeight: "bold",
+                        textTransform: "uppercase",
+                        marginLeft: 5,
+                      }}
+                    >
+                      {el.name}
+                    </Text>
+                  </View>
+                  <View style={{}}>
+                    {el.children?.map((child, index2) => {
+                      const checkOpen = expanded[index + "-" + index2];
+                      return (
+                        <ListItem.Accordion
+                          key={index + "-" + index2}
+                          content={
+                            <ListItem.Content>
+                              <ListItem.Title>{child.name}</ListItem.Title>
+                            </ListItem.Content>
+                          }
+                          isExpanded={checkOpen}
+                          onPress={() => {
+                            setExpanded((prevState) => ({
+                              ...prevState,
+                              [index + "-" + index2]:
+                                !prevState[index + "-" + index2],
+                            }));
+                          }}
+                          style={{ backgroundColor: "red" }}
+                        >
+                          <ListItem>
+                            {child?.sub_children?.map((sub, indexSub) => {
+                              return (
+                                <ListItem.Content key={indexSub}>
+                                  <Text>{sub.name}</Text>
+                                </ListItem.Content>
+                              );
+                            })}
+                          </ListItem>
+                        </ListItem.Accordion>
+                      );
+                    })}
+                  </View>
                 </View>
               );
             })}
