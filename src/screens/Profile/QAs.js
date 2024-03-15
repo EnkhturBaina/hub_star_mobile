@@ -4,66 +4,134 @@ import {
   View,
   Image,
   TouchableOpacity,
-  Linking,
-  ScrollView,
   StatusBar,
   Platform,
 } from "react-native";
 import React, { useContext, useState } from "react";
-import { Icon } from "@rneui/base";
 import MainContext from "../../contexts/MainContext";
-import CustomSnackbar from "../../components/CustomSnackbar";
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
-import bg from "../../../assets/splash_bg.png";
 import { SafeAreaProvider } from "react-native-safe-area-context";
-import Constants from "expo-constants";
-import { GRAY_ICON_COLOR, MAIN_COLOR_GRAY } from "../../constant";
-import { Divider } from "react-native-paper";
+import { MAIN_BORDER_RADIUS, MAIN_COLOR } from "../../constant";
+import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
+import { List } from "react-native-paper";
+import { Icon } from "@rneui/base";
 
+const Tab = createMaterialTopTabNavigator();
 const QAs = (props) => {
   const state = useContext(MainContext);
-
   const tabBarHeight = useBottomTabBarHeight();
-  const onToggleSwitch = () => {
-    onToggleSnackBar("Ирц бүртгэл сануулах тохиргоо хийгдлээ");
-  };
+  const [expanded, setExpanded] = useState({});
 
-  const [visibleDialog, setVisibleDialog] = useState(false); //Dialog харуулах
-  const [dialogType, setDialogType] = useState("warning"); //Dialog харуулах төрөл
-  const [dialogText, setDialogText] = useState("Апп -с гарах уу?"); //Dialog -н текст
+  const handlePress = () => setExpanded(!expanded);
 
-  const [visibleSnack, setVisibleSnack] = useState(false);
-  const [snackBarMsg, setSnackBarMsg] = useState("");
+  const FirstRoute = () => (
+    <View style={{ flex: 1, backgroundColor: "#fff" }}>
+      <List.Section title="Accordions">
+        <List.Accordion
+          title="Uncontrolled Accordion"
+          left={(props) => <List.Icon {...props} icon="folder" />}
+        >
+          <List.Item title="First item" />
+          <List.Item title="Second item" />
+        </List.Accordion>
 
-  //Snacbkbar харуулах
-  const onToggleSnackBar = (msg) => {
-    setVisibleSnack(!visibleSnack);
-    setSnackBarMsg(msg);
-  };
+        <List.Accordion
+          title="Controlled Accordion"
+          left={(props) => <List.Icon {...props} icon="folder" />}
+          expanded={expanded}
+          onPress={handlePress}
+        >
+          <List.Item title="First item" />
+          <List.Item title="Second item" />
+        </List.Accordion>
+      </List.Section>
+    </View>
+  );
 
-  //Snacbkbar хаах
-  const onDismissSnackBar = () => setVisibleSnack(false);
+  const SecondRoute = () => (
+    <View
+      style={{
+        flex: 1,
+        backgroundColor: "#fff",
+        padding: 20,
+      }}
+    >
+      <TouchableOpacity style={styles.aboutContainer}>
+        <Icon
+          name="whatsapp"
+          type="fontisto"
+          size={23}
+          style={{ marginRight: 10 }}
+          onPress={() => console.log("X")}
+        />
+        <Text>WhatsApp</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.aboutContainer}>
+        <Icon
+          name="world-o"
+          type="fontisto"
+          size={23}
+          style={{ marginRight: 10 }}
+          onPress={() => console.log("X")}
+        />
+        <Text>Website</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.aboutContainer}>
+        <Icon
+          name="facebook"
+          type="fontisto"
+          size={23}
+          style={{ marginRight: 20 }}
+          onPress={() => console.log("X")}
+        />
+        <Text>Facebook</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.aboutContainer}>
+        <Icon
+          name="twitter"
+          type="fontisto"
+          size={23}
+          style={{ marginRight: 10 }}
+          onPress={() => console.log("X")}
+        />
+        <Text>Twitter</Text>
+      </TouchableOpacity>
+    </View>
+  );
 
   return (
     <SafeAreaProvider
       style={{
         flex: 1,
-        paddingTop: Constants.statusBarHeight,
         backgroundColor: "#fff",
         paddingBottom: tabBarHeight,
       }}
     >
-      <ScrollView
-        contentContainerStyle={{ flexGrow: 1 }}
-        showsVerticalScrollIndicator={false}
-        bounces={false}
+      <StatusBar
+        translucent
+        barStyle={Platform.OS == "ios" ? "dark-content" : "default"}
+      />
+      <Tab.Navigator
+        screenOptions={{
+          tabBarAndroidRipple: {
+            color: "transparent",
+          },
+          tabBarLabelStyle: {
+            textTransform: "none",
+          },
+          tabBarStyle: {
+            backgroundColor: "#fff",
+          },
+          tabBarIndicatorStyle: {
+            backgroundColor: MAIN_COLOR,
+            height: 5,
+            borderRadius: 12,
+          },
+        }}
       >
-        <StatusBar
-          translucent
-          barStyle={Platform.OS == "ios" ? "dark-content" : "default"}
-        />
-        <Text>QAs</Text>
-      </ScrollView>
+        <Tab.Screen name="Түгээмэл асуулт" component={FirstRoute} />
+        <Tab.Screen name="Бидний тухай" component={SecondRoute} />
+      </Tab.Navigator>
     </SafeAreaProvider>
   );
 };
@@ -71,42 +139,19 @@ const QAs = (props) => {
 export default QAs;
 
 const styles = StyleSheet.create({
-  headerBg: {
-    width: "100%",
-    height: 150,
-    resizeMode: "cover",
-  },
-  userIcon: {
-    width: 100,
-    height: 100,
-    resizeMode: "contain",
-    borderWidth: 4,
-    borderRadius: 120,
-    borderColor: "#fff",
-  },
-  gridMenus: {
+  aboutContainer: {
     flexDirection: "row",
     alignItems: "center",
-    paddingHorizontal: 25,
-    marginBottom: 20,
-  },
-  lastText: {
-    color: "red",
-    fontWeight: 500,
-    marginLeft: 20,
-  },
-  menuText: {
-    color: GRAY_ICON_COLOR,
-    fontWeight: 500,
-    marginLeft: 20,
-  },
-  profileCircle: {
-    position: "absolute",
-    flexDirection: "row",
-    top: 100,
-    paddingHorizontal: 20,
-    paddingBottom: 30,
-    borderBottomWidth: 1,
-    borderBottomColor: MAIN_COLOR_GRAY,
+    shadowOpacity: 0.2,
+    shadowRadius: 3,
+    shadowOffset: {
+      height: 1,
+      width: 0,
+    },
+    elevation: 2,
+    backgroundColor: "#fff",
+    marginVertical: 5,
+    padding: 15,
+    borderRadius: MAIN_BORDER_RADIUS,
   },
 });

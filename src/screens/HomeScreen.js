@@ -215,10 +215,14 @@ const HomeScreen = (props) => {
         <View style={styles.gridContainer}>
           {featuresData?.map((el, index) => {
             return (
-              <View style={styles.gridItem} key={index}>
+              <TouchableOpacity
+                onPress={() => props.navigation.navigate("ServiceListScreen")}
+                style={styles.gridItem}
+                key={index}
+              >
                 <Image style={styles.featureIcon} source={el.icon} />
                 <Text style={styles.featureText}>{el.title}</Text>
-              </View>
+              </TouchableOpacity>
             );
           })}
         </View>
@@ -248,7 +252,7 @@ const HomeScreen = (props) => {
                       marginLeft: index == 0 ? 20 : 10,
                     },
                   ]}
-                  onPress={() => setSelectedType(index)}
+                  onPress={() => props.navigation.navigate("ServiceListScreen")}
                 >
                   <ImageBackground
                     source={el.icon}
