@@ -117,7 +117,7 @@ const CategoryScreen = () => {
         nestedScrollEnabled
         contentContainerStyle={{
           flexGrow: 1,
-          paddingHorizontal: 10,
+          paddingHorizontal: 20,
           flexDirection: "column",
           backgroundColor: MAIN_BG_GRAY,
           paddingTop: 20,
@@ -249,6 +249,7 @@ const styles = StyleSheet.create({
     paddingRight: 10,
     marginTop: 10,
     marginHorizontal: 20,
+    marginBottom: 5,
   },
   searchInput: {
     alignItems: "center",
