@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Image } from "react-native";
+import { StyleSheet, Text, View, Image, ScrollView } from "react-native";
 import React, { useState } from "react";
 import { StatusBar, Platform } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
@@ -72,16 +72,21 @@ const ServiceListScreen = () => {
           }}
         />
       </View>
-      <View style={styles.gridContainer}>
+      <ScrollView contentContainerStyle={styles.gridContainer}>
         {[...Array(10)].map((el, index) => {
           return (
             <View style={styles.gridItem} key={index}>
-              <Image source={require("../../assets/splash_bg_1.jpg")} />
+              <Image
+                source={require("../../assets/splash_bg_1.jpg")}
+                width="100%"
+                resizeMethod="auto"
+                resizeMode="contain"
+              />
               <Text>{index}</Text>
             </View>
           );
         })}
-      </View>
+      </ScrollView>
     </SafeAreaProvider>
   );
 };
@@ -123,7 +128,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   gridContainer: {
-    flex: 1,
+    flexGrow0: 1,
     flexWrap: "wrap",
     flexDirection: "row",
     justifyContent: "flex-start",
