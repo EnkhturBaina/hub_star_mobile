@@ -65,6 +65,53 @@ const HomeScreen = (props) => {
         paddingBottom: tabBarHeight,
       }}
     >
+      <View style={styles.headerContainer}>
+        <Image
+          style={styles.headerLogo}
+          source={require("../../assets/Logo.png")}
+        />
+        <View style={styles.headerIcons}>
+          <Icon
+            name="bell"
+            type="feather"
+            size={23}
+            style={{ marginRight: 10 }}
+            onPress={() => console.log("X")}
+          />
+          <Icon
+            name="chatbox-ellipses-outline"
+            type="ionicon"
+            size={25}
+            onPress={() => console.log("X")}
+          />
+        </View>
+      </View>
+      <TouchableOpacity
+        style={styles.searchContainer}
+        activeOpacity={1}
+        onPress={() => {
+          // props.navigation.navigate("SearchScreen")
+        }}
+      >
+        <View style={styles.searchInput}>
+          <Icon
+            name="search"
+            type="feather"
+            size={20}
+            color={GRAY_ICON_COLOR}
+          />
+          <Text style={styles.filterText}>Хайх</Text>
+        </View>
+        <TouchableOpacity style={styles.filterBtn}>
+          <Icon
+            name="sliders"
+            type="feather"
+            size={20}
+            color={GRAY_ICON_COLOR}
+            onPress={() => sheetRef.current.open()}
+          />
+        </TouchableOpacity>
+      </TouchableOpacity>
       <ScrollView
         contentContainerStyle={{ flexGrow: 1 }}
         showsVerticalScrollIndicator={false}
@@ -74,67 +121,7 @@ const HomeScreen = (props) => {
           translucent
           barStyle={Platform.OS == "ios" ? "dark-content" : "default"}
         />
-        <View style={styles.headerContainer}>
-          <Image
-            style={styles.headerLogo}
-            source={require("../../assets/Logo.png")}
-          />
-          <View style={styles.headerIcons}>
-            <Icon
-              name="bell"
-              type="feather"
-              size={23}
-              style={{ marginRight: 10 }}
-              onPress={() => console.log("X")}
-            />
-            <Icon
-              name="chatbox-ellipses-outline"
-              type="ionicon"
-              size={25}
-              onPress={() => console.log("X")}
-            />
-          </View>
-        </View>
-        <TouchableOpacity
-          style={styles.searchContainer}
-          activeOpacity={1}
-          onPress={() => {
-            // props.navigation.navigate("SearchScreen")
-          }}
-        >
-          <View style={styles.searchInput}>
-            <Icon
-              name="search"
-              type="feather"
-              size={20}
-              color={GRAY_ICON_COLOR}
-            />
-            <Text
-              style={{
-                color: GRAY_ICON_COLOR,
-                marginLeft: 10,
-              }}
-            >
-              Хайх
-            </Text>
-          </View>
-          <TouchableOpacity
-            style={{
-              height: "100%",
-              justifyContent: "center",
-              width: 40,
-            }}
-          >
-            <Icon
-              name="sliders"
-              type="feather"
-              size={20}
-              color={GRAY_ICON_COLOR}
-              onPress={() => sheetRef.current.open()}
-            />
-          </TouchableOpacity>
-        </TouchableOpacity>
-        <View style={{ marginVertical: 10 }}>
+        <View style={{ marginBottom: 10 }}>
           <ScrollView
             horizontal={true}
             showsHorizontalScrollIndicator={false}
@@ -152,7 +139,10 @@ const HomeScreen = (props) => {
                         index == selectedType ? MAIN_COLOR : "#fff",
                     },
                   ]}
-                  onPress={() => setSelectedType(index)}
+                  onPress={() => {
+                    setSelectedType(index);
+                    props.navigation.navigate("ServiceListScreenByType");
+                  }}
                 >
                   <Image
                     style={styles.typeLogo}
@@ -226,16 +216,7 @@ const HomeScreen = (props) => {
             );
           })}
         </View>
-        <Text
-          style={{
-            fontWeight: 500,
-            fontSize: 16,
-            marginLeft: 20,
-            marginTop: 10,
-          }}
-        >
-          Үндсэн үйлчилгээ
-        </Text>
+        <Text style={styles.specialServiceText}>Үндсэн үйлчилгээ</Text>
         <View style={{ marginVertical: 10 }}>
           <ScrollView
             horizontal={true}
@@ -286,32 +267,19 @@ const HomeScreen = (props) => {
           },
         }}
       >
-        <View
-          style={{
-            width: "100%",
-            height: "100%",
-            justifyContent: "flex-start",
-          }}
-        >
+        <View style={styles.dirMainContainer}>
           <ScrollView
             nestedScrollEnabled
-            contentContainerStyle={{
-              flexGrow: 1,
-              paddingHorizontal: 10,
-              flexDirection: "column",
-              paddingBottom: 40,
-            }}
+            contentContainerStyle={styles.dirContainer}
             bounces={false}
           >
             {state?.mainDirection?.map((el, index) => {
               return (
-                <View key={index} style={{ flexDirection: "column" }}>
+                <View key={index} style={styles.eachDir}>
                   <View
                     style={{
                       flexDirection: "row",
                       alignItems: "center",
-                      borderBottomWidth: 1,
-                      borderBottomColor: GRAY_ICON_COLOR,
                       paddingBottom: 3,
                     }}
                   >
@@ -331,10 +299,6 @@ const HomeScreen = (props) => {
                   </View>
                   <View
                     style={{
-                      // borderBottomWidth: 3,
-                      // borderBottomColor: GRAY_ICON_COLOR,
-                      marginBottom: 10,
-                      paddingBottom: 10,
                       paddingTop: 10,
                     }}
                   >
@@ -348,8 +312,9 @@ const HomeScreen = (props) => {
                             <ListItem.Content>
                               <ListItem.Title
                                 style={{
-                                  color: checkOpen ? MAIN_COLOR : "#000",
-                                  fontWeight: checkOpen ? "500" : "normal",
+                                  color: checkOpen ? MAIN_COLOR : "#6f7275",
+                                  fontWeight: "500",
+                                  marginBottom: 5,
                                 }}
                               >
                                 {child.name}
@@ -435,6 +400,7 @@ const styles = StyleSheet.create({
     paddingRight: 10,
     marginTop: 10,
     marginHorizontal: 20,
+    marginBottom: 10,
   },
   searchInput: {
     alignItems: "center",
@@ -522,5 +488,38 @@ const styles = StyleSheet.create({
     color: "#fff",
     textAlign: "center",
     fontSize: 20,
+  },
+  filterText: {
+    color: GRAY_ICON_COLOR,
+    marginLeft: 10,
+  },
+  filterBtn: {
+    height: "100%",
+    justifyContent: "center",
+    width: 40,
+  },
+  specialServiceText: {
+    fontWeight: 500,
+    fontSize: 16,
+    marginLeft: 20,
+    marginTop: 10,
+  },
+  dirMainContainer: {
+    width: "100%",
+    height: "100%",
+    justifyContent: "flex-start",
+  },
+  dirContainer: {
+    flexGrow: 1,
+    paddingHorizontal: 10,
+    flexDirection: "column",
+    paddingBottom: 40,
+  },
+  eachDir: {
+    flexDirection: "column",
+    borderBottomWidth: 1,
+    borderBottomColor: "#ebebeb",
+    marginBottom: 10,
+    paddingBottom: 10,
   },
 });

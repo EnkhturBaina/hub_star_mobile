@@ -126,13 +126,20 @@ const CategoryScreen = () => {
       >
         {state?.mainDirection?.map((el, index) => {
           return (
-            <View key={index} style={{ flexDirection: "column" }}>
+            <View
+              key={index}
+              style={{
+                flexDirection: "column",
+                borderBottomWidth: 1,
+                borderBottomColor: "#ebebeb",
+                marginBottom: 10,
+                paddingBottom: 10,
+              }}
+            >
               <View
                 style={{
                   flexDirection: "row",
                   alignItems: "center",
-                  borderBottomWidth: 1,
-                  borderBottomColor: GRAY_ICON_COLOR,
                   paddingBottom: 3,
                 }}
               >
@@ -152,10 +159,6 @@ const CategoryScreen = () => {
               </View>
               <View
                 style={{
-                  // borderBottomWidth: 3,
-                  // borderBottomColor: GRAY_ICON_COLOR,
-                  marginBottom: 10,
-                  paddingBottom: 10,
                   paddingTop: 10,
                 }}
               >
@@ -171,6 +174,7 @@ const CategoryScreen = () => {
                             style={{
                               color: checkOpen ? MAIN_COLOR : "#000",
                               fontWeight: checkOpen ? "500" : "normal",
+                              marginBottom: 5,
                             }}
                           >
                             {child.name}

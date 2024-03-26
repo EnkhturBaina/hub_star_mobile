@@ -5,11 +5,13 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 import { Icon } from "@rneui/base";
 import { Dropdown } from "react-native-element-dropdown";
+import { Drawer } from "react-native-paper";
 
 const ServiceListScreen = () => {
   const tabBarHeight = useBottomTabBarHeight();
   const [value, setValue] = useState(null);
   const [isFocus, setIsFocus] = useState(false);
+  const [active, setActive] = React.useState("");
 
   const renderLabel = () => {
     if (value || isFocus) {
@@ -44,13 +46,19 @@ const ServiceListScreen = () => {
           justifyContent: "space-between",
           alignItems: "center",
           marginHorizontal: 20,
+          paddingBottom: 10,
         }}
       >
         <Icon
           name="options"
           type="ionicon"
           size={23}
-          style={{ borderWidth: 0.5, padding: 5, borderRadius: 8 }}
+          style={{
+            borderWidth: 0.5,
+            padding: 5,
+            borderRadius: 8,
+            borderColor: "#aeaeae",
+          }}
           onPress={() => console.log("X")}
         />
         <Dropdown
@@ -78,11 +86,26 @@ const ServiceListScreen = () => {
             <View style={styles.gridItem} key={index}>
               <Image
                 source={require("../../assets/splash_bg_1.jpg")}
-                style={{ width: "100%", height: 150 }}
-                resizeMethod="auto"
-                resizeMode="contain"
+                style={{
+                  width: "100%",
+                  height: 150,
+                  borderTopLeftRadius: 6,
+                  borderTopRightRadius: 6,
+                }}
+                resizeMode="cover"
               />
-              <Text>{index}</Text>
+              <View style={{ flexDirection: "column", padding: 10 }}>
+                <Text
+                  numberOfLines={1}
+                  style={{ fontSize: 16, fontWeight: "500" }}
+                >
+                  Үндэсний шилдэг бүтээн байгуулагч NCD Group болон хот БАРИЛГЫН
+                  САЛБАРЫН ХӨГЖЛИЙН ЧИГ ХАНДЛАГА
+                </Text>
+                <Text style={{ color: "#aeaeae", fontWeight: "500" }}>
+                  NCD Group - {index}
+                </Text>
+              </View>
             </View>
           );
         })}
@@ -95,7 +118,7 @@ export default ServiceListScreen;
 
 const styles = StyleSheet.create({
   dropdown: {
-    borderColor: "gray",
+    borderColor: "#aeaeae",
     borderWidth: 0.5,
     borderRadius: 8,
     paddingHorizontal: 8,
@@ -131,10 +154,20 @@ const styles = StyleSheet.create({
   },
   gridContainer: {
     flexGrow: 1,
+    paddingTop: 10,
   },
   gridItem: {
-    width: "100%",
-    aspectRatio: 1,
-    backgroundColor: "red",
+    flex: 1,
+    marginBottom: 10,
+    marginHorizontal: 20,
+    shadowOpacity: 0.2,
+    shadowRadius: 3,
+    shadowOffset: {
+      height: 1,
+      width: 0,
+    },
+    elevation: 2,
+    backgroundColor: "#fff",
+    borderRadius: 6,
   },
 });

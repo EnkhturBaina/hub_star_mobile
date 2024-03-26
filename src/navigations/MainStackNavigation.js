@@ -29,6 +29,7 @@ import Language from "../screens/Profile/Language";
 import QAs from "../screens/Profile/QAs";
 import Invite from "../screens/Profile/Invite";
 import ServiceListScreen from "../screens/ServiceListScreen";
+import ServiceListScreenByType from "../screens/ServiceListScreenByType";
 
 const Stack = createStackNavigator();
 const width = Dimensions.get("screen").width;
@@ -279,6 +280,30 @@ const HomeScreenStackNavigator = (props) => {
       <Stack.Screen
         name="ServiceListScreen"
         component={ServiceListScreen}
+        options={{
+          title: "Үйлчилгээ",
+          headerTitleStyle: {
+            fontWeight: 800,
+          },
+          headerLeft: () => (
+            <TouchableOpacity
+              style={styles.headerLeftContainer}
+              onPress={() => {
+                navigation.navigate("HomeScreen");
+              }}
+            >
+              <Icon
+                type="material-icons"
+                name="keyboard-arrow-left"
+                size={30}
+              />
+            </TouchableOpacity>
+          ),
+        }}
+      />
+      <Stack.Screen
+        name="ServiceListScreenByType"
+        component={ServiceListScreenByType}
         options={{
           title: "Үйлчилгээ",
           headerTitleStyle: {
