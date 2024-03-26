@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 import { useNavigation } from "@react-navigation/native";
-import { API_KEY, SERVER_URL } from "../constant";
+import { X_API_KEY, SERVER_URL } from "../constant";
 
 const MainContext = React.createContext();
 
@@ -81,17 +81,19 @@ export const MainStore = (props) => {
   // AsyncStorage.clear();
   const logout = async (type) => {
     AsyncStorage.getItem("password").then(async (value) => {});
-    AsyncStorage.multiRemove(keys).then(() => {
-      setIsLoading(false);
-      setIsLoggedIn(false);
-    });
+    // AsyncStorage.multiRemove(keys).then(() => {
+    //   setIsLoading(false);
+    //   setIsLoggedIn(false);
+    // });
+    setIsLoading(false);
+    setIsLoggedIn(false);
   };
   const getCustomerTypes = async () => {
     await axios({
       method: "get",
       url: `${SERVER_URL}reference/category`,
       headers: {
-        "X-API-KEY": API_KEY,
+        "X-API-KEY": X_API_KEY,
       },
     })
       .then((response) => {
@@ -114,7 +116,7 @@ export const MainStore = (props) => {
       method: "get",
       url: `${SERVER_URL}reference/main-direction`,
       headers: {
-        "X-API-KEY": API_KEY,
+        "X-API-KEY": X_API_KEY,
       },
     })
       .then((response) => {
@@ -140,7 +142,7 @@ export const MainStore = (props) => {
       method: "get",
       url: `${SERVER_URL}reference/main-direction/direction`,
       headers: {
-        "X-API-KEY": API_KEY,
+        "X-API-KEY": X_API_KEY,
       },
     })
       .then((response) => {
@@ -166,7 +168,7 @@ export const MainStore = (props) => {
       method: "get",
       url: `${SERVER_URL}reference/main-direction/direction/sub-direction`,
       headers: {
-        "X-API-KEY": API_KEY,
+        "X-API-KEY": X_API_KEY,
       },
     })
       .then((response) => {

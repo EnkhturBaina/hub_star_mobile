@@ -78,7 +78,7 @@ const ServiceListScreen = () => {
             <View style={styles.gridItem} key={index}>
               <Image
                 source={require("../../assets/splash_bg_1.jpg")}
-                width="100%"
+                style={{ width: "100%", height: 150 }}
                 resizeMethod="auto"
                 resizeMode="contain"
               />
@@ -115,9 +115,11 @@ const styles = StyleSheet.create({
   },
   placeholderStyle: {
     fontSize: 16,
+    fontWeight: "bold",
   },
   selectedTextStyle: {
     fontSize: 16,
+    fontWeight: "bold",
   },
   iconStyle: {
     width: 20,
@@ -128,14 +130,11 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   gridContainer: {
-    flexGrow0: 1,
-    flexWrap: "wrap",
-    flexDirection: "row",
-    justifyContent: "flex-start",
+    flexGrow: 1,
   },
   gridItem: {
-    width: "48%",
-    margin: "1%",
+    width: "100%",
     aspectRatio: 1,
+    backgroundColor: "red",
   },
 });

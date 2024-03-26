@@ -8,8 +8,9 @@ import {
   ScrollView,
   StatusBar,
   Platform,
+  Dimensions,
 } from "react-native";
-import React, { useContext, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import { Icon } from "@rneui/base";
 import MainContext from "../../contexts/MainContext";
 import CustomSnackbar from "../../components/CustomSnackbar";
@@ -17,11 +18,16 @@ import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 import bg from "../../../assets/splash_bg.png";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import Constants from "expo-constants";
-import { GRAY_ICON_COLOR, MAIN_COLOR_GRAY } from "../../constant";
+import { GRAY_ICON_COLOR, MAIN_BG_GRAY, MAIN_COLOR_GRAY } from "../../constant";
 import { Divider } from "react-native-paper";
+import RBSheet from "react-native-raw-bottom-sheet";
+import GradientButton from "../../components/GradientButton";
 
 const ProfileScreen = (props) => {
   const state = useContext(MainContext);
+  const sheetRef = useRef(); //*****Bottomsheet
+  const width = Dimensions.get("window").width;
+  const height = Dimensions.get("window").height;
 
   const tabBarHeight = useBottomTabBarHeight();
   const onToggleSwitch = () => {
@@ -211,12 +217,102 @@ const ProfileScreen = (props) => {
               </TouchableOpacity>
             );
           })}
-          <TouchableOpacity style={styles.gridMenus}>
+          <TouchableOpacity
+            style={styles.gridMenus}
+            onPress={() => {
+              sheetRef.current.open();
+            }}
+          >
             <Icon name="log-out" type="feather" size={25} color="red" />
             <Text style={styles.lastText}>Системээс гарах</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>
+      <RBSheet
+        ref={sheetRef}
+        height={200}
+        closeOnDragDown={true} //*****sheet -г доош чирж хаах
+        closeOnPressMask={true} //*****sheet -н гадна дарж хаах
+        dragFromTopOnly={true}
+        customStyles={{
+          container: {
+            backgroundColor: MAIN_BG_GRAY,
+            flexDirection: "column",
+            borderTopEndRadius: 16,
+            borderTopStartRadius: 16,
+          },
+        }}
+      >
+        <View
+          style={{
+            width: "100%",
+            height: "100%",
+            justifyContent: "flex-start",
+          }}
+        >
+          <Text
+            style={{
+              fontWeight: "500",
+              color: "red",
+              fontSize: 22,
+              textAlign: "center",
+            }}
+          >
+            Системээс гарах
+          </Text>
+          <Divider style={{ marginVertical: 20 }} />
+          <Text
+            style={{
+              fontWeight: "500",
+              fontSize: 20,
+              textAlign: "center",
+            }}
+          >
+            Та системээс гарах гэж байна.
+          </Text>
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-between",
+              marginHorizontal: 20,
+              marginTop: 10,
+            }}
+          >
+            <TouchableOpacity
+              style={{
+                width: "48%",
+                borderWidth: 2,
+                borderRadius: 8,
+                borderColor: "#aeaeae",
+              }}
+              onPress={() => {
+                sheetRef.current.close();
+              }}
+            >
+              <Text
+                style={{
+                  flex: 1,
+                  textAlign: "center",
+                  paddingVertical: Platform.OS == "ios" ? 12 : 0,
+                  fontSize: 18,
+                  fontWeight: 500,
+                  color: "#aeaeae",
+                }}
+              >
+                Буцах
+              </Text>
+            </TouchableOpacity>
+            <View style={{ width: "48%" }}>
+              <GradientButton
+                text="Гарах"
+                action={() => {
+                  state.logout();
+                }}
+              />
+            </View>
+          </View>
+        </View>
+      </RBSheet>
     </SafeAreaProvider>
   );
 };
