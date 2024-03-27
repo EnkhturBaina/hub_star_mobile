@@ -175,10 +175,28 @@ const ProfileScreen = (props) => {
           translucent
           barStyle={Platform.OS == "ios" ? "dark-content" : "default"}
         />
-        <Image
-          style={styles.headerBg}
-          source={require("../../../assets/splash_bg_1.jpg")}
-        />
+        <View style={{ position: "relative" }}>
+          <Image
+            style={styles.headerBg}
+            source={require("../../../assets/splash_bg_1.jpg")}
+          />
+          <TouchableOpacity
+            style={{
+              position: "absolute",
+              bottom: 10,
+              right: 10,
+              backgroundColor: "rgba(255,255,255, 0.7)",
+              padding: 8,
+              borderRadius: 100,
+            }}
+            onPress={() => {
+              console.log("X");
+            }}
+            activeOpacity={0.7}
+          >
+            <Icon name="camera" type="feather" size={20} color="#fff" />
+          </TouchableOpacity>
+        </View>
         <View style={styles.profileCircle}>
           <Image
             style={styles.userIcon}

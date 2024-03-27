@@ -74,15 +74,15 @@ const HomeScreen = (props) => {
           <Icon
             name="bell"
             type="feather"
-            size={23}
-            style={{ marginRight: 10 }}
-            onPress={() => console.log("X")}
+            size={25}
+            style={{ marginRight: 15 }}
+            onPress={() => props.navigation.navigate("NotificationScreen")}
           />
           <Icon
             name="chatbox-ellipses-outline"
             type="ionicon"
-            size={25}
-            onPress={() => console.log("X")}
+            size={28}
+            onPress={() => props.navigation.navigate("NotificationScreen")}
           />
         </View>
       </View>
@@ -172,31 +172,37 @@ const HomeScreen = (props) => {
           }}
         >
           <View style={{ marginHorizontal: 20 }}>
-            <Carousel
-              width={width - 40}
-              ref={ref}
-              data={[...new Array(6).keys()]}
-              pagingEnabled
-              autoPlay
-              autoPlayInterval={5000}
-              style={{
-                borderRadius: 8,
-                height: height * 0.2,
+            <TouchableOpacity
+              onPress={() => {
+                props.navigation.navigate("SliderDTLScreen");
               }}
-              renderItem={({ item, index }) => (
-                <Image
-                  source={{
-                    uri: `https://dummyjson.com/image/400x200/282828?text=${index}!`,
-                  }}
-                  style={{
-                    width: width - 24,
-                    flex: 1,
-                  }}
-                  resizeMode="cover"
-                />
-              )}
-              onSnapToItem={(e) => {}}
-            />
+            >
+              <Carousel
+                width={width - 40}
+                ref={ref}
+                data={[...new Array(6).keys()]}
+                pagingEnabled
+                autoPlay
+                autoPlayInterval={5000}
+                style={{
+                  borderRadius: 8,
+                  height: height * 0.2,
+                }}
+                renderItem={({ item, index }) => (
+                  <Image
+                    source={{
+                      uri: `https://dummyjson.com/image/400x200/282828?text=${index}!`,
+                    }}
+                    style={{
+                      width: width - 24,
+                      flex: 1,
+                    }}
+                    resizeMode="cover"
+                  />
+                )}
+                onSnapToItem={(e) => {}}
+              />
+            </TouchableOpacity>
           </View>
         </Animated.View>
         <Text style={{ fontWeight: 500, fontSize: 16, marginLeft: 20 }}>

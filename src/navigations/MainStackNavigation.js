@@ -30,6 +30,9 @@ import QAs from "../screens/Profile/QAs";
 import Invite from "../screens/Profile/Invite";
 import ServiceListScreen from "../screens/ServiceListScreen";
 import ServiceListScreenByType from "../screens/ServiceListScreenByType";
+import SliderDTLScreen from "../screens/SliderDTLScreen";
+import NotificationScreen from "../screens/NotificationScreen";
+import NotificationDTLScreen from "../screens/NotificationDTLScreen";
 
 const Stack = createStackNavigator();
 const width = Dimensions.get("screen").width;
@@ -314,6 +317,78 @@ const HomeScreenStackNavigator = (props) => {
               style={styles.headerLeftContainer}
               onPress={() => {
                 navigation.navigate("HomeScreen");
+              }}
+            >
+              <Icon
+                type="material-icons"
+                name="keyboard-arrow-left"
+                size={30}
+              />
+            </TouchableOpacity>
+          ),
+        }}
+      />
+      <Stack.Screen
+        name="SliderDTLScreen"
+        component={SliderDTLScreen}
+        options={{
+          title: "",
+          headerTitleStyle: {
+            fontWeight: 800,
+          },
+          headerLeft: () => (
+            <TouchableOpacity
+              style={styles.headerLeftContainer}
+              onPress={() => {
+                navigation.navigate("HomeScreen");
+              }}
+            >
+              <Icon
+                type="material-icons"
+                name="keyboard-arrow-left"
+                size={30}
+              />
+            </TouchableOpacity>
+          ),
+        }}
+      />
+      <Stack.Screen
+        name="NotificationScreen"
+        component={NotificationScreen}
+        options={{
+          title: "Мэдэгдэл",
+          headerTitleStyle: {
+            fontWeight: 800,
+          },
+          headerLeft: () => (
+            <TouchableOpacity
+              style={styles.headerLeftContainer}
+              onPress={() => {
+                navigation.navigate("HomeScreen");
+              }}
+            >
+              <Icon
+                type="material-icons"
+                name="keyboard-arrow-left"
+                size={30}
+              />
+            </TouchableOpacity>
+          ),
+        }}
+      />
+      <Stack.Screen
+        name="NotificationDTLScreen"
+        component={NotificationDTLScreen}
+        options={{
+          title: "Мэдэгдэл",
+          headerTitleStyle: {
+            fontWeight: 800,
+          },
+          headerLeft: () => (
+            <TouchableOpacity
+              style={styles.headerLeftContainer}
+              onPress={() => {
+                navigation.navigate("NotificationScreen");
               }}
             >
               <Icon
