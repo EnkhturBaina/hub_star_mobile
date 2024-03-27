@@ -133,7 +133,13 @@ const ServiceListScreenByType = (props) => {
           <View style={styles.gridContainer}>
             {[...Array(10)].map((el, index) => {
               return (
-                <View style={styles.gridItem} key={index}>
+                <TouchableOpacity
+                  style={styles.gridItem}
+                  key={index}
+                  onPress={() => {
+                    props.navigation.navigate("ServiceDTLScreen");
+                  }}
+                >
                   <Image
                     source={require("../../assets/splash_bg_1.jpg")}
                     style={{
@@ -156,7 +162,7 @@ const ServiceListScreenByType = (props) => {
                       NCD Group - {index}
                     </Text>
                   </View>
-                </View>
+                </TouchableOpacity>
               );
             })}
           </View>

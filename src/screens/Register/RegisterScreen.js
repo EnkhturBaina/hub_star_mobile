@@ -6,9 +6,12 @@ import {
   ScrollView,
   TextInput,
   Image,
+  Dimensions,
+  KeyboardAvoidingView,
+  Platform,
 } from "react-native";
-import React, { useState } from "react";
-import { Avatar, Icon, CheckBox, Divider } from "@rneui/themed";
+import React, { useRef, useState } from "react";
+import { Avatar, Icon, CheckBox, Divider, Button } from "@rneui/themed";
 import PersonCircle from "../../../assets/PersonCircle.png";
 import {
   GRAY_ICON_COLOR,
@@ -20,178 +23,316 @@ import {
 import GradientButton from "../../components/GradientButton";
 import fb_logo from "../../../assets/fb.png";
 import google_logo from "../../../assets/google.png";
+import CustomSnackbar from "../../components/CustomSnackbar";
+import RBSheet from "react-native-raw-bottom-sheet";
 
 const RegisterScreen = (props) => {
-  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [mobileNmber, setMobileNumber] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [password, setPassword] = useState("");
+  // const [mobileNmber, setMobileNumber] = useState("");
   const [termCheck, setTermCheck] = useState(false);
+  const [hidePassword, setHidePassword] = useState(true);
+  const refRBSheet = useRef();
+  const screen = Dimensions.get("screen");
+
+  const [visibleSnack, setVisibleSnack] = useState(false);
+  const [snackBarMsg, setSnackBarMsg] = useState("");
+
+  //Snacbkbar харуулах
+  const onToggleSnackBar = (msg) => {
+    setVisibleSnack(!visibleSnack);
+    setSnackBarMsg(msg);
+  };
+  //Snacbkbar хаах
+  const onDismissSnackBar = () => setVisibleSnack(false);
+
+  const hideShowPassword = () => {
+    setHidePassword(!hidePassword);
+  };
+
+  const register = async () => {
+    let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
+    if (email == "") {
+      onToggleSnackBar("И-мэйл хаягаа оруулна уу");
+    } else if (reg.test(email) === false) {
+      onToggleSnackBar("И-мэйл хаягаа зөв оруулна уу");
+    } else if (lastName == "") {
+      onToggleSnackBar("Овогоо оруулна уу");
+    } else if (firstName == "") {
+      onToggleSnackBar("Нэрээ оруулна уу");
+    } else if (password == "") {
+      onToggleSnackBar("Нууц үг оруулна уу");
+    } else if (password.length < 8) {
+      onToggleSnackBar("Нууц үг багадаа 8 тэмдэгт байна");
+    } else if (!termCheck) {
+      onToggleSnackBar("Үйлчилгээний нөхцөл зөвшөөрнө үү.");
+    } else {
+      props.navigation.navigate("ConfirmScreen");
+    }
+  };
   return (
-    <ScrollView contentContainerStyle={styles.scrollContainer} bounces={false}>
-      <TouchableOpacity
-        activeOpacity={0.9}
-        onPress={() => {
-          console.log("X");
-        }}
-        style={{ alignItems: "center", marginVertical: 20 }}
+    <KeyboardAvoidingView
+      behavior={Platform.OS == "ios" ? "padding" : ""}
+      style={{
+        flex: 1,
+        flexDirection: "column",
+      }}
+    >
+      <CustomSnackbar
+        visible={visibleSnack}
+        dismiss={onDismissSnackBar}
+        text={snackBarMsg}
+        topPos={1}
+      />
+      <ScrollView
+        contentContainerStyle={styles.scrollContainer}
+        bounces={false}
       >
-        <Avatar
-          size={150}
-          rounded
-          source={PersonCircle}
-          title="Bj"
-          containerStyle={{ backgroundColor: "grey" }}
-        >
-          <Avatar.Accessory
-            size={28}
-            onPress={() => {
-              console.log("X");
-            }}
-            color="#fff"
-            style={{ backgroundColor: MAIN_COLOR }}
-          />
-        </Avatar>
-      </TouchableOpacity>
-      <Text className="font-bold text-2xl mb-4 text-center">Нэвтрэх хэсэг</Text>
-      <View style={styles.sectionStyle}>
-        <Icon
-          name="user"
-          type="font-awesome"
-          size={20}
-          style={styles.inputIcon}
-          color={GRAY_ICON_COLOR}
-        />
-        <TextInput
-          style={styles.generalInput}
-          value={name}
-          placeholder="Нэр"
-          keyboardType="number-pad"
-          returnKeyType="done"
-          maxLength={8}
-          onChangeText={setName}
-        />
-      </View>
-      <View style={styles.sectionStyle}>
-        <Icon
-          name="mail"
-          type="ion-icon"
-          size={20}
-          style={styles.inputIcon}
-          color={GRAY_ICON_COLOR}
-        />
-        <TextInput
-          style={styles.generalInput}
-          value={email}
-          placeholder="Имэйл"
-          keyboardType="email-address"
-          returnKeyType="done"
-          onChangeText={setEmail}
-        />
-      </View>
-      <View style={styles.sectionStyle}>
-        <Icon
-          name="mobile"
-          type="fontisto"
-          size={20}
-          style={styles.inputIcon}
-          color={GRAY_ICON_COLOR}
-        />
-        <TextInput
-          style={styles.generalInput}
-          value={mobileNmber}
-          placeholder="Утасны дугаар"
-          keyboardType="number-pad"
-          returnKeyType="done"
-          maxLength={8}
-          onChangeText={setMobileNumber}
-        />
-      </View>
-      <View style={styles.stackSection2}>
-        <CheckBox
-          containerStyle={{
-            padding: 0,
-            margin: 0,
-            marginLeft: 0,
-            alignItems: "center",
-            backgroundColor: MAIN_BG_GRAY,
-          }}
-          textStyle={{
-            fontWeight: "normal",
-            marginLeft: 5,
-          }}
-          title="Үйлчилгээний нөхцөл зөвшөөрөх"
-          iconType="material-community"
-          checkedIcon="checkbox-outline"
-          uncheckedIcon="checkbox-blank-outline"
-          checked={termCheck}
-          onPress={() => {}}
-          checkedColor={MAIN_COLOR}
-          uncheckedColor={MAIN_COLOR}
-        />
-      </View>
-      <View className="mt-2">
-        <GradientButton
-          text="Бүртгүүлэх"
-          action={() => props.navigation.navigate("ConfirmScreen")}
-        />
-      </View>
-      <Text className="font-medium text-base my-2 text-center">
-        Та бүртгэлтэй юу?
         <TouchableOpacity
-          onPress={() => props.navigation.navigate("LoginScreen")}
+          activeOpacity={0.9}
+          onPress={() => {
+            console.log("X");
+          }}
+          style={{ alignItems: "center", marginVertical: 20 }}
         >
-          <Text className="text-blue-500 ml-2">Нэвтрэх</Text>
+          <Avatar
+            size={150}
+            rounded
+            source={PersonCircle}
+            title="Bj"
+            containerStyle={{ backgroundColor: "grey" }}
+          >
+            <Avatar.Accessory
+              size={28}
+              onPress={() => {
+                console.log("X");
+              }}
+              color="#fff"
+              style={{ backgroundColor: MAIN_COLOR }}
+            />
+          </Avatar>
         </TouchableOpacity>
-      </Text>
-      <View
-        style={{
-          flexDirection: "row",
-          alignItems: "center",
-          marginVertical: 10,
-        }}
-      >
-        <Divider style={{ width: "33%" }} />
-        <Text
-          className="text-gray-300 font-medium text-xl text-center"
-          style={{ width: "33%" }}
-        >
-          Эсвэл
+        <Text className="font-bold text-2xl mb-4 text-center">
+          Нэвтрэх хэсэг
         </Text>
-        <Divider style={{ width: "33%" }} />
-      </View>
-      <View
-        style={{
-          flexDirection: "row",
-          justifyContent: "space-between",
-          width: "100%",
-        }}
-      >
-        <View style={styles.socialBtn}>
-          <Image
-            style={{
-              resizeMode: "contain",
-              width: 24,
-              height: 24,
-              marginRight: 10,
-            }}
-            source={fb_logo}
+        <View style={styles.sectionStyle}>
+          <Icon
+            name="mail"
+            type="ion-icon"
+            size={20}
+            style={styles.inputIcon}
+            color={GRAY_ICON_COLOR}
           />
-          <Text className="font-medium text-base">Facebook</Text>
-        </View>
-        <View style={styles.socialBtn}>
-          <Image
-            style={{
-              resizeMode: "contain",
-              width: 24,
-              height: 24,
-              marginRight: 10,
-            }}
-            source={google_logo}
+          <TextInput
+            style={styles.generalInput}
+            value={email}
+            placeholder="Имэйл"
+            keyboardType="email-address"
+            returnKeyType="done"
+            onChangeText={setEmail}
           />
-          <Text className="font-medium text-base">Google</Text>
         </View>
-      </View>
-    </ScrollView>
+        <View style={styles.sectionStyle}>
+          <Icon
+            name="user"
+            type="font-awesome"
+            size={20}
+            style={styles.inputIcon}
+            color={GRAY_ICON_COLOR}
+          />
+          <TextInput
+            style={styles.generalInput}
+            value={lastName}
+            placeholder="Овог"
+            returnKeyType="done"
+            maxLength={8}
+            onChangeText={setLastName}
+          />
+        </View>
+        <View style={styles.sectionStyle}>
+          <Icon
+            name="user"
+            type="font-awesome"
+            size={20}
+            style={styles.inputIcon}
+            color={GRAY_ICON_COLOR}
+          />
+          <TextInput
+            style={styles.generalInput}
+            value={firstName}
+            placeholder="Нэр"
+            returnKeyType="done"
+            maxLength={8}
+            onChangeText={setFirstName}
+          />
+        </View>
+        <View style={styles.sectionStyle}>
+          <Icon
+            name="key"
+            type="ionicon"
+            size={20}
+            color={GRAY_ICON_COLOR}
+            style={styles.inputIcon}
+          />
+          <TextInput
+            placeholder="Нууц үг"
+            value={password}
+            onChangeText={setPassword}
+            secureTextEntry={hidePassword}
+            style={styles.generalInput}
+          />
+          <TouchableOpacity
+            style={styles.imageStyle}
+            onPress={() => hideShowPassword()}
+          >
+            <Icon
+              name={hidePassword ? "eye" : "eye-closed"}
+              type="octicon"
+              color={MAIN_COLOR}
+            />
+          </TouchableOpacity>
+        </View>
+        <View style={styles.stackSection2}>
+          <CheckBox
+            containerStyle={{
+              padding: 0,
+              margin: 0,
+              marginLeft: 0,
+              alignItems: "center",
+              backgroundColor: MAIN_BG_GRAY,
+            }}
+            textStyle={{
+              fontWeight: "normal",
+              marginLeft: 5,
+            }}
+            title="Үйлчилгээний нөхцөл зөвшөөрөх"
+            iconType="material-community"
+            checkedIcon="checkbox-outline"
+            uncheckedIcon="checkbox-blank-outline"
+            checked={termCheck}
+            onPress={() => refRBSheet.current.open()}
+            checkedColor={MAIN_COLOR}
+            uncheckedColor={MAIN_COLOR}
+          />
+        </View>
+        <View className="mt-2">
+          <GradientButton text="Бүртгүүлэх" action={() => register()} />
+        </View>
+        <Text className="font-medium text-base my-2 text-center">
+          Та бүртгэлтэй юу?
+          <TouchableOpacity
+            onPress={() => props.navigation.navigate("LoginScreen")}
+          >
+            <Text className="text-blue-500 ml-2">Нэвтрэх</Text>
+          </TouchableOpacity>
+        </Text>
+        <View
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+            marginVertical: 10,
+          }}
+        >
+          <Divider style={{ width: "33%" }} />
+          <Text
+            className="text-gray-300 font-medium text-xl text-center"
+            style={{ width: "33%" }}
+          >
+            Эсвэл
+          </Text>
+          <Divider style={{ width: "33%" }} />
+        </View>
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-between",
+            width: "100%",
+          }}
+        >
+          <View style={styles.socialBtn}>
+            <Image
+              style={{
+                resizeMode: "contain",
+                width: 24,
+                height: 24,
+                marginRight: 10,
+              }}
+              source={fb_logo}
+            />
+            <Text className="font-medium text-base">Facebook</Text>
+          </View>
+          <View style={styles.socialBtn}>
+            <Image
+              style={{
+                resizeMode: "contain",
+                width: 24,
+                height: 24,
+                marginRight: 10,
+              }}
+              source={google_logo}
+            />
+            <Text className="font-medium text-base">Google</Text>
+          </View>
+        </View>
+        <RBSheet
+          ref={refRBSheet}
+          closeOnDragDown={true}
+          closeOnPressMask={true}
+          dragFromTopOnly={true}
+          height={screen.height - 200}
+          customStyles={{
+            wrapper: {
+              backgroundColor: "rgba(52, 52, 52, 0.8)",
+            },
+            container: {
+              flexDirection: "column",
+              borderTopStartRadius: 16,
+              borderTopEndRadius: 16,
+            },
+            draggableIcon: {
+              backgroundColor: "#000",
+            },
+          }}
+        >
+          <ScrollView
+            contentContainerStyle={{
+              flexGrow: 1,
+              paddingBottom: 40,
+              marginHorizontal: 20,
+            }}
+          >
+            {/* {conditionData != "" ? (
+            <WebView
+              originWhitelist={["*"]}
+              source={{ html: conditionData }}
+              style={{ flex: 1 }}
+            />
+          ) : (
+            <Empty text="Үр дүн олдсонгүй." />
+          )} */}
+            <View
+              style={{
+                width: "90%",
+                marginLeft: "auto",
+                marginRight: "auto",
+              }}
+            >
+              <Button
+                onPress={() => {
+                  setTermCheck(true);
+                  refRBSheet.current.close();
+                }}
+                title="Зөвшөөрөх"
+                color={MAIN_COLOR}
+                radius={12}
+              />
+            </View>
+          </ScrollView>
+        </RBSheet>
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 };
 
@@ -234,5 +375,18 @@ const styles = StyleSheet.create({
     borderColor: MAIN_COLOR_GRAY,
     width: "48%",
     height: 50,
+  },
+  generalInput: {
+    width: "85%",
+    padding: 0,
+    height: "100%",
+  },
+  imageStyle: {
+    position: "absolute",
+    zIndex: 999,
+    right: "3%",
+    height: "100%",
+    width: 50,
+    justifyContent: "center",
   },
 });

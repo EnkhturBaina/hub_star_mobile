@@ -82,7 +82,7 @@ const HomeScreen = (props) => {
             name="chatbox-ellipses-outline"
             type="ionicon"
             size={28}
-            onPress={() => props.navigation.navigate("NotificationScreen")}
+            onPress={() => props.navigation.navigate("HistoryMainScreen")}
           />
         </View>
       </View>

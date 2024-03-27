@@ -15,8 +15,6 @@ import RegisterScreen from "../screens/Register/RegisterScreen";
 import ConfirmScreen from "../screens/Register/ConfirmScreen";
 import OTPScreen from "../screens/Register/OTPScreen";
 import BioScreen from "../screens/Register/BioScreen";
-import { Icon } from "@rneui/base";
-import { useNavigation } from "@react-navigation/native";
 import ResetPassword from "../screens/ResetPassword/ResetPassword";
 import ConfirmPassword from "../screens/ResetPassword/ConfirmPassword";
 import ChangePassword from "../screens/ResetPassword/ChangePassword";
@@ -33,6 +31,11 @@ import ServiceListScreenByType from "../screens/ServiceListScreenByType";
 import SliderDTLScreen from "../screens/SliderDTLScreen";
 import NotificationScreen from "../screens/NotificationScreen";
 import NotificationDTLScreen from "../screens/NotificationDTLScreen";
+import HistoryMainScreen from "../screens/History/HistoryMainScreen";
+import ServiceDTLScreen from "../screens/ServiceDTLScreen";
+
+import { Icon } from "@rneui/base";
+import { useNavigation } from "@react-navigation/native";
 
 const Stack = createStackNavigator();
 const width = Dimensions.get("screen").width;
@@ -40,7 +43,7 @@ const width = Dimensions.get("screen").width;
 const LoginStackNavigator = (props) => {
   const navigation = useNavigation();
   const state = useContext(MainContext);
-  console.log("state.isLoggedIn", state.isLoggedIn);
+
   return (
     <Stack.Navigator
       initialRouteName={
@@ -389,6 +392,54 @@ const HomeScreenStackNavigator = (props) => {
               style={styles.headerLeftContainer}
               onPress={() => {
                 navigation.navigate("NotificationScreen");
+              }}
+            >
+              <Icon
+                type="material-icons"
+                name="keyboard-arrow-left"
+                size={30}
+              />
+            </TouchableOpacity>
+          ),
+        }}
+      />
+      <Stack.Screen
+        name="HistoryMainScreen"
+        component={HistoryMainScreen}
+        options={{
+          title: "Үйлчилгээнүүд",
+          headerTitleStyle: {
+            fontWeight: 800,
+          },
+          headerLeft: () => (
+            <TouchableOpacity
+              style={styles.headerLeftContainer}
+              onPress={() => {
+                navigation.navigate("HomeScreen");
+              }}
+            >
+              <Icon
+                type="material-icons"
+                name="keyboard-arrow-left"
+                size={30}
+              />
+            </TouchableOpacity>
+          ),
+        }}
+      />
+      <Stack.Screen
+        name="ServiceDTLScreen"
+        component={ServiceDTLScreen}
+        options={{
+          title: "",
+          headerTitleStyle: {
+            fontWeight: 800,
+          },
+          headerLeft: () => (
+            <TouchableOpacity
+              style={styles.headerLeftContainer}
+              onPress={() => {
+                navigation.goBack();
               }}
             >
               <Icon

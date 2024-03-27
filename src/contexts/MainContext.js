@@ -25,6 +25,8 @@ export const MainStore = (props) => {
 
   const [custTypeData, setCustTypeData] = useState([]);
 
+  const [selectedService, setSelectedService] = useState(null);
+
   var date = new Date();
 
   const login = async (mobileNumber, password, remember) => {
@@ -213,6 +215,8 @@ export const MainStore = (props) => {
         direction,
         subDirection,
         custTypeData,
+        selectedService,
+        setSelectedService,
       }}
     >
       {props.children}

@@ -1,4 +1,11 @@
-import { StyleSheet, Text, View, Image, ScrollView } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  ScrollView,
+  TouchableOpacity,
+} from "react-native";
 import React, { useState } from "react";
 import { StatusBar, Platform } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
@@ -8,7 +15,7 @@ import { Dropdown } from "react-native-element-dropdown";
 import SideMenu from "react-native-side-menu-updated";
 import SideBarFilter from "./SideBarFilter";
 
-const ServiceListScreen = () => {
+const ServiceListScreen = (props) => {
   const tabBarHeight = useBottomTabBarHeight();
   const [value, setValue] = useState(null);
   const [isFocus, setIsFocus] = useState(false);
@@ -80,7 +87,13 @@ const ServiceListScreen = () => {
         <ScrollView contentContainerStyle={styles.gridContainer}>
           {[...Array(10)].map((el, index) => {
             return (
-              <View style={styles.gridItem} key={index}>
+              <TouchableOpacity
+                style={styles.gridItem}
+                key={index}
+                onPress={() => {
+                  props.navigation.navigate("ServiceDTLScreen");
+                }}
+              >
                 <Image
                   source={require("../../assets/splash_bg_1.jpg")}
                   style={{
@@ -103,7 +116,7 @@ const ServiceListScreen = () => {
                     NCD Group - {index}
                   </Text>
                 </View>
-              </View>
+              </TouchableOpacity>
             );
           })}
         </ScrollView>
