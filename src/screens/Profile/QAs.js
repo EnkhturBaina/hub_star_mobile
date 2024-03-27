@@ -28,21 +28,20 @@ const QAs = (props) => {
     <View style={{ flex: 1, backgroundColor: "#fff" }}>
       <List.Section title="Accordions">
         <List.Accordion
-          title="Uncontrolled Accordion"
-          left={(props) => <List.Icon {...props} icon="folder" />}
+          title="Асуулт 1"
+          style={{ backgroundColor: "#fff" }}
+          rippleColor={"transparent"}
         >
-          <List.Item title="First item" />
-          <List.Item title="Second item" />
+          <List.Item description="Голомт банкны харилцагчдын тогтмол хэрэглээг урамшуулах зорилготой BiG Loyаlty 2023 оноотой хөтөлбөр дахин хэрэгжиж эхэллээ" />
         </List.Accordion>
 
         <List.Accordion
           title="Controlled Accordion"
-          left={(props) => <List.Icon {...props} icon="folder" />}
           expanded={expanded}
           onPress={handlePress}
+          style={{ backgroundColor: "#fff" }}
         >
-          <List.Item title="First item" />
-          <List.Item title="Second item" />
+          <List.Item description="Та өөрийн цуглуулсан оноог хамтран ажиллаж буй байгууллагуудын купон авах эсвэл автомашин болон 1 өрөө орон сууцны шагналтай урамшуулалд оролцох гэсэн 2 хэлбэрээр зарцуулах боломжтой." />
         </List.Accordion>
       </List.Section>
     </View>
