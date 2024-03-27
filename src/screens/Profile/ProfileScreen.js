@@ -210,7 +210,13 @@ const ProfileScreen = (props) => {
             }}
           >
             <Text style={{ fontWeight: "bold", fontSize: 20 }}>
-              С.Түвшинбилэг
+              {state.lastname && state.firstname ? (
+                <Text style={{ fontWeight: 500 }}>
+                  {state.lastname?.substr(0, 1)}. {state.firstname}
+                </Text>
+              ) : (
+                <Text style={styles.generalText}>Хэрэглэгч</Text>
+              )}
             </Text>
             <Text style={{ color: GRAY_ICON_COLOR }}>
               “МЕТА СТАРТ” ХХК Захирал

@@ -1,4 +1,11 @@
-import { StyleSheet, Text, TouchableOpacity, Platform } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  Platform,
+  View,
+  ActivityIndicator,
+} from "react-native";
 import React from "react";
 import { GRADIENT_END, GRADIENT_START } from "../constant";
 import { LinearGradient } from "expo-linear-gradient";
@@ -21,7 +28,10 @@ const GradientButton = (props) => {
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 0 }}
       >
-        <Text style={styles.btnText}>{props.text}</Text>
+        <View style={{ flexDirection: "row", justifyContent: "center" }}>
+          <Text style={styles.btnText}>Үргэлжлүүлэх</Text>
+          {props.isWaiting && <ActivityIndicator color="#fff" />}
+        </View>
       </LinearGradient>
     </TouchableOpacity>
   );

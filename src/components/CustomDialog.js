@@ -19,11 +19,11 @@ export default function ({
 }) {
   var imageType = null;
   if (type == "warning") {
-    imageType = require("../../assets/empty.png");
+    imageType = require("../../assets/success.png");
   } else if (type == "error") {
-    imageType = require("../../assets/empty.png");
+    imageType = require("../../assets/success.png");
   } else {
-    imageType = require("../../assets/empty.png");
+    imageType = require("../../assets/success.png");
   }
 
   return (
@@ -32,7 +32,7 @@ export default function ({
       overlayStyle={{
         padding: 10,
         backgroundColor: "#fff",
-        // borderRadius: BUTTON_BORDER_RADIUS,
+        borderRadius: 12,
         alignItems: "center",
       }}
     >
@@ -41,8 +41,11 @@ export default function ({
         style={{
           // fontFamily: FONT_FAMILY_BOLD,
           textAlign: "center",
-          marginVertical: 10,
+          marginTop: 20,
+          marginBottom: 10,
           marginHorizontal: 10,
+          fontWeight: "500",
+          fontSize: 16,
         }}
       >
         {text}

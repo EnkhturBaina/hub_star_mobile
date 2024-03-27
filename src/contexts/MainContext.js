@@ -14,7 +14,9 @@ export const MainStore = (props) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isIntroShow, setIsIntroShow] = useState(true);
   const [remember, setRemember] = useState(false);
-  const [mobileNumber, setMobileNumber] = useState("");
+  const [phone, setPhone] = useState("");
+  const [errorMsg, setErrorMsg] = useState("");
+  const [userData, setUserData] = useState(null);
 
   const [customerTypes, setCustomerTypes] = useState(null);
 
@@ -26,69 +28,121 @@ export const MainStore = (props) => {
   const [custTypeData, setCustTypeData] = useState([]);
 
   const [selectedService, setSelectedService] = useState(null);
+  const [token, setToken] = useState(null);
+  const [rtoken, setRtoken] = useState(null);
+  const [email, setEmail] = useState(null);
+  const [lastname, setLastname] = useState("");
+  const [firstname, setFirstname] = useState("");
 
   var date = new Date();
 
-  const login = async (mobileNumber, password, remember) => {
-    try {
-      setIsLoading(true);
-      if (remember) {
-        //Нэвтрэх нэр сануулах CHECK хийсэн үед тухайн утсан дээр mobileNumber хагалах
-        await AsyncStorage.setItem("mobileNumber", mobileNumber);
-      }
-      // axios({
-      //   method: "post",
-      //   url: `${DEV_URL}api/login`,
-      //   data: {
-      //     username: mobileNumber,
-      //     password: password,
-      //     device_id: expoPushToken,
-      //   },
-      // })
-      //   .then(async (response) => {
-      //     // console.log("responee login", response.data);
-      //     if (response.data.status == 200) {
-      //       setToken(response.data.data?.token);
-      //       setCrmCustomerId(response.data.data?.user?.customer_id);
-      //       setCrmUserId(response.data.data?.user?.cust_user_id);
-      //       setCustomerWithIncome(response.data.data?.user);
-      //       setLoginMsg("");
-      //       await AsyncStorage.setItem(
-      //         "user",
-      //         JSON.stringify({
-      //           token: response.data.data?.token,
-      //           user: response.data.data?.user,
-      //           crmCustomerId: response.data.data?.user.customer_id,
-      //           crmUserId: response.data.data?.user.cust_user_id,
-      //         })
-      //       ).then((value) => {
-      //         setProfileAndIncome(response.data.data?.user);
-      //       });
-      //     } else if (response.data.status == 300) {
-      //       setIsLoggedIn(false);
-      //       setLoginMsg(response.data.message);
-      //       setIsLoading(false);
-      //     }
-      //     setVisibleDialog(true);
-      //   })
-      //   .catch(function (error) {
-      //     if (error.response) {
-      //     }
-      //   });
-    } catch (e) {
-      setIsLoggedIn(false);
-      setIsLoading(false);
-    }
+  const login = async (email, password, rememberEmail) => {
+    console.log("email", email);
+    console.log("password", password);
+    console.log("rememberEmail", rememberEmail);
+    setErrorMsg("");
+    await axios({
+      method: "post",
+      url: `${SERVER_URL}authentication/login`,
+      data: {
+        email: email?.toLowerCase(),
+        password,
+      },
+      headers: {
+        "X-API-KEY": X_API_KEY,
+      },
+    })
+      .then(async (response) => {
+        console.log("response login", response.data);
+        if (response.data) {
+          await AsyncStorage.setItem("password", password);
+          setIsLoading(true);
+          setUserData(response.data?.response?.user);
+          setToken(response.data?.response?.accessToken);
+          setRtoken(response.data?.response?.refreshToken);
+          setEmail(response.data?.response?.user?.email);
+          setUserId(response.data?.response?.user?.id);
+          setLastname(response.data?.response?.user?.lastName);
+          setFirstname(response.data?.response?.user?.firstName);
+          setPhone(response.data?.response?.user?.phone);
+          // setEndDate(response.data?.endDate);
+          await AsyncStorage.setItem(
+            "user",
+            JSON.stringify({
+              accessToken: response.data?.response?.accessToken,
+              refreshToken: response.data?.response?.refreshToken,
+              email,
+              userId: response.data?.response?.user?.id,
+              firstname: response.data?.response?.user?.firstName,
+              lastname: response.data?.response?.user?.lastName,
+              phone: response.data?.response?.user?.phone,
+              // endDate: response.data?.endDate,
+            })
+          );
+          if (rememberEmail) {
+            //Нэвтрэх нэр сануулах CHECK хийсэн үед тухайн утсан дээр EMAIL хагалах
+            await AsyncStorage.setItem("login_email", email);
+          } else {
+            //Нэвтрэх нэр сануулах UNCHECK хийсэн үед тухайн утсан дээрээс EMAIL устгах
+            await AsyncStorage.removeItem("login_email");
+          }
+          // if (!response.data?.user?.is_active) {
+          //   setShowPromoDialog(true);
+          // }
+          setIsLoggedIn(true);
+        }
+      })
+      .catch(function (error) {
+        setIsLoggedIn(false);
+        console.log("error2", error.response.data);
+        setErrorMsg("Уучлаарай. Сервертэй холбогдоход алдаа гарлаа.");
+        if (error.response.data.statusCode == 400) {
+          setErrorMsg("Нэвтрэх нэр эсвэл нууц үг буруу байна.");
+        }
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
   };
+
   // AsyncStorage.clear();
   const logout = async (type) => {
-    AsyncStorage.getItem("password").then(async (value) => {});
-    // AsyncStorage.multiRemove(keys).then(() => {
-    //   setIsLoading(false);
-    //   setIsLoggedIn(false);
-    // });
+    setIsLoading(true);
+    await AsyncStorage.removeItem("user");
+    setToken(null);
+    setEmail(null);
+    setUserId(null);
+    setErrorMsg("");
+
     setIsLoading(false);
     setIsLoggedIn(false);
+  };
+
+  const checkUserData = async () => {
+    await AsyncStorage.getItem("user")
+      .then((data) => {
+        if (data !== null) {
+          const user = JSON.parse(data);
+          console.log("=======", user);
+          setToken(user.accessToken);
+          setRtoken(user.refreshToken);
+          setEmail(user.email);
+          setUserId(user.userId);
+          setFirstname(user.firstname);
+          setLastname(user.lastname);
+          setPhone(user.phone);
+          setIsLoading(false);
+          setIsLoggedIn(true);
+        } else {
+          setIsLoading(false);
+          setIsLoggedIn(false);
+        }
+      })
+      .catch((err) => {
+        setIsLoggedIn(false);
+        // console.log("ERROR checkUser Data******** : " + err.message);
+      });
+    getCustomerTypes();
   };
   const getCustomerTypes = async () => {
     await axios({
@@ -174,16 +228,15 @@ export const MainStore = (props) => {
       },
     })
       .then((response) => {
-        // console.log("getSubDirection response", response);
+        // console.log("get SubDirection response", response);
         setSubDirection(response.data.response);
       })
       .catch((error) => {
         console.error("Error fetching :", error);
       });
   };
-
   useEffect(() => {
-    getCustomerTypes();
+    checkUserData();
     getSubDirection();
   }, []);
 
@@ -208,8 +261,8 @@ export const MainStore = (props) => {
         remember,
         setRemember,
         login,
-        mobileNumber,
-        setMobileNumber,
+        phone,
+        setPhone,
         customerTypes,
         mainDirection,
         direction,
@@ -217,6 +270,16 @@ export const MainStore = (props) => {
         custTypeData,
         selectedService,
         setSelectedService,
+        errorMsg,
+        email,
+        firstname,
+        lastname,
+        setEmail,
+        setFirstname,
+        setLastname,
+        userId,
+        userData,
+        setUserData,
       }}
     >
       {props.children}

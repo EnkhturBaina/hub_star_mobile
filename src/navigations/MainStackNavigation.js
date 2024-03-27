@@ -124,7 +124,7 @@ const LoginStackNavigator = (props) => {
             <TouchableOpacity
               style={styles.headerLeftContainer}
               onPress={() => {
-                navigation.navigate("RegisterScreen");
+                navigation.goBack();
               }}
             >
               <Icon
@@ -148,7 +148,7 @@ const LoginStackNavigator = (props) => {
             <TouchableOpacity
               style={styles.headerLeftContainer}
               onPress={() => {
-                navigation.navigate("ConfirmScreen");
+                navigation.goBack();
               }}
             >
               <Icon
@@ -172,7 +172,7 @@ const LoginStackNavigator = (props) => {
             <TouchableOpacity
               style={styles.headerLeftContainer}
               onPress={() => {
-                navigation.navigate("OTPScreen");
+                navigation.goBack();
               }}
             >
               <Icon

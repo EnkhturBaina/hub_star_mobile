@@ -55,8 +55,14 @@ const CategoryScreen = () => {
             />
           </View>
           <View style={{ flexDirection: "column", marginLeft: 10 }}>
-            <Text style={{ fontWeight: 500 }}>xaxaxaxa</Text>
-            <Text style={{}}>ID дугаар: 12112212</Text>
+            {state.lastname && state.firstname ? (
+              <Text style={{ fontWeight: 500 }}>
+                {state.lastname?.substr(0, 1)}. {state.firstname}
+              </Text>
+            ) : (
+              <Text style={styles.generalText}>Хэрэглэгч</Text>
+            )}
+            <Text style={{}}>ID дугаар: {state?.userId}</Text>
           </View>
         </TouchableOpacity>
         <View style={styles.headerIcons}>

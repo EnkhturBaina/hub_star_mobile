@@ -19,14 +19,18 @@ import {
   MAIN_COLOR,
   MAIN_COLOR_GRAY,
   MAIN_DISABLED_BG,
+  SERVER_URL,
+  X_API_KEY,
 } from "../../constant";
 import GradientButton from "../../components/GradientButton";
 import fb_logo from "../../../assets/fb.png";
 import google_logo from "../../../assets/google.png";
 import CustomSnackbar from "../../components/CustomSnackbar";
 import RBSheet from "react-native-raw-bottom-sheet";
+import axios from "axios";
 
 const RegisterScreen = (props) => {
+  const [errorMsg, setErrorMsg] = useState("");
   const [email, setEmail] = useState("");
   const [lastName, setLastName] = useState("");
   const [firstName, setFirstName] = useState("");
@@ -34,6 +38,8 @@ const RegisterScreen = (props) => {
   // const [mobileNmber, setMobileNumber] = useState("");
   const [termCheck, setTermCheck] = useState(false);
   const [hidePassword, setHidePassword] = useState(true);
+  const [isWaiting, setIsWaiting] = useState(false);
+
   const refRBSheet = useRef();
   const screen = Dimensions.get("screen");
 
@@ -69,7 +75,43 @@ const RegisterScreen = (props) => {
     } else if (!termCheck) {
       onToggleSnackBar("Үйлчилгээний нөхцөл зөвшөөрнө үү.");
     } else {
-      props.navigation.navigate("ConfirmScreen");
+      setIsWaiting(true);
+      try {
+        await axios({
+          method: "post",
+          url: `${SERVER_URL}authentication/register`,
+          headers: {
+            "x-api-key": `${X_API_KEY}`,
+          },
+          data: {
+            email: email?.toLowerCase(),
+            password,
+            firstName,
+            lastName,
+          },
+        })
+          .then(function (response) {
+            console.log("response", response.data);
+            if (response.data?.statusCode == 200) {
+              props.navigation.navigate("OTPScreen", {
+                details: response.data?.response?.details,
+              });
+            }
+            setErrorMsg("");
+          })
+          .catch(function (error) {
+            if (error.response) {
+              setErrorMsg(error.response.data?.message);
+              console.log("error register data", error.response.data);
+              console.log("error register status", error.response.status);
+            }
+          })
+          .finally(() => {
+            setIsWaiting(false);
+          });
+      } catch (error) {
+        console.log("err", error);
+      }
     }
   };
   return (
@@ -117,6 +159,13 @@ const RegisterScreen = (props) => {
         <Text className="font-bold text-2xl mb-4 text-center">
           Нэвтрэх хэсэг
         </Text>
+        <Text
+          className="font-bold text-xl mb-4 text-center"
+          style={{ color: "red" }}
+        >
+          {errorMsg}
+        </Text>
+
         <View style={styles.sectionStyle}>
           <Icon
             name="mail"
@@ -218,7 +267,12 @@ const RegisterScreen = (props) => {
           />
         </View>
         <View className="mt-2">
-          <GradientButton text="Бүртгүүлэх" action={() => register()} />
+          <GradientButton
+            text="Бүртгүүлэх"
+            action={() => register()}
+            disabled={isWaiting ? true : false}
+            isWaiting={isWaiting}
+          />
         </View>
         <Text className="font-medium text-base my-2 text-center">
           Та бүртгэлтэй юу?

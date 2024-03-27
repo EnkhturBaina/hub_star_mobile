@@ -10,7 +10,7 @@ import {
   TextInput,
   StatusBar,
 } from "react-native";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Icon, CheckBox } from "@rneui/themed";
 import MainContext from "../contexts/MainContext";
 import CustomSnackbar from "../components/CustomSnackbar";
@@ -27,14 +27,17 @@ import { Divider } from "@rneui/base";
 import GradientButton from "../components/GradientButton";
 import fb_logo from "../../assets/fb.png";
 import google_logo from "../../assets/google.png";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const LoginScreen = (props) => {
   const state = useContext(MainContext);
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [hidePassword, setHidePassword] = useState(true);
 
   const [visibleSnack, setVisibleSnack] = useState(false);
   const [snackBarMsg, setSnackBarMsg] = useState("");
+  const [rememberEmail, setRememberEmail] = useState(false);
 
   const onToggleSnackBar = (msg) => {
     setVisibleSnack(!visibleSnack);
@@ -43,24 +46,32 @@ const LoginScreen = (props) => {
 
   const onDismissSnackBar = () => setVisibleSnack(false);
 
-  const checkHandle = () => {
-    state.setRemember(!state.remember);
-  };
-
   const hideShowPassword = () => {
     setHidePassword(!hidePassword);
   };
 
+  useEffect(() => {
+    AsyncStorage.getItem("login_email").then((res) => {
+      console.log("RES", res);
+      if (res != null) {
+        setEmail(res);
+        setRememberEmail(true);
+      }
+    });
+  }, []);
   const login = () => {
-    // if (state.mobileNumber == "") {
-    //   onToggleSnackBar("Утасны дугаар оруулна уу.");
-    // } else if (password == "") {
-    //   onToggleSnackBar("Нууц үгээ оруулна уу?");
-    // } else {
-    //   state.login(state.mobileNumber, password, state.remember);
-    // }
-    state.setIsLoggedIn(true);
-    state.setIsLoading(false);
+    let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
+    if (email == "") {
+      onToggleSnackBar("И-мэйл хаягаа оруулна уу");
+    } else if (reg.test(email) === false) {
+      onToggleSnackBar("И-мэйл хаягаа зөв оруулна уу");
+    } else if (password == "") {
+      onToggleSnackBar("Нууц үгээ оруулна уу?");
+    } else {
+      state.login(email, password, rememberEmail);
+    }
+    // state.setIsLoggedIn(true);
+    // state.setIsLoading(false);
   };
 
   return (
@@ -72,14 +83,15 @@ const LoginScreen = (props) => {
         backgroundColor: MAIN_BG_GRAY,
       }}
     >
+      <StatusBar
+        translucent
+        barStyle={Platform.OS == "ios" ? "dark-content" : "default"}
+      />
       <CustomSnackbar
         visible={visibleSnack}
         dismiss={onDismissSnackBar}
         text={snackBarMsg}
-      />
-      <StatusBar
-        translucent
-        barStyle={Platform.OS == "ios" ? "dark-content" : "default"}
+        topPos={Platform.OS == "ios" ? 50 : 20}
       />
       <TouchableOpacity
         onPress={() => props.navigation.goBack()}
@@ -108,25 +120,27 @@ const LoginScreen = (props) => {
           source={splash_logo}
         />
         <Text className="font-bold text-2xl mb-4">Нэвтрэх хэсэг</Text>
+        {state?.errorMsg ? (
+          <Text className="font-bold mb-4 text-red-500 text-center">
+            {state?.errorMsg}
+          </Text>
+        ) : null}
         <View style={styles.stackSection}>
           <View style={styles.sectionStyle}>
             <Icon
-              name="mobile"
-              type="fontisto"
+              name="mail"
+              type="ion-icon"
               size={20}
               style={styles.inputIcon}
               color={GRAY_ICON_COLOR}
             />
             <TextInput
               style={styles.generalInput}
-              value={state.mobileNumber}
-              placeholder="Утасны дугаар"
-              keyboardType="number-pad"
+              value={email}
+              placeholder="Имэйл"
+              keyboardType="email-address"
               returnKeyType="done"
-              maxLength={8}
-              onChangeText={(e) => {
-                state.setMobileNumber(e);
-              }}
+              onChangeText={setEmail}
             />
           </View>
           <View style={styles.sectionStyle}>
@@ -171,11 +185,11 @@ const LoginScreen = (props) => {
               marginLeft: 5,
             }}
             title="Сануулах"
+            checked={rememberEmail}
+            onPress={() => setRememberEmail(!rememberEmail)}
             iconType="material-community"
             checkedIcon="checkbox-outline"
             uncheckedIcon="checkbox-blank-outline"
-            checked={state.remember}
-            onPress={checkHandle}
             checkedColor={MAIN_COLOR}
             uncheckedColor={MAIN_COLOR}
           />
