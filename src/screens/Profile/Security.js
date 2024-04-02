@@ -10,51 +10,30 @@ import {
   Platform,
 } from "react-native";
 import React, { useContext, useState } from "react";
-import { Icon } from "@rneui/base";
+import { Button } from "@rneui/base";
 import MainContext from "../../contexts/MainContext";
-import CustomSnackbar from "../../components/CustomSnackbar";
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
-import bg from "../../../assets/splash_bg.png";
 import { SafeAreaProvider } from "react-native-safe-area-context";
-import Constants from "expo-constants";
-import { GRAY_ICON_COLOR, MAIN_COLOR_GRAY } from "../../constant";
-import { Divider } from "react-native-paper";
+import { MAIN_COLOR } from "../../constant";
+import { Switch } from "react-native-paper";
 
 const Security = (props) => {
   const state = useContext(MainContext);
 
   const tabBarHeight = useBottomTabBarHeight();
-  const onToggleSwitch = () => {
-    onToggleSnackBar("Ирц бүртгэл сануулах тохиргоо хийгдлээ");
-  };
 
-  const [visibleDialog, setVisibleDialog] = useState(false); //Dialog харуулах
-  const [dialogType, setDialogType] = useState("warning"); //Dialog харуулах төрөл
-  const [dialogText, setDialogText] = useState("Апп -с гарах уу?"); //Dialog -н текст
-
-  const [visibleSnack, setVisibleSnack] = useState(false);
-  const [snackBarMsg, setSnackBarMsg] = useState("");
-
-  //Snacbkbar харуулах
-  const onToggleSnackBar = (msg) => {
-    setVisibleSnack(!visibleSnack);
-    setSnackBarMsg(msg);
-  };
-
-  //Snacbkbar хаах
-  const onDismissSnackBar = () => setVisibleSnack(false);
-
+  const [isSwitchOn, setIsSwitchOn] = useState(false);
+  const [isSwitchOn2, setIsSwitchOn2] = useState(false);
   return (
     <SafeAreaProvider
       style={{
         flex: 1,
-        paddingTop: Constants.statusBarHeight,
         backgroundColor: "#fff",
         paddingBottom: tabBarHeight,
       }}
     >
       <ScrollView
-        contentContainerStyle={{ flexGrow: 1 }}
+        contentContainerStyle={{ flexGrow: 1, paddingHorizontal: 20 }}
         showsVerticalScrollIndicator={false}
         bounces={false}
       >
@@ -62,7 +41,44 @@ const Security = (props) => {
           translucent
           barStyle={Platform.OS == "ios" ? "dark-content" : "default"}
         />
-        <Text>Security</Text>
+        <View style={styles.stackContainer}>
+          <Text style={styles.stackText}>Нэвтрэх нэр сануулах</Text>
+          <Switch
+            value={isSwitchOn}
+            onValueChange={() => setIsSwitchOn(!isSwitchOn)}
+            color={MAIN_COLOR}
+          />
+        </View>
+        <View style={styles.stackContainer}>
+          <Text style={styles.stackText}>Нүүр таних</Text>
+          <Switch
+            value={isSwitchOn2}
+            onValueChange={() => setIsSwitchOn2(!isSwitchOn2)}
+            color={MAIN_COLOR}
+          />
+        </View>
+        <Button
+          title="PIN код өөрчлөх"
+          color="transparent"
+          radius={12}
+          onPress={() => {}}
+          titleStyle={{
+            fontWeight: "bold",
+            color: MAIN_COLOR,
+          }}
+          buttonStyle={styles.btnContainer}
+        />
+        <Button
+          title="Нэвтрэх нууц үг өөрчлөх"
+          color="transparent"
+          radius={12}
+          onPress={() => {}}
+          titleStyle={{
+            fontWeight: "bold",
+            color: MAIN_COLOR,
+          }}
+          buttonStyle={styles.btnContainer}
+        />
       </ScrollView>
     </SafeAreaProvider>
   );
@@ -71,42 +87,19 @@ const Security = (props) => {
 export default Security;
 
 const styles = StyleSheet.create({
-  headerBg: {
-    width: "100%",
-    height: 150,
-    resizeMode: "cover",
-  },
-  userIcon: {
-    width: 100,
-    height: 100,
-    resizeMode: "contain",
-    borderWidth: 4,
-    borderRadius: 120,
-    borderColor: "#fff",
-  },
-  gridMenus: {
+  stackContainer: {
     flexDirection: "row",
     alignItems: "center",
-    paddingHorizontal: 25,
-    marginBottom: 20,
+    justifyContent: "space-between",
+    marginBottom: 10,
   },
-  lastText: {
-    color: "red",
-    fontWeight: 500,
-    marginLeft: 20,
+  stackText: {
+    fontWeight: "500",
   },
-  menuText: {
-    color: GRAY_ICON_COLOR,
-    fontWeight: 500,
-    marginLeft: 20,
-  },
-  profileCircle: {
-    position: "absolute",
-    flexDirection: "row",
-    top: 100,
-    paddingHorizontal: 20,
-    paddingBottom: 30,
-    borderBottomWidth: 1,
-    borderBottomColor: MAIN_COLOR_GRAY,
+  btnContainer: {
+    height: 45,
+    borderWidth: 2,
+    borderColor: MAIN_COLOR,
+    marginBottom: 15,
   },
 });

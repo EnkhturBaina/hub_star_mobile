@@ -49,7 +49,7 @@ export const MainStore = (props) => {
       },
     })
       .then(async (response) => {
-        console.log("response login", response.data);
+        // console.log("response login", response.data);
         if (response.data) {
           await AsyncStorage.setItem("password", password);
           setIsLoading(true);
@@ -118,7 +118,7 @@ export const MainStore = (props) => {
       .then((data) => {
         if (data !== null) {
           const user = JSON.parse(data);
-          console.log("=======", user);
+          // console.log("=======", user);
           setUserData(user);
           setToken(user.accessToken);
           setEmail(user.email);

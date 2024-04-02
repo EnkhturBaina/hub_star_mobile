@@ -2,59 +2,40 @@ import {
   StyleSheet,
   Text,
   View,
-  Image,
-  TouchableOpacity,
-  Linking,
   ScrollView,
   StatusBar,
   Platform,
 } from "react-native";
 import React, { useContext, useState } from "react";
-import { Icon } from "@rneui/base";
 import MainContext from "../../contexts/MainContext";
-import CustomSnackbar from "../../components/CustomSnackbar";
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
-import bg from "../../../assets/splash_bg.png";
 import { SafeAreaProvider } from "react-native-safe-area-context";
-import Constants from "expo-constants";
-import { GRAY_ICON_COLOR, MAIN_COLOR_GRAY } from "../../constant";
-import { Divider } from "react-native-paper";
+import { GRAY_ICON_COLOR, MAIN_COLOR, MAIN_COLOR_GRAY } from "../../constant";
+import { Switch } from "react-native-paper";
 
 const Notification = (props) => {
   const state = useContext(MainContext);
 
   const tabBarHeight = useBottomTabBarHeight();
-  const onToggleSwitch = () => {
-    onToggleSnackBar("Ирц бүртгэл сануулах тохиргоо хийгдлээ");
-  };
 
-  const [visibleDialog, setVisibleDialog] = useState(false); //Dialog харуулах
-  const [dialogType, setDialogType] = useState("warning"); //Dialog харуулах төрөл
-  const [dialogText, setDialogText] = useState("Апп -с гарах уу?"); //Dialog -н текст
-
-  const [visibleSnack, setVisibleSnack] = useState(false);
-  const [snackBarMsg, setSnackBarMsg] = useState("");
-
-  //Snacbkbar харуулах
-  const onToggleSnackBar = (msg) => {
-    setVisibleSnack(!visibleSnack);
-    setSnackBarMsg(msg);
-  };
-
-  //Snacbkbar хаах
-  const onDismissSnackBar = () => setVisibleSnack(false);
+  const [isSwitchOn, setIsSwitchOn] = useState(false);
+  const [isSwitchOn2, setIsSwitchOn2] = useState(false);
+  const [isSwitchOn3, setIsSwitchOn3] = useState(false);
+  const [isSwitchOn4, setIsSwitchOn4] = useState(false);
+  const [isSwitchOn5, setIsSwitchOn5] = useState(false);
+  const [isSwitchOn6, setIsSwitchOn6] = useState(false);
+  const [isSwitchOn7, setIsSwitchOn7] = useState(false);
 
   return (
     <SafeAreaProvider
       style={{
         flex: 1,
-        paddingTop: Constants.statusBarHeight,
         backgroundColor: "#fff",
         paddingBottom: tabBarHeight,
       }}
     >
       <ScrollView
-        contentContainerStyle={{ flexGrow: 1 }}
+        contentContainerStyle={{ flexGrow: 1, paddingHorizontal: 20 }}
         showsVerticalScrollIndicator={false}
         bounces={false}
       >
@@ -62,7 +43,66 @@ const Notification = (props) => {
           translucent
           barStyle={Platform.OS == "ios" ? "dark-content" : "default"}
         />
-        <Text>Notification</Text>
+
+        <View style={styles.stackContainer}>
+          <Text style={styles.stackText}>Дуу, чимээ</Text>
+          <Switch
+            value={isSwitchOn}
+            onValueChange={() => setIsSwitchOn(!isSwitchOn)}
+            color={MAIN_COLOR}
+          />
+        </View>
+        <View style={styles.stackContainer}>
+          <Text style={styles.stackText}>Чичиргээ</Text>
+          <Switch
+            value={isSwitchOn2}
+            onValueChange={() => setIsSwitchOn2(!isSwitchOn2)}
+            color={MAIN_COLOR}
+          />
+        </View>
+        <View style={styles.stackContainer}>
+          <Text style={styles.stackText}>Тусгай мэдэгдэл</Text>
+          <Switch
+            value={isSwitchOn3}
+            onValueChange={() => setIsSwitchOn3(!isSwitchOn3)}
+            color={MAIN_COLOR}
+          />
+        </View>
+        <View style={styles.stackContainer}>
+          <Text style={styles.stackText}>Урамшуулал ба хөнгөлөлт</Text>
+          <Switch
+            value={isSwitchOn4}
+            onValueChange={() => setIsSwitchOn4(!isSwitchOn4)}
+            color={MAIN_COLOR}
+          />
+        </View>
+
+        <View style={styles.stackContainer}>
+          <Text style={styles.stackText}>Төлбөр</Text>
+          <Switch
+            value={isSwitchOn5}
+            onValueChange={() => setIsSwitchOn5(!isSwitchOn5)}
+            color={MAIN_COLOR}
+          />
+        </View>
+
+        <View style={styles.stackContainer}>
+          <Text style={styles.stackText}>Апп шинэчлэх</Text>
+          <Switch
+            value={isSwitchOn6}
+            onValueChange={() => setIsSwitchOn6(!isSwitchOn6)}
+            color={MAIN_COLOR}
+          />
+        </View>
+
+        <View style={styles.stackContainer}>
+          <Text style={styles.stackText}>Үйлчилгээний мэдэгдэл</Text>
+          <Switch
+            value={isSwitchOn7}
+            onValueChange={() => setIsSwitchOn7(!isSwitchOn7)}
+            color={MAIN_COLOR}
+          />
+        </View>
       </ScrollView>
     </SafeAreaProvider>
   );
@@ -71,42 +111,13 @@ const Notification = (props) => {
 export default Notification;
 
 const styles = StyleSheet.create({
-  headerBg: {
-    width: "100%",
-    height: 150,
-    resizeMode: "cover",
-  },
-  userIcon: {
-    width: 100,
-    height: 100,
-    resizeMode: "contain",
-    borderWidth: 4,
-    borderRadius: 120,
-    borderColor: "#fff",
-  },
-  gridMenus: {
+  stackContainer: {
     flexDirection: "row",
     alignItems: "center",
-    paddingHorizontal: 25,
-    marginBottom: 20,
+    justifyContent: "space-between",
+    marginBottom: 10,
   },
-  lastText: {
-    color: "red",
-    fontWeight: 500,
-    marginLeft: 20,
-  },
-  menuText: {
-    color: GRAY_ICON_COLOR,
-    fontWeight: 500,
-    marginLeft: 20,
-  },
-  profileCircle: {
-    position: "absolute",
-    flexDirection: "row",
-    top: 100,
-    paddingHorizontal: 20,
-    paddingBottom: 30,
-    borderBottomWidth: 1,
-    borderBottomColor: MAIN_COLOR_GRAY,
+  stackText: {
+    fontWeight: "500",
   },
 });
