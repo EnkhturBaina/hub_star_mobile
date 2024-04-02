@@ -28,12 +28,15 @@ import GradientButton from "../components/GradientButton";
 import fb_logo from "../../assets/fb.png";
 import google_logo from "../../assets/google.png";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import * as LocalAuthentication from "expo-local-authentication";
 
 const LoginScreen = (props) => {
   const state = useContext(MainContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [hidePassword, setHidePassword] = useState(true);
+
+  const [isBiometricSupported, setIsBiometricSupported] = useState(false);
 
   const [visibleSnack, setVisibleSnack] = useState(false);
   const [snackBarMsg, setSnackBarMsg] = useState("");
@@ -51,6 +54,15 @@ const LoginScreen = (props) => {
   };
 
   useEffect(() => {
+    // (async () => {
+    //   const compatible = await LocalAuthentication.hasHardwareAsync();
+    //   setIsBiometricSupported(compatible);
+
+    //   await AsyncStorage.getItem("password").then(async (value) => {
+    //     state.setPassword(value);
+    //   });
+    // })();
+
     AsyncStorage.getItem("login_email").then((res) => {
       console.log("RES", res);
       if (res != null) {
@@ -59,6 +71,9 @@ const LoginScreen = (props) => {
       }
     });
   }, []);
+
+  useEffect(() => {}, []);
+
   const login = () => {
     let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
     if (email == "") {

@@ -31,6 +31,7 @@ const QAs = (props) => {
           title="Асуулт 1"
           style={{ backgroundColor: "#fff" }}
           rippleColor={"transparent"}
+          titleStyle={{ fontWeight: "500" }}
         >
           <List.Item description="Голомт банкны харилцагчдын тогтмол хэрэглээг урамшуулах зорилготой BiG Loyаlty 2023 оноотой хөтөлбөр дахин хэрэгжиж эхэллээ" />
         </List.Accordion>
@@ -40,6 +41,8 @@ const QAs = (props) => {
           expanded={expanded}
           onPress={handlePress}
           style={{ backgroundColor: "#fff" }}
+          rippleColor={"transparent"}
+          titleStyle={{ fontWeight: "500" }}
         >
           <List.Item description="Та өөрийн цуглуулсан оноог хамтран ажиллаж буй байгууллагуудын купон авах эсвэл автомашин болон 1 өрөө орон сууцны шагналтай урамшуулалд оролцох гэсэн 2 хэлбэрээр зарцуулах боломжтой." />
         </List.Accordion>

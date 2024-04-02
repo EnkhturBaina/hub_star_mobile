@@ -11,7 +11,6 @@ import MainContext from "../../contexts/MainContext";
 import LoanInput from "../../components/LoanInput";
 import CustomDialog from "../../components/CustomDialog";
 import axios from "axios";
-import Loader from "../../components/Loader";
 import CustomSnackbar from "../../components/CustomSnackbar";
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 import GradientButton from "../../components/GradientButton";
@@ -21,9 +20,6 @@ const EditProfile = (props) => {
   const state = useContext(MainContext);
 
   const tabBarHeight = useBottomTabBarHeight();
-
-  const [loading, setLoading] = useState(false);
-  const [loadingAction, setLoadingAction] = useState(false);
 
   const [visibleDialog, setVisibleDialog] = useState(false); //Dialog харуулах
   const [dialogType, setDialogType] = useState("warning"); //Dialog харуулах төрөл
@@ -44,7 +40,7 @@ const EditProfile = (props) => {
   const onDismissSnackBar = () => setVisibleSnack(false);
 
   useEffect(() => {
-    state.userData && setProfileData(state.userData);
+    setProfileData(state.userData);
   }, []);
 
   const saveProfileData = async () => {
@@ -126,76 +122,70 @@ const EditProfile = (props) => {
         behavior={Platform.OS === "ios" ? "padding" : "height"}
         style={{ flex: 1 }}
       >
-        {/* <HeaderUser /> */}
-
-        {loading ? (
-          <Loader />
-        ) : (
-          <View style={{ flex: 1 }}>
-            <ScrollView
-              contentContainerStyle={styles.scrollContainer}
-              bounces={false}
-            >
-              <LoanInput
-                label="Овог"
-                value={profileData?.lastName}
-                onChangeText={(e) =>
-                  setProfileData((prevState) => ({
-                    ...prevState,
-                    lastName: e,
-                  }))
-                }
-              />
-              <LoanInput
-                label="Нэр"
-                value={profileData?.firstName}
-                onChangeText={(e) =>
-                  setProfileData((prevState) => ({
-                    ...prevState,
-                    firstName: e,
-                  }))
-                }
-              />
-              <LoanInput
-                label="Албан тушаал"
-                value={profileData?.jobPosition}
-                onChangeText={(e) =>
-                  setProfileData((prevState) => ({
-                    ...prevState,
-                    jobPosition: e,
-                  }))
-                }
-              />
-              <LoanInput
-                label="Утасны дугаар"
-                value={profileData?.phone}
-                keyboardType="number-pad"
-                maxLength={8}
-                onChangeText={(e) =>
-                  setProfileData((prevState) => ({
-                    ...prevState,
-                    phone: e,
-                  }))
-                }
-              />
-              <LoanInput
-                label="Хаяг"
-                value={profileData?.address}
-                onChangeText={(e) =>
-                  setProfileData((prevState) => ({
-                    ...prevState,
-                    address: e,
-                  }))
-                }
-                multiline={true}
-                textAlignVertical="top"
-              />
-              <View className="w-full mt-2">
-                <GradientButton text="Хадгалах" action={saveProfileData} />
-              </View>
-            </ScrollView>
-          </View>
-        )}
+        <View style={{ flex: 1 }}>
+          <ScrollView
+            contentContainerStyle={styles.scrollContainer}
+            bounces={false}
+          >
+            <LoanInput
+              label="Овог"
+              value={profileData?.lastName}
+              onChangeText={(e) =>
+                setProfileData((prevState) => ({
+                  ...prevState,
+                  lastName: e,
+                }))
+              }
+            />
+            <LoanInput
+              label="Нэр"
+              value={profileData?.firstName}
+              onChangeText={(e) =>
+                setProfileData((prevState) => ({
+                  ...prevState,
+                  firstName: e,
+                }))
+              }
+            />
+            <LoanInput
+              label="Албан тушаал"
+              value={profileData?.jobPosition}
+              onChangeText={(e) =>
+                setProfileData((prevState) => ({
+                  ...prevState,
+                  jobPosition: e,
+                }))
+              }
+            />
+            <LoanInput
+              label="Утасны дугаар"
+              value={profileData?.phone}
+              keyboardType="number-pad"
+              maxLength={8}
+              onChangeText={(e) =>
+                setProfileData((prevState) => ({
+                  ...prevState,
+                  phone: e,
+                }))
+              }
+            />
+            <LoanInput
+              label="Хаяг"
+              value={profileData?.address}
+              onChangeText={(e) =>
+                setProfileData((prevState) => ({
+                  ...prevState,
+                  address: e,
+                }))
+              }
+              multiline={true}
+              textAlignVertical="top"
+            />
+            <View className="w-full mt-2">
+              <GradientButton text="Хадгалах" action={saveProfileData} />
+            </View>
+          </ScrollView>
+        </View>
       </KeyboardAvoidingView>
       <CustomDialog
         visible={visibleDialog}
