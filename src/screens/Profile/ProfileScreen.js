@@ -210,9 +210,9 @@ const ProfileScreen = (props) => {
             }}
           >
             <Text style={{ fontWeight: "bold", fontSize: 20 }}>
-              {state.lastname && state.firstname ? (
+              {state.lastName && state.firstName ? (
                 <Text style={{ fontWeight: 500 }}>
-                  {state.lastname?.substr(0, 1)}. {state.firstname}
+                  {state.lastName?.substr(0, 1)}. {state.firstName}
                 </Text>
               ) : (
                 <Text style={styles.generalText}>Хэрэглэгч</Text>

@@ -29,17 +29,13 @@ export const MainStore = (props) => {
 
   const [selectedService, setSelectedService] = useState(null);
   const [token, setToken] = useState(null);
-  const [rtoken, setRtoken] = useState(null);
   const [email, setEmail] = useState(null);
-  const [lastname, setLastname] = useState("");
-  const [firstname, setFirstname] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [firstName, setFirstName] = useState("");
 
   var date = new Date();
 
   const login = async (email, password, rememberEmail) => {
-    console.log("email", email);
-    console.log("password", password);
-    console.log("rememberEmail", rememberEmail);
     setErrorMsg("");
     await axios({
       method: "post",
@@ -58,23 +54,22 @@ export const MainStore = (props) => {
           await AsyncStorage.setItem("password", password);
           setIsLoading(true);
           setUserData(response.data?.response?.user);
+
           setToken(response.data?.response?.accessToken);
-          setRtoken(response.data?.response?.refreshToken);
           setEmail(response.data?.response?.user?.email);
           setUserId(response.data?.response?.user?.id);
-          setLastname(response.data?.response?.user?.lastName);
-          setFirstname(response.data?.response?.user?.firstName);
+          setLastName(response.data?.response?.user?.lastName);
+          setFirstName(response.data?.response?.user?.firstName);
           setPhone(response.data?.response?.user?.phone);
           // setEndDate(response.data?.endDate);
           await AsyncStorage.setItem(
             "user",
             JSON.stringify({
               accessToken: response.data?.response?.accessToken,
-              refreshToken: response.data?.response?.refreshToken,
               email,
-              userId: response.data?.response?.user?.id,
-              firstname: response.data?.response?.user?.firstName,
-              lastname: response.data?.response?.user?.lastName,
+              id: response.data?.response?.user?.id,
+              firstName: response.data?.response?.user?.firstName,
+              lastName: response.data?.response?.user?.lastName,
               phone: response.data?.response?.user?.phone,
               // endDate: response.data?.endDate,
             })
@@ -124,12 +119,12 @@ export const MainStore = (props) => {
         if (data !== null) {
           const user = JSON.parse(data);
           console.log("=======", user);
+          setUserData(user);
           setToken(user.accessToken);
-          setRtoken(user.refreshToken);
           setEmail(user.email);
-          setUserId(user.userId);
-          setFirstname(user.firstname);
-          setLastname(user.lastname);
+          setUserId(user.id);
+          setFirstName(user.firstName);
+          setLastName(user.lastName);
           setPhone(user.phone);
           setIsLoading(false);
           setIsLoggedIn(true);
@@ -272,14 +267,15 @@ export const MainStore = (props) => {
         setSelectedService,
         errorMsg,
         email,
-        firstname,
-        lastname,
+        firstName,
+        lastName,
         setEmail,
-        setFirstname,
-        setLastname,
+        setFirstName,
+        setLastName,
         userId,
         userData,
         setUserData,
+        token,
       }}
     >
       {props.children}

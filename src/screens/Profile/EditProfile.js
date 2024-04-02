@@ -6,7 +6,7 @@ import {
   KeyboardAvoidingView,
 } from "react-native";
 import React, { useState, useEffect, useContext } from "react";
-import { MAIN_COLOR_GRAY } from "../../constant";
+import { MAIN_COLOR_GRAY, SERVER_URL, X_API_KEY } from "../../constant";
 import MainContext from "../../contexts/MainContext";
 import LoanInput from "../../components/LoanInput";
 import CustomDialog from "../../components/CustomDialog";
@@ -15,6 +15,7 @@ import Loader from "../../components/Loader";
 import CustomSnackbar from "../../components/CustomSnackbar";
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 import GradientButton from "../../components/GradientButton";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const EditProfile = (props) => {
   const state = useContext(MainContext);
@@ -28,20 +29,11 @@ const EditProfile = (props) => {
   const [dialogType, setDialogType] = useState("warning"); //Dialog харуулах төрөл
   const [dialogText, setDialogText] = useState(""); //Dialog -н текст
 
-  const [profileData, setProfileData] = useState("");
-  const [editableData, setEditableData] = useState({
-    FirstName: "",
-    LastName: "",
-    position: "",
-    BirthDate: "",
-    CitizenshipNumber: "",
-    ERPGenderTemplateId: "",
-    Mobile: "",
-    email: "",
-  });
+  const [profileData, setProfileData] = useState(null);
 
   const [visibleSnack, setVisibleSnack] = useState(false);
   const [snackBarMsg, setSnackBarMsg] = useState("");
+
   //Snacbkbar харуулах
   const onToggleSnackBar = (msg) => {
     setVisibleSnack(!visibleSnack);
@@ -51,20 +43,68 @@ const EditProfile = (props) => {
   //Snacbkbar хаах
   const onDismissSnackBar = () => setVisibleSnack(false);
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    state.userData && setProfileData(state.userData);
+  }, []);
 
   const saveProfileData = async () => {
-    if (!editableData.LastName) {
+    if (!profileData.lastName) {
       onToggleSnackBar("Овог оруулна уу.");
-    } else if (!editableData.FirstName) {
+    } else if (!profileData.firstName) {
       onToggleSnackBar("Нэр оруулна уу.");
-    } else if (!editableData.jobPosition) {
+    } else if (!profileData.jobPosition) {
       onToggleSnackBar("Албан тушаал оруулна уу.");
-    } else if (!editableData.mobileNumber) {
+    } else if (!profileData.phone) {
       onToggleSnackBar("Утасны дугаар оруулна уу.");
-    } else if (!editableData.Address) {
+    } else if (!profileData.address) {
       onToggleSnackBar("Хаяг оруулна уу.");
     } else {
+      axios
+        .patch(
+          `${SERVER_URL}users/${state.userId}`,
+          {
+            lastName: profileData?.LastName,
+            firstName: profileData?.firstName,
+            jobPosition: profileData?.jobPosition,
+            phone: profileData?.phone,
+            address: profileData?.address,
+          },
+          {
+            headers: {
+              "x-api-key": `${X_API_KEY}`,
+              Authorization: `Bearer ${state.token}`,
+            },
+          }
+        )
+        .then(async (response) => {
+          if (response.data) {
+            // console.log("response.data", response.data);
+            state.setFirstName(profileData?.firstName);
+            state.setLastName(profileData?.lastName);
+            state.setPhone(profileData?.phone);
+
+            await AsyncStorage.setItem(
+              "user",
+              JSON.stringify({
+                accessToken: state?.token,
+                email: response.data?.response?.email,
+                id: response.data?.response?.id,
+                firstName: response.data?.response?.firstName,
+                lastName: response.data?.response?.lastName,
+                phone: response.data?.response?.phone,
+              })
+            );
+            state?.setUserData(response.data?.response);
+            setDialogText("Амжилттай.");
+            setVisibleDialog(true);
+          }
+        })
+        .catch(function (error) {
+          if (error.response) {
+            console.log("error.response", error.response.data);
+            console.log("error.response status", error.response.status);
+          }
+        });
     }
   };
 
@@ -80,7 +120,7 @@ const EditProfile = (props) => {
         visible={visibleSnack}
         dismiss={onDismissSnackBar}
         text={snackBarMsg}
-        topPos={30}
+        topPos={1}
       />
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -98,21 +138,21 @@ const EditProfile = (props) => {
             >
               <LoanInput
                 label="Овог"
-                value={editableData.LastName}
+                value={profileData?.lastName}
                 onChangeText={(e) =>
-                  setEditableData((prevState) => ({
+                  setProfileData((prevState) => ({
                     ...prevState,
-                    LastName: e,
+                    lastName: e,
                   }))
                 }
               />
               <LoanInput
                 label="Нэр"
-                value={editableData.FirstName}
+                value={profileData?.firstName}
                 onChangeText={(e) =>
-                  setEditableData((prevState) => ({
+                  setProfileData((prevState) => ({
                     ...prevState,
-                    FirstName: e,
+                    firstName: e,
                   }))
                 }
               />
@@ -120,7 +160,7 @@ const EditProfile = (props) => {
                 label="Албан тушаал"
                 value={profileData?.jobPosition}
                 onChangeText={(e) =>
-                  setEditableData((prevState) => ({
+                  setProfileData((prevState) => ({
                     ...prevState,
                     jobPosition: e,
                   }))
@@ -128,45 +168,47 @@ const EditProfile = (props) => {
               />
               <LoanInput
                 label="Утасны дугаар"
-                value={profileData?.MobileNumber}
+                value={profileData?.phone}
+                keyboardType="number-pad"
+                maxLength={8}
                 onChangeText={(e) =>
-                  setEditableData((prevState) => ({
+                  setProfileData((prevState) => ({
                     ...prevState,
-                    MobileNumber: e,
+                    phone: e,
                   }))
                 }
               />
               <LoanInput
                 label="Хаяг"
-                value={profileData?.Address}
+                value={profileData?.address}
                 onChangeText={(e) =>
-                  setEditableData((prevState) => ({
+                  setProfileData((prevState) => ({
                     ...prevState,
-                    Address: e,
+                    address: e,
                   }))
                 }
                 multiline={true}
                 textAlignVertical="top"
               />
               <View className="w-full mt-2">
-                <GradientButton text="Хадгалах" action={() => {}} />
+                <GradientButton text="Хадгалах" action={saveProfileData} />
               </View>
             </ScrollView>
           </View>
         )}
-        <CustomDialog
-          visible={visibleDialog}
-          confirmFunction={() => {
-            setVisibleDialog(false);
-            // dialogType == "success" && props.navigation.goBack();
-          }}
-          declineFunction={() => {}}
-          text={dialogText}
-          confirmBtnText="Хаах"
-          DeclineBtnText=""
-          type={dialogType}
-        />
       </KeyboardAvoidingView>
+      <CustomDialog
+        visible={visibleDialog}
+        confirmFunction={() => {
+          setVisibleDialog(false);
+          // dialogType == "success" && props.navigation.goBack();
+        }}
+        declineFunction={() => {}}
+        text={dialogText}
+        confirmBtnText="Хаах"
+        DeclineBtnText=""
+        type={dialogType}
+      />
     </View>
   );
 };
