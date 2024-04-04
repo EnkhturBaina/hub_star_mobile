@@ -4,6 +4,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { BlurView } from "expo-blur";
 import { Icon } from "@rneui/base";
 import {
+  AddServiceStackNavigator,
   CategoryStackNavigator,
   ChatStackNavigator,
   HomeScreenStackNavigator,
@@ -13,14 +14,6 @@ import {
 import { MAIN_COLOR } from "../constant";
 import MainContext from "../contexts/MainContext";
 import SplashScreen from "../screens/SplashScreen";
-
-const DummyTabScene = () => {
-  return (
-    <View>
-      <Text>DummyTabScene</Text>
-    </View>
-  );
-};
 
 const TABS = [
   {
@@ -45,7 +38,7 @@ const TABS = [
     icon: "add-circle-outline",
     iconActive: "add-circle",
     iconType: "ionicon",
-    component: DummyTabScene,
+    component: AddServiceStackNavigator,
   },
   {
     name: "ChatTab",

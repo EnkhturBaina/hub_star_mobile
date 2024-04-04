@@ -36,6 +36,7 @@ import ServiceDTLScreen from "../screens/ServiceDTLScreen";
 
 import { Icon } from "@rneui/base";
 import { useNavigation } from "@react-navigation/native";
+import AddService from "../screens/AddService/AddService";
 
 const Stack = createStackNavigator();
 const width = Dimensions.get("screen").width;
@@ -481,6 +482,47 @@ const CategoryStackNavigator = (props) => {
   );
 };
 
+const AddServiceStackNavigator = (props) => {
+  const navigation = useNavigation();
+  return (
+    <Stack.Navigator
+      initialRouteName="AddService"
+      screenOptions={{
+        // headerShown: false,
+        headerStyle: {
+          shadowColor: "transparent",
+          elevation: 0,
+        },
+      }}
+    >
+      <Stack.Screen
+        name="AddService"
+        component={AddService}
+        options={{
+          title: "Үйлчилгээ нэмэх",
+          headerTitleStyle: {
+            fontWeight: "800",
+          },
+          headerLeft: () => (
+            <TouchableOpacity
+              style={styles.headerLeftContainer}
+              onPress={() => {
+                navigation.goBack();
+              }}
+            >
+              <Icon
+                type="material-icons"
+                name="keyboard-arrow-left"
+                size={30}
+              />
+            </TouchableOpacity>
+          ),
+        }}
+      />
+    </Stack.Navigator>
+  );
+};
+
 const ChatStackNavigator = (props) => {
   return (
     <Stack.Navigator
@@ -728,6 +770,7 @@ export {
   LoginStackNavigator,
   HomeScreenStackNavigator,
   CategoryStackNavigator,
+  AddServiceStackNavigator,
   ChatStackNavigator,
   ProfileStackNavigator,
 };

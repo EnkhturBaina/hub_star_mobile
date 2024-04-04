@@ -21,7 +21,7 @@ const GradientButton = (props) => {
       <LinearGradient
         colors={[GRADIENT_START, GRADIENT_END]}
         style={{
-          borderRadius: 8,
+          borderRadius: 12,
           height: 45,
           opacity: props.disabled ? 0.6 : 1,
         }}
