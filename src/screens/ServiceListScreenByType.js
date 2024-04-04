@@ -259,6 +259,6 @@ const styles = StyleSheet.create({
   typeText: {
     marginLeft: 5,
     textTransform: "uppercase",
-    fontWeight: 500,
+    fontWeight: "500",
   },
 });

@@ -76,7 +76,6 @@ function MyTabBar({ state, descriptors, navigation }) {
         height: 90,
         paddingBottom: 10,
         justifyContent: "space-between",
-        backgroundColor: "red",
       }}
       key={state.index}
     >

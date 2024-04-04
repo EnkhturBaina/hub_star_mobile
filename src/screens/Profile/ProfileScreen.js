@@ -211,7 +211,7 @@ const ProfileScreen = (props) => {
           >
             <Text style={{ fontWeight: "bold", fontSize: 20 }}>
               {state.lastName && state.firstName ? (
-                <Text style={{ fontWeight: 500 }}>
+                <Text style={{ fontWeight: "500" }}>
                   {state.lastName?.substr(0, 1)}. {state.firstName}
                 </Text>
               ) : (
@@ -319,7 +319,7 @@ const ProfileScreen = (props) => {
                   textAlign: "center",
                   paddingVertical: Platform.OS == "ios" ? 12 : 0,
                   fontSize: 18,
-                  fontWeight: 500,
+                  fontWeight: "500",
                   color: "#aeaeae",
                 }}
               >
@@ -365,12 +365,12 @@ const styles = StyleSheet.create({
   },
   lastText: {
     color: "red",
-    fontWeight: 500,
+    fontWeight: "500",
     marginLeft: 20,
   },
   menuText: {
     color: GRAY_ICON_COLOR,
-    fontWeight: 500,
+    fontWeight: "500",
     marginLeft: 20,
   },
   profileCircle: {

@@ -7,9 +7,9 @@ import {
   ScrollView,
   StatusBar,
   Platform,
+  SafeAreaView,
 } from "react-native";
 import React, { useContext, useState } from "react";
-import { SafeAreaProvider } from "react-native-safe-area-context";
 import Constants from "expo-constants";
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 import {
@@ -30,12 +30,11 @@ const CategoryScreen = () => {
   const [expanded, setExpanded] = useState({});
 
   return (
-    <SafeAreaProvider
+    <SafeAreaView
       style={{
         flex: 1,
         paddingTop: Constants.statusBarHeight,
         backgroundColor: "#fff",
-        paddingBottom: tabBarHeight,
       }}
     >
       <StatusBar
@@ -56,7 +55,7 @@ const CategoryScreen = () => {
           </View>
           <View style={{ flexDirection: "column", marginLeft: 10 }}>
             {state.lastName && state.firstName ? (
-              <Text style={{ fontWeight: 500 }}>
+              <Text style={{ fontWeight: "500" }}>
                 {state.lastName?.substr(0, 1)}. {state.firstName}
               </Text>
             ) : (
@@ -127,6 +126,7 @@ const CategoryScreen = () => {
           flexDirection: "column",
           backgroundColor: MAIN_BG_GRAY,
           paddingTop: 20,
+          paddingBottom: tabBarHeight,
         }}
         bounces={false}
       >
@@ -230,7 +230,7 @@ const CategoryScreen = () => {
           );
         })}
       </ScrollView>
-    </SafeAreaProvider>
+    </SafeAreaView>
   );
 };
 

@@ -94,14 +94,16 @@ const LoginOrRegisterScreen = (props) => {
             }}
           />
         </View>
-        <Text className="font-medium text-base my-2">
-          Та бүртгэл үүсэгсэн үү?
+        <View className="flex flex-row items-center">
+          <Text className="font-medium text-base my-2">
+            Та бүртгэл үүсэгсэн үү?
+          </Text>
           <TouchableOpacity
             onPress={() => props.navigation.navigate("RegisterScreen")}
           >
             <Text className="text-blue-500 ml-2">Бүртгүүлэх</Text>
           </TouchableOpacity>
-        </Text>
+        </View>
       </ScrollView>
     </KeyboardAvoidingView>
   );

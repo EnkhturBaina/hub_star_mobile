@@ -92,12 +92,12 @@ const styles = StyleSheet.create({
   },
   lastText: {
     color: "red",
-    fontWeight: 500,
+    fontWeight: "500",
     marginLeft: 20,
   },
   menuText: {
     color: GRAY_ICON_COLOR,
-    fontWeight: 500,
+    fontWeight: "500",
     marginLeft: 20,
   },
   profileCircle: {

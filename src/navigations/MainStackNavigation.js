@@ -94,7 +94,7 @@ const LoginStackNavigator = (props) => {
         options={{
           title: "Бүртгүүлэх",
           headerTitleStyle: {
-            fontWeight: 800,
+            fontWeight: "800",
           },
           headerLeft: () => (
             <TouchableOpacity
@@ -118,7 +118,7 @@ const LoginStackNavigator = (props) => {
         options={{
           title: "Бүртгүүлэх",
           headerTitleStyle: {
-            fontWeight: 800,
+            fontWeight: "800",
           },
           headerLeft: () => (
             <TouchableOpacity
@@ -142,7 +142,7 @@ const LoginStackNavigator = (props) => {
         options={{
           title: "Бүртгүүлэх",
           headerTitleStyle: {
-            fontWeight: 800,
+            fontWeight: "800",
           },
           headerLeft: () => (
             <TouchableOpacity
@@ -166,7 +166,7 @@ const LoginStackNavigator = (props) => {
         options={{
           title: "Бүртгүүлэх",
           headerTitleStyle: {
-            fontWeight: 800,
+            fontWeight: "800",
           },
           headerLeft: () => (
             <TouchableOpacity
@@ -190,7 +190,7 @@ const LoginStackNavigator = (props) => {
         options={{
           title: "Нууц үг мартсан",
           headerTitleStyle: {
-            fontWeight: 800,
+            fontWeight: "800",
           },
           headerLeft: () => (
             <TouchableOpacity
@@ -214,7 +214,7 @@ const LoginStackNavigator = (props) => {
         options={{
           title: "Баталгаажуулалт",
           headerTitleStyle: {
-            fontWeight: 800,
+            fontWeight: "800",
           },
           headerLeft: () => (
             <TouchableOpacity
@@ -238,7 +238,7 @@ const LoginStackNavigator = (props) => {
         options={{
           title: "Нууц үг мартсан",
           headerTitleStyle: {
-            fontWeight: 800,
+            fontWeight: "800",
           },
           headerLeft: () => (
             <TouchableOpacity
@@ -289,7 +289,7 @@ const HomeScreenStackNavigator = (props) => {
         options={{
           title: "Үйлчилгээ",
           headerTitleStyle: {
-            fontWeight: 800,
+            fontWeight: "800",
           },
           headerLeft: () => (
             <TouchableOpacity
@@ -313,7 +313,7 @@ const HomeScreenStackNavigator = (props) => {
         options={{
           title: "Үйлчилгээ",
           headerTitleStyle: {
-            fontWeight: 800,
+            fontWeight: "800",
           },
           headerLeft: () => (
             <TouchableOpacity
@@ -337,7 +337,7 @@ const HomeScreenStackNavigator = (props) => {
         options={{
           title: "",
           headerTitleStyle: {
-            fontWeight: 800,
+            fontWeight: "800",
           },
           headerLeft: () => (
             <TouchableOpacity
@@ -361,7 +361,7 @@ const HomeScreenStackNavigator = (props) => {
         options={{
           title: "Мэдэгдэл",
           headerTitleStyle: {
-            fontWeight: 800,
+            fontWeight: "800",
           },
           headerLeft: () => (
             <TouchableOpacity
@@ -385,7 +385,7 @@ const HomeScreenStackNavigator = (props) => {
         options={{
           title: "Мэдэгдэл",
           headerTitleStyle: {
-            fontWeight: 800,
+            fontWeight: "800",
           },
           headerLeft: () => (
             <TouchableOpacity
@@ -409,7 +409,7 @@ const HomeScreenStackNavigator = (props) => {
         options={{
           title: "Үйлчилгээнүүд",
           headerTitleStyle: {
-            fontWeight: 800,
+            fontWeight: "800",
           },
           headerLeft: () => (
             <TouchableOpacity
@@ -433,7 +433,7 @@ const HomeScreenStackNavigator = (props) => {
         options={{
           title: "",
           headerTitleStyle: {
-            fontWeight: 800,
+            fontWeight: "800",
           },
           headerLeft: () => (
             <TouchableOpacity
@@ -534,7 +534,7 @@ const ProfileStackNavigator = (props) => {
         options={{
           title: "Профайл засах",
           headerTitleStyle: {
-            fontWeight: 800,
+            fontWeight: "800",
           },
           headerLeft: () => (
             <TouchableOpacity
@@ -558,7 +558,7 @@ const ProfileStackNavigator = (props) => {
         options={{
           title: "Мэдэгдэл",
           headerTitleStyle: {
-            fontWeight: 800,
+            fontWeight: "800",
           },
           headerLeft: () => (
             <TouchableOpacity
@@ -582,7 +582,7 @@ const ProfileStackNavigator = (props) => {
         options={{
           title: "Дансны мэдээлэл",
           headerTitleStyle: {
-            fontWeight: 800,
+            fontWeight: "800",
           },
           headerLeft: () => (
             <TouchableOpacity
@@ -606,7 +606,7 @@ const ProfileStackNavigator = (props) => {
         options={{
           title: "Баталгаажуулалт",
           headerTitleStyle: {
-            fontWeight: 800,
+            fontWeight: "800",
           },
           headerLeft: () => (
             <TouchableOpacity
@@ -630,7 +630,7 @@ const ProfileStackNavigator = (props) => {
         options={{
           title: "Нууцлал",
           headerTitleStyle: {
-            fontWeight: 800,
+            fontWeight: "800",
           },
           headerLeft: () => (
             <TouchableOpacity
@@ -654,7 +654,7 @@ const ProfileStackNavigator = (props) => {
         options={{
           title: "Хэл солих",
           headerTitleStyle: {
-            fontWeight: 800,
+            fontWeight: "800",
           },
           headerLeft: () => (
             <TouchableOpacity
@@ -678,7 +678,7 @@ const ProfileStackNavigator = (props) => {
         options={{
           title: "Түгээмэл асуулт",
           headerTitleStyle: {
-            fontWeight: 800,
+            fontWeight: "800",
           },
           headerLeft: () => (
             <TouchableOpacity
@@ -702,7 +702,7 @@ const ProfileStackNavigator = (props) => {
         options={{
           title: "Найзаа урих",
           headerTitleStyle: {
-            fontWeight: 800,
+            fontWeight: "800",
           },
           headerLeft: () => (
             <TouchableOpacity

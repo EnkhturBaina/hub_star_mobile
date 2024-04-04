@@ -136,7 +136,7 @@ const LoginScreen = (props) => {
         />
         <Text className="font-bold text-2xl mb-4">Нэвтрэх хэсэг</Text>
         {state?.errorMsg ? (
-          <Text className="font-bold mb-4 text-red-500 text-center">
+          <Text className="font-bold mb-4 text-red-500 text-center text-base">
             {state?.errorMsg}
           </Text>
         ) : null}
@@ -265,14 +265,16 @@ const LoginScreen = (props) => {
             <Text className="font-medium text-base">Google</Text>
           </View>
         </View>
-        <Text className="font-medium text-base my-2">
-          Та бүртгэл үүсэгсэн үү?
+        <View className="flex flex-row items-center">
+          <Text className="font-medium text-base my-2">
+            Та бүртгэл үүсэгсэн үү?
+          </Text>
           <TouchableOpacity
             onPress={() => props.navigation.navigate("RegisterScreen")}
           >
             <Text className="text-blue-500 ml-2">Бүртгүүлэх</Text>
           </TouchableOpacity>
-        </Text>
+        </View>
       </ScrollView>
     </KeyboardAvoidingView>
   );
@@ -286,7 +288,6 @@ const styles = StyleSheet.create({
     backgroundColor: MAIN_BG_GRAY,
     alignItems: "center",
     paddingHorizontal: 20,
-    marginBottom: 50,
   },
   stackSection: {
     width: "100%",

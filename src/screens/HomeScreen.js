@@ -10,6 +10,7 @@ import {
   Animated,
   Dimensions,
   ImageBackground,
+  SafeAreaView,
 } from "react-native";
 import React, { useContext, useEffect, useState, useRef } from "react";
 import axios from "axios";
@@ -28,7 +29,6 @@ import {
 import Carousel from "react-native-reanimated-carousel";
 import featuresData from "../featuresData";
 import gridData from "../gridData";
-import { SafeAreaProvider } from "react-native-safe-area-context";
 import RBSheet from "react-native-raw-bottom-sheet";
 
 const HomeScreen = (props) => {
@@ -36,7 +36,7 @@ const HomeScreen = (props) => {
   const tabBarHeight = useBottomTabBarHeight();
   const [selectedType, setSelectedType] = useState(null);
   const [expanded, setExpanded] = useState({});
-
+  console.log("tabBarHeight", Platform.OS, "-->", tabBarHeight);
   const ref = useRef();
   const sheetRef = useRef(); //*****Bottomsheet
 
@@ -57,14 +57,17 @@ const HomeScreen = (props) => {
   const handlePress = () => setExpanded(!expanded);
 
   return (
-    <SafeAreaProvider
+    <SafeAreaView
       style={{
         flex: 1,
         paddingTop: Constants.statusBarHeight,
         backgroundColor: "#fff",
-        paddingBottom: tabBarHeight,
       }}
     >
+      <StatusBar
+        translucent
+        barStyle={Platform.OS == "ios" ? "dark-content" : "default"}
+      />
       <View style={styles.headerContainer}>
         <Image
           style={styles.headerLogo}
@@ -113,14 +116,13 @@ const HomeScreen = (props) => {
         </TouchableOpacity>
       </TouchableOpacity>
       <ScrollView
-        contentContainerStyle={{ flexGrow: 1 }}
+        contentContainerStyle={{
+          flexGrow: 1,
+          paddingBottom: tabBarHeight,
+        }}
         showsVerticalScrollIndicator={false}
         bounces={false}
       >
-        <StatusBar
-          translucent
-          barStyle={Platform.OS == "ios" ? "dark-content" : "default"}
-        />
         <View style={{ marginBottom: 10 }}>
           <ScrollView
             horizontal={true}
@@ -291,7 +293,9 @@ const HomeScreen = (props) => {
                   >
                     <Image
                       style={{ width: 20, height: 20 }}
-                      source={{ uri: SERVER_URL + "images/" + el?.logo?.path }}
+                      source={{
+                        uri: SERVER_URL + "images/" + el?.logo?.path,
+                      }}
                     />
                     <Text
                       style={{
@@ -372,7 +376,7 @@ const HomeScreen = (props) => {
           </ScrollView>
         </View>
       </RBSheet>
-    </SafeAreaProvider>
+    </SafeAreaView>
   );
 };
 
@@ -438,7 +442,7 @@ const styles = StyleSheet.create({
   typeText: {
     marginLeft: 5,
     textTransform: "uppercase",
-    fontWeight: 500,
+    fontWeight: "500",
   },
   gridContainer: {
     flexDirection: "row",
@@ -474,7 +478,7 @@ const styles = StyleSheet.create({
     flex: 1,
     marginLeft: 5,
     color: "#798585",
-    fontWeight: 500,
+    fontWeight: "500",
     flexShrink: 1,
   },
   mainServiceContainer: {
@@ -490,7 +494,7 @@ const styles = StyleSheet.create({
     elevation: 2,
   },
   mainServiceText: {
-    fontWeight: 500,
+    fontWeight: "500",
     color: "#fff",
     textAlign: "center",
     fontSize: 20,
@@ -505,7 +509,7 @@ const styles = StyleSheet.create({
     width: 40,
   },
   specialServiceText: {
-    fontWeight: 500,
+    fontWeight: "500",
     fontSize: 16,
     marginLeft: 20,
     marginTop: 10,

@@ -153,7 +153,7 @@ const styles = StyleSheet.create({
   },
   generalTextNextButton: {
     color: "#fff",
-    fontWeight: 800,
+    fontWeight: "800",
     // fontFamily: FONT_FAMILY_BOLD,
   },
 });

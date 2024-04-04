@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { Image, View, StyleSheet, Text } from "react-native";
+import { Image, View, StyleSheet, Text, Platform } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { BlurView } from "expo-blur";
 import { Icon } from "@rneui/base";
@@ -84,16 +84,10 @@ const BottomBar = () => {
             position: "absolute",
             borderTopLeftRadius: 20,
             borderTopRightRadius: 20,
-            shadowColor: "rgb(47, 64, 85)",
-            shadowOffset: { width: 0, height: -4 },
-            shadowOpacity: 0.12,
-            shadowRadius: 16,
           },
           tabBarBackground: () => (
             <BlurView
-              // tint="light"
-              // control the intensity of the blur effect
-              intensity={80}
+              intensity={Platform.OS == "ios" ? 50 : 20}
               style={{
                 ...StyleSheet.absoluteFillObject,
                 borderTopLeftRadius: 20,
@@ -101,6 +95,8 @@ const BottomBar = () => {
                 overflow: "hidden",
                 backgroundColor: "transparent",
               }}
+              experimentalBlurMethod="dimezisBlurView"
+              tint="light"
             />
           ),
         }}

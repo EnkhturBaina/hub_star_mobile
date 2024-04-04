@@ -23,6 +23,7 @@ const CELL_COUNT = 6;
 const OTPScreen = (props) => {
   const route = useRoute();
 
+  const [errorMsg, setErrorMsg] = useState("");
   const [value, setValue] = useState("");
   const [isDisabled, setIsDisabled] = useState(true);
   const [isWaiting, setIsWaiting] = useState(false);
@@ -69,8 +70,9 @@ const OTPScreen = (props) => {
           }
         })
         .catch(function (error) {
+          setErrorMsg(error.response?.data?.message);
           if (error.response) {
-            // console.log("error.response", error.response.data);
+            console.log("error.response", error.response.data);
           }
         })
         .finally(() => {
@@ -107,10 +109,10 @@ const OTPScreen = (props) => {
           </View>
         )}
       />
-      <Text className="font-bold mb-5 text-center mt-5">
-        Дахин илгээх үү? 00:30
-      </Text>
-      <View className="">
+      {errorMsg ? (
+        <Text className="font-bold text-center text-red-500">{errorMsg}</Text>
+      ) : null}
+      <View className="mt-5">
         <GradientButton
           text="Баталгаажуулах"
           action={() => confirmOTP()}
@@ -141,7 +143,7 @@ export default OTPScreen;
 
 const styles = StyleSheet.create({
   codeFieldRoot: {
-    marginTop: 20,
+    marginVertical: 20,
     width: "auto",
     marginLeft: "auto",
     marginRight: "auto",

@@ -140,7 +140,7 @@ const RegisterScreen = (props) => {
           style={{ alignItems: "center", marginVertical: 20 }}
         >
           <Avatar
-            size={150}
+            size={100}
             rounded
             source={PersonCircle}
             title="Bj"
@@ -159,12 +159,14 @@ const RegisterScreen = (props) => {
         <Text className="font-bold text-2xl mb-4 text-center">
           Нэвтрэх хэсэг
         </Text>
-        <Text
-          className="font-bold text-xl mb-4 text-center"
-          style={{ color: "red" }}
-        >
-          {errorMsg}
-        </Text>
+        {errorMsg ? (
+          <Text
+            className="font-bold text-base mb-4 text-center"
+            style={{ color: "red" }}
+          >
+            {errorMsg}
+          </Text>
+        ) : null}
 
         <View style={styles.sectionStyle}>
           <Icon
@@ -274,14 +276,17 @@ const RegisterScreen = (props) => {
             isWaiting={isWaiting}
           />
         </View>
-        <Text className="font-medium text-base my-2 text-center">
-          Та бүртгэлтэй юу?
+
+        <View className="flex flex-row items-center self-center">
+          <Text className="font-medium text-base my-2">
+            Та бүртгэл үүсэгсэн үү?
+          </Text>
           <TouchableOpacity
-            onPress={() => props.navigation.navigate("LoginScreen")}
+            onPress={() => props.navigation.navigate("RegisterScreen")}
           >
-            <Text className="text-blue-500 ml-2">Нэвтрэх</Text>
+            <Text className="text-blue-500 ml-2">Бүртгүүлэх</Text>
           </TouchableOpacity>
-        </Text>
+        </View>
         <View
           style={{
             flexDirection: "row",

@@ -50,7 +50,7 @@ const ConfirmPassword = (props) => {
         bounces={false}
         contentContainerStyle={styles.mainContainer}
       >
-        <Text style={{ fontWeight: 500 }}>
+        <Text style={{ fontWeight: "500" }}>
           Бид (+976) 86****57 дугаар луу баталгаажуулах код илгээлээ.
         </Text>
 
@@ -84,7 +84,7 @@ const ConfirmPassword = (props) => {
         <TouchableOpacity>
           <Text
             style={{
-              fontWeight: 500,
+              fontWeight: "500",
               textAlign: "center",
             }}
           >
