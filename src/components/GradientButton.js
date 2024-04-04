@@ -29,7 +29,7 @@ const GradientButton = (props) => {
         end={{ x: 1, y: 0 }}
       >
         <View style={{ flexDirection: "row", justifyContent: "center" }}>
-          <Text style={styles.btnText}>Үргэлжлүүлэх</Text>
+          <Text style={styles.btnText}>{props.text}</Text>
           {props.isWaiting && <ActivityIndicator color="#fff" />}
         </View>
       </LinearGradient>
