@@ -16,6 +16,7 @@ import CustomSnackbar from "../../components/CustomSnackbar";
 import BottomSheet from "../../components/BottomSheet";
 import { Icon } from "@rneui/base";
 import GradientButton from "../../components/GradientButton";
+import LoanInput from "../../components/LoanInput";
 
 const Step2 = (props) => {
   const [data, setData] = useState(""); //BottomSheet рүү дамжуулах Дата
@@ -70,30 +71,71 @@ const Step2 = (props) => {
     },
   ];
   return (
-    <SafeAreaView
-      style={{
-        flex: 1,
-        paddingTop: Constants.statusBarHeight,
-        backgroundColor: "#fff",
-      }}
+    <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      style={{ flex: 1 }}
     >
-      <CustomSnackbar
-        visible={visibleSnack}
-        dismiss={onDismissSnackBar}
-        text={snackBarMsg}
-        topPos={1}
-      />
-      <KeyboardAvoidingView
-        behavior={Platform.OS === "ios" ? "padding" : "height"}
-        style={{ flex: 1 }}
+      <SafeAreaView
+        style={{
+          flex: 1,
+          paddingTop: Constants.statusBarHeight,
+          backgroundColor: "#fff",
+        }}
       >
+        <CustomSnackbar
+          visible={visibleSnack}
+          dismiss={onDismissSnackBar}
+          text={snackBarMsg}
+          topPos={1}
+        />
         <View style={{ flex: 1 }}>
           <ScrollView
             contentContainerStyle={styles.scrollContainer}
             bounces={false}
           >
+            <LoanInput
+              label="Зарын гарчиг"
+              value={serviceData?.customerType}
+              onChangeText={(e) =>
+                setServiceData((prevState) => ({
+                  ...prevState,
+                  customerType: e,
+                }))
+              }
+            />
             <View style={styles.touchableSelectContainer}>
-              <Text style={styles.label}>Хэрэглэгчийн төрөл</Text>
+              <Text style={styles.label}>Хэрэглэгчийн ангилал</Text>
+              <TouchableOpacity
+                style={styles.touchableSelect}
+                onPress={() => {
+                  setLookupData(ZZZZZZZZZZZZ, "customerType", "first_name");
+                }}
+              >
+                <Text style={styles.selectedText}>
+                  {serviceData.customerType != ""
+                    ? serviceData.customerType?.first_name
+                    : "Сонгох"}
+                </Text>
+                <Icon
+                  name="keyboard-arrow-down"
+                  type="material-icons"
+                  size={30}
+                  color={GRAY_ICON_COLOR}
+                />
+              </TouchableOpacity>
+            </View>
+            <LoanInput
+              label="Үнэ"
+              value={serviceData?.customerType}
+              onChangeText={(e) =>
+                setServiceData((prevState) => ({
+                  ...prevState,
+                  customerType: e,
+                }))
+              }
+            />
+            <View style={styles.touchableSelectContainer}>
+              <Text style={styles.label}>Аймаг, хот</Text>
               <TouchableOpacity
                 style={styles.touchableSelect}
                 onPress={() => {
@@ -114,7 +156,7 @@ const Step2 = (props) => {
               </TouchableOpacity>
             </View>
             <View style={styles.touchableSelectContainer}>
-              <Text style={styles.label}>Үйл ажиллагааны үндсэн чиглэл</Text>
+              <Text style={styles.label}>Сум, дүүрэг</Text>
               <TouchableOpacity
                 style={styles.touchableSelect}
                 onPress={() => {
@@ -135,7 +177,7 @@ const Step2 = (props) => {
               </TouchableOpacity>
             </View>
             <View style={styles.touchableSelectContainer}>
-              <Text style={styles.label}>Үйл ажилллагааны чиглэл</Text>
+              <Text style={styles.label}>Баг, хороо</Text>
               <TouchableOpacity
                 style={styles.touchableSelect}
                 onPress={() => {
@@ -155,27 +197,18 @@ const Step2 = (props) => {
                 />
               </TouchableOpacity>
             </View>
-            <View style={styles.touchableSelectContainer}>
-              <Text style={styles.label}>Үйл ажиллагааны нэр</Text>
-              <TouchableOpacity
-                style={styles.touchableSelect}
-                onPress={() => {
-                  setLookupData(ZZZZZZZZZZZZ, "customerType", "first_name");
-                }}
-              >
-                <Text style={styles.selectedText}>
-                  {serviceData.customerType != ""
-                    ? serviceData.customerType?.first_name
-                    : "Сонгох"}
-                </Text>
-                <Icon
-                  name="keyboard-arrow-down"
-                  type="material-icons"
-                  size={30}
-                  color={GRAY_ICON_COLOR}
-                />
-              </TouchableOpacity>
-            </View>
+            <LoanInput
+              label="Байршил"
+              value={serviceData?.customerType}
+              onChangeText={(e) =>
+                setServiceData((prevState) => ({
+                  ...prevState,
+                  customerType: e,
+                }))
+              }
+              numberOfLines={3}
+              multiline
+            />
             <View style={styles.btmButtonContainer}>
               <TouchableOpacity
                 style={styles.backBtn}
@@ -213,8 +246,8 @@ const Step2 = (props) => {
             }));
           }}
         />
-      </KeyboardAvoidingView>
-    </SafeAreaView>
+      </SafeAreaView>
+    </KeyboardAvoidingView>
   );
 };
 
