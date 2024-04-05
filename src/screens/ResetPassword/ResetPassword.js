@@ -137,11 +137,11 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   cardContainer: {
-    shadowOpacity: 0.2,
+    shadowOpacity: 0.1,
     shadowRadius: 3,
     shadowOffset: {
-      height: 1,
-      width: 0,
+      height: 3,
+      width: 2,
     },
     elevation: 2,
     backgroundColor: "#fff",

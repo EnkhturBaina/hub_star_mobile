@@ -36,7 +36,6 @@ const HomeScreen = (props) => {
   const tabBarHeight = useBottomTabBarHeight();
   const [selectedType, setSelectedType] = useState(null);
   const [expanded, setExpanded] = useState({});
-  console.log("tabBarHeight", Platform.OS, "-->", tabBarHeight);
   const ref = useRef();
   const sheetRef = useRef(); //*****Bottomsheet
 
@@ -425,11 +424,11 @@ const styles = StyleSheet.create({
   typeContainer: {
     flexDirection: "row",
     alignItems: "center",
-    shadowOpacity: 0.2,
+    shadowOpacity: 0.1,
     shadowRadius: 3,
     shadowOffset: {
-      height: 1,
-      width: 0,
+      height: 3,
+      width: 2,
     },
     elevation: 2,
     backgroundColor: "#fff",
@@ -459,11 +458,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     flexDirection: "row",
     alignItems: "center",
-    shadowOpacity: 0.2,
+    shadowOpacity: 0.1,
     shadowRadius: 3,
     shadowOffset: {
-      height: 1,
-      width: 0,
+      height: 3,
+      width: 2,
     },
     elevation: 2,
     backgroundColor: "#fff",
@@ -485,11 +484,11 @@ const styles = StyleSheet.create({
     flex: 1,
     width: 180,
     height: 120,
-    shadowOpacity: 0.2,
+    shadowOpacity: 0.1,
     shadowRadius: 3,
     shadowOffset: {
-      height: 1,
-      width: 0,
+      height: 3,
+      width: 2,
     },
     elevation: 2,
   },

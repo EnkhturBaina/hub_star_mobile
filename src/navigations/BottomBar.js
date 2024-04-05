@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { Image, View, StyleSheet, Text, Platform } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { BlurView } from "expo-blur";
@@ -60,8 +60,9 @@ const TABS = [
 
 const BottomTab = createBottomTabNavigator();
 
-const BottomBar = () => {
+const BottomBar = (props) => {
   const state = useContext(MainContext);
+  const [activeTabName, setActiveTabName] = useState("");
   if (state.isLoading) {
     // Апп ачааллах бүрт SplashScreen харуулах
     return <SplashScreen />;
@@ -77,7 +78,10 @@ const BottomBar = () => {
             position: "absolute",
             borderTopLeftRadius: 20,
             borderTopRightRadius: 20,
+            height: 110,
+            padding: 10,
           },
+          tabBarShowLabel: false,
           tabBarBackground: () => (
             <BlurView
               intensity={Platform.OS == "ios" ? 50 : 20}
@@ -94,35 +98,51 @@ const BottomBar = () => {
           ),
         }}
       >
-        {TABS.map((tab, index) => (
-          <BottomTab.Screen
-            key={`${tab.title}_${index}`}
-            name={tab.title}
-            component={tab.component}
-            options={{
-              tabBarIcon: ({ focused }) => (
-                <Icon
-                  name={focused ? tab.iconActive : tab.icon}
-                  type={tab.iconType}
-                  size={25}
-                  color={focused ? MAIN_COLOR : "#000"}
-                />
-              ),
-              tabBarLabel: ({ focused }) => (
-                <Text
-                  style={{
-                    textAlign: "center",
-                    fontSize: 13,
-                    color: focused ? MAIN_COLOR : "#000",
-                  }}
-                >
-                  {tab.title}
-                </Text>
-              ),
-              tabBarLabelPosition: "below-icon",
-            }}
-          />
-        ))}
+        {TABS.map((tab, index) => {
+          return (
+            <BottomTab.Screen
+              listeners={{
+                focus: (e) => {
+                  var tabName = e.target.split("-")?.[0];
+                  console.log("tab.title", tab.title);
+                  console.log("tabName", tabName);
+                  setActiveTabName(tabName);
+                },
+              }}
+              key={`${tab.title}_${index}`}
+              name={tab.title}
+              component={tab.component}
+              options={{
+                tabBarIcon: ({ focused }) => (
+                  <View>
+                    <Icon
+                      name={focused ? tab.iconActive : tab.icon}
+                      type={tab.iconType}
+                      size={25}
+                      color={focused ? "#fff" : "#000"}
+                    />
+                    <Text
+                      style={{
+                        textAlign: "center",
+                        fontSize: 13,
+                        color: focused ? "#fff" : "#000",
+                      }}
+                    >
+                      {tab.title}
+                    </Text>
+                  </View>
+                ),
+                tabBarLabelPosition: "below-icon",
+                tabBarItemStyle: {
+                  borderRadius: tab.title === activeTabName ? 100 : 0,
+                  backgroundColor:
+                    tab.title === activeTabName ? MAIN_COLOR : "transparent",
+                  marginHorizontal: 5,
+                },
+              }}
+            />
+          );
+        })}
       </BottomTab.Navigator>
     );
   }
