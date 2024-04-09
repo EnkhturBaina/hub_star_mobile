@@ -8,25 +8,33 @@ import {
   Platform,
   TouchableOpacity,
 } from "react-native";
-import React, { useLayoutEffect, useState } from "react";
-import { ProgressBar } from "react-native-paper";
-import { GRAY_ICON_COLOR, MAIN_COLOR, MAIN_COLOR_GRAY } from "../../constant";
+import React, { useContext, useEffect, useState } from "react";
+import {
+  GRAY_ICON_COLOR,
+  MAIN_COLOR_GRAY,
+  SERVER_URL,
+  X_API_KEY,
+} from "../../constant";
 import Constants from "expo-constants";
 import CustomSnackbar from "../../components/CustomSnackbar";
 import BottomSheet from "../../components/BottomSheet";
 import { Icon } from "@rneui/base";
 import GradientButton from "../../components/GradientButton";
 import LoanInput from "../../components/LoanInput";
+import MainContext from "../../contexts/MainContext";
+import axios from "axios";
 
 const Step2 = (props) => {
+  const state = useContext(MainContext);
+
+  const [provinces, setProvinces] = useState([]);
+  const [districts, setDistricts] = useState([]);
+  const [khoroos, setKhoroos] = useState([]);
+
   const [data, setData] = useState(""); //BottomSheet рүү дамжуулах Дата
   const [uselessParam, setUselessParam] = useState(false); //BottomSheet -г дуудаж байгааг мэдэх гэж ашиглаж байгамоо
   const [fieldName, setFieldName] = useState(""); //Context -н аль утгыг OBJECT -с update хийхийг хадгалах
   const [displayName, setDisplayName] = useState(""); //LOOKUP -д харагдах утга (display value)
-
-  const [serviceData, setServiceData] = useState({
-    customerType: "",
-  });
 
   const [visibleSnack, setVisibleSnack] = useState(false);
   const [snackBarMsg, setSnackBarMsg] = useState("");
@@ -48,28 +56,49 @@ const Step2 = (props) => {
     setUselessParam(!uselessParam);
   };
 
-  const ZZZZZZZZZZZZ = [
-    {
-      id: 1,
-      first_name: "Jeanette",
-      last_name: "Penddreth",
-    },
-    {
-      id: 2,
-      first_name: "Giavani",
-      last_name: "Frediani",
-    },
-    {
-      id: 3,
-      first_name: "Noell",
-      last_name: "Bea",
-    },
-    {
-      id: 4,
-      first_name: "Willard",
-      last_name: "Valek",
-    },
-  ];
+  const getAddress = async () => {
+    await axios
+      .get(`${SERVER_URL}reference/address`, {
+        headers: {
+          "X-API-KEY": X_API_KEY,
+        },
+      })
+      .then((response) => {
+        console.log("get Address", JSON.stringify(response.data.response));
+        setCustomerTypes(response?.data?.response);
+      })
+      .catch(function (error) {
+        if (error.response) {
+          console.log("error getIntro Data status", error.response.status);
+          // console.log("error getIntro Data data", error.response.data);
+        }
+      });
+  };
+
+  useEffect(() => {
+    // getAddress();
+  }, []);
+
+  //generalData.loanAmount?.replace(/,/g, "")
+
+  const goNext = () => {
+    // if (state?.serviceData?.title == "") {
+    //   onToggleSnackBar("Зарын гарчиг оруулна уу.");
+    // } else if (state?.serviceData?.price == "") {
+    //   onToggleSnackBar("Үнэ оруулна уу.");
+    // } else if (state?.serviceData?.provinceId == "") {
+    //   onToggleSnackBar("Аймаг, хот сонгоно уу.");
+    // } else if (state?.serviceData?.districtId == "") {
+    //   onToggleSnackBar("Сум, дүүрэг сонгоно уу.");
+    // } else if (state?.serviceData?.khorooId == "") {
+    //   onToggleSnackBar("Баг, хороо сонгоно уу.");
+    // } else if (state?.serviceData?.address == "") {
+    //   onToggleSnackBar("Байршил оруулна уу.");
+    // } else {
+    //   state?.setCurrentStep(3);
+    // }
+    state?.setCurrentStep(3);
+  };
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -95,42 +124,21 @@ const Step2 = (props) => {
           >
             <LoanInput
               label="Зарын гарчиг"
-              value={serviceData?.customerType}
+              value={state?.serviceData?.title}
               onChangeText={(e) =>
-                setServiceData((prevState) => ({
+                state?.setServiceData((prevState) => ({
                   ...prevState,
-                  customerType: e,
+                  title: e,
                 }))
               }
             />
-            <View style={styles.touchableSelectContainer}>
-              <Text style={styles.label}>Хэрэглэгчийн ангилал</Text>
-              <TouchableOpacity
-                style={styles.touchableSelect}
-                onPress={() => {
-                  setLookupData(ZZZZZZZZZZZZ, "customerType", "first_name");
-                }}
-              >
-                <Text style={styles.selectedText}>
-                  {serviceData.customerType != ""
-                    ? serviceData.customerType?.first_name
-                    : "Сонгох"}
-                </Text>
-                <Icon
-                  name="keyboard-arrow-down"
-                  type="material-icons"
-                  size={30}
-                  color={GRAY_ICON_COLOR}
-                />
-              </TouchableOpacity>
-            </View>
             <LoanInput
               label="Үнэ"
-              value={serviceData?.customerType}
+              value={state?.serviceData?.price}
               onChangeText={(e) =>
-                setServiceData((prevState) => ({
+                state?.setServiceData((prevState) => ({
                   ...prevState,
-                  customerType: e,
+                  price: state.addCommas(state.removeNonNumeric(e)),
                 }))
               }
             />
@@ -139,12 +147,12 @@ const Step2 = (props) => {
               <TouchableOpacity
                 style={styles.touchableSelect}
                 onPress={() => {
-                  setLookupData(ZZZZZZZZZZZZ, "customerType", "first_name");
+                  setLookupData(provinces, "provinceId", "name");
                 }}
               >
                 <Text style={styles.selectedText}>
-                  {serviceData.customerType != ""
-                    ? serviceData.customerType?.first_name
+                  {state?.serviceData.provinceId != ""
+                    ? state?.serviceData.provinceId?.name
                     : "Сонгох"}
                 </Text>
                 <Icon
@@ -160,12 +168,12 @@ const Step2 = (props) => {
               <TouchableOpacity
                 style={styles.touchableSelect}
                 onPress={() => {
-                  setLookupData(ZZZZZZZZZZZZ, "customerType", "first_name");
+                  setLookupData(districts, "districtId", "name");
                 }}
               >
                 <Text style={styles.selectedText}>
-                  {serviceData.customerType != ""
-                    ? serviceData.customerType?.first_name
+                  {state?.serviceData.districtId != ""
+                    ? state?.serviceData.districtId?.name
                     : "Сонгох"}
                 </Text>
                 <Icon
@@ -181,12 +189,12 @@ const Step2 = (props) => {
               <TouchableOpacity
                 style={styles.touchableSelect}
                 onPress={() => {
-                  setLookupData(ZZZZZZZZZZZZ, "customerType", "first_name");
+                  setLookupData(khoroos, "khorooId", "name");
                 }}
               >
                 <Text style={styles.selectedText}>
-                  {serviceData.customerType != ""
-                    ? serviceData.customerType?.first_name
+                  {state?.serviceData.khorooId != ""
+                    ? state?.serviceData.khorooId?.name
                     : "Сонгох"}
                 </Text>
                 <Icon
@@ -199,11 +207,11 @@ const Step2 = (props) => {
             </View>
             <LoanInput
               label="Байршил"
-              value={serviceData?.customerType}
+              value={state?.serviceData?.address}
               onChangeText={(e) =>
-                setServiceData((prevState) => ({
+                state?.setServiceData((prevState) => ({
                   ...prevState,
-                  customerType: e,
+                  address: e,
                 }))
               }
               numberOfLines={3}
@@ -213,16 +221,16 @@ const Step2 = (props) => {
               <TouchableOpacity
                 style={styles.backBtn}
                 onPress={() => {
-                  props.goBack();
+                  state?.setCurrentStep(1);
                 }}
               >
                 <Text style={styles.backBtnText}>Буцах</Text>
               </TouchableOpacity>
               <View style={{ width: "48%" }}>
                 <GradientButton
-                  text={`Хадгалах (${props.currentStep}/${props.totalStep})`}
+                  text={`Хадгалах (${state?.currentStep}/${props.totalStep})`}
                   action={() => {
-                    props.goNext();
+                    goNext();
                   }}
                 />
               </View>
@@ -240,9 +248,9 @@ const Step2 = (props) => {
           lookUpType="profile"
           handle={uselessParam}
           action={(e) => {
-            setServiceData((prevState) => ({
+            state?.setServiceData((prevState) => ({
               ...prevState,
-              customerType: e,
+              [fieldName]: e,
             }));
           }}
         />

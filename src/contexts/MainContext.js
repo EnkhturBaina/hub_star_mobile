@@ -33,7 +33,47 @@ export const MainStore = (props) => {
   const [lastName, setLastName] = useState("");
   const [firstName, setFirstName] = useState("");
 
-  var date = new Date();
+  const [currentStep, setCurrentStep] = useState(1);
+  const [serviceData, setServiceData] = useState({
+    customerType: "",
+    mainDirectionId: "",
+    directionId: "",
+    subDirectionId: "",
+    categoryId: "",
+    provinceId: "",
+    districtId: "",
+    khorooId: "",
+    title: "",
+    address: "",
+    desciption: "",
+    price: 0,
+    counter: 0,
+    email: "",
+    phone: "",
+    isMessenger: false,
+    isTermOfService: false,
+  });
+  const clearServiceData = () => {
+    setServiceData({
+      customerType: "",
+      mainDirectionId: "",
+      directionId: "",
+      subDirectionId: "",
+      categoryId: "",
+      provinceId: "",
+      districtId: "",
+      khorooId: "",
+      title: "",
+      address: "",
+      desciption: "",
+      price: 0,
+      counter: 0,
+      email: "",
+      phone: "",
+      isMessenger: false,
+      isTermOfService: false,
+    });
+  };
 
   const login = async (email, password, rememberEmail) => {
     setErrorMsg("");
@@ -117,7 +157,7 @@ export const MainStore = (props) => {
       .then((data) => {
         if (data !== null) {
           const user = JSON.parse(data);
-          // console.log("=======", user);
+          console.log("=======", user);
           setUserData(user);
           setToken(user.accessToken);
           setEmail(user.email);
@@ -237,6 +277,20 @@ export const MainStore = (props) => {
   useEffect(() => {
     getMainDirection();
   }, [direction]);
+
+  const addCommas = (num) => {
+    return num?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  };
+  const removeNonNumeric = (num) => {
+    if (num?.toString().charAt(0) === "0") {
+      num = num?.toString().substring(1);
+    }
+    if (num?.toString().replace(/[^0-9]/g, "") > 500000000) {
+      num = num?.slice(0, -1);
+    }
+    return num?.toString().replace(/[^0-9]/g, "");
+  };
+
   return (
     <MainContext.Provider
       value={{
@@ -271,6 +325,13 @@ export const MainStore = (props) => {
         userData,
         setUserData,
         token,
+        serviceData,
+        setServiceData,
+        clearServiceData,
+        setCurrentStep,
+        currentStep,
+        addCommas,
+        removeNonNumeric,
       }}
     >
       {props.children}

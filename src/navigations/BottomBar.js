@@ -104,9 +104,16 @@ const BottomBar = (props) => {
               listeners={{
                 focus: (e) => {
                   var tabName = e.target.split("-")?.[0];
-                  console.log("tab.title", tab.title);
-                  console.log("tabName", tabName);
+                  // console.log("tab.title", tab.title);
+                  // console.log("tabName", tabName);
                   setActiveTabName(tabName);
+                },
+                tabPress: (e) => {
+                  var tabName = e.target.split("-")?.[0];
+                  if (tabName == "Нэмэх") {
+                    state?.clearServiceData();
+                    state?.setCurrentStep(1);
+                  }
                 },
               }}
               key={`${tab.title}_${index}`}

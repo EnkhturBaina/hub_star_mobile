@@ -7,33 +7,23 @@ import {
   ScrollView,
   Platform,
   TouchableOpacity,
-  Image,
 } from "react-native";
-import React, { useLayoutEffect, useState } from "react";
-import { ProgressBar } from "react-native-paper";
-import {
-  GRAY_ICON_COLOR,
-  MAIN_BG_GRAY,
-  MAIN_BORDER_RADIUS,
-  MAIN_COLOR,
-  MAIN_COLOR_GRAY,
-} from "../../constant";
+import React, { useContext, useState } from "react";
+import { GRAY_ICON_COLOR, MAIN_COLOR, MAIN_COLOR_GRAY } from "../../constant";
 import Constants from "expo-constants";
 import CustomSnackbar from "../../components/CustomSnackbar";
 import BottomSheet from "../../components/BottomSheet";
 import { CheckBox, Icon } from "@rneui/base";
 import GradientButton from "../../components/GradientButton";
 import LoanInput from "../../components/LoanInput";
+import MainContext from "../../contexts/MainContext";
 
 const Step3 = (props) => {
+  const state = useContext(MainContext);
   const [data, setData] = useState(""); //BottomSheet рүү дамжуулах Дата
   const [uselessParam, setUselessParam] = useState(false); //BottomSheet -г дуудаж байгааг мэдэх гэж ашиглаж байгамоо
   const [fieldName, setFieldName] = useState(""); //Context -н аль утгыг OBJECT -с update хийхийг хадгалах
   const [displayName, setDisplayName] = useState(""); //LOOKUP -д харагдах утга (display value)
-
-  const [serviceData, setServiceData] = useState({
-    customerType: "",
-  });
 
   const [visibleSnack, setVisibleSnack] = useState(false);
   const [snackBarMsg, setSnackBarMsg] = useState("");
@@ -55,28 +45,19 @@ const Step3 = (props) => {
     setUselessParam(!uselessParam);
   };
 
-  const ZZZZZZZZZZZZ = [
-    {
-      id: 1,
-      first_name: "Jeanette",
-      last_name: "Penddreth",
-    },
-    {
-      id: 2,
-      first_name: "Giavani",
-      last_name: "Frediani",
-    },
-    {
-      id: 3,
-      first_name: "Noell",
-      last_name: "Bea",
-    },
-    {
-      id: 4,
-      first_name: "Willard",
-      last_name: "Valek",
-    },
-  ];
+  const createAD = () => {
+    if (state?.serviceData?.counter == "") {
+      onToggleSnackBar("Ажлын тоо хэмжээ оруулна уу.");
+    } else if (state?.serviceData?.desciption == "") {
+      onToggleSnackBar("Тайлбар оруулна уу.");
+    } else if (state?.serviceData?.email == "") {
+      onToggleSnackBar("И-мэйл оруулна уу.");
+    } else if (state?.serviceData?.phone == "") {
+      onToggleSnackBar("Утас оруулна уу.");
+    } else {
+      // state?.setCurrentStep(3);
+    }
+  };
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -101,34 +82,23 @@ const Step3 = (props) => {
             contentContainerStyle={styles.scrollContainer}
             bounces={false}
           >
-            <View style={styles.touchableSelectContainer}>
-              <Text style={styles.label}>Хэмжих нэгж</Text>
-              <TouchableOpacity
-                style={styles.touchableSelect}
-                onPress={() => {
-                  setLookupData(ZZZZZZZZZZZZ, "customerType", "first_name");
-                }}
-              >
-                <Text style={styles.selectedText}>
-                  {serviceData.customerType != ""
-                    ? serviceData.customerType?.first_name
-                    : "Сонгох"}
-                </Text>
-                <Icon
-                  name="keyboard-arrow-down"
-                  type="material-icons"
-                  size={30}
-                  color={GRAY_ICON_COLOR}
-                />
-              </TouchableOpacity>
-            </View>
+            <LoanInput
+              label="Хэмжих нэгж"
+              value={state?.serviceData?.counter}
+              onChangeText={(e) =>
+                state?.setServiceData((prevState) => ({
+                  ...prevState,
+                  counter: e,
+                }))
+              }
+            />
             <LoanInput
               label="Ажлын тоо хэмжээ"
-              value={serviceData?.customerType}
+              value={state?.serviceData?.counter}
               onChangeText={(e) =>
-                setServiceData((prevState) => ({
+                state?.setServiceData((prevState) => ({
                   ...prevState,
-                  customerType: e,
+                  counter: e,
                 }))
               }
             />
@@ -154,11 +124,11 @@ const Step3 = (props) => {
             </View>
             <LoanInput
               label="Тайлбар"
-              value={serviceData?.customerType}
+              value={state?.serviceData?.desciption}
               onChangeText={(e) =>
-                setServiceData((prevState) => ({
+                state?.setServiceData((prevState) => ({
                   ...prevState,
-                  customerType: e,
+                  desciption: e,
                 }))
               }
               numberOfLines={3}
@@ -166,22 +136,22 @@ const Step3 = (props) => {
             />
             <LoanInput
               label="И-мэйл"
-              value={serviceData?.customerType}
+              value={state?.serviceData?.email}
               onChangeText={(e) =>
-                setServiceData((prevState) => ({
+                state?.setServiceData((prevState) => ({
                   ...prevState,
-                  customerType: e,
+                  email: e,
                 }))
               }
               keyboardType="email-address"
             />
             <LoanInput
               label="Утас"
-              value={serviceData?.customerType}
+              value={state?.serviceData?.phone}
               onChangeText={(e) =>
-                setServiceData((prevState) => ({
+                state?.setServiceData((prevState) => ({
                   ...prevState,
-                  customerType: e,
+                  phone: e,
                 }))
               }
               keyboardType="number-pad"
@@ -189,9 +159,7 @@ const Step3 = (props) => {
             <CheckBox
               containerStyle={{
                 padding: 0,
-                margin: 0,
                 marginLeft: 0,
-                backgroundColor: MAIN_BG_GRAY,
                 marginTop: 10,
               }}
               textStyle={{
@@ -199,8 +167,13 @@ const Step3 = (props) => {
                 marginLeft: 5,
               }}
               title="Мессэнжер нээх"
-              checked={1}
-              onPress={() => {}}
+              checked={state?.serviceData?.isMessenger}
+              onPress={() => {
+                state?.setServiceData((prevState) => ({
+                  ...prevState,
+                  isMessenger: !state?.serviceData?.isMessenger,
+                }));
+              }}
               iconType="material-community"
               checkedIcon="checkbox-outline"
               uncheckedIcon="checkbox-blank-outline"
@@ -210,9 +183,7 @@ const Step3 = (props) => {
             <CheckBox
               containerStyle={{
                 padding: 0,
-                margin: 0,
                 marginLeft: 0,
-                backgroundColor: MAIN_BG_GRAY,
                 marginTop: 10,
               }}
               textStyle={{
@@ -220,8 +191,13 @@ const Step3 = (props) => {
                 marginLeft: 5,
               }}
               title="Үйлчилгээний нөхцөл зөвшөөрөх"
-              checked={1}
-              onPress={() => {}}
+              checked={state?.serviceData?.isTermOfService}
+              onPress={() => {
+                state?.setServiceData((prevState) => ({
+                  ...prevState,
+                  isTermOfService: !state?.serviceData?.isTermOfService,
+                }));
+              }}
               iconType="material-community"
               checkedIcon="checkbox-outline"
               uncheckedIcon="checkbox-blank-outline"
@@ -232,15 +208,17 @@ const Step3 = (props) => {
               <TouchableOpacity
                 style={styles.backBtn}
                 onPress={() => {
-                  props.goBack();
+                  state?.setCurrentStep(2);
                 }}
               >
                 <Text style={styles.backBtnText}>Буцах</Text>
               </TouchableOpacity>
               <View style={{ width: "48%" }}>
                 <GradientButton
-                  text={`Хадгалах (${props.currentStep}/${props.totalStep})`}
-                  action={() => {}}
+                  text={`Хадгалах (${state?.currentStep}/${props.totalStep})`}
+                  action={() => {
+                    createAD();
+                  }}
                 />
               </View>
             </View>
@@ -257,9 +235,9 @@ const Step3 = (props) => {
           lookUpType="profile"
           handle={uselessParam}
           action={(e) => {
-            setServiceData((prevState) => ({
+            state?.setServiceData((prevState) => ({
               ...prevState,
-              customerType: e,
+              [fieldName]: e,
             }));
           }}
         />
@@ -277,27 +255,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingTop: 10,
   },
-  touchableSelectContainer: {
-    marginBottom: 10,
-  },
-  touchableSelect: {
-    flexDirection: "row",
-    width: "100%",
-    justifyContent: "space-between",
-    borderRadius: 12,
-    backgroundColor: MAIN_COLOR_GRAY,
-    height: 48,
-    alignItems: "center",
-    paddingLeft: 15,
-    paddingRight: 10,
-  },
   label: {
     fontWeight: "bold",
     padding: 5,
-  },
-  selectedText: {
-    fontWeight: "500",
-    color: GRAY_ICON_COLOR,
   },
   btmButtonContainer: {
     flexDirection: "row",
