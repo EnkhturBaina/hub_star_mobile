@@ -78,7 +78,7 @@ const BottomBar = (props) => {
             position: "absolute",
             borderTopLeftRadius: 20,
             borderTopRightRadius: 20,
-            height: 110,
+            height: 105,
             padding: 10,
           },
           tabBarShowLabel: false,

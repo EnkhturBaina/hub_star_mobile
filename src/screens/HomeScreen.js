@@ -212,18 +212,23 @@ const HomeScreen = (props) => {
           Онцгой үйлчилгээ
         </Text>
         <View style={styles.gridContainer}>
-          {featuresData?.map((el, index) => {
-            return (
-              <TouchableOpacity
-                onPress={() => props.navigation.navigate("ServiceListScreen")}
-                style={styles.gridItem}
-                key={index}
-              >
-                <Image style={styles.featureIcon} source={el.icon} />
-                <Text style={styles.featureText}>{el.title}</Text>
-              </TouchableOpacity>
-            );
-          })}
+          {state.customerTypes
+            ?.filter((el) => el.isSpecial)
+            ?.map((el, index) => {
+              return (
+                <TouchableOpacity
+                  onPress={() => props.navigation.navigate("ServiceListScreen")}
+                  style={styles.gridItem}
+                  key={index}
+                >
+                  <Image
+                    style={styles.typeLogo}
+                    source={{ uri: SERVER_URL + "images/" + el.logo?.path }}
+                  />
+                  <Text style={styles.featureText}>{el.name}</Text>
+                </TouchableOpacity>
+              );
+            })}
         </View>
         <Text style={styles.specialServiceText}>Үндсэн үйлчилгээ</Text>
         <View style={{ marginVertical: 10 }}>
