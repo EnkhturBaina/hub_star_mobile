@@ -19,9 +19,9 @@ const TABS = [
   {
     name: "HomeTab",
     title: "Нүүр",
-    icon: "home-outline",
+    icon: "home",
     iconActive: "home",
-    iconType: "ionicon",
+    iconType: "antdesign",
     component: HomeScreenStackNavigator,
   },
   {
@@ -124,7 +124,7 @@ const BottomBar = (props) => {
                     <Text
                       style={{
                         textAlign: "center",
-                        fontSize: 13,
+                        fontSize: 12,
                         color: focused ? "#fff" : "#000",
                       }}
                     >

@@ -49,18 +49,17 @@ const OTPScreen = (props) => {
   const confirmOTP = () => {
     try {
       setIsWaiting(true);
-      axios({
-        method: "post",
-        url: `${SERVER_URL}authentication/verify/otp`,
-        data: {
-          otp: value,
-          details: route.params?.details,
-          type: "Registration",
-        },
-        headers: {
-          "x-api-key": `${X_API_KEY}`,
-        },
-      })
+      axios
+        .post(`${SERVER_URL}authentication/verify/otp`, {
+          data: {
+            otp: value,
+            details: route.params?.details,
+            type: "Registration",
+          },
+          headers: {
+            "x-api-key": `${X_API_KEY}`,
+          },
+        })
         .then(async (response) => {
           // console.log("confirm OTP", response.data);
           if (response.data?.statusCode == 200) {

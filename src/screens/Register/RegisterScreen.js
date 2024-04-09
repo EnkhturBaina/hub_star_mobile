@@ -77,19 +77,18 @@ const RegisterScreen = (props) => {
     } else {
       setIsWaiting(true);
       try {
-        await axios({
-          method: "post",
-          url: `${SERVER_URL}authentication/register`,
-          headers: {
-            "x-api-key": `${X_API_KEY}`,
-          },
-          data: {
-            email: email?.toLowerCase(),
-            password,
-            firstName,
-            lastName,
-          },
-        })
+        await axios
+          .post(`${SERVER_URL}authentication/register`, {
+            headers: {
+              "x-api-key": `${X_API_KEY}`,
+            },
+            data: {
+              email: email?.toLowerCase(),
+              password,
+              firstName,
+              lastName,
+            },
+          })
           .then(function (response) {
             console.log("response", response.data);
             if (response.data?.statusCode == 200) {

@@ -8,6 +8,7 @@ import Step2 from "./Step2";
 import Step3 from "./Step3";
 
 const AddService = (props) => {
+  console.log("PROPS", props);
   const totalStep = 3;
   const [currentStep, setCurrentStep] = useState(1);
 

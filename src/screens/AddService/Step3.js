@@ -7,15 +7,23 @@ import {
   ScrollView,
   Platform,
   TouchableOpacity,
+  Image,
 } from "react-native";
 import React, { useLayoutEffect, useState } from "react";
 import { ProgressBar } from "react-native-paper";
-import { GRAY_ICON_COLOR, MAIN_COLOR, MAIN_COLOR_GRAY } from "../../constant";
+import {
+  GRAY_ICON_COLOR,
+  MAIN_BG_GRAY,
+  MAIN_BORDER_RADIUS,
+  MAIN_COLOR,
+  MAIN_COLOR_GRAY,
+} from "../../constant";
 import Constants from "expo-constants";
 import CustomSnackbar from "../../components/CustomSnackbar";
 import BottomSheet from "../../components/BottomSheet";
-import { Icon } from "@rneui/base";
+import { CheckBox, Icon } from "@rneui/base";
 import GradientButton from "../../components/GradientButton";
+import LoanInput from "../../components/LoanInput";
 
 const Step3 = (props) => {
   const [data, setData] = useState(""); //BottomSheet рүү дамжуулах Дата
@@ -70,30 +78,31 @@ const Step3 = (props) => {
     },
   ];
   return (
-    <SafeAreaView
-      style={{
-        flex: 1,
-        paddingTop: Constants.statusBarHeight,
-        backgroundColor: "#fff",
-      }}
+    <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      style={{ flex: 1 }}
+      keyboardVerticalOffset={Platform.OS === "ios" ? 40 : 0}
     >
-      <CustomSnackbar
-        visible={visibleSnack}
-        dismiss={onDismissSnackBar}
-        text={snackBarMsg}
-        topPos={1}
-      />
-      <KeyboardAvoidingView
-        behavior={Platform.OS === "ios" ? "padding" : "height"}
-        style={{ flex: 1 }}
+      <SafeAreaView
+        style={{
+          flex: 1,
+          paddingTop: Constants.statusBarHeight,
+          backgroundColor: "#fff",
+        }}
       >
+        <CustomSnackbar
+          visible={visibleSnack}
+          dismiss={onDismissSnackBar}
+          text={snackBarMsg}
+          topPos={1}
+        />
         <View style={{ flex: 1 }}>
           <ScrollView
             contentContainerStyle={styles.scrollContainer}
             bounces={false}
           >
             <View style={styles.touchableSelectContainer}>
-              <Text style={styles.label}>Хэрэглэгчийн төрөл</Text>
+              <Text style={styles.label}>Хэмжих нэгж</Text>
               <TouchableOpacity
                 style={styles.touchableSelect}
                 onPress={() => {
@@ -113,69 +122,112 @@ const Step3 = (props) => {
                 />
               </TouchableOpacity>
             </View>
-            <View style={styles.touchableSelectContainer}>
-              <Text style={styles.label}>Үйл ажиллагааны үндсэн чиглэл</Text>
-              <TouchableOpacity
-                style={styles.touchableSelect}
-                onPress={() => {
-                  setLookupData(ZZZZZZZZZZZZ, "customerType", "first_name");
-                }}
-              >
-                <Text style={styles.selectedText}>
-                  {serviceData.customerType != ""
-                    ? serviceData.customerType?.first_name
-                    : "Сонгох"}
-                </Text>
-                <Icon
-                  name="keyboard-arrow-down"
-                  type="material-icons"
-                  size={30}
-                  color={GRAY_ICON_COLOR}
-                />
-              </TouchableOpacity>
+            <LoanInput
+              label="Ажлын тоо хэмжээ"
+              value={serviceData?.customerType}
+              onChangeText={(e) =>
+                setServiceData((prevState) => ({
+                  ...prevState,
+                  customerType: e,
+                }))
+              }
+            />
+            <Text style={styles.label}>Зураг оруулах</Text>
+            <View style={styles.gridContainer}>
+              {[...Array(10)]?.map((el, index) => {
+                return (
+                  <TouchableOpacity
+                    onPress={() => {}}
+                    style={styles.gridItem}
+                    key={index}
+                  >
+                    <Text style={styles.featureText}>Зураг нэмэх</Text>
+                    <Icon
+                      name="image"
+                      type="feather"
+                      size={20}
+                      color={GRAY_ICON_COLOR}
+                    />
+                  </TouchableOpacity>
+                );
+              })}
             </View>
-            <View style={styles.touchableSelectContainer}>
-              <Text style={styles.label}>Үйл ажилллагааны чиглэл</Text>
-              <TouchableOpacity
-                style={styles.touchableSelect}
-                onPress={() => {
-                  setLookupData(ZZZZZZZZZZZZ, "customerType", "first_name");
-                }}
-              >
-                <Text style={styles.selectedText}>
-                  {serviceData.customerType != ""
-                    ? serviceData.customerType?.first_name
-                    : "Сонгох"}
-                </Text>
-                <Icon
-                  name="keyboard-arrow-down"
-                  type="material-icons"
-                  size={30}
-                  color={GRAY_ICON_COLOR}
-                />
-              </TouchableOpacity>
-            </View>
-            <View style={styles.touchableSelectContainer}>
-              <Text style={styles.label}>Үйл ажиллагааны нэр</Text>
-              <TouchableOpacity
-                style={styles.touchableSelect}
-                onPress={() => {
-                  setLookupData(ZZZZZZZZZZZZ, "customerType", "first_name");
-                }}
-              >
-                <Text style={styles.selectedText}>
-                  {serviceData.customerType != ""
-                    ? serviceData.customerType?.first_name
-                    : "Сонгох"}
-                </Text>
-                <Icon
-                  name="keyboard-arrow-down"
-                  type="material-icons"
-                  size={30}
-                  color={GRAY_ICON_COLOR}
-                />
-              </TouchableOpacity>
-            </View>
+            <LoanInput
+              label="Тайлбар"
+              value={serviceData?.customerType}
+              onChangeText={(e) =>
+                setServiceData((prevState) => ({
+                  ...prevState,
+                  customerType: e,
+                }))
+              }
+              numberOfLines={3}
+              multiline
+            />
+            <LoanInput
+              label="И-мэйл"
+              value={serviceData?.customerType}
+              onChangeText={(e) =>
+                setServiceData((prevState) => ({
+                  ...prevState,
+                  customerType: e,
+                }))
+              }
+              keyboardType="email-address"
+            />
+            <LoanInput
+              label="Утас"
+              value={serviceData?.customerType}
+              onChangeText={(e) =>
+                setServiceData((prevState) => ({
+                  ...prevState,
+                  customerType: e,
+                }))
+              }
+              keyboardType="number-pad"
+            />
+            <CheckBox
+              containerStyle={{
+                padding: 0,
+                margin: 0,
+                marginLeft: 0,
+                backgroundColor: MAIN_BG_GRAY,
+                marginTop: 10,
+              }}
+              textStyle={{
+                fontWeight: "bold",
+                marginLeft: 5,
+              }}
+              title="Мессэнжер нээх"
+              checked={1}
+              onPress={() => {}}
+              iconType="material-community"
+              checkedIcon="checkbox-outline"
+              uncheckedIcon="checkbox-blank-outline"
+              checkedColor={MAIN_COLOR}
+              uncheckedColor={MAIN_COLOR}
+            />
+            <CheckBox
+              containerStyle={{
+                padding: 0,
+                margin: 0,
+                marginLeft: 0,
+                backgroundColor: MAIN_BG_GRAY,
+                marginTop: 10,
+              }}
+              textStyle={{
+                fontWeight: "bold",
+                marginLeft: 5,
+              }}
+              title="Үйлчилгээний нөхцөл зөвшөөрөх"
+              checked={1}
+              onPress={() => {}}
+              iconType="material-community"
+              checkedIcon="checkbox-outline"
+              uncheckedIcon="checkbox-blank-outline"
+              checkedColor={MAIN_COLOR}
+              uncheckedColor={MAIN_COLOR}
+            />
             <View style={styles.btmButtonContainer}>
               <TouchableOpacity
                 style={styles.backBtn}
@@ -211,8 +263,8 @@ const Step3 = (props) => {
             }));
           }}
         />
-      </KeyboardAvoidingView>
-    </SafeAreaView>
+      </SafeAreaView>
+    </KeyboardAvoidingView>
   );
 };
 
@@ -264,5 +316,31 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "bold",
     color: GRAY_ICON_COLOR,
+  },
+  gridContainer: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    alignItems: "flex-start",
+    justifyContent: "space-between",
+  },
+  gridItem: {
+    marginBottom: 10,
+    borderRadius: 4,
+    height: 32,
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: MAIN_COLOR_GRAY,
+    width: "48%", // is 50% of container width
+  },
+  featureIcon: {
+    resizeMode: "contain",
+    width: 40,
+    height: 40,
+  },
+  featureText: {
+    color: "#798585",
+    marginRight: 5,
+    fontSize: 12,
   },
 });
