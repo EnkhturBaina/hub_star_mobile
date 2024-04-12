@@ -19,9 +19,9 @@ const TABS = [
   {
     name: "HomeTab",
     title: "Нүүр",
-    icon: "home-outline",
+    icon: "home",
     iconActive: "home",
-    iconType: "ionicon",
+    iconType: "antdesign",
     component: HomeScreenStackNavigator,
   },
   {
@@ -78,7 +78,7 @@ const BottomBar = (props) => {
             position: "absolute",
             borderTopLeftRadius: 20,
             borderTopRightRadius: 20,
-            height: 110,
+            height: 105,
             padding: 10,
           },
           tabBarShowLabel: false,
@@ -104,9 +104,16 @@ const BottomBar = (props) => {
               listeners={{
                 focus: (e) => {
                   var tabName = e.target.split("-")?.[0];
-                  console.log("tab.title", tab.title);
-                  console.log("tabName", tabName);
+                  // console.log("tab.title", tab.title);
+                  // console.log("tabName", tabName);
                   setActiveTabName(tabName);
+                },
+                tabPress: (e) => {
+                  var tabName = e.target.split("-")?.[0];
+                  if (tabName == "Нэмэх") {
+                    state?.clearServiceData();
+                    state?.setCurrentStep(1);
+                  }
                 },
               }}
               key={`${tab.title}_${index}`}
@@ -124,7 +131,7 @@ const BottomBar = (props) => {
                     <Text
                       style={{
                         textAlign: "center",
-                        fontSize: 13,
+                        fontSize: 12,
                         color: focused ? "#fff" : "#000",
                       }}
                     >

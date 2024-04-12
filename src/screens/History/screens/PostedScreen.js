@@ -65,9 +65,12 @@ const PostedScreen = (props) => {
             </TouchableOpacity>
           );
         })}
-        <View style={styles.addItemContainer}>
+        <TouchableOpacity
+          onPress={() => props.navigation.navigate("AddService")}
+          style={styles.addItemContainer}
+        >
           <Icon name="pluscircle" type="antdesign" size={50} color="#c5c5c5" />
-        </View>
+        </TouchableOpacity>
       </ScrollView>
     </SafeAreaProvider>
   );

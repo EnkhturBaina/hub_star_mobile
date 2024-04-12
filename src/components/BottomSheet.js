@@ -19,21 +19,14 @@ const BottomSheet = ({
   action, // parent Fn
   lookUpType,
 }) => {
+  const itemHeight = 40;
   const sheetRef = useRef(); //Bottomsheet
   const [heightBottomSheet, setHeightBottomSheet] = useState(0);
   useEffect(() => {
-    if (bodyText && bodyText?.length == 1) {
-      setHeightBottomSheet(Platform.OS == "ios" ? 90 : 80);
-    } else if (bodyText && bodyText?.length == 2) {
-      setHeightBottomSheet(130);
-    } else if (bodyText && bodyText?.length == 3) {
-      setHeightBottomSheet(180);
-    } else if (bodyText && bodyText?.length == 4) {
-      setHeightBottomSheet(210);
-    } else if (bodyText && bodyText?.length > 4) {
-      setHeightBottomSheet(300);
+    if (bodyText && bodyText?.length > 10) {
+      setHeightBottomSheet(400);
     } else {
-      setHeightBottomSheet(0);
+      setHeightBottomSheet(bodyText?.length * itemHeight + 50);
     }
   }, [handle]);
 
@@ -81,6 +74,7 @@ const BottomSheet = ({
                     <TouchableOpacity
                       key={index}
                       onPress={() => functionCombined(el)}
+                      style={{ height: itemHeight }}
                     >
                       <Text style={styles.bottomSheetBodyLookup}>
                         {el[displayName]}

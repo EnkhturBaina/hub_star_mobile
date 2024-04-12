@@ -128,40 +128,42 @@ const HomeScreen = (props) => {
             showsHorizontalScrollIndicator={false}
             contentContainerStyle={{ paddingRight: 20 }}
           >
-            {state.customerTypes?.map((el, index) => {
-              return (
-                <TouchableOpacity
-                  key={index}
-                  style={[
-                    styles.typeContainer,
-                    {
-                      marginLeft: index == 0 ? 20 : 10,
-                      backgroundColor:
-                        index == selectedType ? MAIN_COLOR : "#fff",
-                    },
-                  ]}
-                  onPress={() => {
-                    setSelectedType(index);
-                    props.navigation.navigate("ServiceListScreenByType");
-                  }}
-                >
-                  <Image
-                    style={styles.typeLogo}
-                    source={{ uri: SERVER_URL + "images/" + el.logo?.path }}
-                  />
-                  <Text
+            {state.customerTypes
+              ?.filter((el) => !el.isSpecial)
+              .map((el, index) => {
+                return (
+                  <TouchableOpacity
+                    key={index}
                     style={[
-                      styles.typeText,
+                      styles.typeContainer,
                       {
-                        color: index == selectedType ? "#fff" : "#000",
+                        marginLeft: index == 0 ? 20 : 10,
+                        backgroundColor:
+                          index == selectedType ? MAIN_COLOR : "#fff",
                       },
                     ]}
+                    onPress={() => {
+                      setSelectedType(index);
+                      props.navigation.navigate("ServiceListScreenByType");
+                    }}
                   >
-                    {el.name}
-                  </Text>
-                </TouchableOpacity>
-              );
-            })}
+                    <Image
+                      style={styles.typeLogo}
+                      source={{ uri: SERVER_URL + "images/" + el.logo?.path }}
+                    />
+                    <Text
+                      style={[
+                        styles.typeText,
+                        {
+                          color: index == selectedType ? "#fff" : "#000",
+                        },
+                      ]}
+                    >
+                      {el.name}
+                    </Text>
+                  </TouchableOpacity>
+                );
+              })}
           </ScrollView>
         </View>
         <Animated.View
@@ -210,18 +212,23 @@ const HomeScreen = (props) => {
           Онцгой үйлчилгээ
         </Text>
         <View style={styles.gridContainer}>
-          {featuresData?.map((el, index) => {
-            return (
-              <TouchableOpacity
-                onPress={() => props.navigation.navigate("ServiceListScreen")}
-                style={styles.gridItem}
-                key={index}
-              >
-                <Image style={styles.featureIcon} source={el.icon} />
-                <Text style={styles.featureText}>{el.title}</Text>
-              </TouchableOpacity>
-            );
-          })}
+          {state.customerTypes
+            ?.filter((el) => el.isSpecial)
+            ?.map((el, index) => {
+              return (
+                <TouchableOpacity
+                  onPress={() => props.navigation.navigate("ServiceListScreen")}
+                  style={styles.gridItem}
+                  key={index}
+                >
+                  <Image
+                    style={styles.typeLogo}
+                    source={{ uri: SERVER_URL + "images/" + el.logo?.path }}
+                  />
+                  <Text style={styles.featureText}>{el.name}</Text>
+                </TouchableOpacity>
+              );
+            })}
         </View>
         <Text style={styles.specialServiceText}>Үндсэн үйлчилгээ</Text>
         <View style={{ marginVertical: 10 }}>

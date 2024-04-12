@@ -1,15 +1,16 @@
 import { SafeAreaView } from "react-native";
-import React, { useLayoutEffect, useState } from "react";
+import React, { useContext, useLayoutEffect, useState } from "react";
 import { ProgressBar } from "react-native-paper";
 import { MAIN_COLOR } from "../../constant";
 import Constants from "expo-constants";
 import Step1 from "./Step1";
 import Step2 from "./Step2";
 import Step3 from "./Step3";
+import MainContext from "../../contexts/MainContext";
 
 const AddService = (props) => {
+  const state = useContext(MainContext);
   const totalStep = 3;
-  const [currentStep, setCurrentStep] = useState(1);
 
   useLayoutEffect(() => {
     // TabBar Hide хийх
@@ -37,32 +38,13 @@ const AddService = (props) => {
       }}
     >
       <ProgressBar
-        progress={currentStep / totalStep}
+        progress={state?.currentStep / totalStep}
         color={MAIN_COLOR}
         style={{ marginVertical: 20, marginHorizontal: 20 }}
       />
-      {currentStep == 1 && (
-        <Step1
-          currentStep={currentStep}
-          goNext={() => setCurrentStep(2)}
-          totalStep={totalStep}
-        />
-      )}
-      {currentStep == 2 && (
-        <Step2
-          currentStep={currentStep}
-          goNext={() => setCurrentStep(3)}
-          goBack={() => setCurrentStep(1)}
-          totalStep={totalStep}
-        />
-      )}
-      {currentStep == 3 && (
-        <Step3
-          currentStep={currentStep}
-          goBack={() => setCurrentStep(2)}
-          totalStep={totalStep}
-        />
-      )}
+      {state?.currentStep == 1 && <Step1 totalStep={totalStep} />}
+      {state?.currentStep == 2 && <Step2 totalStep={totalStep} />}
+      {state?.currentStep == 3 && <Step3 totalStep={totalStep} />}
     </SafeAreaView>
   );
 };

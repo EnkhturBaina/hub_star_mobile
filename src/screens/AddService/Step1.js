@@ -3,31 +3,26 @@ import {
   Text,
   View,
   SafeAreaView,
-  KeyboardAvoidingView,
   ScrollView,
-  Platform,
   TouchableOpacity,
 } from "react-native";
-import React, { useLayoutEffect, useState } from "react";
-import { ProgressBar } from "react-native-paper";
-import { GRAY_ICON_COLOR, MAIN_COLOR, MAIN_COLOR_GRAY } from "../../constant";
+import React, { useContext, useEffect, useState } from "react";
+import { GRAY_ICON_COLOR, MAIN_COLOR_GRAY } from "../../constant";
 import Constants from "expo-constants";
 import CustomSnackbar from "../../components/CustomSnackbar";
 import BottomSheet from "../../components/BottomSheet";
 import { Icon } from "@rneui/base";
 import GradientButton from "../../components/GradientButton";
 import { useNavigation } from "@react-navigation/native";
+import MainContext from "../../contexts/MainContext";
 
 const Step1 = (props) => {
+  const state = useContext(MainContext);
   const navigation = useNavigation();
   const [data, setData] = useState(""); //BottomSheet рүү дамжуулах Дата
   const [uselessParam, setUselessParam] = useState(false); //BottomSheet -г дуудаж байгааг мэдэх гэж ашиглаж байгамоо
   const [fieldName, setFieldName] = useState(""); //Context -н аль утгыг OBJECT -с update хийхийг хадгалах
   const [displayName, setDisplayName] = useState(""); //LOOKUP -д харагдах утга (display value)
-
-  const [serviceData, setServiceData] = useState({
-    customerType: "",
-  });
 
   const [visibleSnack, setVisibleSnack] = useState(false);
   const [snackBarMsg, setSnackBarMsg] = useState("");
@@ -49,28 +44,36 @@ const Step1 = (props) => {
     setUselessParam(!uselessParam);
   };
 
-  const ZZZZZZZZZZZZ = [
-    {
-      id: 1,
-      first_name: "Jeanette",
-      last_name: "Penddreth",
-    },
-    {
-      id: 2,
-      first_name: "Giavani",
-      last_name: "Frediani",
-    },
-    {
-      id: 3,
-      first_name: "Noell",
-      last_name: "Bea",
-    },
-    {
-      id: 4,
-      first_name: "Willard",
-      last_name: "Valek",
-    },
-  ];
+  useEffect(() => {
+    state?.setServiceData((prevState) => ({
+      ...prevState,
+      directionId: "",
+      subDirectionId: "",
+    }));
+  }, [state?.serviceData?.mainDirectionId]);
+
+  useEffect(() => {
+    state?.setServiceData((prevState) => ({
+      ...prevState,
+      subDirectionId: "",
+    }));
+  }, [state?.serviceData?.directionId]);
+
+  const goNext = () => {
+    // if (state?.serviceData?.categoryId == "") {
+    //   onToggleSnackBar("Хэрэглэгчийн төрөл сонгоно уу.");
+    // } else if (state?.serviceData?.mainDirectionId == "") {
+    //   onToggleSnackBar("Үйл ажиллагааны үндсэн чиглэл сонгоно уу.");
+    // } else if (state?.serviceData?.directionId == "") {
+    //   onToggleSnackBar("Үйл ажилллагааны чиглэл сонгоно уу.");
+    // } else if (state?.serviceData?.subDirectionId == "") {
+    //   onToggleSnackBar("Үйл ажиллагааны нэр сонгоно уу.");
+    // } else {
+    //   state?.setCurrentStep(2);
+    // }
+    state?.setCurrentStep(2);
+  };
+
   return (
     <SafeAreaView
       style={{
@@ -85,137 +88,158 @@ const Step1 = (props) => {
         text={snackBarMsg}
         topPos={1}
       />
-      <KeyboardAvoidingView
-        behavior={Platform.OS === "ios" ? "padding" : "height"}
-        style={{ flex: 1 }}
-      >
-        <View style={{ flex: 1 }}>
-          <ScrollView
-            contentContainerStyle={styles.scrollContainer}
-            bounces={false}
-          >
-            <View style={styles.touchableSelectContainer}>
-              <Text style={styles.label}>Хэрэглэгчийн төрөл</Text>
-              <TouchableOpacity
-                style={styles.touchableSelect}
-                onPress={() => {
-                  setLookupData(ZZZZZZZZZZZZ, "customerType", "first_name");
+      <View style={{ flex: 1 }}>
+        <ScrollView
+          contentContainerStyle={styles.scrollContainer}
+          bounces={false}
+        >
+          <View style={styles.touchableSelectContainer}>
+            <Text style={styles.label}>Хэрэглэгчийн төрөл</Text>
+            <TouchableOpacity
+              style={styles.touchableSelect}
+              onPress={() => {
+                setLookupData(
+                  state.customerTypes?.filter((el) => !el.isSpecial),
+                  "categoryId",
+                  "name"
+                );
+              }}
+            >
+              <Text style={styles.selectedText}>
+                {state?.serviceData.categoryId != ""
+                  ? state?.serviceData.categoryId?.name
+                  : "Сонгох"}
+              </Text>
+              <Icon
+                name="keyboard-arrow-down"
+                type="material-icons"
+                size={30}
+                color={GRAY_ICON_COLOR}
+              />
+            </TouchableOpacity>
+          </View>
+          <View style={styles.touchableSelectContainer}>
+            <Text style={styles.label}>Үйл ажиллагааны үндсэн чиглэл</Text>
+            <TouchableOpacity
+              style={styles.touchableSelect}
+              onPress={() => {
+                setLookupData(state?.mainDirection, "mainDirectionId", "name");
+              }}
+            >
+              <Text style={styles.selectedText}>
+                {state?.serviceData.mainDirectionId != ""
+                  ? state?.serviceData.mainDirectionId?.name
+                  : "Сонгох"}
+              </Text>
+              <Icon
+                name="keyboard-arrow-down"
+                type="material-icons"
+                size={30}
+                color={GRAY_ICON_COLOR}
+              />
+            </TouchableOpacity>
+          </View>
+          <View style={styles.touchableSelectContainer}>
+            <Text style={styles.label}>Үйл ажилллагааны чиглэл</Text>
+            <TouchableOpacity
+              style={styles.touchableSelect}
+              onPress={() => {
+                setLookupData(
+                  state?.serviceData?.mainDirectionId?.children,
+                  "directionId",
+                  "name"
+                );
+              }}
+              disabled={
+                state?.serviceData?.mainDirectionId == "" ||
+                (state?.serviceData?.mainDirectionId.hasOwnProperty(
+                  "children"
+                ) &&
+                  state?.serviceData?.mainDirectionId?.children?.length == 0)
+              }
+            >
+              <Text style={styles.selectedText}>
+                {state?.serviceData.directionId != ""
+                  ? state?.serviceData.directionId?.name
+                  : "Сонгох"}
+              </Text>
+              <Icon
+                name="keyboard-arrow-down"
+                type="material-icons"
+                size={30}
+                color={GRAY_ICON_COLOR}
+              />
+            </TouchableOpacity>
+          </View>
+          <View style={styles.touchableSelectContainer}>
+            <Text style={styles.label}>Үйл ажиллагааны нэр</Text>
+            <TouchableOpacity
+              style={styles.touchableSelect}
+              onPress={() => {
+                setLookupData(
+                  state?.serviceData?.directionId?.sub_children,
+                  "subDirectionId",
+                  "name"
+                );
+              }}
+              disabled={
+                state?.serviceData?.directionId == "" ||
+                (state?.serviceData?.directionId.hasOwnProperty(
+                  "sub_children"
+                ) &&
+                  state?.serviceData?.directionId?.sub_children?.length == 0)
+              }
+            >
+              <Text style={styles.selectedText}>
+                {state?.serviceData.subDirectionId != ""
+                  ? state?.serviceData.subDirectionId?.name
+                  : "Сонгох"}
+              </Text>
+              <Icon
+                name="keyboard-arrow-down"
+                type="material-icons"
+                size={30}
+                color={GRAY_ICON_COLOR}
+              />
+            </TouchableOpacity>
+          </View>
+          <View style={styles.btmButtonContainer}>
+            <TouchableOpacity
+              style={styles.backBtn}
+              onPress={() => {
+                navigation.goBack();
+              }}
+            >
+              <Text style={styles.backBtnText}>Буцах</Text>
+            </TouchableOpacity>
+            <View style={{ width: "48%" }}>
+              <GradientButton
+                text={`Хадгалах (${state?.currentStep}/${props.totalStep})`}
+                action={() => {
+                  goNext();
                 }}
-              >
-                <Text style={styles.selectedText}>
-                  {serviceData.customerType != ""
-                    ? serviceData.customerType?.first_name
-                    : "Сонгох"}
-                </Text>
-                <Icon
-                  name="keyboard-arrow-down"
-                  type="material-icons"
-                  size={30}
-                  color={GRAY_ICON_COLOR}
-                />
-              </TouchableOpacity>
+              />
             </View>
-            <View style={styles.touchableSelectContainer}>
-              <Text style={styles.label}>Үйл ажиллагааны үндсэн чиглэл</Text>
-              <TouchableOpacity
-                style={styles.touchableSelect}
-                onPress={() => {
-                  setLookupData(ZZZZZZZZZZZZ, "customerType", "first_name");
-                }}
-              >
-                <Text style={styles.selectedText}>
-                  {serviceData.customerType != ""
-                    ? serviceData.customerType?.first_name
-                    : "Сонгох"}
-                </Text>
-                <Icon
-                  name="keyboard-arrow-down"
-                  type="material-icons"
-                  size={30}
-                  color={GRAY_ICON_COLOR}
-                />
-              </TouchableOpacity>
-            </View>
-            <View style={styles.touchableSelectContainer}>
-              <Text style={styles.label}>Үйл ажилллагааны чиглэл</Text>
-              <TouchableOpacity
-                style={styles.touchableSelect}
-                onPress={() => {
-                  setLookupData(ZZZZZZZZZZZZ, "customerType", "first_name");
-                }}
-              >
-                <Text style={styles.selectedText}>
-                  {serviceData.customerType != ""
-                    ? serviceData.customerType?.first_name
-                    : "Сонгох"}
-                </Text>
-                <Icon
-                  name="keyboard-arrow-down"
-                  type="material-icons"
-                  size={30}
-                  color={GRAY_ICON_COLOR}
-                />
-              </TouchableOpacity>
-            </View>
-            <View style={styles.touchableSelectContainer}>
-              <Text style={styles.label}>Үйл ажиллагааны нэр</Text>
-              <TouchableOpacity
-                style={styles.touchableSelect}
-                onPress={() => {
-                  setLookupData(ZZZZZZZZZZZZ, "customerType", "first_name");
-                }}
-              >
-                <Text style={styles.selectedText}>
-                  {serviceData.customerType != ""
-                    ? serviceData.customerType?.first_name
-                    : "Сонгох"}
-                </Text>
-                <Icon
-                  name="keyboard-arrow-down"
-                  type="material-icons"
-                  size={30}
-                  color={GRAY_ICON_COLOR}
-                />
-              </TouchableOpacity>
-            </View>
-            <View style={styles.btmButtonContainer}>
-              <TouchableOpacity
-                style={styles.backBtn}
-                onPress={() => {
-                  navigation.goBack();
-                }}
-              >
-                <Text style={styles.backBtnText}>Буцах</Text>
-              </TouchableOpacity>
-              <View style={{ width: "48%" }}>
-                <GradientButton
-                  text={`Хадгалах (${props.currentStep}/${props.totalStep})`}
-                  action={() => {
-                    props.goNext();
-                  }}
-                />
-              </View>
-            </View>
-          </ScrollView>
-        </View>
+          </View>
+        </ScrollView>
+      </View>
 
-        <BottomSheet
-          bodyText={data}
-          dragDown={true}
-          backClick={true}
-          type="lookup"
-          fieldName={fieldName}
-          displayName={displayName}
-          lookUpType="profile"
-          handle={uselessParam}
-          action={(e) => {
-            setServiceData((prevState) => ({
-              ...prevState,
-              customerType: e,
-            }));
-          }}
-        />
-      </KeyboardAvoidingView>
+      <BottomSheet
+        bodyText={data}
+        dragDown={true}
+        backClick={true}
+        type="lookup"
+        fieldName={fieldName}
+        displayName={displayName}
+        lookUpType="profile"
+        handle={uselessParam}
+        action={(e) => {
+          state?.setServiceData((prevState) => ({
+            ...prevState,
+            [fieldName]: e,
+          }));
+        }}
+      />
     </SafeAreaView>
   );
 };
