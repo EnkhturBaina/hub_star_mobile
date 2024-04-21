@@ -25,6 +25,7 @@ import {
   MAIN_COLOR,
   MAIN_COLOR_GRAY,
   SERVER_URL,
+  X_API_KEY,
 } from "../constant";
 import Carousel from "react-native-reanimated-carousel";
 import featuresData from "../featuresData";
@@ -54,6 +55,26 @@ const HomeScreen = (props) => {
   });
 
   const handlePress = () => setExpanded(!expanded);
+
+  const getNews = async () => {
+    await axios
+      .get(`${SERVER_URL}reference`, {
+        headers: {
+          "X-API-KEY": X_API_KEY,
+        },
+      })
+      .then((response) => {
+        console.log("get News response", response);
+        // setSubDirection(response.data.response);
+      })
+      .catch((error) => {
+        console.error("Error fetching :", error);
+      });
+  };
+
+  useEffect(() => {
+    // getNews();
+  }, []);
 
   return (
     <SafeAreaView
