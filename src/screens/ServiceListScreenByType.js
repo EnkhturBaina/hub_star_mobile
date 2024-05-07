@@ -16,6 +16,7 @@ import { MAIN_BORDER_RADIUS, MAIN_COLOR, SERVER_URL } from "../constant";
 import SideMenu from "react-native-side-menu-updated";
 import SideBarFilter from "./SideBarFilter";
 import { SafeAreaProvider } from "react-native-safe-area-context";
+import UserTabData from "../refs/UserTabData";
 
 const ServiceListScreenByType = (props) => {
   const state = useContext(MainContext);
@@ -94,7 +95,7 @@ const ServiceListScreenByType = (props) => {
             showsHorizontalScrollIndicator={false}
             contentContainerStyle={{ paddingRight: 20 }}
           >
-            {state.customerTypes?.map((el, index) => {
+            {UserTabData?.map((el, index) => {
               return (
                 <TouchableOpacity
                   key={index}
@@ -110,10 +111,7 @@ const ServiceListScreenByType = (props) => {
                     setSelectedType(index);
                   }}
                 >
-                  <Image
-                    style={styles.typeLogo}
-                    source={{ uri: SERVER_URL + "images/" + el.logo?.path }}
-                  />
+                  <Image style={styles.typeLogo} source={el.image} />
                   <Text
                     style={[
                       styles.typeText,
@@ -122,7 +120,7 @@ const ServiceListScreenByType = (props) => {
                       },
                     ]}
                   >
-                    {el.name}
+                    {el.title}
                   </Text>
                 </TouchableOpacity>
               );

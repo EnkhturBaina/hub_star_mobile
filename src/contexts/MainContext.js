@@ -78,15 +78,19 @@ export const MainStore = (props) => {
   const login = async (email, password, rememberEmail) => {
     setErrorMsg("");
     await axios
-      .post(`${SERVER_URL}authentication/login`, {
-        data: {
+      .post(
+        `${SERVER_URL}authentication/login`,
+        {
           email: email?.toLowerCase(),
           password,
         },
-        headers: {
-          "X-API-KEY": X_API_KEY,
-        },
-      })
+        {
+          headers: {
+            "Content-Type": "application/json",
+            "x-api-key": X_API_KEY,
+          },
+        }
+      )
       .then(async (response) => {
         // console.log("response login", response.data);
         if (response.data) {
@@ -129,9 +133,10 @@ export const MainStore = (props) => {
       .catch(function (error) {
         setIsLoggedIn(false);
         console.log("error2", error.response.data);
-        setErrorMsg("Уучлаарай. Сервертэй холбогдоход алдаа гарлаа.");
         if (error.response.data.statusCode == 400) {
           setErrorMsg("Нэвтрэх нэр эсвэл нууц үг буруу байна.");
+        } else {
+          setErrorMsg("Уучлаарай. Сервертэй холбогдоход алдаа гарлаа.");
         }
       })
       .finally(() => {
@@ -176,28 +181,6 @@ export const MainStore = (props) => {
         setIsLoggedIn(false);
         // console.log("ERROR checkUser Data******** : " + err.message);
       });
-    getCustomerTypes();
-  };
-  const getCustomerTypes = async () => {
-    await axios
-      .get(`${SERVER_URL}reference/category`, {
-        headers: {
-          "X-API-KEY": X_API_KEY,
-        },
-      })
-      .then((response) => {
-        // console.log(
-        //   "get Customer Types",
-        //   JSON.stringify(response.data.response)
-        // );
-        setCustomerTypes(response?.data?.response);
-      })
-      .catch(function (error) {
-        if (error.response) {
-          console.log("error getIntro Data status", error.response.status);
-          // console.log("error getIntro Data data", error.response.data);
-        }
-      });
   };
 
   const getMainDirection = async () => {
@@ -222,12 +205,12 @@ export const MainStore = (props) => {
         setDirectionLoading(false);
       })
       .catch((error) => {
-        console.error("Error fetching :", error);
+        console.error("Error fetching get Main Direction:", error);
       });
   };
   const getDirection = async () => {
     await axios
-      .get(`${SERVER_URL}reference/main-direction/direction`, {
+      .get(`${SERVER_URL}reference/direction`, {
         headers: {
           "X-API-KEY": X_API_KEY,
         },
@@ -247,12 +230,12 @@ export const MainStore = (props) => {
         setDirection(result);
       })
       .catch((error) => {
-        console.error("Error fetching :", error);
+        console.error("Error fetching get Direction:", error);
       });
   };
   const getSubDirection = async () => {
     await axios
-      .get(`${SERVER_URL}reference/main-direction/direction/sub-direction`, {
+      .get(`${SERVER_URL}reference/sub-direction`, {
         headers: {
           "X-API-KEY": X_API_KEY,
         },
@@ -262,7 +245,7 @@ export const MainStore = (props) => {
         setSubDirection(response.data.response);
       })
       .catch((error) => {
-        console.error("Error fetching :", error);
+        console.error("Error fetching get SubDirection:", error);
       });
   };
   useEffect(() => {
@@ -307,7 +290,6 @@ export const MainStore = (props) => {
         login,
         phone,
         setPhone,
-        customerTypes,
         mainDirection,
         direction,
         subDirection,

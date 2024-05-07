@@ -31,6 +31,7 @@ import Carousel from "react-native-reanimated-carousel";
 import featuresData from "../featuresData";
 import gridData from "../gridData";
 import RBSheet from "react-native-raw-bottom-sheet";
+import UserTabData from "../refs/UserTabData";
 
 const HomeScreen = (props) => {
   const state = useContext(MainContext);
@@ -149,42 +150,28 @@ const HomeScreen = (props) => {
             showsHorizontalScrollIndicator={false}
             contentContainerStyle={{ paddingRight: 20 }}
           >
-            {state.customerTypes
-              ?.filter((el) => !el.isSpecial)
-              .map((el, index) => {
-                return (
-                  <TouchableOpacity
-                    key={index}
-                    style={[
-                      styles.typeContainer,
-                      {
-                        marginLeft: index == 0 ? 20 : 10,
-                        backgroundColor:
-                          index == selectedType ? MAIN_COLOR : "#fff",
-                      },
-                    ]}
-                    onPress={() => {
-                      setSelectedType(index);
-                      props.navigation.navigate("ServiceListScreenByType");
-                    }}
-                  >
-                    <Image
-                      style={styles.typeLogo}
-                      source={{ uri: SERVER_URL + "images/" + el.logo?.path }}
-                    />
-                    <Text
-                      style={[
-                        styles.typeText,
-                        {
-                          color: index == selectedType ? "#fff" : "#000",
-                        },
-                      ]}
-                    >
-                      {el.name}
-                    </Text>
-                  </TouchableOpacity>
-                );
-              })}
+            {UserTabData.map((el, index) => {
+              return (
+                <TouchableOpacity
+                  key={index}
+                  style={[
+                    styles.typeContainer,
+                    {
+                      marginLeft: index == 0 ? 20 : 10,
+                    },
+                  ]}
+                  onPress={() => {
+                    setSelectedType(index);
+                    props.navigation.navigate("ServiceListScreenByType");
+                  }}
+                >
+                  <Image style={styles.typeLogo} source={el.image} />
+                  <Text style={styles.typeText}>
+                    {el.title}- {el.image}
+                  </Text>
+                </TouchableOpacity>
+              );
+            })}
           </ScrollView>
         </View>
         <Animated.View
@@ -233,23 +220,18 @@ const HomeScreen = (props) => {
           Онцгой үйлчилгээ
         </Text>
         <View style={styles.gridContainer}>
-          {state.customerTypes
-            ?.filter((el) => el.isSpecial)
-            ?.map((el, index) => {
-              return (
-                <TouchableOpacity
-                  onPress={() => props.navigation.navigate("ServiceListScreen")}
-                  style={styles.gridItem}
-                  key={index}
-                >
-                  <Image
-                    style={styles.typeLogo}
-                    source={{ uri: SERVER_URL + "images/" + el.logo?.path }}
-                  />
-                  <Text style={styles.featureText}>{el.name}</Text>
-                </TouchableOpacity>
-              );
-            })}
+          {UserTabData?.map((el, index) => {
+            return (
+              <TouchableOpacity
+                onPress={() => props.navigation.navigate("ServiceListScreen")}
+                style={styles.gridItem}
+                key={index}
+              >
+                <Image style={styles.typeLogo} source={el.image} />
+                <Text style={styles.featureText}>{el.title}</Text>
+              </TouchableOpacity>
+            );
+          })}
         </View>
         <Text style={styles.specialServiceText}>Үндсэн үйлчилгээ</Text>
         <View style={{ marginVertical: 10 }}>

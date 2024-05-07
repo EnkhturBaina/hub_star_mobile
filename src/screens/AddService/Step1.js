@@ -15,6 +15,7 @@ import { Icon } from "@rneui/base";
 import GradientButton from "../../components/GradientButton";
 import { useNavigation } from "@react-navigation/native";
 import MainContext from "../../contexts/MainContext";
+import UserTabData from "../../refs/UserTabData";
 
 const Step1 = (props) => {
   const state = useContext(MainContext);
@@ -98,11 +99,7 @@ const Step1 = (props) => {
             <TouchableOpacity
               style={styles.touchableSelect}
               onPress={() => {
-                setLookupData(
-                  state.customerTypes?.filter((el) => !el.isSpecial),
-                  "categoryId",
-                  "name"
-                );
+                setLookupData(UserTabData, "categoryId", "title");
               }}
             >
               <Text style={styles.selectedText}>
