@@ -32,6 +32,7 @@ import featuresData from "../featuresData";
 import gridData from "../gridData";
 import RBSheet from "react-native-raw-bottom-sheet";
 import UserTabData from "../refs/UserTabData";
+import SpecialServiceData from "../refs/SpecialServiceData";
 
 const HomeScreen = (props) => {
   const state = useContext(MainContext);
@@ -220,14 +221,14 @@ const HomeScreen = (props) => {
           Онцгой үйлчилгээ
         </Text>
         <View style={styles.gridContainer}>
-          {UserTabData?.map((el, index) => {
+          {SpecialServiceData?.map((el, index) => {
             return (
               <TouchableOpacity
                 onPress={() => props.navigation.navigate("ServiceListScreen")}
                 style={styles.gridItem}
                 key={index}
               >
-                <Image style={styles.typeLogo} source={el.image} />
+                <Image style={styles.typeLogo} source={el.icon} />
                 <Text style={styles.featureText}>{el.title}</Text>
               </TouchableOpacity>
             );

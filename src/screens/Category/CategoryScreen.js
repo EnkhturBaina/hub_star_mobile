@@ -14,6 +14,7 @@ import Constants from "expo-constants";
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 import {
   GRAY_ICON_COLOR,
+  IMG_URL,
   MAIN_BG_GRAY,
   MAIN_BORDER_RADIUS,
   MAIN_COLOR,
@@ -151,7 +152,7 @@ const CategoryScreen = () => {
               >
                 <Image
                   style={{ width: 20, height: 20 }}
-                  source={{ uri: SERVER_URL + "images/" + el?.logo?.path }}
+                  source={{ uri: IMG_URL + el?.logoId }}
                 />
                 <Text
                   style={{

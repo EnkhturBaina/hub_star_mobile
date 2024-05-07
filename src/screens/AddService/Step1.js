@@ -99,12 +99,12 @@ const Step1 = (props) => {
             <TouchableOpacity
               style={styles.touchableSelect}
               onPress={() => {
-                setLookupData(UserTabData, "categoryId", "title");
+                setLookupData(UserTabData, "userType", "title");
               }}
             >
               <Text style={styles.selectedText}>
-                {state?.serviceData.categoryId != ""
-                  ? state?.serviceData.categoryId?.name
+                {state?.serviceData.userType != ""
+                  ? state?.serviceData.userType?.title
                   : "Сонгох"}
               </Text>
               <Icon
