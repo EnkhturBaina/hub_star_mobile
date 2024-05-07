@@ -1,10 +1,32 @@
-import { StyleSheet, Text, View, ScrollView } from "react-native";
-import React, { useEffect } from "react";
-import { SERVER_URL, X_API_KEY } from "../constant";
+import { StyleSheet, Text, View, ScrollView, Image } from "react-native";
+import React, { useContext, useEffect, useLayoutEffect, useState } from "react";
+import { IMG_URL, SERVER_URL, X_API_KEY } from "../constant";
 import axios from "axios";
+import MainContext from "../contexts/MainContext";
+import NewsDTLSkeleton from "../components/Skeletons/NewsDTLSkeleton";
 
 const SliderDTLScreen = (props) => {
-  console.log("props.route?.params", props.route?.params);
+  const state = useContext(MainContext);
+  const [newsData, setNewsData] = useState(null);
+
+  useLayoutEffect(() => {
+    // TabBar Hide хийх
+    props.navigation?.getParent()?.setOptions({
+      tabBarStyle: {
+        display: "none",
+      },
+    });
+    return () =>
+      props.navigation?.getParent()?.setOptions({
+        tabBarStyle: {
+          position: "absolute",
+          borderTopLeftRadius: 20,
+          borderTopRightRadius: 20,
+        },
+      });
+    // TabBar Hide хийх
+  }, [props.navigation]);
+
   const getNewsDTL = async () => {
     await axios
       .get(`${SERVER_URL}reference/news/show/${props.route?.params?.news_id}`, {
@@ -14,34 +36,53 @@ const SliderDTLScreen = (props) => {
       })
       .then((response) => {
         console.log("get NewsDTL response", response.data.response);
-        // setNews(response.data.response);
+        setNewsData(response.data.response);
       })
       .catch((error) => {
-        console.error("Error fetching :", error);
+        if (error.response.status == "401") {
+          setIsLoggedIn(false);
+          state.setErrorMsg(
+            "Токены хүчинтэй хугацаа дууссан байна. Дахин нэвтэрнэ үү"
+          );
+        }
+        // console.error("Error fetching :", error.response.status);
       });
   };
 
   useEffect(() => {
     props.route?.params?.news_id && getNewsDTL();
   }, []);
+
   return (
     <ScrollView
       contentContainerStyle={styles.scrollContainer}
       showsVerticalScrollIndicator={false}
       bounces={false}
     >
-      <Text style={{ fontWeight: "bold", fontSize: 16, marginBottom: 10 }}>
-        SocialPay ашиглан купон авах
-      </Text>
-      <Text>
-        Голомт банкны харилцагчдын тогтмол хэрэглээг урамшуулах зорилготой BiG
-        Loyаlty 2023 оноотой хөтөлбөр дахин хэрэгжиж эхэллээ. Энэ хөтөлбөрийн
-        хүрээнд та 2023.12.31-нийг дуустал Голомт банкны бүтээгдэхүүн,
-        үйлчилгээг ашиглах бүрдээ оноо цуглуулж, төрөл бүрийн урамшуулалд
-        хамрагдаарай. Та өөрийн цуглуулсан оноог хамтран ажиллаж буй
-        байгууллагуудын купон авах эсвэл автомашин болон 1 өрөө орон сууцны
-        шагналтай урамшуулалд оролцох гэсэн 2 хэлбэрээр зарцуулах боломжтой.
-      </Text>
+      {newsData == null ? (
+        <NewsDTLSkeleton />
+      ) : (
+        <>
+          <Text style={{ fontWeight: "bold", fontSize: 16, marginBottom: 10 }}>
+            {newsData.title}
+          </Text>
+          <Image
+            source={{
+              uri: IMG_URL + newsData.imageId,
+            }}
+            style={{ width: "100%", height: 200, borderRadius: 10 }}
+            resizeMode="cover"
+          />
+          <Text
+            style={{ fontWeight: "bold", fontSize: 16, marginVertical: 10 }}
+          >
+            {newsData.description}
+          </Text>
+          <Text style={{ fontSize: 16, marginBottom: 10 }}>
+            {newsData.body}
+          </Text>
+        </>
+      )}
     </ScrollView>
   );
 };
@@ -54,5 +95,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingTop: 10,
     backgroundColor: "#fff",
+    paddingBottom: 20,
   },
 });
