@@ -1,7 +1,29 @@
 import { StyleSheet, Text, View, ScrollView } from "react-native";
-import React from "react";
+import React, { useEffect } from "react";
+import { SERVER_URL, X_API_KEY } from "../constant";
+import axios from "axios";
 
-const SliderDTLScreen = () => {
+const SliderDTLScreen = (props) => {
+  console.log("props.route?.params", props.route?.params);
+  const getNewsDTL = async () => {
+    await axios
+      .get(`${SERVER_URL}reference/news/show/${props.route?.params?.news_id}`, {
+        headers: {
+          "X-API-KEY": X_API_KEY,
+        },
+      })
+      .then((response) => {
+        console.log("get NewsDTL response", response.data.response);
+        // setNews(response.data.response);
+      })
+      .catch((error) => {
+        console.error("Error fetching :", error);
+      });
+  };
+
+  useEffect(() => {
+    props.route?.params?.news_id && getNewsDTL();
+  }, []);
   return (
     <ScrollView
       contentContainerStyle={styles.scrollContainer}

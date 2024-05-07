@@ -11,6 +11,7 @@ import {
   Dimensions,
   ImageBackground,
   SafeAreaView,
+  ActivityIndicator,
 } from "react-native";
 import React, { useContext, useEffect, useState, useRef } from "react";
 import axios from "axios";
@@ -20,6 +21,7 @@ import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 import { Icon, ListItem } from "@rneui/base";
 import {
   GRAY_ICON_COLOR,
+  IMG_URL,
   MAIN_BG_GRAY,
   MAIN_BORDER_RADIUS,
   MAIN_COLOR,
@@ -39,6 +41,8 @@ const HomeScreen = (props) => {
   const tabBarHeight = useBottomTabBarHeight();
   const [selectedType, setSelectedType] = useState(null);
   const [expanded, setExpanded] = useState({});
+  const [news, setNews] = useState([]);
+
   const ref = useRef();
   const sheetRef = useRef(); //*****Bottomsheet
 
@@ -60,14 +64,14 @@ const HomeScreen = (props) => {
 
   const getNews = async () => {
     await axios
-      .get(`${SERVER_URL}reference`, {
+      .get(`${SERVER_URL}reference/news`, {
         headers: {
           "X-API-KEY": X_API_KEY,
         },
       })
       .then((response) => {
-        console.log("get News response", response);
-        // setSubDirection(response.data.response);
+        console.log("get News response", response.data.response);
+        setNews(response.data.response);
       })
       .catch((error) => {
         console.error("Error fetching :", error);
@@ -75,7 +79,7 @@ const HomeScreen = (props) => {
   };
 
   useEffect(() => {
-    // getNews();
+    getNews();
   }, []);
 
   return (
@@ -167,56 +171,68 @@ const HomeScreen = (props) => {
                   }}
                 >
                   <Image style={styles.typeLogo} source={el.image} />
-                  <Text style={styles.typeText}>
-                    {el.title}- {el.image}
-                  </Text>
+                  <Text style={styles.typeText}>{el.title}</Text>
                 </TouchableOpacity>
               );
             })}
           </ScrollView>
         </View>
-        <Animated.View
-          style={{
-            height: headerScrollHeight,
-            width: "100%",
-            overflow: "hidden",
-            zIndex: 999,
-          }}
-        >
-          <View style={{ marginHorizontal: 20 }}>
-            <TouchableOpacity
-              onPress={() => {
-                props.navigation.navigate("SliderDTLScreen");
-              }}
-            >
+        {news != null ? (
+          <Animated.View
+            style={{
+              height: headerScrollHeight,
+              width: "100%",
+              overflow: "hidden",
+              zIndex: 999,
+            }}
+          >
+            <View style={{ marginHorizontal: 20 }}>
               <Carousel
                 width={width - 40}
                 ref={ref}
-                data={[...new Array(6).keys()]}
+                data={news}
                 pagingEnabled
-                autoPlay
+                autoPlay={false}
                 autoPlayInterval={5000}
                 style={{
                   borderRadius: 8,
                   height: height * 0.2,
                 }}
                 renderItem={({ item, index }) => (
-                  <Image
-                    source={{
-                      uri: `https://dummyjson.com/image/400x200/282828?text=${index}!`,
+                  <TouchableOpacity
+                    onPress={() => {
+                      props.navigation.navigate("SliderDTLScreen", {
+                        news_id: item.id,
+                      });
                     }}
-                    style={{
-                      width: width - 24,
+                    styles={{
                       flex: 1,
+                      justifyContent: "center",
+                      alignItems: "center",
                     }}
-                    resizeMode="cover"
-                  />
+                  >
+                    <ActivityIndicator size="small" />
+                    <Image
+                      source={{
+                        uri: IMG_URL + item.imageId,
+                      }}
+                      style={{
+                        position: "absolute",
+                        top: 0,
+                        left: 0,
+                        bottom: 0,
+                        right: 0,
+                        height: height * 0.2,
+                      }}
+                      resizeMode="cover"
+                    />
+                  </TouchableOpacity>
                 )}
                 onSnapToItem={(e) => {}}
               />
-            </TouchableOpacity>
-          </View>
-        </Animated.View>
+            </View>
+          </Animated.View>
+        ) : null}
         <Text style={{ fontWeight: 500, fontSize: 16, marginLeft: 20 }}>
           Онцгой үйлчилгээ
         </Text>
