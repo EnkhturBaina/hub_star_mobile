@@ -37,6 +37,8 @@ import ServiceDTLScreen from "../screens/ServiceDTLScreen";
 import { Icon } from "@rneui/base";
 import { useNavigation } from "@react-navigation/native";
 import AddService from "../screens/AddService/AddService";
+import SpecialServiceScreen from "../screens/SpecialService/SpecialServiceScreen";
+import UserTypeServiceScreen from "../screens/UserTypeService/UserTypeServiceScreen";
 
 const Stack = createStackNavigator();
 const width = Dimensions.get("screen").width;
@@ -441,6 +443,54 @@ const HomeScreenStackNavigator = (props) => {
               style={styles.headerLeftContainer}
               onPress={() => {
                 navigation.goBack();
+              }}
+            >
+              <Icon
+                type="material-icons"
+                name="keyboard-arrow-left"
+                size={30}
+              />
+            </TouchableOpacity>
+          ),
+        }}
+      />
+      <Stack.Screen
+        name="SpecialServiceScreen"
+        component={SpecialServiceScreen}
+        options={{
+          title: "Онцгой үйлчилгээ",
+          headerTitleStyle: {
+            fontWeight: "800",
+          },
+          headerLeft: () => (
+            <TouchableOpacity
+              style={styles.headerLeftContainer}
+              onPress={() => {
+                navigation.navigate("HomeScreen");
+              }}
+            >
+              <Icon
+                type="material-icons"
+                name="keyboard-arrow-left"
+                size={30}
+              />
+            </TouchableOpacity>
+          ),
+        }}
+      />
+      <Stack.Screen
+        name="UserTypeServiceScreen"
+        component={UserTypeServiceScreen}
+        options={{
+          title: "Онцгой үйлчилгээ",
+          headerTitleStyle: {
+            fontWeight: "800",
+          },
+          headerLeft: () => (
+            <TouchableOpacity
+              style={styles.headerLeftContainer}
+              onPress={() => {
+                navigation.navigate("HomeScreen");
               }}
             >
               <Icon

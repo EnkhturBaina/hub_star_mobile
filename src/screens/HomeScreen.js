@@ -36,6 +36,9 @@ import RBSheet from "react-native-raw-bottom-sheet";
 import UserTabData from "../refs/UserTabData";
 import SpecialServiceData from "../refs/SpecialServiceData";
 
+const width = Dimensions.get("window").width;
+const height = Dimensions.get("window").height;
+
 const HomeScreen = (props) => {
   const state = useContext(MainContext);
   const tabBarHeight = useBottomTabBarHeight();
@@ -45,9 +48,6 @@ const HomeScreen = (props) => {
 
   const ref = useRef();
   const sheetRef = useRef(); //*****Bottomsheet
-
-  const width = Dimensions.get("window").width;
-  const height = Dimensions.get("window").height;
 
   const H_MAX_HEIGHT = height * 0.2 + 30;
   const H_MIN_HEIGHT = 0;
@@ -70,7 +70,7 @@ const HomeScreen = (props) => {
         },
       })
       .then((response) => {
-        console.log("get News response", response.data.response);
+        // console.log("get News response", response.data.response);
         setNews(response.data.response);
       })
       .catch((error) => {
@@ -167,7 +167,8 @@ const HomeScreen = (props) => {
                   ]}
                   onPress={() => {
                     setSelectedType(index);
-                    props.navigation.navigate("ServiceListScreenByType");
+                    state.setSelectedUserType(el.type);
+                    props.navigation.navigate("UserTypeServiceScreen");
                   }}
                 >
                   <Image style={styles.typeLogo} source={el.image} />
@@ -211,19 +212,12 @@ const HomeScreen = (props) => {
                       alignItems: "center",
                     }}
                   >
-                    <ActivityIndicator size="small" />
+                    <ActivityIndicator size="small" style={styles.slideImg} />
                     <Image
                       source={{
                         uri: IMG_URL + item.imageId,
                       }}
-                      style={{
-                        position: "absolute",
-                        top: 0,
-                        left: 0,
-                        bottom: 0,
-                        right: 0,
-                        height: height * 0.2,
-                      }}
+                      style={styles.slideImg}
                       resizeMode="cover"
                     />
                   </TouchableOpacity>
@@ -240,7 +234,10 @@ const HomeScreen = (props) => {
           {SpecialServiceData?.map((el, index) => {
             return (
               <TouchableOpacity
-                onPress={() => props.navigation.navigate("ServiceListScreen")}
+                onPress={() => {
+                  state.setSelectedSpecialService(el.type);
+                  props.navigation.navigate("SpecialServiceScreen");
+                }}
                 style={styles.gridItem}
                 key={index}
               >
@@ -557,5 +554,13 @@ const styles = StyleSheet.create({
     borderBottomColor: "#ebebeb",
     marginBottom: 10,
     paddingBottom: 10,
+  },
+  slideImg: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    bottom: 0,
+    right: 0,
+    height: height * 0.2,
   },
 });

@@ -25,6 +25,8 @@ const AddService = (props) => {
           position: "absolute",
           borderTopLeftRadius: 20,
           borderTopRightRadius: 20,
+          height: 105,
+          padding: 10,
         },
       });
     // TabBar Hide хийх

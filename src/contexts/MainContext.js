@@ -33,6 +33,9 @@ export const MainStore = (props) => {
   const [lastName, setLastName] = useState("");
   const [firstName, setFirstName] = useState("");
 
+  const [selectedUserType, setSelectedUserType] = useState(null);
+  const [selectedSpecialService, setSelectedSpecialService] = useState(null);
+
   const [currentStep, setCurrentStep] = useState(1);
   const [serviceData, setServiceData] = useState({
     customerType: "",
@@ -314,6 +317,10 @@ export const MainStore = (props) => {
         currentStep,
         addCommas,
         removeNonNumeric,
+        selectedUserType,
+        setSelectedUserType,
+        selectedSpecialService,
+        setSelectedSpecialService,
       }}
     >
       {props.children}
