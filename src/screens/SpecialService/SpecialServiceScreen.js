@@ -87,13 +87,14 @@ const SpecialServiceScreen = (props) => {
       });
   };
   useEffect(() => {
-    // console.log("state", state.selectedSpecialService);
     getSpecialServiceData();
   }, []);
 
   return (
     <SideMenu
-      menu={<SideBarFilter setIsOpen={setIsOpen} isOpen={isOpen} />}
+      menu={
+        <SideBarFilter setIsOpen={setIsOpen} isOpen={isOpen} isSpecial={1} />
+      }
       isOpen={isOpen}
       onChange={(isOpen) => setIsOpen(isOpen)}
     >

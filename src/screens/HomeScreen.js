@@ -35,6 +35,7 @@ import gridData from "../gridData";
 import RBSheet from "react-native-raw-bottom-sheet";
 import UserTabData from "../refs/UserTabData";
 import SpecialServiceData from "../refs/SpecialServiceData";
+import AdvicesSkeleton from "../components/Skeletons/AdvicesSkeleton";
 
 const width = Dimensions.get("window").width;
 const height = Dimensions.get("window").height;
@@ -45,6 +46,8 @@ const HomeScreen = (props) => {
   const [selectedType, setSelectedType] = useState(null);
   const [expanded, setExpanded] = useState({});
   const [news, setNews] = useState([]);
+  const [advices, setAdvices] = useState([]);
+  const [loadingAdvices, setLoadingAdvices] = useState(false);
 
   const ref = useRef();
   const sheetRef = useRef(); //*****Bottomsheet
@@ -78,8 +81,32 @@ const HomeScreen = (props) => {
       });
   };
 
+  const getAdvices = async () => {
+    setLoadingAdvices(true);
+    await axios
+      .get(`${SERVER_URL}reference/main-direction`, {
+        params: {
+          isAdvice: 1,
+        },
+        headers: {
+          "X-API-KEY": X_API_KEY,
+        },
+      })
+      .then((response) => {
+        console.log("get Advices response", response.data.response);
+        setAdvices(response.data.response);
+      })
+      .catch((error) => {
+        console.error("Error fetching :", error);
+      })
+      .finally(() => {
+        setLoadingAdvices(false);
+      });
+  };
+
   useEffect(() => {
     getNews();
+    getAdvices();
   }, []);
 
   return (
@@ -247,39 +274,46 @@ const HomeScreen = (props) => {
             );
           })}
         </View>
-        <Text style={styles.specialServiceText}>Үндсэн үйлчилгээ</Text>
+        <Text style={styles.specialServiceText}>Зөвлөмжүүд</Text>
         <View style={{ marginVertical: 10 }}>
           <ScrollView
             horizontal={true}
             showsHorizontalScrollIndicator={false}
             contentContainerStyle={{ flexGrow: 1, paddingRight: 20 }}
           >
-            {gridData.map((el, index) => {
-              return (
-                <TouchableOpacity
-                  key={index}
-                  style={[
-                    styles.mainServiceContainer,
-                    {
-                      marginLeft: index == 0 ? 20 : 10,
-                    },
-                  ]}
-                  onPress={() => props.navigation.navigate("ServiceListScreen")}
-                >
-                  <ImageBackground
-                    source={el.icon}
-                    resizeMode="cover"
-                    style={{
-                      flex: 1,
-                      justifyContent: "center",
-                    }}
-                    imageStyle={{ borderRadius: MAIN_BORDER_RADIUS }}
+            {advices.length == 0 && loadingAdvices ? (
+              <AdvicesSkeleton />
+            ) : (
+              advices.map((el, index) => {
+                return (
+                  <TouchableOpacity
+                    key={index}
+                    style={[
+                      styles.mainServiceContainer,
+                      {
+                        marginLeft: index == 0 ? 20 : 10,
+                      },
+                    ]}
+                    onPress={() =>
+                      props.navigation.navigate("ServiceListScreen")
+                    }
                   >
-                    <Text style={styles.mainServiceText}>{el.name}</Text>
-                  </ImageBackground>
-                </TouchableOpacity>
-              );
-            })}
+                    <ActivityIndicator size="small" style={styles.adviceImg} />
+                    <ImageBackground
+                      source={{ uri: IMG_URL + el.coverId }}
+                      resizeMode="cover"
+                      style={{
+                        flex: 1,
+                        justifyContent: "center",
+                      }}
+                      imageStyle={{ borderRadius: MAIN_BORDER_RADIUS }}
+                    >
+                      <Text style={styles.mainServiceText}>{el.name}</Text>
+                    </ImageBackground>
+                  </TouchableOpacity>
+                );
+              })
+            )}
           </ScrollView>
         </View>
       </ScrollView>
@@ -317,7 +351,7 @@ const HomeScreen = (props) => {
                     <Image
                       style={{ width: 20, height: 20 }}
                       source={{
-                        uri: SERVER_URL + "images/" + el?.logo?.path,
+                        uri: IMG_URL + el.logoId,
                       }}
                     />
                     <Text
@@ -562,5 +596,13 @@ const styles = StyleSheet.create({
     bottom: 0,
     right: 0,
     height: height * 0.2,
+  },
+  adviceImg: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    bottom: 0,
+    right: 0,
+    height: 120,
   },
 });

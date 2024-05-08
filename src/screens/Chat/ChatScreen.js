@@ -1,10 +1,11 @@
 import { StyleSheet, Text, View } from "react-native";
 import React from "react";
+import Empty from "../../components/Empty";
 
 const ChatScreen = () => {
   return (
-    <View>
-      <Text>ChatScreen</Text>
+    <View style={{ flex: 1 }}>
+      <Empty text="Тун удахгүй" />
     </View>
   );
 };
