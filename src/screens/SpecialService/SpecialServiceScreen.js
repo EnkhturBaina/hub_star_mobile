@@ -164,7 +164,9 @@ const SpecialServiceScreen = (props) => {
                   style={styles.gridItem}
                   key={index}
                   onPress={() => {
-                    props.navigation.navigate("ServiceDTLScreen");
+                    props.navigation.navigate("SingleSpecialScreen", {
+                      advice_id: el.id,
+                    });
                   }}
                 >
                   <ActivityIndicator
