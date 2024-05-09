@@ -133,9 +133,7 @@ const RegisterScreen = (props) => {
       >
         <TouchableOpacity
           activeOpacity={0.9}
-          onPress={() => {
-            console.log("X");
-          }}
+          onPress={() => {}}
           style={{ alignItems: "center", marginVertical: 20 }}
         >
           <Avatar
@@ -147,9 +145,7 @@ const RegisterScreen = (props) => {
           >
             <Avatar.Accessory
               size={28}
-              onPress={() => {
-                console.log("X");
-              }}
+              onPress={() => {}}
               color="#fff"
               style={{ backgroundColor: MAIN_COLOR }}
             />

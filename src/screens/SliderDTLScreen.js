@@ -37,7 +37,7 @@ const SliderDTLScreen = (props) => {
         },
       })
       .then((response) => {
-        console.log("get NewsDTL response", response.data.response);
+        // console.log("get NewsDTL response", response.data.response);
         setNewsData(response.data.response);
       })
       .catch((error) => {

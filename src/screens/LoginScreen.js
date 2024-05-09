@@ -64,7 +64,6 @@ const LoginScreen = (props) => {
     // })();
 
     AsyncStorage.getItem("login_email").then((res) => {
-      console.log("RES", res);
       if (res != null) {
         setEmail(res);
         setRememberEmail(true);

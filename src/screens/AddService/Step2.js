@@ -64,7 +64,7 @@ const Step2 = (props) => {
         },
       })
       .then((response) => {
-        console.log("get Address", JSON.stringify(response.data.response));
+        // console.log("get Address", JSON.stringify(response.data.response));
         // setCustomerTypes(response?.data?.response);
       })
       .catch(function (error) {

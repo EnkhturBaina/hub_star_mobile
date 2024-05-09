@@ -4,9 +4,7 @@ import MainContext from "../contexts/MainContext";
 
 const ServiceDTLScreen = () => {
   const state = useContext(MainContext);
-  useEffect(() => {
-    console.log("state", state.selectedService);
-  }, []);
+  useEffect(() => {}, []);
 
   return (
     <ScrollView

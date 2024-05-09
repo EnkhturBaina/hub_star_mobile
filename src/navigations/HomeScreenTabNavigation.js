@@ -133,7 +133,6 @@ function MyTabBar({ state, descriptors, navigation }) {
 
 const HomeScreenTabNavigation = () => {
   const state = useContext(MainContext);
-  console.log("AA", state.isLoading);
   if (state.isLoading) {
     // Апп ачааллах бүрт SplashScreen харуулах
     return <SplashScreen />;

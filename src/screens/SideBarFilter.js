@@ -22,20 +22,12 @@ const SideBarFilter = (props) => {
   const [loadingSideFilter, setLoadingSideFilter] = useState(false);
   const [sideFilterData, setSideFilterData] = useState([]);
 
-  const serviceParams = {
-    specialService: state.selectedSpecialService,
-    order: "DESC",
-    page: 1,
-    limit: 10,
-    directionIds: null,
-    subDirectionIds: null,
-  };
-
   const getSideFilterData = async () => {
+    console.log("state?.serviceParams", state?.serviceParams);
     setLoadingSideFilter(true);
     await axios
       .get(`${SERVER_URL}reference/direction`, {
-        params: serviceParams,
+        params: state?.serviceParams,
         headers: {
           "X-API-KEY": X_API_KEY,
         },
@@ -62,7 +54,7 @@ const SideBarFilter = (props) => {
     const currentDirections = setSideFilterData.filter((item) => {
       return item.subDirections.some((subdir) => value.includes(subdir.id));
     });
-    setAdParam((prevState) => ({
+    state.setServiceParams((prevState) => ({
       ...prevState,
       page: 1,
       limit: 10,
@@ -125,8 +117,7 @@ const SideBarFilter = (props) => {
                   }}
                 >
                   {el.subDirections?.map((child, index2) => {
-                    const checkOpen = expanded[index + "-" + index2];
-                    const checkedItem = checked[index + "-" + index2];
+                    const checkedItem = checked[child.id];
                     return (
                       <CheckBox
                         containerStyle={styles.checkboxContainerStyle}
@@ -143,8 +134,7 @@ const SideBarFilter = (props) => {
                         onPress={() => {
                           setChecked((prevState) => ({
                             ...prevState,
-                            [index + "-" + index2]:
-                              !prevState[index + "-" + index2],
+                            [child.id]: !prevState[child.id],
                           }));
                         }}
                         iconType="material-community"
@@ -152,7 +142,7 @@ const SideBarFilter = (props) => {
                         uncheckedIcon="checkbox-blank-outline"
                         checkedColor={MAIN_COLOR}
                         uncheckedColor="#798585"
-                        key={index2}
+                        key={child.id}
                       />
                     );
                   })}

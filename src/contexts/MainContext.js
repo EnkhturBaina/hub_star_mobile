@@ -78,6 +78,15 @@ export const MainStore = (props) => {
     });
   };
 
+  const [serviceParams, setServiceParams] = useState({
+    specialService: selectedSpecialService,
+    order: "DESC",
+    page: 1,
+    limit: 10,
+    directionIds: null,
+    subDirectionIds: null,
+  });
+
   const login = async (email, password, rememberEmail) => {
     setErrorMsg("");
     await axios
@@ -321,6 +330,8 @@ export const MainStore = (props) => {
         setSelectedUserType,
         selectedSpecialService,
         setSelectedSpecialService,
+        serviceParams,
+        setServiceParams,
       }}
     >
       {props.children}

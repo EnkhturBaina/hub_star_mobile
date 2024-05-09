@@ -93,7 +93,7 @@ const HomeScreen = (props) => {
         },
       })
       .then((response) => {
-        console.log("get Advices response", response.data.response);
+        // console.log("get Advices response", response.data.response);
         setAdvices(response.data.response);
       })
       .catch((error) => {
@@ -263,6 +263,10 @@ const HomeScreen = (props) => {
               <TouchableOpacity
                 onPress={() => {
                   state.setSelectedSpecialService(el.type);
+                  state.setServiceParams((prevState) => ({
+                    ...prevState,
+                    specialService: el.type,
+                  }));
                   props.navigation.navigate("SpecialServiceScreen");
                 }}
                 style={styles.gridItem}
