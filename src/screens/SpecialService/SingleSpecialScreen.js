@@ -6,18 +6,23 @@ import {
   Platform,
   StatusBar,
   ScrollView,
+  Image,
+  TouchableOpacity,
+  ActivityIndicator,
 } from "react-native";
 import React, { useEffect, useLayoutEffect, useState } from "react";
-import { SERVER_URL, X_API_KEY } from "../../constant";
+import { IMG_URL, SERVER_URL, X_API_KEY } from "../../constant";
 import axios from "axios";
 import Constants from "expo-constants";
-import { Icon } from "@rneui/base";
+import { Dialog, Icon } from "@rneui/base";
 import GradientButton from "../../components/GradientButton";
 import AdviceDTLSkeleton from "../../components/Skeletons/AdviceDTLSkeleton";
+import { ImageZoom } from "@likashefqet/react-native-image-zoom";
 
 const SingleSpecialScreen = (props) => {
   const [loadingAdvice, setLoadingAdvice] = useState(false);
   const [adviceData, setAdviceData] = useState(null);
+  const [visible1, setVisible1] = useState(false);
 
   useLayoutEffect(() => {
     // TabBar Hide хийх
@@ -48,11 +53,10 @@ const SingleSpecialScreen = (props) => {
         },
       })
       .then((response) => {
-        console.log(
-          "get Advice response",
-          JSON.stringify(response.data.response)
-        );
-        // setNews(response.data.response);
+        // console.log(
+        //   "get Advice response",
+        //   JSON.stringify(response.data.response)
+        // );
         setAdviceData(response.data.response);
       })
       .catch((error) => {
@@ -88,7 +92,33 @@ const SingleSpecialScreen = (props) => {
           showsVerticalScrollIndicator={false}
           bounces={false}
         >
-          <Text style={{ fontWeight: "bold", fontSize: 22 }}>
+          {adviceData?.images && adviceData?.images?.length > 0 ? (
+            <TouchableOpacity
+              onPress={() => setVisible1(true)}
+              styles={{
+                flex: 1,
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <ActivityIndicator size="small" style={styles.slideImg} />
+              <Image
+                source={{ uri: IMG_URL + adviceData?.images[0].id }}
+                style={{
+                  height: 220,
+                  width: "100%",
+                  flex: 1,
+                  borderRadius: 12,
+                }}
+              />
+            </TouchableOpacity>
+          ) : null}
+          <ScrollView
+            horizontal={true}
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={{ flexGrow: 1, paddingRight: 20 }}
+          ></ScrollView>
+          <Text style={{ fontWeight: "bold", fontSize: 22, marginTop: 10 }}>
             {adviceData?.title}
           </Text>
           <Text
@@ -141,10 +171,47 @@ const SingleSpecialScreen = (props) => {
           <Text>{adviceData?.desciption}</Text>
         </ScrollView>
       )}
+      <Dialog
+        isVisible={visible1}
+        onBackdropPress={() => {
+          setVisible1(!visible1);
+        }}
+        style={{ backgroundColor: "red" }}
+        overlayStyle={styles.dialogOverlay}
+      >
+        <ImageZoom
+          source={{ uri: IMG_URL + adviceData?.images[0].id }}
+          style={{ flex: 1, height: 200, width: "100%" }}
+        />
+        <View style={{ width: 200, alignSelf: "center", marginTop: 10 }}>
+          <GradientButton
+            text="Хаах"
+            action={() => setVisible1(false)}
+            height={40}
+            radius={6}
+          />
+        </View>
+      </Dialog>
     </SafeAreaView>
   );
 };
 
 export default SingleSpecialScreen;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  slideImg: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    bottom: 0,
+    right: 0,
+    height: 220,
+  },
+  dialogOverlay: {
+    height: "100%",
+    backgroundColor: "rgba(52, 52, 52, 0.9)",
+    width: "100%",
+    paddingHorizontal: 0,
+    paddingVertical: 20,
+  },
+});

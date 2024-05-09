@@ -515,7 +515,7 @@ const HomeScreenStackNavigator = (props) => {
             <TouchableOpacity
               style={styles.headerLeftContainer}
               onPress={() => {
-                navigation.navigate("HomeScreen");
+                navigation.navigate("SpecialServiceScreen");
               }}
             >
               <Icon
