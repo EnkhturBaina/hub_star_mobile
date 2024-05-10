@@ -14,7 +14,7 @@ import { IMG_URL, SERVER_URL, X_API_KEY } from "../../constant";
 import axios from "axios";
 import { Dialog, Icon } from "@rneui/base";
 import GradientButton from "../../components/GradientButton";
-import AdviceDTLSkeleton from "../../components/Skeletons/AdviceDTLSkeleton";
+import ServiceDTLSkeleton from "../../components/Skeletons/ServiceDTLSkeleton";
 import { ImageZoom } from "@likashefqet/react-native-image-zoom";
 import { AirbnbRating, Rating } from "react-native-ratings";
 import MainContext from "../../contexts/MainContext";
@@ -66,7 +66,7 @@ const SingleSpecialScreen = (props) => {
         barStyle={Platform.OS == "ios" ? "dark-content" : "default"}
       />
       {loadingAdvice ? (
-        <AdviceDTLSkeleton />
+        <ServiceDTLSkeleton />
       ) : (
         <ScrollView
           contentContainerStyle={{

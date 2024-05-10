@@ -8,7 +8,7 @@ import {
   Platform,
   Dimensions,
 } from "react-native";
-import React, { useContext, useState } from "react";
+import React, { useContext, useLayoutEffect, useState } from "react";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 import MainContext from "../../contexts/MainContext";
@@ -34,28 +34,25 @@ const HistoryMainScreen = (props) => {
   const tabBarHeight = useBottomTabBarHeight();
   const [selectedType, setSelectedType] = useState(null);
 
-  const menu = [
-    {
-      id: 1,
-      name: "Байршуулсан үйлчилгээ",
-    },
-    {
-      id: 2,
-      name: "Хийгдэж буй ажил",
-    },
-    {
-      id: 3,
-      name: "Хадгалсан  үйлчилгээнүүд",
-    },
-    {
-      id: 4,
-      name: "Үйлчилгээний түүх",
-    },
-    {
-      id: 5,
-      name: "Зөвлөмжүүд",
-    },
-  ];
+  useLayoutEffect(() => {
+    // TabBar Hide хийх
+    props.navigation?.getParent()?.setOptions({
+      tabBarStyle: {
+        display: "none",
+      },
+    });
+    return () =>
+      props.navigation?.getParent()?.setOptions({
+        tabBarStyle: {
+          position: "absolute",
+          borderTopLeftRadius: 20,
+          borderTopRightRadius: 20,
+          height: 105,
+          padding: 10,
+        },
+      });
+    // TabBar Hide хийх
+  }, [props.navigation]);
   return (
     <SafeAreaProvider
       style={{

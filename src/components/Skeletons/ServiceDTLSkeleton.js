@@ -2,7 +2,7 @@ import { StyleSheet, Text, View } from "react-native";
 import React from "react";
 import { Skeleton } from "@rneui/base";
 
-const AdviceDTLSkeleton = () => {
+const ServiceDTLSkeleton = () => {
   return (
     <View>
       <View style={styles.gridItem}>
@@ -103,7 +103,7 @@ const AdviceDTLSkeleton = () => {
   );
 };
 
-export default AdviceDTLSkeleton;
+export default ServiceDTLSkeleton;
 
 const styles = StyleSheet.create({
   gridItem: {
