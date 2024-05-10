@@ -5,8 +5,9 @@ import {
   Image,
   ScrollView,
   TouchableOpacity,
+  Dimensions,
 } from "react-native";
-import React, { useEffect, useLayoutEffect, useState } from "react";
+import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { StatusBar, Platform } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
@@ -14,6 +15,7 @@ import { Icon } from "@rneui/base";
 import { Dropdown } from "react-native-element-dropdown";
 import SideMenu from "react-native-side-menu-updated";
 import {
+  IMG_URL,
   MAIN_BORDER_RADIUS,
   ORDER_DATA,
   SERVER_URL,
@@ -23,8 +25,15 @@ import AdviceSideBarFilter from "./AdviceSideBarFilter";
 import axios from "axios";
 import Empty from "../../components/Empty";
 import ListServiceSkeleton from "../../components/Skeletons/ListServiceSkeleton";
+import RBSheet from "react-native-raw-bottom-sheet";
+import { WebView } from "react-native-webview";
+
+const width = Dimensions.get("window").width;
+const height = Dimensions.get("window").height;
 
 const MainAdviceScreen = (props) => {
+  const sheetRef = useRef(); //*****Bottomsheet
+  const webview = useRef();
   const tabBarHeight = useBottomTabBarHeight();
   const [value, setValue] = useState(null);
   const [isFocus, setIsFocus] = useState(false);
@@ -33,6 +42,7 @@ const MainAdviceScreen = (props) => {
 
   const [loadingServices, setLoadingServices] = useState(false);
   const [adviceData, setAdviceData] = useState([]);
+  const [selectedAdviceURL, setSelectedAdviceURL] = useState(null);
 
   const [adviceDataParams, setAdviceDataParams] = useState({
     order: "DESC",
@@ -72,7 +82,7 @@ const MainAdviceScreen = (props) => {
         },
       })
       .then((response) => {
-        // console.log("get Advices ==>", JSON.stringify(response.data.response));
+        console.log("get Advices ==>", JSON.stringify(response.data.response));
         setAdviceData(response.data.response.data);
       })
       .catch((error) => {
@@ -89,6 +99,11 @@ const MainAdviceScreen = (props) => {
   useEffect(() => {
     getAdvices();
   }, [adviceDataParams]);
+
+  const handleNavigationStateChanged = (navState) => {
+    // console.log("NAVVVVVV", navState);
+    const { url } = navState;
+  };
 
   return (
     <SideMenu
@@ -167,7 +182,10 @@ const MainAdviceScreen = (props) => {
             adviceData?.map((el, index) => {
               return (
                 <TouchableOpacity
-                  onPress={() => []}
+                  onPress={() => {
+                    setSelectedAdviceURL(el.pdfId);
+                    sheetRef.current.open();
+                  }}
                   style={styles.gridItem}
                   key={index}
                 >
@@ -183,6 +201,37 @@ const MainAdviceScreen = (props) => {
             })
           )}
         </ScrollView>
+        <RBSheet
+          ref={sheetRef}
+          height={height - 100}
+          closeOnDragDown={true} //*****sheet -г доош чирж хаах
+          closeOnPressMask={true} //*****sheet -н гадна дарж хаах
+          dragFromTopOnly={true}
+          customStyles={{
+            container: {
+              flexDirection: "column",
+              borderTopEndRadius: 16,
+              borderTopStartRadius: 16,
+            },
+          }}
+        >
+          <WebView
+            injectedJavaScript="window.postMessage(document.title)"
+            style={{
+              width: width,
+              overflow: "hidden",
+            }}
+            ref={webview}
+            source={{
+              uri: IMG_URL + selectedAdviceURL,
+            }}
+            onLoadStart={() => {
+              // setVisibleDialogLoader(true);
+            }}
+            // onLoadEnd={() => setVisibleDialogLoader(false)}
+            onNavigationStateChange={handleNavigationStateChanged}
+          />
+        </RBSheet>
       </SafeAreaProvider>
     </SideMenu>
   );
