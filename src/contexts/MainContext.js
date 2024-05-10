@@ -17,6 +17,7 @@ export const MainStore = (props) => {
   const [phone, setPhone] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
   const [userData, setUserData] = useState(null);
+  const [userMainDirID, setUserMainDirID] = useState(null);
 
   const [customerTypes, setCustomerTypes] = useState(null);
 
@@ -110,6 +111,7 @@ export const MainStore = (props) => {
           setIsLoading(true);
           setUserData(response.data?.response?.user);
 
+          setUserMainDirID(response.data?.response?.user?.mainDirectionId);
           setToken(response.data?.response?.accessToken);
           setEmail(response.data?.response?.user?.email);
           setUserId(response.data?.response?.user?.id);
@@ -332,6 +334,8 @@ export const MainStore = (props) => {
         setSelectedSpecialService,
         serviceParams,
         setServiceParams,
+        userMainDirID,
+        setUserMainDirID,
       }}
     >
       {props.children}

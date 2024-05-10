@@ -32,10 +32,10 @@ const SavedScreen = (props) => {
         },
       })
       .then((response) => {
-        console.log(
-          "get SavedServices",
-          JSON.stringify(response.data.response?.user)
-        );
+        // console.log(
+        //   "get SavedServices",
+        //   JSON.stringify(response.data.response?.user)
+        // );
         setSavedServiceData(response.data.response?.user);
       })
       .catch((error) => {

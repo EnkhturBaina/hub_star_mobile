@@ -1,45 +1,90 @@
 import {
   StyleSheet,
   Text,
-  View,
+  StatusBar,
+  Platform,
   ScrollView,
-  TouchableOpacity,
   Image,
+  TouchableOpacity,
 } from "react-native";
-import React from "react";
-import { MAIN_BORDER_RADIUS } from "../../../constant";
+import React, { useContext, useEffect, useState } from "react";
+import { SafeAreaProvider } from "react-native-safe-area-context";
+import MainContext from "../../../contexts/MainContext";
+import { MAIN_BORDER_RADIUS, SERVER_URL, X_API_KEY } from "../../../constant";
+import axios from "axios";
+import ListServiceSkeleton from "../../../components/Skeletons/ListServiceSkeleton";
+import Empty from "../../../components/Empty";
 
 const AdviceScreen = (props) => {
+  const state = useContext(MainContext);
+
+  const [loadingServices, setLoadingServices] = useState(false);
+  const [adviceData, setAdviceData] = useState([]);
+
+  const getAdvices = async () => {
+    setLoadingServices(true);
+    await axios
+      .get(`${SERVER_URL}reference/advice`, {
+        params: {
+          order: "DESC",
+          page: 1,
+          limit: 10,
+          mainDirectionId: state?.userMainDirID,
+        },
+        headers: {
+          "X-API-KEY": X_API_KEY,
+        },
+      })
+      .then((response) => {
+        console.log("get Advices ==>", JSON.stringify(response.data.response));
+        setAdviceData(response.data.response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching :", error);
+      })
+      .finally(() => {
+        setLoadingServices(false);
+      });
+  };
+  useEffect(() => {
+    getAdvices();
+  }, []);
   return (
-    <ScrollView
-      contentContainerStyle={{
-        flexGrow: 1,
-        paddingBottom: 20,
+    <SafeAreaProvider
+      style={{
+        flex: 1,
         backgroundColor: "#fff",
+        paddingVertical: 10,
       }}
-      showsVerticalScrollIndicator={false}
-      bounces={false}
     >
-      <View style={styles.gridContainer}>
-        {[...Array(7)].map((el, index) => {
-          return (
-            <TouchableOpacity
-              onPress={() => []}
-              style={styles.gridItem}
-              key={index}
-            >
-              <Image
-                style={styles.fileIcon}
-                source={require("../../../../assets/pdf_icon.png")}
-              />
-              <Text style={styles.fileText}>
-                Ажил гүйцэтгэхэд холболгдох байгуулагууд
-              </Text>
-            </TouchableOpacity>
-          );
-        })}
-      </View>
-    </ScrollView>
+      <StatusBar
+        translucent
+        barStyle={Platform.OS == "ios" ? "dark-content" : "default"}
+      />
+      <ScrollView contentContainerStyle={styles.gridContainer}>
+        {adviceData.length == 0 && loadingServices ? (
+          <ListServiceSkeleton />
+        ) : adviceData.length == 0 && !loadingServices ? (
+          <Empty text="Хийгдэж буй ажил олдсонгүй." />
+        ) : (
+          adviceData?.map((el, index) => {
+            return (
+              <TouchableOpacity
+                onPress={() => []}
+                style={styles.gridItem}
+                key={index}
+              >
+                <Image
+                  style={styles.fileIcon}
+                  source={require("../../../../assets/pdf_icon.png")}
+                />
+                <Text style={styles.fileText}>{el.title}</Text>
+              </TouchableOpacity>
+            );
+          })
+        )}
+      </ScrollView>
+    </SafeAreaProvider>
   );
 };
 
