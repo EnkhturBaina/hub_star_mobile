@@ -12,7 +12,12 @@ import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 import { Icon } from "@rneui/base";
 import { Dropdown } from "react-native-element-dropdown";
 import MainContext from "../contexts/MainContext";
-import { MAIN_BORDER_RADIUS, MAIN_COLOR, SERVER_URL } from "../constant";
+import {
+  MAIN_BORDER_RADIUS,
+  MAIN_COLOR,
+  ORDER_DATA,
+  SERVER_URL,
+} from "../constant";
 import SideMenu from "react-native-side-menu-updated";
 import SideBarFilter from "./SideBarFilter";
 import { SafeAreaProvider } from "react-native-safe-area-context";
@@ -26,11 +31,6 @@ const ServiceListScreenByType = (props) => {
   const [isFocus, setIsFocus] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [selectedType, setSelectedType] = useState(null);
-
-  const data = [
-    { label: "Огноогоор", value: "1" },
-    { label: "Шинэ эхэндээ", value: "2" },
-  ];
 
   return (
     <SideMenu
@@ -75,7 +75,7 @@ const ServiceListScreenByType = (props) => {
             placeholderStyle={styles.placeholderStyle}
             selectedTextStyle={styles.selectedTextStyle}
             inputSearchStyle={styles.inputSearchStyle}
-            data={data}
+            data={ORDER_DATA}
             maxHeight={300}
             labelField="label"
             valueField="value"

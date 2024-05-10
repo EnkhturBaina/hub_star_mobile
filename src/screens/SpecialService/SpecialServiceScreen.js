@@ -17,7 +17,7 @@ import SideMenu from "react-native-side-menu-updated";
 import SideBarFilter from "../SideBarFilter";
 import MainContext from "../../contexts/MainContext";
 import axios from "axios";
-import { IMG_URL, SERVER_URL, X_API_KEY } from "../../constant";
+import { IMG_URL, ORDER_DATA, SERVER_URL, X_API_KEY } from "../../constant";
 import SpecialServiceListSekeleton from "../../components/Skeletons/SpecialServiceListSekeleton";
 import Empty from "../../components/Empty";
 
@@ -51,11 +51,6 @@ const SpecialServiceScreen = (props) => {
       });
     // TabBar Hide хийх
   }, [props.navigation]);
-
-  const data = [
-    { label: "Огноогоор", value: "1" },
-    { label: "Шинэ эхэндээ", value: "2" },
-  ];
 
   const getSpecialServiceData = async () => {
     setLoadingServices(true);
@@ -135,7 +130,7 @@ const SpecialServiceScreen = (props) => {
             placeholderStyle={styles.placeholderStyle}
             selectedTextStyle={styles.selectedTextStyle}
             inputSearchStyle={styles.inputSearchStyle}
-            data={data}
+            data={ORDER_DATA}
             maxHeight={300}
             labelField="label"
             valueField="value"
@@ -146,6 +141,10 @@ const SpecialServiceScreen = (props) => {
             onChange={(item) => {
               setValue(item.value);
               setIsFocus(false);
+              state.setSpecialServiceParams((prevState) => ({
+                ...prevState,
+                order: item.value == "ASC" ? "ASC" : "DESC",
+              }));
             }}
           />
         </View>

@@ -15,6 +15,7 @@ import MainContext from "../../contexts/MainContext";
 import {
   MAIN_BORDER_RADIUS,
   MAIN_COLOR,
+  ORDER_DATA,
   SERVER_URL,
   X_API_KEY,
 } from "../../constant";
@@ -52,11 +53,6 @@ const UserTypeServiceScreen = (props) => {
       });
     // TabBar Hide хийх
   }, [props.navigation]);
-
-  const data = [
-    { label: "Огноогоор", value: "1" },
-    { label: "Шинэ эхэндээ", value: "2" },
-  ];
 
   useEffect(() => {
     console.log("state", state.selectedUserType);
@@ -105,7 +101,7 @@ const UserTypeServiceScreen = (props) => {
             placeholderStyle={styles.placeholderStyle}
             selectedTextStyle={styles.selectedTextStyle}
             inputSearchStyle={styles.inputSearchStyle}
-            data={data}
+            data={ORDER_DATA}
             maxHeight={300}
             labelField="label"
             valueField="value"
