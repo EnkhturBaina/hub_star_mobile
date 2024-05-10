@@ -10,16 +10,22 @@ import {
   ActivityIndicator,
 } from "react-native";
 import React, { useContext, useEffect, useState } from "react";
-import { IMG_URL, SERVER_URL, X_API_KEY } from "../../constant";
+import {
+  IMG_URL,
+  MAIN_COLOR,
+  MAIN_COLOR_GRAY,
+  SERVER_URL,
+  X_API_KEY,
+} from "../../constant";
 import axios from "axios";
 import { Dialog, Icon } from "@rneui/base";
 import GradientButton from "../../components/GradientButton";
 import ServiceDTLSkeleton from "../../components/Skeletons/ServiceDTLSkeleton";
 import { ImageZoom } from "@likashefqet/react-native-image-zoom";
-import { AirbnbRating, Rating } from "react-native-ratings";
 import MainContext from "../../contexts/MainContext";
 import "dayjs/locale/es";
 import dayjs from "dayjs";
+import { StarRatingDisplay } from "react-native-star-rating-widget";
 
 const SingleServiceScreen = (props) => {
   const state = useContext(MainContext);
@@ -183,6 +189,16 @@ const SingleServiceScreen = (props) => {
           >
             <Text style={{ fontWeight: "bold" }}>Үнэлгээ</Text>
             {/* <Rating showRating style={{ paddingVertical: 10 }} isDisabled /> */}
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
+              <StarRatingDisplay
+                rating={adviceData.rating / 2}
+                starSize={25}
+                emptyColor={MAIN_COLOR}
+                color={MAIN_COLOR}
+                style={{ padding: 0 }}
+              />
+              <Text> {adviceData.rating / 2} / 10</Text>
+            </View>
             <Text style={{ fontWeight: "bold" }}>Үнэ </Text>
             <Text>
               {state.addCommas(

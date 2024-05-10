@@ -300,6 +300,7 @@ const ProfileScreen = (props) => {
               justifyContent: "space-between",
               marginHorizontal: 20,
               marginTop: 10,
+              alignItems: "center",
             }}
           >
             <TouchableOpacity
@@ -308,6 +309,7 @@ const ProfileScreen = (props) => {
                 borderWidth: 2,
                 borderRadius: 8,
                 borderColor: "#aeaeae",
+                height: 40,
               }}
               onPress={() => {
                 sheetRef.current.close();
@@ -317,7 +319,7 @@ const ProfileScreen = (props) => {
                 style={{
                   flex: 1,
                   textAlign: "center",
-                  paddingVertical: Platform.OS == "ios" ? 12 : 0,
+                  paddingVertical: Platform.OS == "ios" ? 8 : 0,
                   fontSize: 18,
                   fontWeight: "500",
                   color: "#aeaeae",
@@ -332,6 +334,8 @@ const ProfileScreen = (props) => {
                 action={() => {
                   state.logout();
                 }}
+                height={40}
+                radius={6}
               />
             </View>
           </View>

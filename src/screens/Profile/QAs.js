@@ -15,18 +15,37 @@ import { MAIN_BORDER_RADIUS, MAIN_COLOR } from "../../constant";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import { List } from "react-native-paper";
 import { Icon } from "@rneui/base";
+import { Searchbar } from "react-native-paper";
 
 const Tab = createMaterialTopTabNavigator();
 const QAs = (props) => {
   const state = useContext(MainContext);
+  const [searchVal, setSearchVal] = useState("");
   const tabBarHeight = useBottomTabBarHeight();
   const [expanded, setExpanded] = useState({});
 
   const handlePress = () => setExpanded(!expanded);
 
+  const onChangeSearch = (query) => {
+    console.log("query", query);
+  };
+
   const FirstRoute = () => (
-    <View style={{ flex: 1, backgroundColor: "#fff" }}>
-      <List.Section title="Accordions">
+    <View style={{ flex: 1, backgroundColor: "#fff", paddingVertical: 5 }}>
+      <Searchbar
+        placeholder="Хайх"
+        onChangeText={(e) => {
+          onChangeSearch(e);
+        }}
+        value={searchVal}
+        style={styles.searchBar}
+        elevation={0}
+        onSubmitEditing={(event) => {
+          console.log("event", event.nativeEvent.text);
+        }}
+        onClearIconPress={() => {}}
+      />
+      <List.Section>
         <List.Accordion
           title="Асуулт 1"
           style={{ backgroundColor: "#fff" }}
@@ -155,5 +174,12 @@ const styles = StyleSheet.create({
     marginVertical: 5,
     padding: 15,
     borderRadius: MAIN_BORDER_RADIUS,
+  },
+  searchBar: {
+    marginHorizontal: 20,
+    backgroundColor: "#f0f0f0",
+    borderRadius: MAIN_BORDER_RADIUS,
+    marginTop: 5,
+    elevation: 0,
   },
 });

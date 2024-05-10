@@ -419,7 +419,7 @@ const HomeScreen = (props) => {
                                 <View
                                   key={indexSub}
                                   style={{
-                                    marginBottom: 15,
+                                    marginBottom: 20,
                                   }}
                                 >
                                   <Text>{sub.name}</Text>

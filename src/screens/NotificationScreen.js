@@ -5,11 +5,30 @@ import {
   ScrollView,
   TouchableOpacity,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useLayoutEffect, useState } from "react";
 import { Icon } from "@rneui/base";
 import { MAIN_COLOR } from "../constant";
 
 const NotificationScreen = (props) => {
+  useLayoutEffect(() => {
+    // TabBar Hide хийх
+    props.navigation?.getParent()?.setOptions({
+      tabBarStyle: {
+        display: "none",
+      },
+    });
+    return () =>
+      props.navigation?.getParent()?.setOptions({
+        tabBarStyle: {
+          position: "absolute",
+          borderTopLeftRadius: 20,
+          borderTopRightRadius: 20,
+          height: 105,
+          padding: 10,
+        },
+      });
+    // TabBar Hide хийх
+  }, [props.navigation]);
   const [isNew, setIsNew] = useState({});
   const data = [
     {

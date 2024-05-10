@@ -28,7 +28,13 @@ const GradientButton = (props) => {
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 0 }}
       >
-        <View style={{ flexDirection: "row", justifyContent: "center" }}>
+        <View
+          style={{
+            justifyContent: "center", //Centered vertically
+            alignItems: "center", //Centered horizontally
+            flex: 1,
+          }}
+        >
           <Text style={styles.btnText}>{props.text}</Text>
           {props.isWaiting && <ActivityIndicator color="#fff" />}
         </View>
@@ -52,7 +58,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     textAlignVertical: "center",
     paddingHorizontal: 8,
-    height: 45,
-    paddingVertical: Platform.OS == "ios" ? 12 : 0,
+    height: 40,
+    paddingVertical: Platform.OS == "ios" ? 10 : 0,
   },
 });

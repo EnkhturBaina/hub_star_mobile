@@ -16,7 +16,6 @@ import { Dialog, Icon } from "@rneui/base";
 import GradientButton from "../../components/GradientButton";
 import ServiceDTLSkeleton from "../../components/Skeletons/ServiceDTLSkeleton";
 import { ImageZoom } from "@likashefqet/react-native-image-zoom";
-import { AirbnbRating, Rating } from "react-native-ratings";
 import MainContext from "../../contexts/MainContext";
 import "dayjs/locale/es";
 import dayjs from "dayjs";
@@ -182,7 +181,7 @@ const SingleSpecialScreen = (props) => {
             }}
           >
             <Text style={{ fontWeight: "bold" }}>Үнэлгээ</Text>
-            {/* <Rating showRating style={{ paddingVertical: 10 }} isDisabled /> */}
+            {/* rating */}
             <Text style={{ fontWeight: "bold" }}>Үнэ </Text>
             <Text>
               {state.addCommas(

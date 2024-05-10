@@ -2,9 +2,7 @@ import {
   StyleSheet,
   Text,
   View,
-  Image,
   TouchableOpacity,
-  Linking,
   ScrollView,
   StatusBar,
   Platform,
@@ -14,11 +12,13 @@ import { Icon } from "@rneui/base";
 import MainContext from "../../contexts/MainContext";
 import CustomSnackbar from "../../components/CustomSnackbar";
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
-import bg from "../../../assets/splash_bg.png";
 import { SafeAreaProvider } from "react-native-safe-area-context";
-import Constants from "expo-constants";
-import { GRAY_ICON_COLOR, MAIN_COLOR_GRAY } from "../../constant";
-import { Divider } from "react-native-paper";
+import {
+  GRAY_ICON_COLOR,
+  MAIN_BORDER_RADIUS,
+  MAIN_COLOR,
+  MAIN_COLOR_GRAY,
+} from "../../constant";
 
 const Account = (props) => {
   const state = useContext(MainContext);
@@ -48,13 +48,12 @@ const Account = (props) => {
     <SafeAreaProvider
       style={{
         flex: 1,
-        paddingTop: Constants.statusBarHeight,
         backgroundColor: "#fff",
         paddingBottom: tabBarHeight,
       }}
     >
       <ScrollView
-        contentContainerStyle={{ flexGrow: 1 }}
+        contentContainerStyle={{ flexGrow: 1, paddingHorizontal: 20 }}
         showsVerticalScrollIndicator={false}
         bounces={false}
       >
@@ -62,7 +61,21 @@ const Account = (props) => {
           translucent
           barStyle={Platform.OS == "ios" ? "dark-content" : "default"}
         />
-        <Text>Account</Text>
+        <TouchableOpacity style={styles.cardContainer}>
+          <View style={{ flexDirection: "row", alignItems: "center" }}>
+            <Icon
+              name="card"
+              type="ionicon"
+              color={MAIN_COLOR}
+              size={25}
+              style={{ marginHorizontal: 5 }}
+            />
+            <Text>**** **** **** 1234</Text>
+          </View>
+          <Text style={{ fontWeight: "500", color: MAIN_COLOR }}>
+            Холбогдсон
+          </Text>
+        </TouchableOpacity>
       </ScrollView>
     </SafeAreaProvider>
   );
@@ -71,42 +84,23 @@ const Account = (props) => {
 export default Account;
 
 const styles = StyleSheet.create({
-  headerBg: {
+  cardContainer: {
     width: "100%",
-    height: 150,
-    resizeMode: "cover",
-  },
-  userIcon: {
-    width: 100,
-    height: 100,
-    resizeMode: "contain",
-    borderWidth: 4,
-    borderRadius: 120,
-    borderColor: "#fff",
-  },
-  gridMenus: {
     flexDirection: "row",
     alignItems: "center",
-    paddingHorizontal: 25,
-    marginBottom: 20,
-  },
-  lastText: {
-    color: "red",
-    fontWeight: "500",
-    marginLeft: 20,
-  },
-  menuText: {
-    color: GRAY_ICON_COLOR,
-    fontWeight: "500",
-    marginLeft: 20,
-  },
-  profileCircle: {
-    position: "absolute",
-    flexDirection: "row",
-    top: 100,
-    paddingHorizontal: 20,
-    paddingBottom: 30,
-    borderBottomWidth: 1,
-    borderBottomColor: MAIN_COLOR_GRAY,
+    shadowOpacity: 0.1,
+    shadowRadius: 3,
+    shadowOffset: {
+      height: 3,
+      width: 2,
+    },
+    elevation: 2,
+    backgroundColor: "#fff",
+    marginVertical: 5,
+    alignSelf: "flex-start",
+    paddingVertical: 15,
+    paddingHorizontal: 15,
+    borderRadius: 8,
+    justifyContent: "space-between",
   },
 });
