@@ -30,8 +30,6 @@ import {
   X_API_KEY,
 } from "../constant";
 import Carousel from "react-native-reanimated-carousel";
-import featuresData from "../featuresData";
-import gridData from "../gridData";
 import RBSheet from "react-native-raw-bottom-sheet";
 import UserTabData from "../refs/UserTabData";
 import SpecialServiceData from "../refs/SpecialServiceData";
@@ -43,7 +41,6 @@ const height = Dimensions.get("window").height;
 const HomeScreen = (props) => {
   const state = useContext(MainContext);
   const tabBarHeight = useBottomTabBarHeight();
-  const [selectedType, setSelectedType] = useState(null);
   const [expanded, setExpanded] = useState({});
   const [news, setNews] = useState([]);
   const [advices, setAdvices] = useState([]);
@@ -62,8 +59,6 @@ const HomeScreen = (props) => {
     outputRange: [H_MAX_HEIGHT - 20, H_MIN_HEIGHT - 20],
     extrapolate: "clamp",
   });
-
-  const handlePress = () => setExpanded(!expanded);
 
   const getNews = async () => {
     await axios
@@ -193,7 +188,6 @@ const HomeScreen = (props) => {
                     },
                   ]}
                   onPress={() => {
-                    setSelectedType(index);
                     state.setSelectedUserType(el.type);
                     props.navigation.navigate("UserTypeServiceScreen");
                   }}
@@ -263,7 +257,7 @@ const HomeScreen = (props) => {
               <TouchableOpacity
                 onPress={() => {
                   state.setSelectedSpecialService(el.type);
-                  state.setServiceParams((prevState) => ({
+                  state.setSpecialServiceParams((prevState) => ({
                     ...prevState,
                     specialService: el.type,
                   }));

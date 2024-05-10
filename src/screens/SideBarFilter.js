@@ -1,33 +1,25 @@
-import { StyleSheet, Text, View, ScrollView, Image } from "react-native";
+import { StyleSheet, Text, View, ScrollView } from "react-native";
 import React, { useContext, useEffect, useState } from "react";
 import { Divider } from "react-native-paper";
 import MainContext from "../contexts/MainContext";
-import {
-  MAIN_BG_GRAY,
-  MAIN_COLOR,
-  MAIN_COLOR_GRAY,
-  SERVER_URL,
-  X_API_KEY,
-} from "../constant";
-import { Icon, ListItem, CheckBox } from "@rneui/base";
+import { MAIN_COLOR, SERVER_URL, X_API_KEY } from "../constant";
+import { Icon, CheckBox } from "@rneui/base";
 import axios from "axios";
 import SideFIlterSkeleton from "../components/Skeletons/SideFIlterSkeleton";
 import Empty from "../components/Empty";
 
 const SideBarFilter = (props) => {
   const state = useContext(MainContext);
-  const [expanded, setExpanded] = useState({});
   const [checked, setChecked] = useState({});
 
   const [loadingSideFilter, setLoadingSideFilter] = useState(false);
   const [sideFilterData, setSideFilterData] = useState([]);
 
   const getSideFilterData = async () => {
-    console.log("state?.serviceParams", state?.serviceParams);
     setLoadingSideFilter(true);
     await axios
       .get(`${SERVER_URL}reference/direction`, {
-        params: state?.serviceParams,
+        params: state?.specialServiceParams,
         headers: {
           "X-API-KEY": X_API_KEY,
         },
@@ -50,18 +42,29 @@ const SideBarFilter = (props) => {
     getSideFilterData();
   }, []);
 
-  const onChangeValue = (value) => {
-    const currentDirections = setSideFilterData.filter((item) => {
-      return item.subDirections.some((subdir) => value.includes(subdir.id));
+  useEffect(() => {
+    var checkedItems = [];
+    //Checkbox дарах үед CHECK хийгдсэнүүдээр хайх
+    Object.keys(checked).forEach(function (key, index) {
+      if (checked[key]) {
+        checkedItems.push(key);
+      }
     });
-    state.setServiceParams((prevState) => ({
+
+    const currentDirections = sideFilterData.filter((item) => {
+      return item.subDirections.some((subdir) =>
+        checkedItems.includes(subdir.id)
+      );
+    });
+
+    state.setSpecialServiceParams((prevState) => ({
       ...prevState,
       page: 1,
       limit: 10,
-      // directionIds: currentDirections?.map(item => item.id),
-      // subDirectionIds: value.map(item => Number(item)),
+      directionIds: currentDirections?.map((item) => item.id),
+      subDirectionIds: checkedItems,
     }));
-  };
+  }, [checked]);
 
   return (
     <View

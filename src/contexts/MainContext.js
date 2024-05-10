@@ -79,7 +79,7 @@ export const MainStore = (props) => {
     });
   };
 
-  const [serviceParams, setServiceParams] = useState({
+  const [specialServiceParams, setSpecialServiceParams] = useState({
     specialService: selectedSpecialService,
     order: "DESC",
     page: 1,
@@ -332,8 +332,8 @@ export const MainStore = (props) => {
         setSelectedUserType,
         selectedSpecialService,
         setSelectedSpecialService,
-        serviceParams,
-        setServiceParams,
+        specialServiceParams,
+        setSpecialServiceParams,
         userMainDirID,
         setUserMainDirID,
       }}

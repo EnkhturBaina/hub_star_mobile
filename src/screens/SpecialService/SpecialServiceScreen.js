@@ -61,12 +61,7 @@ const SpecialServiceScreen = (props) => {
     setLoadingServices(true);
     await axios
       .get(`${SERVER_URL}advertisement`, {
-        params: {
-          specialService: state.selectedSpecialService,
-          order: "DESC",
-          page: 1,
-          limit: 10,
-        },
+        params: state.specialServiceParams,
         headers: {
           "X-API-KEY": X_API_KEY,
         },
@@ -89,6 +84,11 @@ const SpecialServiceScreen = (props) => {
   useEffect(() => {
     getSpecialServiceData();
   }, []);
+
+  useEffect(() => {
+    //Side filter -с check хийгдэх үед GET service -н PARAM -уудыг бэлдээд SERVICE -г дуудах
+    getSpecialServiceData();
+  }, [state.specialServiceParams]);
 
   return (
     <SideMenu
