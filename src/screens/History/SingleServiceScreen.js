@@ -37,7 +37,7 @@ const SingleServiceScreen = (props) => {
   const getAdvice = async () => {
     setLoadingAdvice(true);
     await axios
-      .get(`${SERVER_URL}advertisement/${props.route?.params?.advice_id}`, {
+      .get(`${SERVER_URL}advertisement/${props.route?.params?.adv_id}`, {
         headers: {
           "X-API-KEY": X_API_KEY,
         },

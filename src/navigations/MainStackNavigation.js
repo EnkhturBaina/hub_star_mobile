@@ -41,6 +41,7 @@ import SpecialServiceScreen from "../screens/SpecialService/SpecialServiceScreen
 import UserTypeServiceScreen from "../screens/UserTypeService/UserTypeServiceScreen";
 import SingleSpecialScreen from "../screens/SpecialService/SingleSpecialScreen";
 import SingleServiceScreen from "../screens/History/SingleServiceScreen";
+import MainAdviceScreen from "../screens/Advice/MainAdviceScreen";
 
 const Stack = createStackNavigator();
 const width = Dimensions.get("screen").width;
@@ -541,6 +542,30 @@ const HomeScreenStackNavigator = (props) => {
               style={styles.headerLeftContainer}
               onPress={() => {
                 navigation.navigate("SpecialServiceScreen");
+              }}
+            >
+              <Icon
+                type="material-icons"
+                name="keyboard-arrow-left"
+                size={30}
+              />
+            </TouchableOpacity>
+          ),
+        }}
+      />
+      <Stack.Screen
+        name="MainAdviceScreen"
+        component={MainAdviceScreen}
+        options={{
+          title: "Зөвлөмжүүд",
+          headerTitleStyle: {
+            fontWeight: "800",
+          },
+          headerLeft: () => (
+            <TouchableOpacity
+              style={styles.headerLeftContainer}
+              onPress={() => {
+                navigation.navigate("HomeScreen");
               }}
             >
               <Icon

@@ -78,7 +78,9 @@ const AdviceScreen = (props) => {
                   style={styles.fileIcon}
                   source={require("../../../../assets/pdf_icon.png")}
                 />
-                <Text style={styles.fileText}>{el.title}</Text>
+                <Text style={styles.fileText} numberOfLines={2}>
+                  {el.title}
+                </Text>
               </TouchableOpacity>
             );
           })

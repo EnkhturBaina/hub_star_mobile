@@ -78,7 +78,7 @@ const DoingScreen = (props) => {
                 key={index}
                 onPress={() => {
                   props.navigation.navigate("SingleServiceScreen", {
-                    advice_id: el.id,
+                    adv_id: el.id,
                   });
                 }}
               >

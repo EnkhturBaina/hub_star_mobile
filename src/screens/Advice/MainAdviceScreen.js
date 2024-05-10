@@ -5,24 +5,26 @@ import {
   Image,
   ScrollView,
   TouchableOpacity,
-  ActivityIndicator,
 } from "react-native";
-import React, { useContext, useEffect, useLayoutEffect, useState } from "react";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 import { StatusBar, Platform } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 import { Icon } from "@rneui/base";
 import { Dropdown } from "react-native-element-dropdown";
 import SideMenu from "react-native-side-menu-updated";
-import SideBarFilter from "../SideBarFilter";
-import MainContext from "../../contexts/MainContext";
+import {
+  MAIN_BORDER_RADIUS,
+  ORDER_DATA,
+  SERVER_URL,
+  X_API_KEY,
+} from "../../constant";
+import AdviceSideBarFilter from "./AdviceSideBarFilter";
 import axios from "axios";
-import { IMG_URL, ORDER_DATA, SERVER_URL, X_API_KEY } from "../../constant";
-import SpecialServiceListSekeleton from "../../components/Skeletons/SpecialServiceListSekeleton";
 import Empty from "../../components/Empty";
+import ListServiceSkeleton from "../../components/Skeletons/ListServiceSkeleton";
 
-const SpecialServiceScreen = (props) => {
-  const state = useContext(MainContext);
+const MainAdviceScreen = (props) => {
   const tabBarHeight = useBottomTabBarHeight();
   const [value, setValue] = useState(null);
   const [isFocus, setIsFocus] = useState(false);
@@ -30,7 +32,14 @@ const SpecialServiceScreen = (props) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const [loadingServices, setLoadingServices] = useState(false);
-  const [specialServiceData, setSpecialServiceData] = useState([]);
+  const [adviceData, setAdviceData] = useState([]);
+
+  const [adviceDataParams, setAdviceDataParams] = useState({
+    order: "DESC",
+    page: 1,
+    limit: 10,
+    mainDirectionId: props.route?.params?.advice_id,
+  });
 
   useLayoutEffect(() => {
     // TabBar Hide хийх
@@ -52,22 +61,19 @@ const SpecialServiceScreen = (props) => {
     // TabBar Hide хийх
   }, [props.navigation]);
 
-  const getSpecialServiceData = async () => {
+  const getAdvices = async () => {
+    console.log("getAdvices");
     setLoadingServices(true);
     await axios
-      .get(`${SERVER_URL}advertisement`, {
-        params: state.specialServiceParams,
+      .get(`${SERVER_URL}reference/advice`, {
+        params: adviceDataParams,
         headers: {
           "X-API-KEY": X_API_KEY,
         },
       })
       .then((response) => {
-        // console.log(
-        //   "get SpecialServiceData response",
-        //   JSON.stringify(response.data.response)
-        // );
-        // setNews(response.data.response);
-        setSpecialServiceData(response.data.response.data);
+        // console.log("get Advices ==>", JSON.stringify(response.data.response));
+        setAdviceData(response.data.response.data);
       })
       .catch((error) => {
         console.error("Error fetching :", error);
@@ -77,18 +83,22 @@ const SpecialServiceScreen = (props) => {
       });
   };
   useEffect(() => {
-    getSpecialServiceData();
+    getAdvices();
   }, []);
 
   useEffect(() => {
-    //Side filter -с check хийгдэх үед GET service -н PARAM -уудыг бэлдээд SERVICE -г дуудах
-    getSpecialServiceData();
-  }, [state.specialServiceParams]);
+    getAdvices();
+  }, [adviceDataParams]);
 
   return (
     <SideMenu
       menu={
-        <SideBarFilter setIsOpen={setIsOpen} isOpen={isOpen} isSpecial={1} />
+        <AdviceSideBarFilter
+          setIsOpen={setIsOpen}
+          isOpen={isOpen}
+          mainDirecionId={props.route?.params?.advice_id}
+          setAdviceDataParams={setAdviceDataParams}
+        />
       }
       isOpen={isOpen}
       onChange={(isOpen) => setIsOpen(isOpen)}
@@ -141,72 +151,33 @@ const SpecialServiceScreen = (props) => {
             onChange={(item) => {
               setValue(item.value);
               setIsFocus(false);
-              state.setSpecialServiceParams((prevState) => ({
+              setAdviceDataParams((prevState) => ({
                 ...prevState,
                 order: item.value == "ASC" ? "ASC" : "DESC",
               }));
             }}
           />
         </View>
-        <ScrollView
-          contentContainerStyle={styles.gridContainer}
-          showsVerticalScrollIndicator={false}
-        >
-          {specialServiceData.length == 0 && loadingServices ? (
-            <SpecialServiceListSekeleton />
-          ) : specialServiceData.length == 0 && !loadingServices ? (
-            <Empty text="Онцгой үйлчилгээ олдсонгүй." />
+        <ScrollView contentContainerStyle={styles.gridContainer}>
+          {adviceData.length == 0 && loadingServices ? (
+            <ListServiceSkeleton />
+          ) : adviceData.length == 0 && !loadingServices ? (
+            <Empty text="Хийгдэж буй ажил олдсонгүй." />
           ) : (
-            specialServiceData?.map((el, index) => {
+            adviceData?.map((el, index) => {
               return (
                 <TouchableOpacity
+                  onPress={() => []}
                   style={styles.gridItem}
                   key={index}
-                  onPress={() => {
-                    props.navigation.navigate("SingleSpecialScreen", {
-                      adv_id: el.id,
-                    });
-                  }}
                 >
-                  <ActivityIndicator
-                    size="small"
-                    style={{
-                      position: "absolute",
-                      alignSelf: "center",
-                      justifyContent: "center",
-                      height: 150,
-                    }}
-                  />
                   <Image
-                    source={
-                      el.images[0]
-                        ? {
-                            uri: IMG_URL + el.images[0]?.id,
-                          }
-                        : require("../../../assets/splash_bg_1.jpg")
-                    }
-                    style={{
-                      width: "100%",
-                      height: 150,
-                      borderTopLeftRadius: 6,
-                      borderTopRightRadius: 6,
-                    }}
-                    resizeMode="cover"
+                    style={styles.fileIcon}
+                    source={require("../../../assets/pdf_icon.png")}
                   />
-                  <View style={{ flexDirection: "column", padding: 10 }}>
-                    <Text
-                      numberOfLines={1}
-                      style={{ fontSize: 16, fontWeight: "500" }}
-                    >
-                      {el.title}
-                    </Text>
-                    <Text
-                      style={{ color: "#aeaeae", fontWeight: "500" }}
-                      numberOfLines={1}
-                    >
-                      {el.desciption}
-                    </Text>
-                  </View>
+                  <Text style={styles.fileText} numberOfLines={2}>
+                    {el.title}
+                  </Text>
                 </TouchableOpacity>
               );
             })
@@ -217,7 +188,7 @@ const SpecialServiceScreen = (props) => {
   );
 };
 
-export default SpecialServiceScreen;
+export default MainAdviceScreen;
 
 const styles = StyleSheet.create({
   dropdown: {
@@ -227,18 +198,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 8,
     width: "50%",
   },
-  icon: {
-    marginRight: 5,
-  },
-  label: {
-    position: "absolute",
-    backgroundColor: "white",
-    left: 22,
-    top: 8,
-    zIndex: 999,
-    paddingHorizontal: 8,
-    fontSize: 14,
-  },
   placeholderStyle: {
     fontSize: 16,
     fontWeight: "bold",
@@ -247,29 +206,38 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "bold",
   },
-  iconStyle: {
-    width: 20,
-    height: 20,
-  },
   inputSearchStyle: {
     height: 40,
     fontSize: 16,
   },
   gridContainer: {
-    flexGrow: 1,
-    paddingTop: 10,
+    flexDirection: "row",
+    flexWrap: "wrap",
+    alignItems: "flex-start",
+    justifyContent: "space-between",
+    marginHorizontal: 20,
+    gap: 2,
   },
   gridItem: {
-    marginBottom: 10,
-    marginHorizontal: 20,
-    shadowOpacity: 0.1,
-    shadowRadius: 3,
-    shadowOffset: {
-      height: 3,
-      width: 2,
-    },
-    elevation: 2,
-    backgroundColor: "#fff",
-    borderRadius: 6,
+    marginTop: 10,
+    borderRadius: MAIN_BORDER_RADIUS,
+    height: 150,
+    paddingHorizontal: 10,
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+    width: "48%", // is 50% of container width
+    borderColor: "#dadada",
+    borderWidth: 1,
+  },
+  fileIcon: {
+    height: 70,
+    width: 55,
+  },
+  fileText: {
+    textAlign: "center",
+    color: "#919395",
+    fontWeight: "500",
+    marginTop: 10,
   },
 });

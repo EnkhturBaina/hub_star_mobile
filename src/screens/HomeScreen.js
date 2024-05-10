@@ -293,7 +293,9 @@ const HomeScreen = (props) => {
                       },
                     ]}
                     onPress={() =>
-                      props.navigation.navigate("ServiceListScreen")
+                      props.navigation.navigate("MainAdviceScreen", {
+                        advice_id: el.id,
+                      })
                     }
                   >
                     <ActivityIndicator size="small" style={styles.adviceImg} />
