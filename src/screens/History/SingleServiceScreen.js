@@ -21,7 +21,7 @@ import MainContext from "../../contexts/MainContext";
 import "dayjs/locale/es";
 import dayjs from "dayjs";
 
-const SingleSpecialScreen = (props) => {
+const SingleServiceScreen = (props) => {
   const state = useContext(MainContext);
   const [loadingAdvice, setLoadingAdvice] = useState(false);
   const [adviceData, setAdviceData] = useState(null);
@@ -241,7 +241,7 @@ const SingleSpecialScreen = (props) => {
   );
 };
 
-export default SingleSpecialScreen;
+export default SingleServiceScreen;
 
 const styles = StyleSheet.create({
   slideImg: {

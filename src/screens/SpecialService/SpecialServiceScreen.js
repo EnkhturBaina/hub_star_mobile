@@ -72,10 +72,10 @@ const SpecialServiceScreen = (props) => {
         },
       })
       .then((response) => {
-        console.log(
-          "get SpecialServiceData response",
-          JSON.stringify(response.data.response)
-        );
+        // console.log(
+        //   "get SpecialServiceData response",
+        //   JSON.stringify(response.data.response)
+        // );
         // setNews(response.data.response);
         setSpecialServiceData(response.data.response.data);
       })

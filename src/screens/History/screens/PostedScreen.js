@@ -8,11 +8,52 @@ import {
   Image,
   TouchableOpacity,
 } from "react-native";
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { Icon } from "@rneui/base";
+import MainContext from "../../../contexts/MainContext";
+import { IMG_URL, SERVER_URL, X_API_KEY } from "../../../constant";
+import axios from "axios";
+import ListServiceSkeleton from "../../../components/Skeletons/ListServiceSkeleton";
+import Empty from "../../../components/Empty";
 
 const PostedScreen = (props) => {
+  const state = useContext(MainContext);
+
+  const [loadingServices, setLoadingServices] = useState(false);
+  const [postedServiceData, setPostedServiceData] = useState([]);
+
+  const getPostedServices = async () => {
+    setLoadingServices(true);
+    await axios
+      .get(`${SERVER_URL}advertisement`, {
+        params: {
+          order: "DESC",
+          page: 1,
+          limit: 10,
+          createdBy: state?.userId,
+        },
+        headers: {
+          "X-API-KEY": X_API_KEY,
+        },
+      })
+      .then((response) => {
+        // console.log(
+        //   "get PostedServices",
+        //   JSON.stringify(response.data.response)
+        // );
+        setPostedServiceData(response.data.response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching :", error);
+      })
+      .finally(() => {
+        setLoadingServices(false);
+      });
+  };
+  useEffect(() => {
+    getPostedServices();
+  }, []);
   return (
     <SafeAreaProvider
       style={{
@@ -25,46 +66,53 @@ const PostedScreen = (props) => {
         barStyle={Platform.OS == "ios" ? "dark-content" : "default"}
       />
       <ScrollView contentContainerStyle={styles.gridContainer}>
-        {[...Array(2)].map((el, index) => {
-          return (
-            <TouchableOpacity
-              style={styles.gridItem}
-              key={index}
-              onPress={() => {
-                props.navigation.navigate("ServiceDTLScreen");
-              }}
-            >
-              <Image
-                source={require("../../../../assets/splash_bg_1.jpg")}
-                style={{
-                  width: 100,
-                  height: 90,
-                  borderTopLeftRadius: 6,
-                  borderBottomLeftRadius: 6,
-                }}
-                resizeMode="cover"
-              />
-              <View
-                style={{
-                  flex: 1,
-                  flexDirection: "column",
-                  padding: 10,
+        {postedServiceData.length == 0 && loadingServices ? (
+          <ListServiceSkeleton />
+        ) : postedServiceData.length == 0 && !loadingServices ? (
+          <Empty text="Байршуулсан үйлчилгээ олдсонгүй." />
+        ) : (
+          postedServiceData?.map((el, index) => {
+            return (
+              <TouchableOpacity
+                style={styles.gridItem}
+                key={index}
+                onPress={() => {
+                  props.navigation.navigate("SingleServiceScreen", {
+                    advice_id: el.id,
+                  });
                 }}
               >
-                <Text
-                  numberOfLines={2}
-                  style={{ flex: 1, fontSize: 16, fontWeight: "500" }}
+                <Image
+                  source={{ uri: IMG_URL + el.images[0]?.id }}
+                  style={{
+                    width: 100,
+                    height: 90,
+                    borderTopLeftRadius: 6,
+                    borderBottomLeftRadius: 6,
+                  }}
+                  resizeMode="cover"
+                />
+                <View
+                  style={{
+                    flex: 1,
+                    flexDirection: "column",
+                    padding: 10,
+                  }}
                 >
-                  Үндэсний шилдэг бүтээн байгуулагч NCD Group болон хот БАРИЛГЫН
-                  САЛБАРЫН ХӨГЖЛИЙН ЧИГ ХАНДЛАГА
-                </Text>
-                <Text style={{ color: "#aeaeae", fontWeight: "500" }}>
-                  NCD Group - {index}
-                </Text>
-              </View>
-            </TouchableOpacity>
-          );
-        })}
+                  <Text
+                    numberOfLines={2}
+                    style={{ flex: 1, fontSize: 16, fontWeight: "500" }}
+                  >
+                    {el.title}
+                  </Text>
+                  <Text style={{ color: "#aeaeae", fontWeight: "500" }}>
+                    {el.desciption}
+                  </Text>
+                </View>
+              </TouchableOpacity>
+            );
+          })
+        )}
         <TouchableOpacity
           onPress={() => props.navigation.navigate("AddService")}
           style={styles.addItemContainer}
@@ -81,7 +129,7 @@ export default PostedScreen;
 const styles = StyleSheet.create({
   gridContainer: {
     flexGrow: 1,
-    paddingTop: 10,
+    paddingVertical: 10,
   },
   gridItem: {
     marginBottom: 15,
