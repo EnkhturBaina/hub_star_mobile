@@ -4,159 +4,69 @@ import {
   View,
   Image,
   TouchableOpacity,
-  Linking,
   ScrollView,
   StatusBar,
   Platform,
-  Dimensions,
 } from "react-native";
-import React, { useContext, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { Icon } from "@rneui/base";
 import MainContext from "../../contexts/MainContext";
-import CustomSnackbar from "../../components/CustomSnackbar";
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
-import bg from "../../../assets/splash_bg.png";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import Constants from "expo-constants";
-import { GRAY_ICON_COLOR, MAIN_BG_GRAY, MAIN_COLOR_GRAY } from "../../constant";
+import {
+  GRAY_ICON_COLOR,
+  IMG_URL,
+  MAIN_BG_GRAY,
+  MAIN_COLOR_GRAY,
+  SERVER_URL,
+  X_API_KEY,
+} from "../../constant";
 import { Divider } from "react-native-paper";
 import RBSheet from "react-native-raw-bottom-sheet";
 import GradientButton from "../../components/GradientButton";
+import axios from "axios";
+import { menuList } from "./ProfileMenuList";
 
 const ProfileScreen = (props) => {
   const state = useContext(MainContext);
   const sheetRef = useRef(); //*****Bottomsheet
-  const width = Dimensions.get("window").width;
-  const height = Dimensions.get("window").height;
 
+  const [profileData, setProfileData] = useState(null);
+  const [loadingProfileData, setLoadingProfileData] = useState(false);
   const tabBarHeight = useBottomTabBarHeight();
-  const onToggleSwitch = () => {
-    onToggleSnackBar("Ирц бүртгэл сануулах тохиргоо хийгдлээ");
+
+  const getProfileData = async () => {
+    setLoadingProfileData(true);
+    await axios
+      .get(`${SERVER_URL}authentication`, {
+        headers: {
+          "X-API-KEY": X_API_KEY,
+          Authorization: `Bearer ${state.token}`,
+        },
+      })
+      .then((response) => {
+        console.log("AAA", response.data.response?.user);
+        setProfileData(response.data.response?.user);
+      })
+      .catch((error) => {
+        console.error("Error fetching :", error);
+        if (error.response.status == "401") {
+          state.setIsLoggedIn(false);
+          state.setErrorMsg(
+            "Токены хүчинтэй хугацаа дууссан байна. Дахин нэвтэрнэ үү"
+          );
+        }
+      })
+      .finally(() => {
+        setLoadingProfileData(false);
+      });
   };
 
-  const [visibleDialog, setVisibleDialog] = useState(false); //Dialog харуулах
-  const [dialogType, setDialogType] = useState("warning"); //Dialog харуулах төрөл
-  const [dialogText, setDialogText] = useState("Апп -с гарах уу?"); //Dialog -н текст
+  useEffect(() => {
+    getProfileData();
+  }, []);
 
-  const [visibleSnack, setVisibleSnack] = useState(false);
-  const [snackBarMsg, setSnackBarMsg] = useState("");
-
-  //Snacbkbar харуулах
-  const onToggleSnackBar = (msg) => {
-    setVisibleSnack(!visibleSnack);
-    setSnackBarMsg(msg);
-  };
-
-  //Snacbkbar хаах
-  const onDismissSnackBar = () => setVisibleSnack(false);
-
-  const menuList = [
-    {
-      id: 1,
-      name: "Профайл засах",
-      icon: (
-        <Icon
-          name="account-circle-outline"
-          type="material-community"
-          size={25}
-          color={GRAY_ICON_COLOR}
-        />
-      ),
-      nav: "EditProfile",
-    },
-    {
-      id: 2,
-      name: "Мэдэгдэл",
-      icon: (
-        <Icon
-          name="options-outline"
-          type="ionicon"
-          size={25}
-          color={GRAY_ICON_COLOR}
-        />
-      ),
-
-      nav: "Notification",
-    },
-    {
-      id: 3,
-      name: "Дансны мэдээлэл",
-      icon: (
-        <Icon
-          name="credit-card-edit-outline"
-          type="material-community"
-          size={25}
-          color={GRAY_ICON_COLOR}
-        />
-      ),
-      nav: "Account",
-    },
-    {
-      id: 4,
-      name: "Баталгаажуулалт",
-      icon: (
-        <Icon
-          name="shield-lock"
-          type="octicon"
-          size={25}
-          color={GRAY_ICON_COLOR}
-        />
-      ),
-
-      nav: "Confirmation",
-    },
-    {
-      id: 5,
-      name: "Нууцлал",
-      icon: (
-        <Icon
-          name="shield-lock"
-          type="octicon"
-          size={25}
-          color={GRAY_ICON_COLOR}
-        />
-      ),
-
-      nav: "Security",
-    },
-    {
-      id: 6,
-      name: "Хэл солих",
-      icon: (
-        <Icon name="flag" type="feather" size={25} color={GRAY_ICON_COLOR} />
-      ),
-
-      nav: "Language",
-    },
-    {
-      id: 7,
-      name: "Түгээмэл асуулт хариулт",
-      icon: (
-        <Icon
-          name="file-document-outline"
-          type="material-community"
-          size={25}
-          color={GRAY_ICON_COLOR}
-        />
-      ),
-
-      nav: "QAs",
-    },
-    {
-      id: 8,
-      name: "Найзуудаа урих",
-      icon: (
-        <Icon
-          name="account-multiple-outline"
-          type="material-community"
-          size={25}
-          color={GRAY_ICON_COLOR}
-        />
-      ),
-
-      nav: "Invite",
-    },
-  ];
   return (
     <SafeAreaProvider
       style={{
@@ -200,7 +110,13 @@ const ProfileScreen = (props) => {
         <View style={styles.profileCircle}>
           <Image
             style={styles.userIcon}
-            source={require("../../../assets/PersonCircle.png")}
+            source={
+              profileData?.avatarId
+                ? {
+                    uri: IMG_URL + profileData?.avatarId,
+                  }
+                : require("../../../assets/PersonCircle.png")
+            }
           />
           <View
             style={{
@@ -360,6 +276,7 @@ const styles = StyleSheet.create({
     borderWidth: 4,
     borderRadius: 120,
     borderColor: "#fff",
+    backgroundColor: "#fff",
   },
   gridMenus: {
     flexDirection: "row",
