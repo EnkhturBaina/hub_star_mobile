@@ -5,7 +5,7 @@ import {
   StatusBar,
   SafeAreaView,
 } from "react-native";
-import React, { useContext, useEffect, useState, useRef } from "react";
+import React from "react";
 import Constants from "expo-constants";
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 import UserTypes from "./HomeScreenComponents/UserTypes";
