@@ -45,7 +45,13 @@ const HistoryScreen = (props) => {
         setHistoryServiceData(response.data.response.data);
       })
       .catch((error) => {
-        console.error("Error fetching :", error);
+        console.error("Error fetching get HistoryServices:", error);
+        if (error.response.status == "401") {
+          state.setIsLoggedIn(false);
+          state.setErrorMsg(
+            "Токены хүчинтэй хугацаа дууссан байна. Дахин нэвтэрнэ үү"
+          );
+        }
       })
       .finally(() => {
         setLoadingServices(false);

@@ -42,7 +42,7 @@ const SliderDTLScreen = (props) => {
       })
       .catch((error) => {
         if (error.response.status == "401") {
-          setIsLoggedIn(false);
+          state.setIsLoggedIn(false);
           state.setErrorMsg(
             "Токены хүчинтэй хугацаа дууссан байна. Дахин нэвтэрнэ үү"
           );

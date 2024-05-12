@@ -7,7 +7,13 @@ import {
   TouchableOpacity,
   Dimensions,
 } from "react-native";
-import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
+import React, {
+  useContext,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
 import { StatusBar, Platform } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
@@ -27,11 +33,13 @@ import Empty from "../../components/Empty";
 import ListServiceSkeleton from "../../components/Skeletons/ListServiceSkeleton";
 import RBSheet from "react-native-raw-bottom-sheet";
 import { WebView } from "react-native-webview";
+import MainContext from "../../contexts/MainContext";
 
 const width = Dimensions.get("window").width;
 const height = Dimensions.get("window").height;
 
 const MainAdviceScreen = (props) => {
+  const state = useContext(MainContext);
   const sheetRef = useRef(); //*****Bottomsheet
   const webview = useRef();
   const tabBarHeight = useBottomTabBarHeight();
@@ -87,6 +95,12 @@ const MainAdviceScreen = (props) => {
       })
       .catch((error) => {
         console.error("Error fetching :", error);
+        if (error.response.status == "401") {
+          state.setIsLoggedIn(false);
+          state.setErrorMsg(
+            "Токены хүчинтэй хугацаа дууссан байна. Дахин нэвтэрнэ үү"
+          );
+        }
       })
       .finally(() => {
         setLoadingServices(false);

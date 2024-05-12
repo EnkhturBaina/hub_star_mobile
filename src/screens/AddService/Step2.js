@@ -72,6 +72,12 @@ const Step2 = (props) => {
           console.log("error getIntro Data status", error.response.status);
           // console.log("error getIntro Data data", error.response.data);
         }
+        if (error.response.status == "401") {
+          state.setIsLoggedIn(false);
+          state.setErrorMsg(
+            "Токены хүчинтэй хугацаа дууссан байна. Дахин нэвтэрнэ үү"
+          );
+        }
       });
   };
 

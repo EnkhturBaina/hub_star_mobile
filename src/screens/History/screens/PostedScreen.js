@@ -45,7 +45,13 @@ const PostedScreen = (props) => {
         setPostedServiceData(response.data.response.data);
       })
       .catch((error) => {
-        console.error("Error fetching :", error);
+        console.error("Error fetching get PostedServices:", error);
+        if (error.response.status == "401") {
+          state.setIsLoggedIn(false);
+          state.setErrorMsg(
+            "Токены хүчинтэй хугацаа дууссан байна. Дахин нэвтэрнэ үү"
+          );
+        }
       })
       .finally(() => {
         setLoadingServices(false);

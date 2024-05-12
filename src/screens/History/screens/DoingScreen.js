@@ -46,6 +46,12 @@ const DoingScreen = (props) => {
       })
       .catch((error) => {
         console.error("Error fetching :", error);
+        if (error.response.status == "401") {
+          state.setIsLoggedIn(false);
+          state.setErrorMsg(
+            "Токены хүчинтэй хугацаа дууссан байна. Дахин нэвтэрнэ үү"
+          );
+        }
       })
       .finally(() => {
         setLoadingServices(false);

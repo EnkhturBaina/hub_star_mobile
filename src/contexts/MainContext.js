@@ -159,16 +159,39 @@ export const MainStore = (props) => {
   };
 
   // AsyncStorage.clear();
-  const logout = async (type) => {
+  const logout = async () => {
+    console.log("token", token);
     setIsLoading(true);
-    await AsyncStorage.removeItem("user");
-    setToken(null);
-    setEmail(null);
-    setUserId(null);
-    setErrorMsg("");
-
-    setIsLoading(false);
-    setIsLoggedIn(false);
+    try {
+      axios
+        .post(`${SERVER_URL}authentication/logout`, {
+          headers: {
+            "Content-Type": "application/json",
+            "x-api-key": X_API_KEY,
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        .then(async (response) => {
+          console.log("logout", response.data);
+          await AsyncStorage.removeItem("user");
+          setToken(null);
+          setEmail(null);
+          setUserId(null);
+          setErrorMsg("");
+          setIsLoggedIn(false);
+        })
+        .catch(function (error) {
+          setErrorMsg(error.response?.data?.message);
+          if (error.response) {
+            console.log("error.response logout", error.response.data);
+          }
+        })
+        .finally(() => {
+          setIsLoading(false);
+        });
+    } catch (error) {
+      // console.log("error", error);
+    }
   };
 
   const checkUserData = async () => {
@@ -220,6 +243,12 @@ export const MainStore = (props) => {
       })
       .catch((error) => {
         console.error("Error fetching get Main Direction:", error);
+        if (error.response.status == "401") {
+          setIsLoggedIn(false);
+          setErrorMsg(
+            "Токены хүчинтэй хугацаа дууссан байна. Дахин нэвтэрнэ үү"
+          );
+        }
       });
   };
   const getDirection = async () => {
@@ -245,6 +274,13 @@ export const MainStore = (props) => {
       })
       .catch((error) => {
         console.error("Error fetching get Direction:", error);
+
+        if (error.response.status == "401") {
+          setIsLoggedIn(false);
+          setErrorMsg(
+            "Токены хүчинтэй хугацаа дууссан байна. Дахин нэвтэрнэ үү"
+          );
+        }
       });
   };
   const getSubDirection = async () => {
@@ -260,6 +296,12 @@ export const MainStore = (props) => {
       })
       .catch((error) => {
         console.error("Error fetching get SubDirection:", error);
+        if (error.response.status == "401") {
+          setIsLoggedIn(false);
+          setErrorMsg(
+            "Токены хүчинтэй хугацаа дууссан байна. Дахин нэвтэрнэ үү"
+          );
+        }
       });
   };
   useEffect(() => {
