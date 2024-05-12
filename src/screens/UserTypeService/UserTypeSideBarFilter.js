@@ -1,9 +1,9 @@
-import { StyleSheet, Text, View, ScrollView } from "react-native";
+import { StyleSheet, Text, View, ScrollView, Image } from "react-native";
 import React, { useContext, useEffect, useState } from "react";
 import { Divider } from "react-native-paper";
 import MainContext from "../../contexts/MainContext";
-import { MAIN_COLOR, SERVER_URL, X_API_KEY } from "../../constant";
-import { Icon, CheckBox } from "@rneui/base";
+import { IMG_URL, MAIN_COLOR, SERVER_URL, X_API_KEY } from "../../constant";
+import { Icon, ListItem } from "@rneui/base";
 import axios from "axios";
 import SideFIlterSkeleton from "../../components/Skeletons/SideFIlterSkeleton";
 import Empty from "../../components/Empty";
@@ -14,6 +14,7 @@ const UserTypeSideBarFilter = (props) => {
 
   const [loadingSideFilter, setLoadingSideFilter] = useState(false);
   const [sideFilterData, setSideFilterData] = useState([]);
+  const [expanded, setExpanded] = useState({});
 
   const getSideFilterData = async () => {
     setLoadingSideFilter(true);
@@ -120,8 +121,28 @@ const UserTypeSideBarFilter = (props) => {
           sideFilterData?.map((el, index) => {
             return (
               <View key={index} style={styles.eachDir}>
-                <View style={styles.filterRowData}>
-                  <Text style={styles.filterRowDataTitle}>{el.name}</Text>
+                <View
+                  style={{
+                    flexDirection: "row",
+                    alignItems: "center",
+                    paddingBottom: 3,
+                  }}
+                >
+                  <Image
+                    style={{ width: 20, height: 20 }}
+                    source={{
+                      uri: IMG_URL + el.logoId,
+                    }}
+                  />
+                  <Text
+                    style={{
+                      fontWeight: "bold",
+                      textTransform: "uppercase",
+                      marginLeft: 5,
+                    }}
+                  >
+                    {el.name}
+                  </Text>
                 </View>
                 <View
                   style={{
@@ -129,33 +150,58 @@ const UserTypeSideBarFilter = (props) => {
                   }}
                 >
                   {el.directions?.map((child, index2) => {
-                    const checkedItem = checked[child.id];
+                    const checkOpen = expanded[index + "-" + index2];
                     return (
-                      <CheckBox
-                        containerStyle={styles.checkboxContainerStyle}
-                        textStyle={styles.checkboxTextStyle}
-                        title={
-                          <View style={styles.checkboxTextContainer}>
-                            <Text style={{ width: "90%" }}>{child.name}</Text>
-                            <Text style={{ width: "5%" }}>
-                              {child.advertisements?.length}
-                            </Text>
-                          </View>
+                      <ListItem.Accordion
+                        noIcon={child?.subDirections != "" ? false : true}
+                        key={index + "-" + index2}
+                        content={
+                          <ListItem.Content>
+                            <ListItem.Title
+                              style={{
+                                color: checkOpen ? MAIN_COLOR : "#6f7275",
+                                fontWeight: "500",
+                                marginBottom: 5,
+                              }}
+                            >
+                              {child.name}
+                            </ListItem.Title>
+                          </ListItem.Content>
                         }
-                        checked={checkedItem}
+                        isExpanded={checkOpen}
                         onPress={() => {
-                          setChecked((prevState) => ({
-                            ...prevState,
-                            [child.id]: !prevState[child.id],
-                          }));
+                          child?.subDirections != "" &&
+                            setExpanded((prevState) => ({
+                              ...prevState,
+                              [index + "-" + index2]:
+                                !prevState[index + "-" + index2],
+                            }));
                         }}
-                        iconType="material-community"
-                        checkedIcon="checkbox-outline"
-                        uncheckedIcon="checkbox-blank-outline"
-                        checkedColor={MAIN_COLOR}
-                        uncheckedColor="#798585"
-                        key={child.id}
-                      />
+                        containerStyle={{
+                          paddingVertical: 8,
+                          paddingHorizontal: 3,
+                        }}
+                      >
+                        <ListItem
+                          containerStyle={{
+                            flexDirection: "column",
+                            alignItems: "flex-start",
+                          }}
+                        >
+                          {child?.subDirections?.map((sub, indexSub) => {
+                            return (
+                              <View
+                                key={indexSub}
+                                style={{
+                                  marginBottom: 20,
+                                }}
+                              >
+                                <Text>{sub.name}</Text>
+                              </View>
+                            );
+                          })}
+                        </ListItem>
+                      </ListItem.Accordion>
                     );
                   })}
                 </View>

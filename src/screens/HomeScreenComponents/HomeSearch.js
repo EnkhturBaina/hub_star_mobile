@@ -1,0 +1,219 @@
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  ScrollView,
+  Image,
+  Dimensions,
+} from "react-native";
+import React, { useContext, useRef, useState } from "react";
+import {
+  GRAY_ICON_COLOR,
+  IMG_URL,
+  MAIN_BG_GRAY,
+  MAIN_BORDER_RADIUS,
+  MAIN_COLOR,
+  MAIN_COLOR_GRAY,
+} from "../../constant";
+import { Icon, ListItem } from "@rneui/base";
+import RBSheet from "react-native-raw-bottom-sheet";
+import MainContext from "../../contexts/MainContext";
+
+const width = Dimensions.get("window").width;
+const height = Dimensions.get("window").height;
+
+const HomeSearch = () => {
+  const state = useContext(MainContext);
+  const sheetRef = useRef(); //*****Bottomsheet
+  const [expanded, setExpanded] = useState({});
+  return (
+    <TouchableOpacity
+      style={styles.searchContainer}
+      activeOpacity={1}
+      onPress={() => {
+        // props.navigation.navigate("SearchScreen")
+      }}
+    >
+      <View style={styles.searchInput}>
+        <Icon name="search" type="feather" size={20} color={GRAY_ICON_COLOR} />
+        <Text style={styles.filterText}>Хайх</Text>
+      </View>
+      <TouchableOpacity style={styles.filterBtn}>
+        <Icon
+          name="sliders"
+          type="feather"
+          size={20}
+          color={GRAY_ICON_COLOR}
+          onPress={() => sheetRef.current.open()}
+        />
+      </TouchableOpacity>
+      <RBSheet
+        ref={sheetRef}
+        height={height - 100}
+        closeOnDragDown={true} //*****sheet -г доош чирж хаах
+        closeOnPressMask={true} //*****sheet -н гадна дарж хаах
+        dragFromTopOnly={true}
+        customStyles={{
+          container: {
+            backgroundColor: MAIN_BG_GRAY,
+            flexDirection: "column",
+            borderTopEndRadius: 16,
+            borderTopStartRadius: 16,
+          },
+        }}
+      >
+        <View style={styles.dirMainContainer}>
+          <ScrollView
+            nestedScrollEnabled
+            contentContainerStyle={styles.dirContainer}
+            bounces={false}
+          >
+            {state?.mainDirection?.map((el, index) => {
+              return (
+                <View key={index} style={styles.eachDir}>
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      alignItems: "center",
+                      paddingBottom: 3,
+                    }}
+                  >
+                    <Image
+                      style={{ width: 20, height: 20 }}
+                      source={{
+                        uri: IMG_URL + el.logoId,
+                      }}
+                    />
+                    <Text
+                      style={{
+                        fontWeight: "bold",
+                        textTransform: "uppercase",
+                        marginLeft: 5,
+                      }}
+                    >
+                      {el.name}
+                    </Text>
+                  </View>
+                  <View
+                    style={{
+                      paddingTop: 10,
+                    }}
+                  >
+                    {el.children?.map((child, index2) => {
+                      const checkOpen = expanded[index + "-" + index2];
+                      return (
+                        <ListItem.Accordion
+                          noIcon={child?.sub_children != "" ? false : true}
+                          key={index + "-" + index2}
+                          content={
+                            <ListItem.Content>
+                              <ListItem.Title
+                                style={{
+                                  color: checkOpen ? MAIN_COLOR : "#6f7275",
+                                  fontWeight: "500",
+                                  marginBottom: 5,
+                                }}
+                              >
+                                {child.name}
+                              </ListItem.Title>
+                            </ListItem.Content>
+                          }
+                          isExpanded={checkOpen}
+                          onPress={() => {
+                            child?.sub_children != "" &&
+                              setExpanded((prevState) => ({
+                                ...prevState,
+                                [index + "-" + index2]:
+                                  !prevState[index + "-" + index2],
+                              }));
+                          }}
+                          containerStyle={{
+                            paddingVertical: 8,
+                            paddingHorizontal: 3,
+                            backgroundColor: MAIN_BG_GRAY,
+                          }}
+                        >
+                          <ListItem
+                            containerStyle={{
+                              flexDirection: "column",
+                              alignItems: "flex-start",
+                              backgroundColor: MAIN_BG_GRAY,
+                            }}
+                          >
+                            {child?.sub_children?.map((sub, indexSub) => {
+                              return (
+                                <View
+                                  key={indexSub}
+                                  style={{
+                                    marginBottom: 20,
+                                  }}
+                                >
+                                  <Text>{sub.name}</Text>
+                                </View>
+                              );
+                            })}
+                          </ListItem>
+                        </ListItem.Accordion>
+                      );
+                    })}
+                  </View>
+                </View>
+              );
+            })}
+          </ScrollView>
+        </View>
+      </RBSheet>
+    </TouchableOpacity>
+  );
+};
+
+export default HomeSearch;
+
+const styles = StyleSheet.create({
+  searchContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    backgroundColor: MAIN_COLOR_GRAY,
+    borderRadius: MAIN_BORDER_RADIUS,
+    height: 50,
+    paddingLeft: 20,
+    paddingRight: 10,
+    marginTop: 10,
+    marginHorizontal: 20,
+    marginBottom: 10,
+  },
+  searchInput: {
+    alignItems: "center",
+    flexDirection: "row",
+    justifyContent: "flex-start",
+  },
+  filterText: {
+    color: GRAY_ICON_COLOR,
+    marginLeft: 10,
+  },
+  filterBtn: {
+    height: "100%",
+    justifyContent: "center",
+    width: 40,
+  },
+  dirMainContainer: {
+    width: "100%",
+    height: "100%",
+    justifyContent: "flex-start",
+  },
+  dirContainer: {
+    flexGrow: 1,
+    paddingHorizontal: 10,
+    flexDirection: "column",
+    paddingBottom: 40,
+  },
+  eachDir: {
+    flexDirection: "column",
+    borderBottomWidth: 1,
+    borderBottomColor: "#ebebeb",
+    marginBottom: 10,
+    paddingBottom: 10,
+  },
+});
