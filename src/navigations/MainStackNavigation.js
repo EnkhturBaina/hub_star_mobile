@@ -42,6 +42,7 @@ import UserTypeServiceScreen from "../screens/UserTypeService/UserTypeServiceScr
 import SingleSpecialScreen from "../screens/SpecialService/SingleSpecialScreen";
 import SingleServiceScreen from "../screens/History/SingleServiceScreen";
 import MainAdviceScreen from "../screens/Advice/MainAdviceScreen";
+import SingleUserTypeServiceScreen from "../screens/UserTypeService/SingleUserTypeServiceScreen";
 
 const Stack = createStackNavigator();
 const width = Dimensions.get("screen").width;
@@ -509,7 +510,7 @@ const HomeScreenStackNavigator = (props) => {
         name="UserTypeServiceScreen"
         component={UserTypeServiceScreen}
         options={{
-          title: "Онцгой үйлчилгээ",
+          title: "",
           headerTitleStyle: {
             fontWeight: "800",
           },
@@ -566,6 +567,30 @@ const HomeScreenStackNavigator = (props) => {
               style={styles.headerLeftContainer}
               onPress={() => {
                 navigation.navigate("HomeScreen");
+              }}
+            >
+              <Icon
+                type="material-icons"
+                name="keyboard-arrow-left"
+                size={30}
+              />
+            </TouchableOpacity>
+          ),
+        }}
+      />
+      <Stack.Screen
+        name="SingleUserTypeServiceScreen"
+        component={SingleUserTypeServiceScreen}
+        options={{
+          title: "",
+          headerTitleStyle: {
+            fontWeight: "800",
+          },
+          headerLeft: () => (
+            <TouchableOpacity
+              style={styles.headerLeftContainer}
+              onPress={() => {
+                navigation.navigate("UserTypeServiceScreen");
               }}
             >
               <Icon

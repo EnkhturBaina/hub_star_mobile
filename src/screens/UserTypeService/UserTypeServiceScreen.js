@@ -13,6 +13,7 @@ import { Icon } from "@rneui/base";
 import { Dropdown } from "react-native-element-dropdown";
 import MainContext from "../../contexts/MainContext";
 import {
+  IMG_URL,
   MAIN_BORDER_RADIUS,
   MAIN_COLOR,
   ORDER_DATA,
@@ -24,6 +25,8 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import UserTabData from "../../refs/UserTabData";
 import SideBarFilter from "../SideBarFilter";
 import axios from "axios";
+import Empty from "../../components/Empty";
+import UserTypeServicesSkeleton from "../../components/Skeletons/UserTypeServicesSkeleton";
 
 const UserTypeServiceScreen = (props) => {
   const state = useContext(MainContext);
@@ -32,7 +35,8 @@ const UserTypeServiceScreen = (props) => {
   const [value, setValue] = useState(null);
   const [isFocus, setIsFocus] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedType, setSelectedType] = useState(null);
+  const [loadingServices, setLoadingServices] = useState(false);
+  const [userTypeServiceData, setUserTypeServiceData] = useState([]);
 
   useLayoutEffect(() => {
     // TabBar Hide хийх
@@ -54,10 +58,46 @@ const UserTypeServiceScreen = (props) => {
     // TabBar Hide хийх
   }, [props.navigation]);
 
+  const getUserTypeServices = async () => {
+    setLoadingServices(true);
+    setUserTypeServiceData([]);
+    console.log("XXXXXXXXXX", state.userTypeParam);
+    console.log("selectedUserType", state.selectedUserType);
+    await axios
+      .get(`${SERVER_URL}advertisement`, {
+        params: state.userTypeParam,
+        headers: {
+          "X-API-KEY": X_API_KEY,
+        },
+      })
+      .then((response) => {
+        // console.log(
+        //   "get UserTypeServices response",
+        //   JSON.stringify(response.data.response)
+        // );
+        setUserTypeServiceData(response.data.response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching :", error);
+        if (error.response.status == "401") {
+          state.setIsLoggedIn(false);
+          state.setErrorMsg(
+            "Токены хүчинтэй хугацаа дууссан байна. Дахин нэвтэрнэ үү"
+          );
+        }
+      })
+      .finally(() => {
+        setLoadingServices(false);
+      });
+  };
   useEffect(() => {
-    console.log("state", state.selectedUserType);
+    getUserTypeServices();
   }, []);
 
+  useEffect(() => {
+    //Side filter -с check хийгдэх үед GET service -н PARAM -уудыг бэлдээд SERVICE -г дуудах
+    getUserTypeServices();
+  }, [state.userTypeParam]);
   return (
     <SideMenu
       menu={<SideBarFilter setIsOpen={setIsOpen} isOpen={isOpen} />}
@@ -75,6 +115,51 @@ const UserTypeServiceScreen = (props) => {
           translucent
           barStyle={Platform.OS == "ios" ? "dark-content" : "default"}
         />
+        <View style={{ marginBottom: 10 }}>
+          <ScrollView
+            horizontal={true}
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={{ paddingRight: 20 }}
+          >
+            {UserTabData?.map((el, index) => {
+              return (
+                <TouchableOpacity
+                  key={index}
+                  style={[
+                    styles.typeContainer,
+                    {
+                      marginLeft: index == 0 ? 20 : 10,
+                      borderColor:
+                        el.type == state.selectedUserType ? MAIN_COLOR : "#fff",
+                    },
+                  ]}
+                  onPress={() => {
+                    state.setSelectedUserType(el.type);
+                    state.setUserTypeParam((prevState) => ({
+                      ...prevState,
+                      userType: el.type,
+                    }));
+                  }}
+                >
+                  <Image style={styles.typeLogo} source={el.image} />
+                  <Text
+                    style={[
+                      styles.typeText,
+                      {
+                        color:
+                          el.type == state.selectedUserType
+                            ? MAIN_COLOR
+                            : "#000",
+                      },
+                    ]}
+                  >
+                    {el.title}
+                  </Text>
+                </TouchableOpacity>
+              );
+            })}
+          </ScrollView>
+        </View>
         <View
           style={{
             flexDirection: "row",
@@ -112,85 +197,68 @@ const UserTypeServiceScreen = (props) => {
             onChange={(item) => {
               setValue(item.value);
               setIsFocus(false);
+              state.setUserTypeParam((prevState) => ({
+                ...prevState,
+                order: item.value == "ASC" ? "ASC" : "DESC",
+              }));
             }}
           />
-        </View>
-        <View style={{ marginBottom: 10 }}>
-          <ScrollView
-            horizontal={true}
-            showsHorizontalScrollIndicator={false}
-            contentContainerStyle={{ paddingRight: 20 }}
-          >
-            {UserTabData?.map((el, index) => {
-              return (
-                <TouchableOpacity
-                  key={index}
-                  style={[
-                    styles.typeContainer,
-                    {
-                      marginLeft: index == 0 ? 20 : 10,
-                      borderColor: index == selectedType ? MAIN_COLOR : "#fff",
-                    },
-                  ]}
-                  onPress={() => {
-                    setSelectedType(index);
-                  }}
-                >
-                  <Image style={styles.typeLogo} source={el.image} />
-                  <Text
-                    style={[
-                      styles.typeText,
-                      {
-                        color: index == selectedType ? MAIN_COLOR : "#000",
-                      },
-                    ]}
-                  >
-                    {el.title}
-                  </Text>
-                </TouchableOpacity>
-              );
-            })}
-          </ScrollView>
         </View>
         <ScrollView
           contentContainerStyle={styles.gridScrollContainer}
           showsVerticalScrollIndicator={false}
         >
           <View style={styles.gridContainer}>
-            {[...Array(10)].map((el, index) => {
-              return (
-                <TouchableOpacity
-                  style={styles.gridItem}
-                  key={index}
-                  onPress={() => {
-                    props.navigation.navigate("ServiceDTLScreen");
-                  }}
-                >
-                  <Image
-                    source={require("../../../assets/splash_bg_1.jpg")}
-                    style={{
-                      width: "100%",
-                      height: 150,
-                      borderTopLeftRadius: 6,
-                      borderTopRightRadius: 6,
+            {userTypeServiceData.length == 0 && loadingServices ? (
+              <UserTypeServicesSkeleton />
+            ) : userTypeServiceData.length == 0 && !loadingServices ? (
+              <Empty text="Үйлчилгээ олдсонгүй." />
+            ) : (
+              userTypeServiceData?.map((el, index) => {
+                return (
+                  <TouchableOpacity
+                    style={styles.gridItem}
+                    key={index}
+                    onPress={() => {
+                      props.navigation.navigate("SingleUserTypeServiceScreen", {
+                        adv_id: el.id,
+                      });
                     }}
-                    resizeMode="cover"
-                  />
-                  <View style={{ flexDirection: "column", padding: 10 }}>
-                    <Text
-                      numberOfLines={1}
-                      style={{ fontSize: 16, fontWeight: "500" }}
-                    >
-                      Үндэсний шилдэг бүтээн байгуулагч NCD Group болон хот
-                      БАРИЛГЫН САЛБАРЫН ХӨГЖЛИЙН ЧИГ ХАНДЛАГА
-                    </Text>
-                    <Text style={{ color: "#aeaeae", fontWeight: "500" }}>
-                      NCD Group - {index}
-                    </Text>
-                  </View>
-                </TouchableOpacity>
-              );
-            })}
+                  >
+                    <Image
+                      source={
+                        el.images[0]
+                          ? {
+                              uri: IMG_URL + el.images[0]?.id,
+                            }
+                          : require("../../../assets/splash_bg_1.jpg")
+                      }
+                      style={{
+                        width: "100%",
+                        height: 150,
+                        borderTopLeftRadius: 6,
+                        borderTopRightRadius: 6,
+                      }}
+                      resizeMode="cover"
+                    />
+                    <View style={{ flexDirection: "column", padding: 10 }}>
+                      <Text
+                        numberOfLines={1}
+                        style={{ fontSize: 16, fontWeight: "500" }}
+                      >
+                        {el.title}
+                      </Text>
+                      <Text
+                        style={{ color: "#aeaeae", fontWeight: "500" }}
+                        numberOfLines={1}
+                      >
+                        {el.desciption}
+                      </Text>
+                    </View>
+                  </TouchableOpacity>
+                );
+              })
+            )}
           </View>
         </ScrollView>
       </SafeAreaProvider>

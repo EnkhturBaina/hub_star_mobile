@@ -194,16 +194,25 @@ const SingleServiceScreen = (props) => {
             }}
           >
             <Text style={{ fontWeight: "bold" }}>Үнэлгээ</Text>
-            {/* <Rating showRating style={{ paddingVertical: 10 }} isDisabled /> */}
             <View style={{ flexDirection: "row", alignItems: "center" }}>
               <StarRatingDisplay
-                rating={adviceData.rating / 2}
+                rating={
+                  parseInt(adviceData.rating) > 0
+                    ? parseInt(adviceData.rating) / 2
+                    : 0
+                }
                 starSize={25}
                 emptyColor={MAIN_COLOR}
                 color={MAIN_COLOR}
                 style={{ padding: 0 }}
               />
-              <Text> {adviceData.rating / 2} / 10</Text>
+              <Text>
+                {" "}
+                {parseInt(adviceData.rating) > 0
+                  ? parseInt(adviceData.rating) / 2
+                  : 0}{" "}
+                / 10
+              </Text>
             </View>
             <Text style={{ fontWeight: "bold" }}>Үнэ </Text>
             <Text>

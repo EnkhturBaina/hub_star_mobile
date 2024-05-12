@@ -10,7 +10,13 @@ import {
   ActivityIndicator,
 } from "react-native";
 import React, { useContext, useEffect, useState } from "react";
-import { IMG_URL, MAIN_COLOR, SERVER_URL, X_API_KEY } from "../../constant";
+import {
+  IMG_URL,
+  MAIN_COLOR,
+  MAIN_COLOR_GRAY,
+  SERVER_URL,
+  X_API_KEY,
+} from "../../constant";
 import axios from "axios";
 import { Dialog, Icon } from "@rneui/base";
 import GradientButton from "../../components/GradientButton";
@@ -21,14 +27,14 @@ import "dayjs/locale/es";
 import dayjs from "dayjs";
 import { StarRatingDisplay } from "react-native-star-rating-widget";
 
-const SingleSpecialScreen = (props) => {
+const SingleUserTypeServiceScreen = (props) => {
   const state = useContext(MainContext);
   const [loadingAdvice, setLoadingAdvice] = useState(false);
   const [adviceData, setAdviceData] = useState(null);
   const [visible1, setVisible1] = useState(false);
   const [zoomImgURL, setZoomImgURL] = useState(null);
 
-  const getAdvice = async () => {
+  const getServiceData = async () => {
     setLoadingAdvice(true);
     await axios
       .get(`${SERVER_URL}advertisement/${props.route?.params?.adv_id}`, {
@@ -57,7 +63,7 @@ const SingleSpecialScreen = (props) => {
       });
   };
   useEffect(() => {
-    getAdvice();
+    getServiceData();
   }, []);
   return (
     <View
@@ -187,7 +193,7 @@ const SingleSpecialScreen = (props) => {
               gap: 10,
             }}
           >
-            <Text style={{ fontWeight: "bold" }}>Үнэлгээ </Text>
+            <Text style={{ fontWeight: "bold" }}>Үнэлгээ</Text>
             <View style={{ flexDirection: "row", alignItems: "center" }}>
               <StarRatingDisplay
                 rating={
@@ -266,7 +272,7 @@ const SingleSpecialScreen = (props) => {
   );
 };
 
-export default SingleSpecialScreen;
+export default SingleUserTypeServiceScreen;
 
 const styles = StyleSheet.create({
   slideImg: {

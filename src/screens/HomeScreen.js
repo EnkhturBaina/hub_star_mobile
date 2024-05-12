@@ -201,6 +201,10 @@ const HomeScreen = (props) => {
                   ]}
                   onPress={() => {
                     state.setSelectedUserType(el.type);
+                    state.setUserTypeParam((prevState) => ({
+                      ...prevState,
+                      userType: el.type,
+                    }));
                     props.navigation.navigate("UserTypeServiceScreen");
                   }}
                 >

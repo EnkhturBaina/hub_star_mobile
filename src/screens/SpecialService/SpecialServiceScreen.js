@@ -66,7 +66,6 @@ const SpecialServiceScreen = (props) => {
         //   "get SpecialServiceData response",
         //   JSON.stringify(response.data.response)
         // );
-        // setNews(response.data.response);
         setSpecialServiceData(response.data.response.data);
       })
       .catch((error) => {
