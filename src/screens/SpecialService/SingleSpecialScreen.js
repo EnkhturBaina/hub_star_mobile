@@ -71,7 +71,7 @@ const SingleSpecialScreen = (props) => {
         translucent
         barStyle={Platform.OS == "ios" ? "dark-content" : "default"}
       />
-      {loadingAdvice ? (
+      {loadingAdvice || adviceData == null ? (
         <ServiceDTLSkeleton />
       ) : (
         <ScrollView

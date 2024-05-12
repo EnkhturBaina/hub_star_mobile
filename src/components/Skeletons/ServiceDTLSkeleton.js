@@ -17,6 +17,12 @@ const ServiceDTLSkeleton = () => {
             marginHorizontal: 5,
           }}
         />
+        <Skeleton
+          animation="pulse"
+          width="100%"
+          height={120}
+          style={{ borderRadius: 12 }}
+        />
         <View
           style={{
             flexDirection: "row",
@@ -48,12 +54,6 @@ const ServiceDTLSkeleton = () => {
             }}
           />
         </View>
-        <Skeleton
-          animation="pulse"
-          width="100%"
-          height={120}
-          style={{ borderRadius: 12 }}
-        />
         <Skeleton
           animation="pulse"
           width="90%"

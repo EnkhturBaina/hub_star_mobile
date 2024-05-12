@@ -23,10 +23,10 @@ import {
 import SideMenu from "react-native-side-menu-updated";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import UserTabData from "../../refs/UserTabData";
-import SideBarFilter from "../SideBarFilter";
 import axios from "axios";
 import Empty from "../../components/Empty";
 import UserTypeServicesSkeleton from "../../components/Skeletons/UserTypeServicesSkeleton";
+import UserTypeSideBarFilter from "./UserTypeSideBarFilter";
 
 const UserTypeServiceScreen = (props) => {
   const state = useContext(MainContext);
@@ -98,7 +98,7 @@ const UserTypeServiceScreen = (props) => {
   }, [state.userTypeParam]);
   return (
     <SideMenu
-      menu={<SideBarFilter setIsOpen={setIsOpen} isOpen={isOpen} />}
+      menu={<UserTypeSideBarFilter setIsOpen={setIsOpen} isOpen={isOpen} />}
       isOpen={isOpen}
       onChange={(isOpen) => setIsOpen(isOpen)}
     >

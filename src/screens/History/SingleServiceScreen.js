@@ -43,10 +43,10 @@ const SingleServiceScreen = (props) => {
         },
       })
       .then((response) => {
-        // console.log(
-        //   "get Advice response",
-        //   JSON.stringify(response.data.response)
-        // );
+        console.log(
+          "get Advice response",
+          JSON.stringify(response.data.response)
+        );
         setAdviceData(response.data.response);
       })
       .catch((error) => {
@@ -77,7 +77,7 @@ const SingleServiceScreen = (props) => {
         translucent
         barStyle={Platform.OS == "ios" ? "dark-content" : "default"}
       />
-      {loadingAdvice ? (
+      {loadingAdvice || adviceData == null ? (
         <ServiceDTLSkeleton />
       ) : (
         <ScrollView
