@@ -11,9 +11,7 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.hubstar.app",
@@ -42,6 +40,12 @@
         "expo-local-authentication",
         {
           "faceIDPermission": "FaceID эсвэл TouchID ашиглан тохиргоо идэвхжүүлснээр та апп руу шууд нэвтрэх боломжтой."
+        }
+      ],
+      [
+        "expo-contacts",
+        {
+          "contactsPermission": "Найзуудаа урих боломжтой."
         }
       ]
     ],

@@ -2,59 +2,142 @@ import {
   StyleSheet,
   Text,
   View,
-  Image,
-  TouchableOpacity,
   Linking,
   ScrollView,
   StatusBar,
   Platform,
+  FlatList,
 } from "react-native";
-import React, { useContext, useState } from "react";
-import { Icon } from "@rneui/base";
-import MainContext from "../../contexts/MainContext";
-import CustomSnackbar from "../../components/CustomSnackbar";
+import React, { useEffect, useState } from "react";
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
-import bg from "../../../assets/splash_bg.png";
 import { SafeAreaProvider } from "react-native-safe-area-context";
-import Constants from "expo-constants";
-import { GRAY_ICON_COLOR, MAIN_COLOR_GRAY } from "../../constant";
-import { Divider } from "react-native-paper";
+import * as Contacts from "expo-contacts";
+import GradientButton from "../../components/GradientButton";
+import { Avatar } from "@rneui/base";
+import { Searchbar } from "react-native-paper";
+import { MAIN_BORDER_RADIUS } from "../../constant";
+import { ActivityIndicator } from "react-native";
 
-const Invite = (props) => {
-  const state = useContext(MainContext);
+const Invite = () => {
+  const [contactData, setContactData] = useState([]);
+  const [searchVal, setSearchVal] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [offset, setOffset] = useState(5);
 
   const tabBarHeight = useBottomTabBarHeight();
-  const onToggleSwitch = () => {
-    onToggleSnackBar("Ирц бүртгэл сануулах тохиргоо хийгдлээ");
+
+  useEffect(() => {
+    (async () => {
+      const { status } = await Contacts.requestPermissionsAsync();
+      if (status === "granted") {
+        const { data } = await Contacts.getContactsAsync({
+          fields: [
+            Contacts.Fields.FirstName,
+            Contacts.Fields.LastName,
+            Contacts.Fields.PhoneNumbers,
+          ],
+          sort: "firstName",
+        });
+        data?.map((el) => {
+          if ("firstName" in el && "phoneNumbers" in el) {
+            setContactData((prevState) => [...prevState, el]);
+          }
+        });
+        console.log("data", JSON.stringify(data));
+      }
+    })();
+  }, []);
+  const generateColor = () => {
+    const CHHAPOLA = Math.floor(Math.random() * 16777215)
+      .toString(16)
+      .padStart(6, "0");
+    return `#${CHHAPOLA}`;
   };
 
-  const [visibleDialog, setVisibleDialog] = useState(false); //Dialog харуулах
-  const [dialogType, setDialogType] = useState("warning"); //Dialog харуулах төрөл
-  const [dialogText, setDialogText] = useState("Апп -с гарах уу?"); //Dialog -н текст
-
-  const [visibleSnack, setVisibleSnack] = useState(false);
-  const [snackBarMsg, setSnackBarMsg] = useState("");
-
-  //Snacbkbar харуулах
-  const onToggleSnackBar = (msg) => {
-    setVisibleSnack(!visibleSnack);
-    setSnackBarMsg(msg);
+  const onChangeSearch = (query) => {
+    // console.log("query", query);
+    setSearchVal(query);
   };
-
-  //Snacbkbar хаах
-  const onDismissSnackBar = () => setVisibleSnack(false);
-
+  const renderItem = ({ item, index }) => {
+    return (
+      <View
+        key={index}
+        style={{
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "space-between",
+          marginBottom: 5,
+        }}
+      >
+        <View style={{ flexDirection: "row", alignItems: "center" }}>
+          <Avatar
+            size={40}
+            rounded
+            title={
+              "firstName" in item &&
+              item.firstName[0].concat(
+                "",
+                "lastName" in item ? item.lastName?.[0] : ""
+              )
+            }
+            containerStyle={{ backgroundColor: generateColor() }}
+          />
+          <View style={{ flexDirection: "column", marginLeft: 10 }}>
+            <Text style={{ fontWeight: "bold" }}>
+              {"firstName" in item &&
+                item.firstName?.concat(
+                  " ",
+                  "lastName" in item ? item.lastName : ""
+                )}
+            </Text>
+            {"phoneNumbers" in item && item.phoneNumbers[0] ? (
+              <Text style={{ color: "#bababa" }}>
+                {item.phoneNumbers[0]?.digits}
+              </Text>
+            ) : null}
+          </View>
+        </View>
+        <View style={{ width: 100 }}>
+          <GradientButton
+            text="Урих"
+            action={() => {
+              "phoneNumbers" in item && item.phoneNumbers[0]
+                ? Linking.openURL(
+                    `sms:${item.phoneNumbers[0]?.digits}&body=HubStar application татаарай`
+                  )
+                : null;
+            }}
+            height={35}
+            radius={6}
+          />
+        </View>
+      </View>
+    );
+  };
   return (
     <SafeAreaProvider
       style={{
         flex: 1,
-        paddingTop: Constants.statusBarHeight,
         backgroundColor: "#fff",
         paddingBottom: tabBarHeight,
       }}
     >
+      <Searchbar
+        placeholder="Хайх"
+        onChangeText={(e) => {
+          onChangeSearch(e);
+        }}
+        value={searchVal}
+        style={styles.searchBar}
+        elevation={0}
+        onSubmitEditing={(event) => {
+          // setSearchVal(event.nativeEvent.text);
+        }}
+        onClearIconPress={() => {}}
+        inputStyle={{ minHeight: 0 }}
+      />
       <ScrollView
-        contentContainerStyle={{ flexGrow: 1 }}
+        contentContainerStyle={{ flexGrow: 1, paddingHorizontal: 20 }}
         showsVerticalScrollIndicator={false}
         bounces={false}
       >
@@ -62,7 +145,19 @@ const Invite = (props) => {
           translucent
           barStyle={Platform.OS == "ios" ? "dark-content" : "default"}
         />
-        <Text>Invite</Text>
+        {/* <FlatList
+          keyExtractor={(item, index) => index.toString()}
+          data={
+            contactData.length > 0 &&
+            contactData?.filter(
+              (el) => "firstName" in el && el.firstName?.startsWith(searchVal)
+            )
+          }
+          style={styles.list}
+          renderItem={renderItem}
+          onEndReachedThreshold={0.1}
+          ListFooterComponent={loading && <ActivityIndicator />}
+        /> */}
       </ScrollView>
     </SafeAreaProvider>
   );
@@ -71,42 +166,12 @@ const Invite = (props) => {
 export default Invite;
 
 const styles = StyleSheet.create({
-  headerBg: {
-    width: "100%",
-    height: 150,
-    resizeMode: "cover",
-  },
-  userIcon: {
-    width: 100,
-    height: 100,
-    resizeMode: "contain",
-    borderWidth: 4,
-    borderRadius: 120,
-    borderColor: "#fff",
-  },
-  gridMenus: {
-    flexDirection: "row",
-    alignItems: "center",
-    paddingHorizontal: 25,
-    marginBottom: 20,
-  },
-  lastText: {
-    color: "red",
-    fontWeight: "500",
-    marginLeft: 20,
-  },
-  menuText: {
-    color: GRAY_ICON_COLOR,
-    fontWeight: "500",
-    marginLeft: 20,
-  },
-  profileCircle: {
-    position: "absolute",
-    flexDirection: "row",
-    top: 100,
-    paddingHorizontal: 20,
-    paddingBottom: 30,
-    borderBottomWidth: 1,
-    borderBottomColor: MAIN_COLOR_GRAY,
+  searchBar: {
+    backgroundColor: "#f0f0f0",
+    borderRadius: MAIN_BORDER_RADIUS,
+    marginBottom: 5,
+    elevation: 0,
+    marginHorizontal: 20,
+    height: 40,
   },
 });

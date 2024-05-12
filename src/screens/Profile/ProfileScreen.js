@@ -46,7 +46,7 @@ const ProfileScreen = (props) => {
         },
       })
       .then((response) => {
-        console.log("AAA", response.data.response?.user);
+        // console.log("AAA", response.data.response?.user);
         setProfileData(response.data.response?.user);
       })
       .catch((error) => {

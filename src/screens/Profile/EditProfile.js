@@ -15,6 +15,7 @@ import CustomSnackbar from "../../components/CustomSnackbar";
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 import GradientButton from "../../components/GradientButton";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import EditProfileSkeleton from "../../components/Skeletons/EditProfileSkeleton";
 
 const EditProfile = (props) => {
   const state = useContext(MainContext);
@@ -157,7 +158,9 @@ const EditProfile = (props) => {
         behavior={Platform.OS === "ios" ? "padding" : "height"}
         style={{ flex: 1 }}
       >
-        {loadingProfileData ? null : (
+        {loadingProfileData ? (
+          <EditProfileSkeleton />
+        ) : (
           <View style={{ flex: 1 }}>
             <ScrollView
               contentContainerStyle={styles.scrollContainer}
