@@ -27,7 +27,7 @@ const QAs = (props) => {
   const handlePress = () => setExpanded(!expanded);
 
   const onChangeSearch = (query) => {
-    console.log("query", query);
+    // console.log("query", query);
   };
 
   const FirstRoute = () => (
@@ -41,7 +41,7 @@ const QAs = (props) => {
         style={styles.searchBar}
         elevation={0}
         onSubmitEditing={(event) => {
-          console.log("event", event.nativeEvent.text);
+          // console.log("event", event.nativeEvent.text);
         }}
         onClearIconPress={() => {}}
       />

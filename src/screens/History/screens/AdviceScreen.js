@@ -36,7 +36,7 @@ const AdviceScreen = (props) => {
         },
       })
       .then((response) => {
-        console.log("get Advices ==>", JSON.stringify(response.data.response));
+        // console.log("get Advices ==>", JSON.stringify(response.data.response));
         setAdviceData(response.data.response.data);
       })
       .catch((error) => {

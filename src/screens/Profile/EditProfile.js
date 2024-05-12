@@ -67,7 +67,6 @@ const EditProfile = (props) => {
   };
 
   useEffect(() => {
-    console.log("state.userData", state.userData);
     getProfileData();
   }, []);
 
@@ -130,10 +129,6 @@ const EditProfile = (props) => {
           }
         })
         .catch(function (error) {
-          if (error.response) {
-            console.log("error.response", error.response.data);
-            console.log("error.response status", error.response.status);
-          }
           if (error.response.status == "401") {
             state.setIsLoggedIn(false);
             state.setErrorMsg(

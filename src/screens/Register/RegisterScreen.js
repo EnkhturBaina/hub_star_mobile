@@ -90,7 +90,7 @@ const RegisterScreen = (props) => {
             },
           })
           .then(function (response) {
-            console.log("response", response.data);
+            // console.log("response", response.data);
             if (response.data?.statusCode == 200) {
               props.navigation.navigate("OTPScreen", {
                 details: response.data?.response?.details,
@@ -101,15 +101,15 @@ const RegisterScreen = (props) => {
           .catch(function (error) {
             if (error.response) {
               setErrorMsg(error.response.data?.message);
-              console.log("error register data", error.response.data);
-              console.log("error register status", error.response.status);
+              // console.log("error register data", error.response.data);
+              // console.log("error register status", error.response.status);
             }
           })
           .finally(() => {
             setIsWaiting(false);
           });
       } catch (error) {
-        console.log("err", error);
+        // console.log("err", error);
       }
     }
   };

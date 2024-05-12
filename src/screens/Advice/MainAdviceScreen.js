@@ -80,7 +80,6 @@ const MainAdviceScreen = (props) => {
   }, [props.navigation]);
 
   const getAdvices = async () => {
-    console.log("getAdvices");
     setLoadingServices(true);
     await axios
       .get(`${SERVER_URL}reference/advice`, {
@@ -90,7 +89,7 @@ const MainAdviceScreen = (props) => {
         },
       })
       .then((response) => {
-        console.log("get Advices ==>", JSON.stringify(response.data.response));
+        // console.log("get Advices ==>", JSON.stringify(response.data.response));
         setAdviceData(response.data.response.data);
       })
       .catch((error) => {

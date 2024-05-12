@@ -71,7 +71,7 @@ const OTPScreen = (props) => {
         .catch(function (error) {
           setErrorMsg(error.response?.data?.message);
           if (error.response) {
-            console.log("error.response", error.response.data);
+            // console.log("error.response", error.response.data);
           }
         })
         .finally(() => {

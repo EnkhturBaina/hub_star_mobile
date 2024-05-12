@@ -157,7 +157,7 @@ export const MainStore = (props) => {
       })
       .catch(function (error) {
         setIsLoggedIn(false);
-        console.log("error2", error.response.data);
+        // console.log("error2", error.response.data);
         if (error.response.data.statusCode == 400) {
           setErrorMsg("Нэвтрэх нэр эсвэл нууц үг буруу байна.");
         } else {
@@ -194,7 +194,7 @@ export const MainStore = (props) => {
         .catch(function (error) {
           setErrorMsg(error.response?.data?.message);
           if (error.response) {
-            console.log("error.response logout", error.response.data);
+            // console.log("error.response logout", error.response.data);
           }
         })
         .finally(() => {

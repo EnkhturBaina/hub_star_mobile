@@ -37,10 +37,10 @@ const SingleSpecialScreen = (props) => {
         },
       })
       .then((response) => {
-        console.log(
-          "get Advice response",
-          JSON.stringify(response.data.response)
-        );
+        // console.log(
+        //   "get Advice response",
+        //   JSON.stringify(response.data.response)
+        // );
         setAdviceData(response.data.response);
       })
       .catch((error) => {

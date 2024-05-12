@@ -69,7 +69,7 @@ const Step2 = (props) => {
       })
       .catch(function (error) {
         if (error.response) {
-          console.log("error getIntro Data status", error.response.status);
+          // console.log("error getIntro Data status", error.response.status);
           // console.log("error getIntro Data data", error.response.data);
         }
         if (error.response.status == "401") {
