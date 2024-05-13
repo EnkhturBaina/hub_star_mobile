@@ -61,7 +61,7 @@ const MainDirServiceScreen = (props) => {
   const getMainDirServices = async () => {
     setLoadingServices(true);
     setMainDirServiceData([]);
-    console.log("state.mainDirParams", state.mainDirParams);
+
     await axios
       .get(`${SERVER_URL}advertisement`, {
         params: state.mainDirParams,
