@@ -232,9 +232,18 @@ const MainDirServiceScreen = (props) => {
                     style={styles.gridItem}
                     key={index}
                     onPress={() => {
-                      props.navigation.navigate("SingleMainDirServiceScreen", {
-                        adv_id: el.id,
-                      });
+                      console.log(
+                        "props.fromCAT",
+                        props.route?.params?.fromCAT
+                      );
+                      props.navigation.navigate(
+                        props.route?.params?.fromCAT
+                          ? "CAT_SingleMainDirServiceScreen"
+                          : "SingleMainDirServiceScreen",
+                        {
+                          adv_id: el.id,
+                        }
+                      );
                     }}
                   >
                     <Image

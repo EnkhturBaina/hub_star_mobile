@@ -8,6 +8,7 @@ import {
   StatusBar,
   Platform,
   SafeAreaView,
+  TextInput,
 } from "react-native";
 import React, { useContext, useState } from "react";
 import Constants from "expo-constants";
@@ -15,18 +16,19 @@ import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 import {
   GRAY_ICON_COLOR,
   IMG_URL,
-  MAIN_BG_GRAY,
   MAIN_BORDER_RADIUS,
   MAIN_COLOR,
   MAIN_COLOR_GRAY,
-  SERVER_URL,
 } from "../../constant";
 import { Icon, ListItem } from "@rneui/base";
 import MainContext from "../../contexts/MainContext";
+import { useNavigation } from "@react-navigation/native";
 
 const CategoryScreen = () => {
+  const navigation = useNavigation();
   const tabBarHeight = useBottomTabBarHeight();
   const state = useContext(MainContext);
+  const [searchVal, setSearchVal] = useState("");
 
   const [expanded, setExpanded] = useState({});
 
@@ -95,29 +97,34 @@ const CategoryScreen = () => {
             size={20}
             color={GRAY_ICON_COLOR}
           />
-          <Text
+
+          <TextInput
             style={{
-              color: GRAY_ICON_COLOR,
-              marginLeft: 10,
+              height: 40,
+              width: "80%",
+              paddingLeft: 10,
+            }}
+            value={searchVal}
+            placeholder="Хайх"
+            returnKeyType="done"
+            onChangeText={setSearchVal}
+          />
+          <TouchableOpacity
+            style={{
+              height: "100%",
+              justifyContent: "center",
+              width: 40,
+              height: 40,
             }}
           >
-            Хайх
-          </Text>
+            <Icon
+              name="sliders"
+              type="feather"
+              size={20}
+              color={GRAY_ICON_COLOR}
+            />
+          </TouchableOpacity>
         </View>
-        <TouchableOpacity
-          style={{
-            height: "100%",
-            justifyContent: "center",
-            width: 40,
-          }}
-        >
-          <Icon
-            name="sliders"
-            type="feather"
-            size={20}
-            color={GRAY_ICON_COLOR}
-          />
-        </TouchableOpacity>
       </TouchableOpacity>
       <ScrollView
         nestedScrollEnabled
@@ -125,7 +132,6 @@ const CategoryScreen = () => {
           flexGrow: 1,
           paddingHorizontal: 20,
           flexDirection: "column",
-          backgroundColor: MAIN_BG_GRAY,
           paddingTop: 20,
           paddingBottom: tabBarHeight,
         }}
@@ -200,26 +206,38 @@ const CategoryScreen = () => {
                       containerStyle={{
                         paddingVertical: 8,
                         paddingHorizontal: 3,
-                        backgroundColor: MAIN_BG_GRAY,
                       }}
                     >
                       <ListItem
                         containerStyle={{
                           flexDirection: "column",
                           alignItems: "flex-start",
-                          backgroundColor: MAIN_BG_GRAY,
+                          paddingVertical: 0,
                         }}
                       >
                         {child?.subDirections?.map((sub, indexSub) => {
                           return (
-                            <View
+                            <TouchableOpacity
                               key={indexSub}
                               style={{
-                                marginBottom: 20,
+                                height: 40,
+                                width: "100%",
+                                justifyContent: "center",
+                              }}
+                              onPress={() => {
+                                navigation.navigate(
+                                  "CAT_MainDirServiceScreen",
+                                  {
+                                    mainDirectionId: el.id,
+                                    directionId: [child.id],
+                                    subDirectionId: [sub.id],
+                                    fromCAT: true,
+                                  }
+                                );
                               }}
                             >
                               <Text>{sub.name}</Text>
-                            </View>
+                            </TouchableOpacity>
                           );
                         })}
                       </ListItem>

@@ -15,38 +15,54 @@ import * as Contacts from "expo-contacts";
 import GradientButton from "../../components/GradientButton";
 import { Avatar } from "@rneui/base";
 import { Searchbar } from "react-native-paper";
-import { MAIN_BORDER_RADIUS } from "../../constant";
+import { MAIN_BORDER_RADIUS, MAIN_COLOR } from "../../constant";
 import { ActivityIndicator } from "react-native";
 
 const Invite = () => {
   const [contactData, setContactData] = useState([]);
   const [searchVal, setSearchVal] = useState("");
   const [loading, setLoading] = useState(false);
-  const [offset, setOffset] = useState(5);
+  const [offset, setOffset] = useState(0);
+  const [nextPage, setNextPage] = useState(false);
 
   const tabBarHeight = useBottomTabBarHeight();
 
   useEffect(() => {
+    fetchMore();
+  }, []);
+
+  const fetchMore = async () => {
+    console.log("offset", offset);
     (async () => {
       const { status } = await Contacts.requestPermissionsAsync();
       if (status === "granted") {
-        const { data } = await Contacts.getContactsAsync({
+        if (loading) return;
+
+        setLoading(true);
+        const { data, hasNextPage } = await Contacts.getContactsAsync({
           fields: [
             Contacts.Fields.FirstName,
             Contacts.Fields.LastName,
             Contacts.Fields.PhoneNumbers,
           ],
           sort: "firstName",
+          pageOffset: offset,
+          pageSize: 20,
         });
-        data?.map((el) => {
-          if ("firstName" in el && "phoneNumbers" in el) {
-            setContactData((prevState) => [...prevState, el]);
-          }
-        });
-        console.log("data", JSON.stringify(data));
+        setNextPage(hasNextPage);
+
+        // offset == 0 && setContactData(data);
+
+        const res = data.filter((x) => !contactData.some((y) => y.id === x.id));
+        setContactData((prevState) => [...prevState, ...res]);
+
+        setOffset(offset + 1);
       }
-    })();
-  }, []);
+    })().finally(() => {
+      setLoading(false);
+    });
+  };
+
   const generateColor = () => {
     const CHHAPOLA = Math.floor(Math.random() * 16777215)
       .toString(16)
@@ -57,6 +73,16 @@ const Invite = () => {
   const onChangeSearch = (query) => {
     // console.log("query", query);
     setSearchVal(query);
+  };
+
+  const renderFooter = () => {
+    return (
+      <View>
+        {loading ? (
+          <ActivityIndicator color={MAIN_COLOR} style={{ padding: 5 }} />
+        ) : null}
+      </View>
+    );
   };
   const renderItem = ({ item, index }) => {
     return (
@@ -80,7 +106,7 @@ const Invite = () => {
                 "lastName" in item ? item.lastName?.[0] : ""
               )
             }
-            containerStyle={{ backgroundColor: generateColor() }}
+            containerStyle={{ backgroundColor: MAIN_COLOR }}
           />
           <View style={{ flexDirection: "column", marginLeft: 10 }}>
             <Text style={{ fontWeight: "bold" }}>
@@ -136,29 +162,34 @@ const Invite = () => {
         onClearIconPress={() => {}}
         inputStyle={{ minHeight: 0 }}
       />
-      <ScrollView
+      {/* <ScrollView
         contentContainerStyle={{ flexGrow: 1, paddingHorizontal: 20 }}
         showsVerticalScrollIndicator={false}
         bounces={false}
-      >
-        <StatusBar
-          translucent
-          barStyle={Platform.OS == "ios" ? "dark-content" : "default"}
-        />
-        {/* <FlatList
-          keyExtractor={(item, index) => index.toString()}
-          data={
-            contactData.length > 0 &&
-            contactData?.filter(
-              (el) => "firstName" in el && el.firstName?.startsWith(searchVal)
-            )
-          }
-          style={styles.list}
-          renderItem={renderItem}
-          onEndReachedThreshold={0.1}
-          ListFooterComponent={loading && <ActivityIndicator />}
-        /> */}
-      </ScrollView>
+      > */}
+      <StatusBar
+        translucent
+        barStyle={Platform.OS == "ios" ? "dark-content" : "default"}
+      />
+      <FlatList
+        keyExtractor={(item, index) => index.toString()}
+        data={contactData?.filter(
+          (el) => "firstName" in el && el.firstName?.startsWith(searchVal)
+        )}
+        style={styles.list}
+        renderItem={renderItem}
+        onEndReached={() => {
+          !searchVal && nextPage && fetchMore();
+        }}
+        onEndReachedThreshold={0.1}
+        removeClippedSubviews={true}
+        maxToRenderPerBatch={10}
+        windowSize={5}
+        initialNumToRender={10}
+        ListFooterComponent={renderFooter}
+        contentContainerStyle={{ marginHorizontal: 20 }}
+      />
+      {/* </ScrollView> */}
     </SafeAreaProvider>
   );
 };

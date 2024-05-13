@@ -657,6 +657,7 @@ const HomeScreenStackNavigator = (props) => {
 };
 
 const CategoryStackNavigator = (props) => {
+  const navigation = useNavigation();
   return (
     <Stack.Navigator
       initialRouteName="CategoryScreen"
@@ -676,6 +677,54 @@ const CategoryStackNavigator = (props) => {
           title: "",
           headerTitleStyle: {},
           headerLeft: () => <></>,
+        }}
+      />
+      <Stack.Screen
+        name="CAT_MainDirServiceScreen"
+        component={MainDirServiceScreen}
+        options={{
+          title: "",
+          headerTitleStyle: {
+            fontWeight: "800",
+          },
+          headerLeft: () => (
+            <TouchableOpacity
+              style={styles.headerLeftContainer}
+              onPress={() => {
+                navigation.navigate("CategoryScreen");
+              }}
+            >
+              <Icon
+                type="material-icons"
+                name="keyboard-arrow-left"
+                size={30}
+              />
+            </TouchableOpacity>
+          ),
+        }}
+      />
+      <Stack.Screen
+        name="CAT_SingleMainDirServiceScreen"
+        component={SingleMainDirServiceScreen}
+        options={{
+          title: "",
+          headerTitleStyle: {
+            fontWeight: "800",
+          },
+          headerLeft: () => (
+            <TouchableOpacity
+              style={styles.headerLeftContainer}
+              onPress={() => {
+                navigation.navigate("CAT_MainDirServiceScreen");
+              }}
+            >
+              <Icon
+                type="material-icons"
+                name="keyboard-arrow-left"
+                size={30}
+              />
+            </TouchableOpacity>
+          ),
         }}
       />
     </Stack.Navigator>

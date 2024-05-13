@@ -6,6 +6,7 @@ import {
   ScrollView,
   Image,
   Dimensions,
+  TextInput,
 } from "react-native";
 import React, { useContext, useRef, useState } from "react";
 import {
@@ -29,6 +30,7 @@ const HomeSearch = () => {
   const state = useContext(MainContext);
   const sheetRef = useRef(); //*****Bottomsheet
   const [expanded, setExpanded] = useState({});
+  const [searchVal, setSearchVal] = useState("");
   return (
     <TouchableOpacity
       style={styles.searchContainer}
@@ -39,17 +41,30 @@ const HomeSearch = () => {
     >
       <View style={styles.searchInput}>
         <Icon name="search" type="feather" size={20} color={GRAY_ICON_COLOR} />
-        <Text style={styles.filterText}>Хайх</Text>
-      </View>
-      <TouchableOpacity style={styles.filterBtn}>
-        <Icon
-          name="sliders"
-          type="feather"
-          size={20}
-          color={GRAY_ICON_COLOR}
-          onPress={() => sheetRef.current.open()}
+
+        <TextInput
+          style={{
+            height: 40,
+            width: "80%",
+            paddingLeft: 10,
+          }}
+          value={searchVal}
+          placeholder="Хайх"
+          returnKeyType="done"
+          onChangeText={setSearchVal}
         />
-      </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.filterBtn}
+          onPress={() => sheetRef.current.open()}
+        >
+          <Icon
+            name="sliders"
+            type="feather"
+            size={20}
+            color={GRAY_ICON_COLOR}
+          />
+        </TouchableOpacity>
+      </View>
       <RBSheet
         ref={sheetRef}
         height={height - 100}
@@ -163,6 +178,7 @@ const HomeSearch = () => {
                                         mainDirectionId: el.id,
                                         directionId: [child.id],
                                         subDirectionId: [sub.id],
+                                        fromCAT: false,
                                       }
                                     );
                                   }}
@@ -215,6 +231,7 @@ const styles = StyleSheet.create({
     height: "100%",
     justifyContent: "center",
     width: 40,
+    height: 40,
   },
   dirMainContainer: {
     width: "100%",

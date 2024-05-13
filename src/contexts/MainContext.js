@@ -19,14 +19,7 @@ export const MainStore = (props) => {
   const [userData, setUserData] = useState(null);
   const [userMainDirID, setUserMainDirID] = useState(null);
 
-  const [customerTypes, setCustomerTypes] = useState(null);
-
-  const [directionLoading, setDirectionLoading] = useState(true);
   const [mainDirection, setMainDirection] = useState([]);
-  const [direction, setDirection] = useState([]);
-  const [subDirection, setSubDirection] = useState([]);
-
-  const [custTypeData, setCustTypeData] = useState([]);
 
   const [selectedService, setSelectedService] = useState(null);
   const [token, setToken] = useState(null);
@@ -250,18 +243,9 @@ export const MainStore = (props) => {
         },
       })
       .then((response) => {
-        console.log("getMain Direction response", JSON.stringify(response));
-        // const result = response.data?.response?.map((item) => {
-        //   return {
-        //     ...item,
-        //     children: direction.filter((el) => el.mainDirectionId === item.id),
-        //   };
-        // });
+        // console.log("getMain Direction response", JSON.stringify(response));
 
         setMainDirection(response.data.response);
-      })
-      .then(() => {
-        setDirectionLoading(false);
       })
       .catch((error) => {
         console.error("Error fetching get Main Direction:", error);
@@ -308,9 +292,6 @@ export const MainStore = (props) => {
         phone,
         setPhone,
         mainDirection,
-        direction,
-        subDirection,
-        custTypeData,
         selectedService,
         setSelectedService,
         errorMsg,
