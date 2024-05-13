@@ -1,27 +1,26 @@
-import { StyleSheet, Text, View, ScrollView, Image } from "react-native";
+import { StyleSheet, Text, View, ScrollView } from "react-native";
 import React, { useContext, useEffect, useState } from "react";
 import { Divider } from "react-native-paper";
 import MainContext from "../../contexts/MainContext";
-import { IMG_URL, MAIN_COLOR, SERVER_URL, X_API_KEY } from "../../constant";
-import { Icon, ListItem } from "@rneui/base";
+import { MAIN_COLOR, SERVER_URL, X_API_KEY } from "../../constant";
+import { Icon, CheckBox } from "@rneui/base";
 import axios from "axios";
 import SideFIlterSkeleton from "../../components/Skeletons/SideFIlterSkeleton";
 import Empty from "../../components/Empty";
 
-const UserTypeSideBarFilter = (props) => {
+const MainDirSideBarFilter = (props) => {
   const state = useContext(MainContext);
   const [checked, setChecked] = useState({});
 
   const [loadingSideFilter, setLoadingSideFilter] = useState(false);
   const [sideFilterData, setSideFilterData] = useState([]);
-  const [expanded, setExpanded] = useState({});
 
   const getSideFilterData = async () => {
     setLoadingSideFilter(true);
     await axios
-      .get(`${SERVER_URL}reference/main-direction`, {
+      .get(`${SERVER_URL}reference/direction`, {
         params: {
-          userType: state?.selectedUserType,
+          mainDirectionId: props.mainDirectionId,
         },
         headers: {
           "X-API-KEY": X_API_KEY,
@@ -35,10 +34,7 @@ const UserTypeSideBarFilter = (props) => {
         setSideFilterData(response.data.response);
       })
       .catch((error) => {
-        console.error(
-          "Error fetching UserTypeSideBarFilter=>getSideFilterData:",
-          error
-        );
+        console.error("Error fetching get SideFilterData:", error);
         if (error.response.status == "401") {
           state.setIsLoggedIn(false);
           state.setErrorMsg(
@@ -52,10 +48,11 @@ const UserTypeSideBarFilter = (props) => {
   };
   useEffect(() => {
     getSideFilterData();
+    setChecked((prevState) => ({
+      ...prevState,
+      [state.mainDirParams?.subDirectionIds?.[0]]: true,
+    }));
   }, []);
-  useEffect(() => {
-    getSideFilterData();
-  }, [state?.selectedUserType]);
 
   useEffect(() => {
     var checkedItems = [];
@@ -67,13 +64,16 @@ const UserTypeSideBarFilter = (props) => {
     });
 
     const currentDirections = sideFilterData.filter((item) => {
-      return item.directions.some((subdir) => checkedItems.includes(subdir.id));
+      return item.subDirections.some((subdir) =>
+        checkedItems.includes(subdir.id)
+      );
     });
 
-    state.setSpecialServiceParams((prevState) => ({
+    state.setMainDirParams((prevState) => ({
       ...prevState,
       page: 1,
       limit: 10,
+      mainDirectionId: props.mainDirectionId,
       directionIds: currentDirections?.map((item) => item.id),
       subDirectionIds: checkedItems,
     }));
@@ -124,87 +124,43 @@ const UserTypeSideBarFilter = (props) => {
           sideFilterData?.map((el, index) => {
             return (
               <View key={index} style={styles.eachDir}>
-                <View
-                  style={{
-                    flexDirection: "row",
-                    alignItems: "center",
-                    paddingBottom: 3,
-                  }}
-                >
-                  <Image
-                    style={{ width: 20, height: 20 }}
-                    source={{
-                      uri: IMG_URL + el.logoId,
-                    }}
-                  />
-                  <Text
-                    style={{
-                      fontWeight: "bold",
-                      textTransform: "uppercase",
-                      marginLeft: 5,
-                    }}
-                  >
-                    {el.name}
-                  </Text>
+                <View style={styles.filterRowData}>
+                  <Text style={styles.filterRowDataTitle}>{el.name}</Text>
                 </View>
                 <View
                   style={{
                     paddingTop: 10,
                   }}
                 >
-                  {el.directions?.map((child, index2) => {
-                    const checkOpen = expanded[index + "-" + index2];
+                  {el.subDirections?.map((child, index2) => {
+                    const checkedItem = checked[child.id];
+
                     return (
-                      <ListItem.Accordion
-                        noIcon={child?.subDirections != "" ? false : true}
-                        key={index + "-" + index2}
-                        content={
-                          <ListItem.Content>
-                            <ListItem.Title
-                              style={{
-                                color: checkOpen ? MAIN_COLOR : "#6f7275",
-                                fontWeight: "500",
-                                marginBottom: 5,
-                              }}
-                            >
-                              {child.name}
-                            </ListItem.Title>
-                          </ListItem.Content>
+                      <CheckBox
+                        containerStyle={styles.checkboxContainerStyle}
+                        textStyle={styles.checkboxTextStyle}
+                        title={
+                          <View style={styles.checkboxTextContainer}>
+                            <Text style={{ width: "90%" }}>{child.name}</Text>
+                            <Text style={{ width: "5%" }}>
+                              {child.advertisements?.length}
+                            </Text>
+                          </View>
                         }
-                        isExpanded={checkOpen}
+                        checked={checkedItem}
                         onPress={() => {
-                          child?.subDirections != "" &&
-                            setExpanded((prevState) => ({
-                              ...prevState,
-                              [index + "-" + index2]:
-                                !prevState[index + "-" + index2],
-                            }));
+                          setChecked((prevState) => ({
+                            ...prevState,
+                            [child.id]: !prevState[child.id],
+                          }));
                         }}
-                        containerStyle={{
-                          paddingVertical: 8,
-                          paddingHorizontal: 3,
-                        }}
-                      >
-                        <ListItem
-                          containerStyle={{
-                            flexDirection: "column",
-                            alignItems: "flex-start",
-                          }}
-                        >
-                          {child?.subDirections?.map((sub, indexSub) => {
-                            return (
-                              <View
-                                key={indexSub}
-                                style={{
-                                  marginBottom: 20,
-                                }}
-                              >
-                                <Text>{sub.name}</Text>
-                              </View>
-                            );
-                          })}
-                        </ListItem>
-                      </ListItem.Accordion>
+                        iconType="material-community"
+                        checkedIcon="checkbox-outline"
+                        uncheckedIcon="checkbox-blank-outline"
+                        checkedColor={MAIN_COLOR}
+                        uncheckedColor="#798585"
+                        key={child.id}
+                      />
                     );
                   })}
                 </View>
@@ -217,7 +173,7 @@ const UserTypeSideBarFilter = (props) => {
   );
 };
 
-export default UserTypeSideBarFilter;
+export default MainDirSideBarFilter;
 
 const styles = StyleSheet.create({
   dirContainer: {

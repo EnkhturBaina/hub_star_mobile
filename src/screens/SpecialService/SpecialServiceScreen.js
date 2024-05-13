@@ -69,7 +69,7 @@ const SpecialServiceScreen = (props) => {
         setSpecialServiceData(response.data.response.data);
       })
       .catch((error) => {
-        console.error("Error fetching :", error);
+        console.error("Error fetching get SpecialServiceData:", error);
         if (error.response.status == "401") {
           state.setIsLoggedIn(false);
           state.setErrorMsg(

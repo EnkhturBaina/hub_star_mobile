@@ -26,9 +26,9 @@ import UserTabData from "../../refs/UserTabData";
 import axios from "axios";
 import Empty from "../../components/Empty";
 import UserTypeServicesSkeleton from "../../components/Skeletons/UserTypeServicesSkeleton";
-import UserTypeSideBarFilter from "./UserTypeSideBarFilter";
+import MainDirSideBarFilter from "./MainDirSideBarFilter";
 
-const UserTypeServiceScreen = (props) => {
+const MainDirServiceScreen = (props) => {
   const state = useContext(MainContext);
 
   const tabBarHeight = useBottomTabBarHeight();
@@ -36,7 +36,7 @@ const UserTypeServiceScreen = (props) => {
   const [isFocus, setIsFocus] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [loadingServices, setLoadingServices] = useState(false);
-  const [userTypeServiceData, setUserTypeServiceData] = useState([]);
+  const [mainDirServiceData, setMainDirServiceData] = useState([]);
 
   useLayoutEffect(() => {
     // TabBar Hide хийх
@@ -58,12 +58,13 @@ const UserTypeServiceScreen = (props) => {
     // TabBar Hide хийх
   }, [props.navigation]);
 
-  const getUserTypeServices = async () => {
+  const getMainDirServices = async () => {
     setLoadingServices(true);
-    setUserTypeServiceData([]);
+    setMainDirServiceData([]);
+    console.log("state.mainDirParams", state.mainDirParams);
     await axios
       .get(`${SERVER_URL}advertisement`, {
-        params: state.userTypeParam,
+        params: state.mainDirParams,
         headers: {
           "X-API-KEY": X_API_KEY,
         },
@@ -73,10 +74,10 @@ const UserTypeServiceScreen = (props) => {
         //   "get UserTypeServices response",
         //   JSON.stringify(response.data.response)
         // );
-        setUserTypeServiceData(response.data.response.data);
+        setMainDirServiceData(response.data.response.data);
       })
       .catch((error) => {
-        console.error("Error fetching get UserTypeServices:", error);
+        console.error("Error fetching get MainDirServices:", error);
         if (error.response.status == "401") {
           state.setIsLoggedIn(false);
           state.setErrorMsg(
@@ -89,16 +90,31 @@ const UserTypeServiceScreen = (props) => {
       });
   };
   useEffect(() => {
-    getUserTypeServices();
+    getMainDirServices();
+
+    state.setMainDirParams((prevState) => ({
+      ...prevState,
+      page: 1,
+      limit: 10,
+      mainDirectionId: props.route?.params?.mainDirectionId,
+      directionIds: props.route?.params?.directionId,
+      subDirectionIds: props.route?.params?.subDirectionId,
+    }));
   }, []);
 
   useEffect(() => {
     //Side filter -с check хийгдэх үед GET service -н PARAM -уудыг бэлдээд SERVICE -г дуудах
-    getUserTypeServices();
-  }, [state.userTypeParam]);
+    getMainDirServices();
+  }, [state.mainDirParams]);
   return (
     <SideMenu
-      menu={<UserTypeSideBarFilter setIsOpen={setIsOpen} isOpen={isOpen} />}
+      menu={
+        <MainDirSideBarFilter
+          setIsOpen={setIsOpen}
+          isOpen={isOpen}
+          mainDirectionId={props.route?.params?.mainDirectionId}
+        />
+      }
       isOpen={isOpen}
       onChange={(isOpen) => setIsOpen(isOpen)}
     >
@@ -195,7 +211,7 @@ const UserTypeServiceScreen = (props) => {
             onChange={(item) => {
               setValue(item.value);
               setIsFocus(false);
-              state.setUserTypeParam((prevState) => ({
+              state.setMainDirParams((prevState) => ({
                 ...prevState,
                 order: item.value == "ASC" ? "ASC" : "DESC",
               }));
@@ -207,18 +223,18 @@ const UserTypeServiceScreen = (props) => {
           showsVerticalScrollIndicator={false}
         >
           <View style={styles.gridContainer}>
-            {userTypeServiceData.length == 0 && loadingServices ? (
+            {mainDirServiceData.length == 0 && loadingServices ? (
               <UserTypeServicesSkeleton />
-            ) : userTypeServiceData.length == 0 && !loadingServices ? (
+            ) : mainDirServiceData.length == 0 && !loadingServices ? (
               <Empty text="Үйлчилгээ олдсонгүй." />
             ) : (
-              userTypeServiceData?.map((el, index) => {
+              mainDirServiceData?.map((el, index) => {
                 return (
                   <TouchableOpacity
                     style={styles.gridItem}
                     key={index}
                     onPress={() => {
-                      props.navigation.navigate("SingleUserTypeServiceScreen", {
+                      props.navigation.navigate("SingleMainDirServiceScreen", {
                         adv_id: el.id,
                       });
                     }}
@@ -264,7 +280,7 @@ const UserTypeServiceScreen = (props) => {
   );
 };
 
-export default UserTypeServiceScreen;
+export default MainDirServiceScreen;
 
 const styles = StyleSheet.create({
   dropdown: {

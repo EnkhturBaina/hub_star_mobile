@@ -19,11 +19,13 @@ import {
 import { Icon, ListItem } from "@rneui/base";
 import RBSheet from "react-native-raw-bottom-sheet";
 import MainContext from "../../contexts/MainContext";
+import { useNavigation } from "@react-navigation/native";
 
 const width = Dimensions.get("window").width;
 const height = Dimensions.get("window").height;
 
 const HomeSearch = () => {
+  const navigation = useNavigation();
   const state = useContext(MainContext);
   const sheetRef = useRef(); //*****Bottomsheet
   const [expanded, setExpanded] = useState({});
@@ -70,6 +72,8 @@ const HomeSearch = () => {
             bounces={false}
           >
             {state?.mainDirection?.map((el, index) => {
+              var dirArr = [];
+              var sub_dirArr = [];
               return (
                 <View key={index} style={styles.eachDir}>
                   <View
@@ -143,14 +147,25 @@ const HomeSearch = () => {
                           >
                             {child?.sub_children?.map((sub, indexSub) => {
                               return (
-                                <View
+                                <TouchableOpacity
                                   key={indexSub}
                                   style={{
                                     marginBottom: 20,
                                   }}
+                                  onPress={() => {
+                                    sheetRef.current.close();
+                                    navigation.navigate(
+                                      "MainDirServiceScreen",
+                                      {
+                                        mainDirectionId: el.id,
+                                        directionId: [child.id],
+                                        subDirectionId: [sub.id],
+                                      }
+                                    );
+                                  }}
                                 >
                                   <Text>{sub.name}</Text>
-                                </View>
+                                </TouchableOpacity>
                               );
                             })}
                           </ListItem>

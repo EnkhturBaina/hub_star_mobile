@@ -32,7 +32,7 @@ const SideBarFilter = (props) => {
         setSideFilterData(response.data.response);
       })
       .catch((error) => {
-        console.error("Error fetching :", error);
+        console.error("Error fetching Side BarFilter:", error);
         if (error.response.status == "401") {
           state.setIsLoggedIn(false);
           state.setErrorMsg(

@@ -27,14 +27,14 @@ import "dayjs/locale/es";
 import dayjs from "dayjs";
 import { StarRatingDisplay } from "react-native-star-rating-widget";
 
-const SingleServiceScreen = (props) => {
+const SingleMainDirServiceScreen = (props) => {
   const state = useContext(MainContext);
   const [loadingAdvice, setLoadingAdvice] = useState(false);
   const [adviceData, setAdviceData] = useState(null);
   const [visible1, setVisible1] = useState(false);
   const [zoomImgURL, setZoomImgURL] = useState(null);
 
-  const getAdvice = async () => {
+  const getServiceData = async () => {
     setLoadingAdvice(true);
     await axios
       .get(`${SERVER_URL}advertisement/${props.route?.params?.adv_id}`, {
@@ -43,14 +43,14 @@ const SingleServiceScreen = (props) => {
         },
       })
       .then((response) => {
-        console.log(
-          "get Advice response",
-          JSON.stringify(response.data.response)
-        );
+        // console.log(
+        //   "get Advice response",
+        //   JSON.stringify(response.data.response)
+        // );
         setAdviceData(response.data.response);
       })
       .catch((error) => {
-        console.error("Error fetching get Advice:", error);
+        console.error("Error fetching get ServiceData:", error);
         if (error.response.status == "401") {
           state.setIsLoggedIn(false);
           state.setErrorMsg(
@@ -63,7 +63,7 @@ const SingleServiceScreen = (props) => {
       });
   };
   useEffect(() => {
-    getAdvice();
+    getServiceData();
   }, []);
   return (
     <View
@@ -272,7 +272,7 @@ const SingleServiceScreen = (props) => {
   );
 };
 
-export default SingleServiceScreen;
+export default SingleMainDirServiceScreen;
 
 const styles = StyleSheet.create({
   slideImg: {

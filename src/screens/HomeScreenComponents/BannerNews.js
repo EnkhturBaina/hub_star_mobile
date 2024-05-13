@@ -45,7 +45,7 @@ const BannerNews = () => {
         setNews(response.data.response);
       })
       .catch((error) => {
-        console.error("Error fetching :", error);
+        console.error("Error fetching get News:", error);
         if (error.response.status == "401") {
           state.setIsLoggedIn(false);
           state.setErrorMsg(

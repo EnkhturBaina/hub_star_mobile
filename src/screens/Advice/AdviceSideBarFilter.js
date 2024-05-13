@@ -36,7 +36,7 @@ const AdviceSideBarFilter = (props) => {
         setSideFilterData(response.data.response);
       })
       .catch((error) => {
-        console.error("Error fetching :", error);
+        console.error("Error fetching Advice SideBarFilter:", error);
         if (error.response.status == "401") {
           state.setIsLoggedIn(false);
           state.setErrorMsg(

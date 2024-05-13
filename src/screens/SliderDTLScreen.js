@@ -47,7 +47,7 @@ const SliderDTLScreen = (props) => {
             "Токены хүчинтэй хугацаа дууссан байна. Дахин нэвтэрнэ үү"
           );
         }
-        // console.error("Error fetching :", error.response.status);
+        // console.error("Error fetching get NewsDTL:", error.response.status);
       });
   };
 

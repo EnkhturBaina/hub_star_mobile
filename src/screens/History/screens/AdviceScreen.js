@@ -40,7 +40,7 @@ const AdviceScreen = (props) => {
         setAdviceData(response.data.response.data);
       })
       .catch((error) => {
-        console.error("Error fetching :", error);
+        console.error("Error fetching get Advices:", error);
         if (error.response.status == "401") {
           state.setIsLoggedIn(false);
           state.setErrorMsg(

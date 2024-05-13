@@ -41,7 +41,7 @@ const Advices = () => {
         setAdvices(response.data.response);
       })
       .catch((error) => {
-        console.error("Error fetching :", error);
+        console.error("Error fetching Advices=>get Advices:=>", error);
         if (error.response.status == "401") {
           state.setIsLoggedIn(false);
           state.setErrorMsg(

@@ -54,7 +54,7 @@ const EditProfile = (props) => {
         setProfileData(response.data.response?.user);
       })
       .catch((error) => {
-        console.error("Error fetching :", error);
+        console.error("Error fetching EditProfile=>get ProfileData=>:", error);
         if (error.response.status == "401") {
           state.setIsLoggedIn(false);
           state.setErrorMsg(

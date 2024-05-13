@@ -43,6 +43,8 @@ import SingleSpecialScreen from "../screens/SpecialService/SingleSpecialScreen";
 import SingleServiceScreen from "../screens/History/SingleServiceScreen";
 import MainAdviceScreen from "../screens/Advice/MainAdviceScreen";
 import SingleUserTypeServiceScreen from "../screens/UserTypeService/SingleUserTypeServiceScreen";
+import MainDirServiceScreen from "../screens/MainServices/MainDirServiceScreen";
+import SingleMainDirServiceScreen from "../screens/MainServices/SingleMainDirServiceScreen";
 
 const Stack = createStackNavigator();
 const width = Dimensions.get("screen").width;
@@ -591,6 +593,54 @@ const HomeScreenStackNavigator = (props) => {
               style={styles.headerLeftContainer}
               onPress={() => {
                 navigation.navigate("UserTypeServiceScreen");
+              }}
+            >
+              <Icon
+                type="material-icons"
+                name="keyboard-arrow-left"
+                size={30}
+              />
+            </TouchableOpacity>
+          ),
+        }}
+      />
+      <Stack.Screen
+        name="MainDirServiceScreen"
+        component={MainDirServiceScreen}
+        options={{
+          title: "",
+          headerTitleStyle: {
+            fontWeight: "800",
+          },
+          headerLeft: () => (
+            <TouchableOpacity
+              style={styles.headerLeftContainer}
+              onPress={() => {
+                navigation.navigate("HomeScreen");
+              }}
+            >
+              <Icon
+                type="material-icons"
+                name="keyboard-arrow-left"
+                size={30}
+              />
+            </TouchableOpacity>
+          ),
+        }}
+      />
+      <Stack.Screen
+        name="SingleMainDirServiceScreen"
+        component={SingleMainDirServiceScreen}
+        options={{
+          title: "",
+          headerTitleStyle: {
+            fontWeight: "800",
+          },
+          headerLeft: () => (
+            <TouchableOpacity
+              style={styles.headerLeftContainer}
+              onPress={() => {
+                navigation.navigate("MainDirServiceScreen");
               }}
             >
               <Icon

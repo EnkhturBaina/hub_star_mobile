@@ -99,6 +99,17 @@ export const MainStore = (props) => {
     subDirectionIds: null,
   });
 
+  const [mainDirParams, setMainDirParams] = useState({
+    order: "DESC",
+    process: "CREATED",
+    page: 1,
+    limit: 10,
+    userType: null,
+    mainDirectionId: null,
+    directionIds: null,
+    subDirectionIds: null,
+  });
+
   const login = async (email, password, rememberEmail) => {
     setErrorMsg("");
     await axios
@@ -391,6 +402,8 @@ export const MainStore = (props) => {
         setUserMainDirID,
         userTypeParam,
         setUserTypeParam,
+        mainDirParams,
+        setMainDirParams,
       }}
     >
       {props.children}
