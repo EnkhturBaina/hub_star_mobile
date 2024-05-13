@@ -250,15 +250,15 @@ export const MainStore = (props) => {
         },
       })
       .then((response) => {
-        // console.log("getMain Direction response", response);
-        const result = response.data?.response?.map((item) => {
-          return {
-            ...item,
-            children: direction.filter((el) => el.mainDirectionId === item.id),
-          };
-        });
+        console.log("getMain Direction response", JSON.stringify(response));
+        // const result = response.data?.response?.map((item) => {
+        //   return {
+        //     ...item,
+        //     children: direction.filter((el) => el.mainDirectionId === item.id),
+        //   };
+        // });
 
-        setMainDirection(result);
+        setMainDirection(response.data.response);
       })
       .then(() => {
         setDirectionLoading(false);
@@ -273,71 +273,10 @@ export const MainStore = (props) => {
         }
       });
   };
-  const getDirection = async () => {
-    await axios
-      .get(`${SERVER_URL}reference/direction`, {
-        headers: {
-          "X-API-KEY": X_API_KEY,
-        },
-      })
-      .then((response) => {
-        // console.log("get Direction response", response);
-        const result = response.data?.response?.map((item) => {
-          return {
-            ...item,
-            sub_children: subDirection.filter(
-              (el) => el.directionId === item.id
-            ),
-          };
-        });
-
-        // console.log("get Direction result ===>", result);
-        setDirection(result);
-      })
-      .catch((error) => {
-        console.error("Error fetching get Direction:", error);
-
-        if (error.response.status == "401") {
-          setIsLoggedIn(false);
-          setErrorMsg(
-            "Токены хүчинтэй хугацаа дууссан байна. Дахин нэвтэрнэ үү"
-          );
-        }
-      });
-  };
-  const getSubDirection = async () => {
-    await axios
-      .get(`${SERVER_URL}reference/sub-direction`, {
-        headers: {
-          "X-API-KEY": X_API_KEY,
-        },
-      })
-      .then((response) => {
-        // console.log("get SubDirection response", response);
-        setSubDirection(response.data.response);
-      })
-      .catch((error) => {
-        console.error("Error fetching get SubDirection:", error);
-        if (error.response.status == "401") {
-          setIsLoggedIn(false);
-          setErrorMsg(
-            "Токены хүчинтэй хугацаа дууссан байна. Дахин нэвтэрнэ үү"
-          );
-        }
-      });
-  };
   useEffect(() => {
     checkUserData();
-    getSubDirection();
-  }, []);
-
-  useEffect(() => {
-    getDirection();
-  }, [subDirection]);
-
-  useEffect(() => {
     getMainDirection();
-  }, [direction]);
+  }, []);
 
   const addCommas = (num) => {
     return num?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");

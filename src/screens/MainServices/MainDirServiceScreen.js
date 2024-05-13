@@ -61,7 +61,6 @@ const MainDirServiceScreen = (props) => {
   const getMainDirServices = async () => {
     setLoadingServices(true);
     setMainDirServiceData([]);
-
     await axios
       .get(`${SERVER_URL}advertisement`, {
         params: state.mainDirParams,
@@ -90,8 +89,6 @@ const MainDirServiceScreen = (props) => {
       });
   };
   useEffect(() => {
-    getMainDirServices();
-
     state.setMainDirParams((prevState) => ({
       ...prevState,
       page: 1,
@@ -104,7 +101,7 @@ const MainDirServiceScreen = (props) => {
 
   useEffect(() => {
     //Side filter -с check хийгдэх үед GET service -н PARAM -уудыг бэлдээд SERVICE -г дуудах
-    getMainDirServices();
+    state?.mainDirParams?.subDirectionIds?.length >= 0 && getMainDirServices();
   }, [state.mainDirParams]);
   return (
     <SideMenu
@@ -113,6 +110,7 @@ const MainDirServiceScreen = (props) => {
           setIsOpen={setIsOpen}
           isOpen={isOpen}
           mainDirectionId={props.route?.params?.mainDirectionId}
+          subDir={props.route?.params?.subDirectionId}
         />
       }
       isOpen={isOpen}

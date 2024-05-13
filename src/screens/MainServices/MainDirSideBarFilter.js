@@ -48,9 +48,10 @@ const MainDirSideBarFilter = (props) => {
   };
   useEffect(() => {
     getSideFilterData();
+    //HomeScreen -с сонгож орсон DIR -г checked болгох
     setChecked((prevState) => ({
       ...prevState,
-      [state.mainDirParams?.subDirectionIds?.[0]]: true,
+      [props.subDir]: true,
     }));
   }, []);
 
@@ -68,7 +69,6 @@ const MainDirSideBarFilter = (props) => {
         checkedItems.includes(subdir.id)
       );
     });
-
     state.setMainDirParams((prevState) => ({
       ...prevState,
       page: 1,

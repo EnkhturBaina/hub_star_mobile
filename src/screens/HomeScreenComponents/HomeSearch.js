@@ -104,11 +104,11 @@ const HomeSearch = () => {
                       paddingTop: 10,
                     }}
                   >
-                    {el.children?.map((child, index2) => {
+                    {el.directions?.map((child, index2) => {
                       const checkOpen = expanded[index + "-" + index2];
                       return (
                         <ListItem.Accordion
-                          noIcon={child?.sub_children != "" ? false : true}
+                          noIcon={child?.subDirections != "" ? false : true}
                           key={index + "-" + index2}
                           content={
                             <ListItem.Content>
@@ -125,7 +125,7 @@ const HomeSearch = () => {
                           }
                           isExpanded={checkOpen}
                           onPress={() => {
-                            child?.sub_children != "" &&
+                            child?.subDirections != "" &&
                               setExpanded((prevState) => ({
                                 ...prevState,
                                 [index + "-" + index2]:
@@ -143,14 +143,17 @@ const HomeSearch = () => {
                               flexDirection: "column",
                               alignItems: "flex-start",
                               backgroundColor: MAIN_BG_GRAY,
+                              paddingVertical: 0,
                             }}
                           >
-                            {child?.sub_children?.map((sub, indexSub) => {
+                            {child?.subDirections?.map((sub, indexSub) => {
                               return (
                                 <TouchableOpacity
                                   key={indexSub}
                                   style={{
-                                    marginBottom: 20,
+                                    height: 40,
+                                    width: "100%",
+                                    justifyContent: "center",
                                   }}
                                   onPress={() => {
                                     sheetRef.current.close();

@@ -169,11 +169,11 @@ const CategoryScreen = () => {
                   paddingTop: 10,
                 }}
               >
-                {el.children?.map((child, index2) => {
+                {el.directions?.map((child, index2) => {
                   const checkOpen = expanded[index + "-" + index2];
                   return (
                     <ListItem.Accordion
-                      noIcon={child?.sub_children != "" ? false : true}
+                      noIcon={child?.subDirections != "" ? false : true}
                       key={index + "-" + index2}
                       content={
                         <ListItem.Content>
@@ -190,7 +190,7 @@ const CategoryScreen = () => {
                       }
                       isExpanded={checkOpen}
                       onPress={() => {
-                        child?.sub_children != "" &&
+                        child?.subDirections != "" &&
                           setExpanded((prevState) => ({
                             ...prevState,
                             [index + "-" + index2]:
@@ -210,7 +210,7 @@ const CategoryScreen = () => {
                           backgroundColor: MAIN_BG_GRAY,
                         }}
                       >
-                        {child?.sub_children?.map((sub, indexSub) => {
+                        {child?.subDirections?.map((sub, indexSub) => {
                           return (
                             <View
                               key={indexSub}
