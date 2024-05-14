@@ -40,11 +40,6 @@ const Invite = () => {
 
         setLoading(true);
         const { data, hasNextPage } = await Contacts.getContactsAsync({
-          fields: [
-            Contacts.Fields.FirstName,
-            Contacts.Fields.LastName,
-            Contacts.Fields.PhoneNumbers,
-          ],
           sort: "firstName",
           pageOffset: offset,
           pageSize: 20,

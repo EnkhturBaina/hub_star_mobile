@@ -46,6 +46,7 @@ import SingleUserTypeServiceScreen from "../screens/UserTypeService/SingleUserTy
 import MainDirServiceScreen from "../screens/MainServices/MainDirServiceScreen";
 import SingleMainDirServiceScreen from "../screens/MainServices/SingleMainDirServiceScreen";
 import AddServiceFirst from "../screens/AddService/AddServiceFirst";
+import AddServiceSpecial from "../screens/AddService/AddServiceSpecial";
 
 const Stack = createStackNavigator();
 const width = Dimensions.get("screen").width;
@@ -738,7 +739,6 @@ const AddServiceStackNavigator = (props) => {
     <Stack.Navigator
       initialRouteName="AddServiceFirst"
       screenOptions={{
-        // headerShown: false,
         headerStyle: {
           shadowColor: "transparent",
           elevation: 0,
@@ -773,7 +773,31 @@ const AddServiceStackNavigator = (props) => {
         name="AddService"
         component={AddService}
         options={{
-          title: "Үйлчилгээ нэмэх",
+          title: "Энгийн үйлчилгээ нэмэх",
+          headerTitleStyle: {
+            fontWeight: "800",
+          },
+          headerLeft: () => (
+            <TouchableOpacity
+              style={styles.headerLeftContainer}
+              onPress={() => {
+                navigation.navigate("AddServiceFirst");
+              }}
+            >
+              <Icon
+                type="material-icons"
+                name="keyboard-arrow-left"
+                size={30}
+              />
+            </TouchableOpacity>
+          ),
+        }}
+      />
+      <Stack.Screen
+        name="AddServiceSpecial"
+        component={AddServiceSpecial}
+        options={{
+          title: "Онцгой үйлчилгээ нэмэх",
           headerTitleStyle: {
             fontWeight: "800",
           },

@@ -40,7 +40,7 @@ const AddServiceFirst = (props) => {
     setIsAddService(true);
     setIsSpecial(val);
 
-    props.navigation.navigate("AddService", {
+    props.navigation.navigate(val ? "AddServiceSpecial" : "AddService", {
       isSpecial: val,
       setIsAddService: setIsAddService,
     });
