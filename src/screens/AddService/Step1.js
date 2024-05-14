@@ -7,7 +7,12 @@ import {
   TouchableOpacity,
 } from "react-native";
 import React, { useContext, useEffect, useState } from "react";
-import { GRAY_ICON_COLOR, MAIN_COLOR_GRAY } from "../../constant";
+import {
+  GRAY_ICON_COLOR,
+  MAIN_COLOR_GRAY,
+  SERVER_URL,
+  X_API_KEY,
+} from "../../constant";
 import Constants from "expo-constants";
 import CustomSnackbar from "../../components/CustomSnackbar";
 import BottomSheet from "../../components/BottomSheet";
@@ -16,6 +21,7 @@ import GradientButton from "../../components/GradientButton";
 import { useNavigation } from "@react-navigation/native";
 import MainContext from "../../contexts/MainContext";
 import UserTabData from "../../refs/UserTabData";
+import axios from "axios";
 
 const Step1 = (props) => {
   const state = useContext(MainContext);
@@ -27,6 +33,9 @@ const Step1 = (props) => {
 
   const [visibleSnack, setVisibleSnack] = useState(false);
   const [snackBarMsg, setSnackBarMsg] = useState("");
+
+  const [directions, setDirections] = useState([]);
+  const [subDirections, setSubDirections] = useState([]);
 
   //Snacbkbar харуулах
   const onToggleSnackBar = (msg) => {
@@ -51,6 +60,8 @@ const Step1 = (props) => {
       directionId: "",
       subDirectionId: "",
     }));
+
+    state?.serviceData?.mainDirectionId && getDirections();
   }, [state?.serviceData?.mainDirectionId]);
 
   useEffect(() => {
@@ -58,7 +69,68 @@ const Step1 = (props) => {
       ...prevState,
       subDirectionId: "",
     }));
+    state?.serviceData?.directionId && getSubDirections();
   }, [state?.serviceData?.directionId]);
+
+  const getDirections = async () => {
+    setDirections([]);
+    await axios
+      .get(`${SERVER_URL}reference/direction`, {
+        params: {
+          mainDirectionId: state?.serviceData?.mainDirectionId.id,
+          userType: state?.serviceData?.userType.type,
+        },
+        headers: {
+          "X-API-KEY": X_API_KEY,
+        },
+      })
+      .then((response) => {
+        // console.log(
+        //   "get Directions response",
+        //   JSON.stringify(response.data.response)
+        // );
+        setDirections(response.data.response);
+      })
+      .catch((error) => {
+        console.error("Error fetching STEP1 get Directions:", error);
+        if (error.response.status == "401") {
+          state.setIsLoggedIn(false);
+          state.setErrorMsg(
+            "Токены хүчинтэй хугацаа дууссан байна. Дахин нэвтэрнэ үү"
+          );
+        }
+      });
+  };
+
+  const getSubDirections = async () => {
+    setSubDirections([]);
+    await axios
+      .get(`${SERVER_URL}reference/sub-direction`, {
+        params: {
+          directionId: state?.serviceData?.directionId?.id,
+          userType: state?.serviceData?.userType.type,
+        },
+        headers: {
+          "X-API-KEY": X_API_KEY,
+        },
+      })
+      .then((response) => {
+        console.log(
+          "get SubDirections response",
+          JSON.stringify(response.data.response)
+        );
+        setSubDirections(response.data.response);
+      })
+      .catch((error) => {
+        console.error("Error fetching STEP1 get Directions:", error);
+        if (error.response.status == "401") {
+          state.setIsLoggedIn(false);
+          state.setErrorMsg(
+            "Токены хүчинтэй хугацаа дууссан байна. Дахин нэвтэрнэ үү"
+          );
+        }
+      });
+  };
 
   const goNext = () => {
     // if (state?.serviceData?.categoryId == "") {
@@ -102,7 +174,7 @@ const Step1 = (props) => {
                 setLookupData(UserTabData, "userType", "title");
               }}
             >
-              <Text style={styles.selectedText}>
+              <Text style={styles.selectedText} numberOfLines={1}>
                 {state?.serviceData.userType != ""
                   ? state?.serviceData.userType?.title
                   : "Сонгох"}
@@ -123,7 +195,7 @@ const Step1 = (props) => {
                 setLookupData(state?.mainDirection, "mainDirectionId", "name");
               }}
             >
-              <Text style={styles.selectedText}>
+              <Text style={styles.selectedText} numberOfLines={1}>
                 {state?.serviceData.mainDirectionId != ""
                   ? state?.serviceData.mainDirectionId?.name
                   : "Сонгох"}
@@ -141,21 +213,14 @@ const Step1 = (props) => {
             <TouchableOpacity
               style={styles.touchableSelect}
               onPress={() => {
-                setLookupData(
-                  state?.serviceData?.mainDirectionId?.children,
-                  "directionId",
-                  "name"
-                );
+                setLookupData(directions, "directionId", "name");
               }}
               disabled={
                 state?.serviceData?.mainDirectionId == "" ||
-                (state?.serviceData?.mainDirectionId.hasOwnProperty(
-                  "children"
-                ) &&
-                  state?.serviceData?.mainDirectionId?.children?.length == 0)
+                directions?.length == 0
               }
             >
-              <Text style={styles.selectedText}>
+              <Text style={styles.selectedText} numberOfLines={1}>
                 {state?.serviceData.directionId != ""
                   ? state?.serviceData.directionId?.name
                   : "Сонгох"}
@@ -173,21 +238,14 @@ const Step1 = (props) => {
             <TouchableOpacity
               style={styles.touchableSelect}
               onPress={() => {
-                setLookupData(
-                  state?.serviceData?.directionId?.sub_children,
-                  "subDirectionId",
-                  "name"
-                );
+                setLookupData(subDirections, "subDirectionId", "name");
               }}
               disabled={
                 state?.serviceData?.directionId == "" ||
-                (state?.serviceData?.directionId.hasOwnProperty(
-                  "sub_children"
-                ) &&
-                  state?.serviceData?.directionId?.sub_children?.length == 0)
+                subDirections?.length == 0
               }
             >
-              <Text style={styles.selectedText}>
+              <Text style={styles.selectedText} numberOfLines={1}>
                 {state?.serviceData.subDirectionId != ""
                   ? state?.serviceData.subDirectionId?.name
                   : "Сонгох"}
@@ -271,6 +329,7 @@ const styles = StyleSheet.create({
   selectedText: {
     fontWeight: "500",
     color: GRAY_ICON_COLOR,
+    width: "90%",
   },
   btmButtonContainer: {
     flexDirection: "row",
