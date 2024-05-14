@@ -49,6 +49,7 @@ export const MainStore = (props) => {
     phone: "",
     isMessenger: false,
     isTermOfService: false,
+    specialService: "",
   });
   const clearServiceData = () => {
     setServiceData({
@@ -69,6 +70,7 @@ export const MainStore = (props) => {
       phone: "",
       isMessenger: false,
       isTermOfService: false,
+      specialService: "",
     });
   };
 

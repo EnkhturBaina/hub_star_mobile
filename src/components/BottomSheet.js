@@ -74,10 +74,9 @@ const BottomSheet = ({
                     <TouchableOpacity
                       key={index}
                       onPress={() => functionCombined(el)}
-                      style={{ height: itemHeight }}
                     >
                       <Text style={styles.bottomSheetBodyLookup}>
-                        {el[displayName]}
+                        {el[displayName]}1
                       </Text>
                     </TouchableOpacity>
                   );
@@ -112,6 +111,7 @@ const styles = StyleSheet.create({
     paddingBottom: Platform.OS == "ios" ? 30 : 25,
   },
   bottomSheetBodyLookup: {
+    flex: 1,
     fontWeight: "500",
     fontSize: 18,
     padding: 10,
