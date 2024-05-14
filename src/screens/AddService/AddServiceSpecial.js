@@ -6,11 +6,12 @@ import Constants from "expo-constants";
 import MainContext from "../../contexts/MainContext";
 import Step1Special from "./Step1Special";
 import Step2Special from "./Step2Special";
-import Machinery from "./Step3/Machinery";
-import Transportation from "./Step3/Transportation";
-import Supplier from "./Step3/Supplier";
-import Executor from "./Step3/Executor";
-import Subscriber from "./Step3/Subscriber";
+import PublicSelection from "./Step3/Special/PublicSelection";
+import InternationalTrade from "./Step3/Special/InternationalTrade";
+import ConsultingService from "./Step3/Special/ConsultingService";
+import VocationalTraining from "./Step3/Special/VocationalTraining";
+import LaboratoryMaterial from "./Step3/Special/LaboratoryMaterial";
+import MakeBudget from "./Step3/Special/MakeBudget";
 
 const AddServiceSpecial = (props) => {
   const state = useContext(MainContext);
@@ -54,20 +55,29 @@ const AddServiceSpecial = (props) => {
       />
       {state?.currentStep == 1 && <Step1Special totalStep={totalStep} />}
       {state?.currentStep == 2 && <Step2Special totalStep={totalStep} />}
-      {state?.currentStep == 3 && state.userType?.type == "SUBSCRIBER" ? (
-        <Subscriber totalStep={totalStep} />
+      {state?.currentStep == 3 &&
+      state.serviceData?.specialService?.type == "PUBLIC_SELECTION" ? (
+        <PublicSelection totalStep={totalStep} />
       ) : null}
-      {state?.currentStep == 3 && state.userType?.type == "EXECUTOR" ? (
-        <Executor totalStep={totalStep} />
+      {state?.currentStep == 3 &&
+      state.serviceData?.specialService?.type == "INTERNATIONAL_TRADE" ? (
+        <InternationalTrade totalStep={totalStep} />
       ) : null}
-      {state?.currentStep == 3 && state.userType?.type == "SUPPLIER" ? (
-        <Supplier totalStep={totalStep} />
+      {state?.currentStep == 3 &&
+      state.serviceData?.specialService?.type == "CONSULTING_SERVICE" ? (
+        <ConsultingService totalStep={totalStep} />
       ) : null}
-      {state?.currentStep == 3 && state.userType?.type == "TRANSPORTATION" ? (
-        <Transportation totalStep={totalStep} />
+      {state?.currentStep == 3 &&
+      state.serviceData?.specialService?.type == "VOCATIONAL_TRAINING" ? (
+        <VocationalTraining totalStep={totalStep} />
       ) : null}
-      {state?.currentStep == 3 && state.userType?.type == "MACHINERY" ? (
-        <Machinery totalStep={totalStep} />
+      {state?.currentStep == 3 &&
+      state.serviceData?.specialService?.type == "LABORATORY_MATERIAL" ? (
+        <LaboratoryMaterial totalStep={totalStep} />
+      ) : null}
+      {state?.currentStep == 3 &&
+      state.serviceData?.specialService?.type == "MAKE_BUDGET" ? (
+        <MakeBudget totalStep={totalStep} />
       ) : null}
     </SafeAreaView>
   );

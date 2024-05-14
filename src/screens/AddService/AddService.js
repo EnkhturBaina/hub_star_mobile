@@ -5,8 +5,12 @@ import { MAIN_COLOR } from "../../constant";
 import Constants from "expo-constants";
 import Step1 from "./Step1";
 import Step2 from "./Step2";
-import Step3 from "./Step3";
 import MainContext from "../../contexts/MainContext";
+import Subscriber from "./Step3/Subscriber";
+import Executor from "./Step3/Executor";
+import Supplier from "./Step3/Supplier";
+import Transportation from "./Step3/Transportation";
+import Machinery from "./Step3/Machinery";
 
 const AddService = (props) => {
   const state = useContext(MainContext);
@@ -50,7 +54,26 @@ const AddService = (props) => {
       />
       {state?.currentStep == 1 && <Step1 totalStep={totalStep} />}
       {state?.currentStep == 2 && <Step2 totalStep={totalStep} />}
-      {state?.currentStep == 3 && <Step3 totalStep={totalStep} />}
+      {state?.currentStep == 3 &&
+      state.serviceData?.userType?.type == "SUBSCRIBER" ? (
+        <Subscriber totalStep={totalStep} />
+      ) : null}
+      {state?.currentStep == 3 &&
+      state.serviceData?.userType?.type == "EXECUTOR" ? (
+        <Executor totalStep={totalStep} />
+      ) : null}
+      {state?.currentStep == 3 &&
+      state.serviceData?.userType?.type == "SUPPLIER" ? (
+        <Supplier totalStep={totalStep} />
+      ) : null}
+      {state?.currentStep == 3 &&
+      state.serviceData?.userType?.type == "TRANSPORTATION" ? (
+        <Transportation totalStep={totalStep} />
+      ) : null}
+      {state?.currentStep == 3 &&
+      state.serviceData?.userType?.type == "MACHINERY" ? (
+        <Machinery totalStep={totalStep} />
+      ) : null}
     </SafeAreaView>
   );
 };

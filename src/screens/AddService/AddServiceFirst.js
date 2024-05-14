@@ -38,6 +38,7 @@ const AddServiceFirst = (props) => {
 
   const handleChoose = (val) => {
     state?.clearServiceData();
+    state?.setCurrentStep(1);
     setIsAddService(true);
     setIsSpecial(val);
 
