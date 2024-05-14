@@ -79,7 +79,7 @@ const Machinery = (props) => {
           visible={visibleSnack}
           dismiss={onDismissSnackBar}
           text={snackBarMsg}
-          topPos={1}
+          topPos={-Constants.statusBarHeight}
         />
         <View style={{ flex: 1 }}>
           <ScrollView

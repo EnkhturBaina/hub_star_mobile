@@ -50,7 +50,9 @@ const Subscriber = (props) => {
   };
 
   const createAD = () => {
-    if (state?.serviceData?.counter == "") {
+    if (state?.serviceData?.measurement == "") {
+      onToggleSnackBar("Хэмжих нэгж оруулна уу.");
+    } else if (state?.serviceData?.counter == "") {
       onToggleSnackBar("Ажлын тоо хэмжээ оруулна уу.");
     } else if (state?.serviceData?.desciption == "") {
       onToggleSnackBar("Тайлбар оруулна уу.");
@@ -79,7 +81,7 @@ const Subscriber = (props) => {
           visible={visibleSnack}
           dismiss={onDismissSnackBar}
           text={snackBarMsg}
-          topPos={1}
+          topPos={-Constants.statusBarHeight}
         />
         <View style={{ flex: 1 }}>
           <ScrollView
@@ -89,11 +91,11 @@ const Subscriber = (props) => {
             <Text>Subscriber</Text>
             <LoanInput
               label="Хэмжих нэгж"
-              value={state?.serviceData?.counter}
+              value={state?.serviceData?.measurement}
               onChangeText={(e) =>
                 state?.setServiceData((prevState) => ({
                   ...prevState,
-                  counter: e,
+                  measurement: e,
                 }))
               }
             />

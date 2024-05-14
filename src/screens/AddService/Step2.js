@@ -109,6 +109,11 @@ const Step2 = (props) => {
   const goNext = () => {
     // if (state?.serviceData?.title == "") {
     //   onToggleSnackBar("Зарын гарчиг оруулна уу.");
+    // } else if (
+    //   state?.serviceData?.userType.type === "SUBSCRIBER" &&
+    //   state?.serviceData?.price == ""
+    // ) {
+    //   onToggleSnackBar("Үнэ оруулна уу.");
     // } else if (state?.serviceData?.provinceId == "") {
     //   onToggleSnackBar("Аймаг, хот сонгоно уу.");
     // } else if (state?.serviceData?.districtId == "") {
@@ -138,7 +143,7 @@ const Step2 = (props) => {
           visible={visibleSnack}
           dismiss={onDismissSnackBar}
           text={snackBarMsg}
-          topPos={1}
+          topPos={-Constants.statusBarHeight}
         />
         <View style={{ flex: 1 }}>
           <ScrollView
@@ -155,17 +160,19 @@ const Step2 = (props) => {
                 }))
               }
             />
-            <LoanInput
-              label="Үнэ"
-              keyboardType="number-pad"
-              value={state?.serviceData?.price}
-              onChangeText={(e) =>
-                state?.setServiceData((prevState) => ({
-                  ...prevState,
-                  price: state.addCommas(state.removeNonNumeric(e)),
-                }))
-              }
-            />
+            {state?.serviceData?.userType.type === "SUBSCRIBER" ? (
+              <LoanInput
+                label="Үнэ"
+                keyboardType="number-pad"
+                value={state?.serviceData?.price}
+                onChangeText={(e) =>
+                  state?.setServiceData((prevState) => ({
+                    ...prevState,
+                    price: state.addCommas(state.removeNonNumeric(e)),
+                  }))
+                }
+              />
+            ) : null}
 
             <View style={styles.touchableSelectContainer}>
               <Text style={styles.label}>Аймаг, хот</Text>

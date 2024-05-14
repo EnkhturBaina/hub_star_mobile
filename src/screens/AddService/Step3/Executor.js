@@ -50,8 +50,12 @@ const Executor = (props) => {
   };
 
   const createAD = () => {
-    if (state?.serviceData?.counter == "") {
+    if (state?.serviceData?.workerCount == "") {
+      onToggleSnackBar("Ажилчдын тоо оруулна уу.");
+    } else if (state?.serviceData?.counter == "") {
       onToggleSnackBar("Ажлын тоо хэмжээ оруулна уу.");
+    } else if (state?.serviceData?.price == "") {
+      onToggleSnackBar("Үнэ оруулна уу.");
     } else if (state?.serviceData?.desciption == "") {
       onToggleSnackBar("Тайлбар оруулна уу.");
     } else if (state?.serviceData?.email == "") {
@@ -79,7 +83,7 @@ const Executor = (props) => {
           visible={visibleSnack}
           dismiss={onDismissSnackBar}
           text={snackBarMsg}
-          topPos={1}
+          topPos={-Constants.statusBarHeight}
         />
         <View style={{ flex: 1 }}>
           <ScrollView
@@ -88,12 +92,12 @@ const Executor = (props) => {
           >
             <Text>Executor</Text>
             <LoanInput
-              label="Хэмжих нэгж"
-              value={state?.serviceData?.counter}
+              label="Ажилчдын тоо"
+              value={state?.serviceData?.workerCount}
               onChangeText={(e) =>
                 state?.setServiceData((prevState) => ({
                   ...prevState,
-                  counter: e,
+                  workerCount: e,
                 }))
               }
             />
@@ -104,6 +108,17 @@ const Executor = (props) => {
                 state?.setServiceData((prevState) => ({
                   ...prevState,
                   counter: e,
+                }))
+              }
+            />
+            <LoanInput
+              label="Үнэ"
+              keyboardType="number-pad"
+              value={state?.serviceData?.price}
+              onChangeText={(e) =>
+                state?.setServiceData((prevState) => ({
+                  ...prevState,
+                  price: state.addCommas(state.removeNonNumeric(e)),
                 }))
               }
             />

@@ -151,7 +151,6 @@ const Step1 = (props) => {
     <SafeAreaView
       style={{
         flex: 1,
-        paddingTop: Constants.statusBarHeight,
         backgroundColor: "#fff",
       }}
     >
@@ -159,7 +158,7 @@ const Step1 = (props) => {
         visible={visibleSnack}
         dismiss={onDismissSnackBar}
         text={snackBarMsg}
-        topPos={1}
+        topPos={-Constants.statusBarHeight}
       />
       <View style={{ flex: 1 }}>
         <ScrollView
