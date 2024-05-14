@@ -24,7 +24,7 @@ import LoanInput from "../../components/LoanInput";
 import MainContext from "../../contexts/MainContext";
 import axios from "axios";
 
-const Step2 = (props) => {
+const Step2Special = (props) => {
   const state = useContext(MainContext);
 
   const [provinces, setProvinces] = useState([]);
@@ -155,18 +155,6 @@ const Step2 = (props) => {
                 }))
               }
             />
-            <LoanInput
-              label="Үнэ"
-              keyboardType="number-pad"
-              value={state?.serviceData?.price}
-              onChangeText={(e) =>
-                state?.setServiceData((prevState) => ({
-                  ...prevState,
-                  price: state.addCommas(state.removeNonNumeric(e)),
-                }))
-              }
-            />
-
             <View style={styles.touchableSelectContainer}>
               <Text style={styles.label}>Аймаг, хот</Text>
               <TouchableOpacity
@@ -286,7 +274,7 @@ const Step2 = (props) => {
   );
 };
 
-export default Step2;
+export default Step2Special;
 
 const styles = StyleSheet.create({
   scrollContainer: {
