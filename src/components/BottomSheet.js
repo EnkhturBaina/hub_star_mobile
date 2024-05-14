@@ -26,7 +26,7 @@ const BottomSheet = ({
     if (bodyText && bodyText?.length > 10) {
       setHeightBottomSheet(400);
     } else {
-      setHeightBottomSheet(bodyText?.length * itemHeight + 50);
+      setHeightBottomSheet(bodyText?.length * itemHeight + 100);
     }
   }, [handle]);
 
@@ -81,10 +81,20 @@ const BottomSheet = ({
                     </TouchableOpacity>
                   );
                 })
-              ) : (
+              ) : bodyText?.length == 1 ? (
                 <TouchableOpacity onPress={() => functionCombined(bodyText[0])}>
                   <Text style={styles.bottomSheetBodyLookup}>
                     {bodyText[0]?.[displayName]}
+                  </Text>
+                </TouchableOpacity>
+              ) : (
+                <TouchableOpacity
+                  onPress={() => {}}
+                  style={{ height: 40 }}
+                  disabled
+                >
+                  <Text style={styles.bottomSheetBodyLookup}>
+                    Үр дүн олдсонгүй.
                   </Text>
                 </TouchableOpacity>
               )}
@@ -95,6 +105,8 @@ const BottomSheet = ({
     </View>
   );
 };
+{
+}
 
 export default BottomSheet;
 

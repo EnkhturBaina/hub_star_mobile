@@ -187,10 +187,7 @@ const Step1Special = (props) => {
               onPress={() => {
                 setLookupData(directions, "directionId", "name");
               }}
-              disabled={
-                state?.serviceData?.specialService == "" ||
-                directions?.length == 0
-              }
+              disabled={state?.serviceData?.specialService == ""}
             >
               <Text style={styles.selectedText} numberOfLines={1}>
                 {state?.serviceData.directionId != ""
@@ -212,10 +209,7 @@ const Step1Special = (props) => {
               onPress={() => {
                 setLookupData(subDirections, "subDirectionId", "name");
               }}
-              disabled={
-                state?.serviceData?.directionId == "" ||
-                subDirections?.length == 0
-              }
+              disabled={state?.serviceData?.directionId == ""}
             >
               <Text style={styles.selectedText} numberOfLines={1}>
                 {state?.serviceData.subDirectionId != ""
