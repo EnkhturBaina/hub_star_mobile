@@ -6,13 +6,15 @@ import {
   View,
   Text,
 } from "react-native";
-import React, { useContext, useLayoutEffect } from "react";
+import React, { useContext, useLayoutEffect, useState } from "react";
 import MainContext from "../../contexts/MainContext";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { Icon } from "@rneui/base";
 
 const AddServiceFirst = (props) => {
   const state = useContext(MainContext);
+  const [isAddService, setIsAddService] = useState(false);
+  const [isSpecial, setIsSpecial] = useState(false);
 
   useLayoutEffect(() => {
     // TabBar Hide хийх
@@ -33,11 +35,23 @@ const AddServiceFirst = (props) => {
       });
     // TabBar Hide хийх
   }, [props.navigation]);
+
+  const handleChoose = (val) => {
+    setIsAddService(true);
+    setIsSpecial(val);
+
+    props.navigation.navigate("AddService", {
+      isSpecial: val,
+      setIsAddService: setIsAddService,
+    });
+  };
+
   return (
     <SafeAreaProvider
       style={{
         flex: 1,
         backgroundColor: "#fff",
+        paddingTop: 20,
       }}
     >
       <StatusBar
@@ -47,7 +61,7 @@ const AddServiceFirst = (props) => {
       <View style={{ flexDirection: "column", flex: 1 }}>
         <TouchableOpacity
           activeOpacity={0.7}
-          onPress={() => props.navigation.navigate("AddService")}
+          onPress={() => handleChoose(true)}
           style={styles.addItemContainer}
         >
           <Icon name="pluscircle" type="antdesign" size={70} color="#c5c5c5" />
@@ -57,7 +71,7 @@ const AddServiceFirst = (props) => {
         </TouchableOpacity>
         <TouchableOpacity
           activeOpacity={0.7}
-          onPress={() => props.navigation.navigate("AddService")}
+          onPress={() => handleChoose(false)}
           style={styles.addItemContainer}
         >
           <Icon name="pluscircle" type="antdesign" size={70} color="#c5c5c5" />

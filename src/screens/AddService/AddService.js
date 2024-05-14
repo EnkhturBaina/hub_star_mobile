@@ -1,5 +1,5 @@
 import { SafeAreaView } from "react-native";
-import React, { useContext, useLayoutEffect, useState } from "react";
+import React, { useContext, useEffect, useLayoutEffect, useState } from "react";
 import { ProgressBar } from "react-native-paper";
 import { MAIN_COLOR } from "../../constant";
 import Constants from "expo-constants";
@@ -31,6 +31,10 @@ const AddService = (props) => {
       });
     // TabBar Hide хийх
   }, [props.navigation]);
+  useEffect(() => {
+    console.log(" =========> ", props?.route?.params);
+  }, []);
+
   return (
     <SafeAreaView
       style={{
