@@ -25,8 +25,10 @@ const BottomSheet = ({
   useEffect(() => {
     if (bodyText && bodyText?.length > 10) {
       setHeightBottomSheet(400);
-    } else {
+    } else if (bodyText && bodyText?.length == 0) {
       setHeightBottomSheet(bodyText?.length * itemHeight + 100);
+    } else {
+      setHeightBottomSheet(bodyText?.length * itemHeight + 50);
     }
   }, [handle]);
 
