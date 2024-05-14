@@ -45,6 +45,7 @@ import MainAdviceScreen from "../screens/Advice/MainAdviceScreen";
 import SingleUserTypeServiceScreen from "../screens/UserTypeService/SingleUserTypeServiceScreen";
 import MainDirServiceScreen from "../screens/MainServices/MainDirServiceScreen";
 import SingleMainDirServiceScreen from "../screens/MainServices/SingleMainDirServiceScreen";
+import AddServiceFirst from "../screens/AddService/AddServiceFirst";
 
 const Stack = createStackNavigator();
 const width = Dimensions.get("screen").width;
@@ -735,7 +736,7 @@ const AddServiceStackNavigator = (props) => {
   const navigation = useNavigation();
   return (
     <Stack.Navigator
-      initialRouteName="AddService"
+      initialRouteName="AddServiceFirst"
       screenOptions={{
         // headerShown: false,
         headerStyle: {
@@ -744,6 +745,30 @@ const AddServiceStackNavigator = (props) => {
         },
       }}
     >
+      <Stack.Screen
+        name="AddServiceFirst"
+        component={AddServiceFirst}
+        options={{
+          title: "Үйлчилгээ нэмэх",
+          headerTitleStyle: {
+            fontWeight: "800",
+          },
+          headerLeft: () => (
+            <TouchableOpacity
+              style={styles.headerLeftContainer}
+              onPress={() => {
+                navigation.goBack();
+              }}
+            >
+              <Icon
+                type="material-icons"
+                name="keyboard-arrow-left"
+                size={30}
+              />
+            </TouchableOpacity>
+          ),
+        }}
+      />
       <Stack.Screen
         name="AddService"
         component={AddService}
@@ -756,7 +781,7 @@ const AddServiceStackNavigator = (props) => {
             <TouchableOpacity
               style={styles.headerLeftContainer}
               onPress={() => {
-                navigation.goBack();
+                navigation.navigate("AddServiceFirst");
               }}
             >
               <Icon
