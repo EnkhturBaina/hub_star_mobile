@@ -57,7 +57,7 @@ const Executor = (props) => {
     } else if (state?.serviceData?.price == "") {
       onToggleSnackBar("Үнэ оруулна уу.");
     } else if (state?.serviceData?.desciption == "") {
-      onToggleSnackBar("Тайлбар оруулна уу.");
+      onToggleSnackBar("Тайлбар ба ажлын туршлага оруулна уу.");
     } else if (state?.serviceData?.email == "") {
       onToggleSnackBar("И-мэйл оруулна уу.");
     } else if (state?.serviceData?.phone == "") {
@@ -143,7 +143,7 @@ const Executor = (props) => {
               })}
             </View>
             <LoanInput
-              label="Тайлбар"
+              label="Тайлбар ба ажлын туршлага"
               value={state?.serviceData?.desciption}
               onChangeText={(e) =>
                 state?.setServiceData((prevState) => ({
@@ -175,6 +175,30 @@ const Executor = (props) => {
                 }))
               }
               keyboardType="number-pad"
+            />
+            <CheckBox
+              containerStyle={{
+                padding: 0,
+                marginLeft: 0,
+                marginTop: 10,
+              }}
+              textStyle={{
+                fontWeight: "bold",
+                marginLeft: 5,
+              }}
+              title="Өдрөөр хийх ажил"
+              checked={state?.serviceData?.isAfternoon}
+              onPress={() => {
+                state?.setServiceData((prevState) => ({
+                  ...prevState,
+                  isAfternoon: !state?.serviceData?.isAfternoon,
+                }));
+              }}
+              iconType="material-community"
+              checkedIcon="checkbox-outline"
+              uncheckedIcon="checkbox-blank-outline"
+              checkedColor={MAIN_COLOR}
+              uncheckedColor={MAIN_COLOR}
             />
             <CheckBox
               containerStyle={{

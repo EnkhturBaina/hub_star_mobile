@@ -50,8 +50,22 @@ const Machinery = (props) => {
   };
 
   const createAD = () => {
-    if (state?.serviceData?.counter == "") {
-      onToggleSnackBar("Ажлын тоо хэмжээ оруулна уу.");
+    if (state?.serviceData?.machineryTypeId == "") {
+      onToggleSnackBar("Машин механизмийн төрөл сонгоно уу.");
+    } else if (state?.serviceData?.markId == "") {
+      onToggleSnackBar("Марк сонгоно уу.");
+    } else if (state?.serviceData?.markId == "") {
+      onToggleSnackBar("Загвар сонгоно уу.");
+    } else if (state?.serviceData?.modelId == "") {
+      onToggleSnackBar("Хүчин чадал сонгоно уу.");
+    } else if (state?.serviceData?.unitAmount == "") {
+      onToggleSnackBar("Нэгж үнэлгээ.цаг оруулна уу.");
+    } else if (state?.serviceData?.packageAmount == "") {
+      onToggleSnackBar("Багц үнэлгээ.өдөр оруулна уу.");
+    } else if (state?.serviceData?.fromAddress == "") {
+      onToggleSnackBar("Хаанаас гэдгээ оруулна уу.");
+    } else if (state?.serviceData?.toAddress == "") {
+      onToggleSnackBar("Хаашаа гэдгээ оруулна уу.");
     } else if (state?.serviceData?.desciption == "") {
       onToggleSnackBar("Тайлбар оруулна уу.");
     } else if (state?.serviceData?.email == "") {
@@ -87,23 +101,129 @@ const Machinery = (props) => {
             bounces={false}
           >
             <Text>Machinery</Text>
+            <View style={styles.touchableSelectContainer}>
+              <Text style={styles.label}>Машин механизмийн төрөл</Text>
+              <TouchableOpacity
+                style={styles.touchableSelect}
+                onPress={() => {
+                  // setLookupData(UserTabData, "machineryTypeId", "name");
+                }}
+              >
+                <Text style={styles.selectedText} numberOfLines={1}>
+                  {state?.serviceData.machineryTypeId != ""
+                    ? state?.serviceData.machineryTypeId?.name
+                    : "Сонгох"}
+                </Text>
+                <Icon
+                  name="keyboard-arrow-down"
+                  type="material-icons"
+                  size={30}
+                  color={GRAY_ICON_COLOR}
+                />
+              </TouchableOpacity>
+            </View>
+            <View style={styles.touchableSelectContainer}>
+              <Text style={styles.label}>Марк</Text>
+              <TouchableOpacity
+                style={styles.touchableSelect}
+                onPress={() => {
+                  // setLookupData(UserTabData, "markId", "name");
+                }}
+              >
+                <Text style={styles.selectedText} numberOfLines={1}>
+                  {state?.serviceData.markId != ""
+                    ? state?.serviceData.markId?.name
+                    : "Сонгох"}
+                </Text>
+                <Icon
+                  name="keyboard-arrow-down"
+                  type="material-icons"
+                  size={30}
+                  color={GRAY_ICON_COLOR}
+                />
+              </TouchableOpacity>
+            </View>
+            <View style={styles.touchableSelectContainer}>
+              <Text style={styles.label}>Загвар</Text>
+              <TouchableOpacity
+                style={styles.touchableSelect}
+                onPress={() => {
+                  // setLookupData(UserTabData, "modelId", "name");
+                }}
+              >
+                <Text style={styles.selectedText} numberOfLines={1}>
+                  {state?.serviceData.modelId != ""
+                    ? state?.serviceData.modelId?.name
+                    : "Сонгох"}
+                </Text>
+                <Icon
+                  name="keyboard-arrow-down"
+                  type="material-icons"
+                  size={30}
+                  color={GRAY_ICON_COLOR}
+                />
+              </TouchableOpacity>
+            </View>
+            <View style={styles.touchableSelectContainer}>
+              <Text style={styles.label}>Хүчин чадал</Text>
+              <TouchableOpacity
+                style={styles.touchableSelect}
+                onPress={() => {
+                  // setLookupData(UserTabData, "powerId", "name");
+                }}
+              >
+                <Text style={styles.selectedText} numberOfLines={1}>
+                  {state?.serviceData.powerId != ""
+                    ? state?.serviceData.powerId?.name
+                    : "Сонгох"}
+                </Text>
+                <Icon
+                  name="keyboard-arrow-down"
+                  type="material-icons"
+                  size={30}
+                  color={GRAY_ICON_COLOR}
+                />
+              </TouchableOpacity>
+            </View>
             <LoanInput
-              label="Хэмжих нэгж"
-              value={state?.serviceData?.counter}
+              label="Нэгж үнэлгээ.цаг"
+              keyboardType="number-pad"
+              value={state?.serviceData?.unitAmount}
               onChangeText={(e) =>
                 state?.setServiceData((prevState) => ({
                   ...prevState,
-                  counter: e,
+                  unitAmount: state.addCommas(state.removeNonNumeric(e)),
                 }))
               }
             />
             <LoanInput
-              label="Ажлын тоо хэмжээ"
-              value={state?.serviceData?.counter}
+              label="Багц үнэлгээ.өдөр"
+              keyboardType="number-pad"
+              value={state?.serviceData?.packageAmount}
               onChangeText={(e) =>
                 state?.setServiceData((prevState) => ({
                   ...prevState,
-                  counter: e,
+                  packageAmount: state.addCommas(state.removeNonNumeric(e)),
+                }))
+              }
+            />
+            <LoanInput
+              label="Хаанаас"
+              value={state?.serviceData?.fromAddress}
+              onChangeText={(e) =>
+                state?.setServiceData((prevState) => ({
+                  ...prevState,
+                  fromAddress: e,
+                }))
+              }
+            />
+            <LoanInput
+              label="Хаашаа"
+              value={state?.serviceData?.toAddress}
+              onChangeText={(e) =>
+                state?.setServiceData((prevState) => ({
+                  ...prevState,
+                  toAddress: e,
                 }))
               }
             />
@@ -307,5 +427,46 @@ const styles = StyleSheet.create({
     color: "#798585",
     marginRight: 5,
     fontSize: 12,
+  },
+  touchableSelectContainer: {
+    marginBottom: 10,
+  },
+  touchableSelect: {
+    flexDirection: "row",
+    width: "100%",
+    justifyContent: "space-between",
+    borderRadius: 12,
+    backgroundColor: MAIN_COLOR_GRAY,
+    height: 48,
+    alignItems: "center",
+    paddingLeft: 15,
+    paddingRight: 10,
+  },
+  label: {
+    fontWeight: "bold",
+    padding: 5,
+  },
+  selectedText: {
+    fontWeight: "500",
+    color: GRAY_ICON_COLOR,
+    width: "90%",
+  },
+  btmButtonContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginTop: 10,
+  },
+  backBtn: {
+    width: "48%",
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 12,
+    borderWidth: 1.5,
+    borderColor: GRAY_ICON_COLOR,
+  },
+  backBtnText: {
+    fontSize: 16,
+    fontWeight: "bold",
+    color: GRAY_ICON_COLOR,
   },
 });

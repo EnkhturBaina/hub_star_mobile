@@ -49,7 +49,19 @@ export const MainStore = (props) => {
     phone: "",
     isMessenger: false,
     isTermOfService: false,
+    isAfternoon: false,
     specialService: "",
+    productName: "",
+    unitAmount: "",
+    packageAmount: "",
+    workerCount: "",
+    measurement: "",
+    machineryTypeId: "",
+    markId: "",
+    powerId: "",
+    modelId: "",
+    fromAddress: "",
+    toAddress: "",
   });
   const clearServiceData = () => {
     setServiceData({
@@ -70,7 +82,19 @@ export const MainStore = (props) => {
       phone: "",
       isMessenger: false,
       isTermOfService: false,
+      isAfternoon: false,
       specialService: "",
+      productName: "",
+      unitAmount: "",
+      packageAmount: "",
+      workerCount: "",
+      measurement: "",
+      machineryTypeId: "",
+      markId: "",
+      powerId: "",
+      modelId: "",
+      fromAddress: "",
+      toAddress: "",
     });
   };
 

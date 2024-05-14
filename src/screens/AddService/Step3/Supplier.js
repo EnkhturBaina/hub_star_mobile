@@ -50,10 +50,14 @@ const Supplier = (props) => {
   };
 
   const createAD = () => {
-    if (state?.serviceData?.counter == "") {
-      onToggleSnackBar("Ажлын тоо хэмжээ оруулна уу.");
+    if (state?.serviceData?.productName == "") {
+      onToggleSnackBar("Бүтээгдэхүүний нэр оруулна уу.");
+    } else if (state?.serviceData?.unitAmount == "") {
+      onToggleSnackBar("Нэгжийн үнэ оруулна уу.");
+    } else if (state?.serviceData?.packageAmount == "") {
+      onToggleSnackBar("Багцын үнэ оруулна уу.");
     } else if (state?.serviceData?.desciption == "") {
-      onToggleSnackBar("Тайлбар оруулна уу.");
+      onToggleSnackBar("Бүтээгдэхүүний дэлгэрэнгүй мэдээлэл оруулна уу.");
     } else if (state?.serviceData?.email == "") {
       onToggleSnackBar("И-мэйл оруулна уу.");
     } else if (state?.serviceData?.phone == "") {
@@ -88,22 +92,34 @@ const Supplier = (props) => {
           >
             <Text>Supplier</Text>
             <LoanInput
-              label="Хэмжих нэгж"
-              value={state?.serviceData?.counter}
+              label="Бүтээгдэхүүний нэр"
+              value={state?.serviceData?.productName}
               onChangeText={(e) =>
                 state?.setServiceData((prevState) => ({
                   ...prevState,
-                  counter: e,
+                  productName: e,
                 }))
               }
             />
             <LoanInput
-              label="Ажлын тоо хэмжээ"
-              value={state?.serviceData?.counter}
+              label="Нэгжийн үнэ"
+              keyboardType="number-pad"
+              value={state?.serviceData?.unitAmount}
               onChangeText={(e) =>
                 state?.setServiceData((prevState) => ({
                   ...prevState,
-                  counter: e,
+                  unitAmount: state.addCommas(state.removeNonNumeric(e)),
+                }))
+              }
+            />
+            <LoanInput
+              label="Багцын үнэ"
+              keyboardType="number-pad"
+              value={state?.serviceData?.packageAmount}
+              onChangeText={(e) =>
+                state?.setServiceData((prevState) => ({
+                  ...prevState,
+                  packageAmount: state.addCommas(state.removeNonNumeric(e)),
                 }))
               }
             />
@@ -128,7 +144,7 @@ const Supplier = (props) => {
               })}
             </View>
             <LoanInput
-              label="Тайлбар"
+              label="Бүтээгдэхүүний дэлгэрэнгүй мэдээлэл"
               value={state?.serviceData?.desciption}
               onChangeText={(e) =>
                 state?.setServiceData((prevState) => ({
