@@ -76,7 +76,7 @@ const BottomSheet = ({
                       onPress={() => functionCombined(el)}
                     >
                       <Text style={styles.bottomSheetBodyLookup}>
-                        {el[displayName]}1
+                        {el[displayName]}
                       </Text>
                     </TouchableOpacity>
                   );

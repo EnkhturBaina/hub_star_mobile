@@ -136,10 +136,8 @@ const Step1Special = (props) => {
   };
 
   const goNext = () => {
-    // if (state?.serviceData?.categoryId == "") {
-    //   onToggleSnackBar("Хэрэглэгчийн төрөл сонгоно уу.");
-    // } else if (state?.serviceData?.mainDirectionId == "") {
-    //   onToggleSnackBar("Үйл ажиллагааны үндсэн чиглэл сонгоно уу.");
+    // if (state?.serviceData?.specialService == "") {
+    //   onToggleSnackBar("Онцгой үйлчилгээ сонгоно уу.");
     // } else if (state?.serviceData?.directionId == "") {
     //   onToggleSnackBar("Үйл ажилллагааны чиглэл сонгоно уу.");
     // } else if (state?.serviceData?.subDirectionId == "") {
@@ -154,7 +152,6 @@ const Step1Special = (props) => {
     <SafeAreaView
       style={{
         flex: 1,
-        paddingTop: Constants.statusBarHeight,
         backgroundColor: "#fff",
       }}
     >
