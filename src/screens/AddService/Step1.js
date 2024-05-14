@@ -115,10 +115,10 @@ const Step1 = (props) => {
         },
       })
       .then((response) => {
-        console.log(
-          "get SubDirections response",
-          JSON.stringify(response.data.response)
-        );
+        // console.log(
+        //   "get SubDirections response",
+        //   JSON.stringify(response.data.response)
+        // );
         setSubDirections(response.data.response);
       })
       .catch((error) => {

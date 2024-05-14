@@ -52,9 +52,6 @@ const Step1Special = (props) => {
     setDisplayName(display); //Lookup -д харагдах датаны текст талбар
     setUselessParam(!uselessParam);
   };
-  useEffect(() => {
-    console.log("state?.serviceData", state?.serviceData);
-  }, []);
 
   useEffect(() => {
     state?.setServiceData((prevState) => ({
@@ -66,10 +63,6 @@ const Step1Special = (props) => {
   }, [state?.serviceData?.specialService]);
 
   useEffect(() => {
-    console.log(
-      "state?.serviceData?.directionId",
-      state?.serviceData?.directionId
-    );
     state?.setServiceData((prevState) => ({
       ...prevState,
       subDirectionId: "",
@@ -118,10 +111,10 @@ const Step1Special = (props) => {
         },
       })
       .then((response) => {
-        console.log(
-          "get SubDirections response",
-          JSON.stringify(response.data.response)
-        );
+        // console.log(
+        //   "get SubDirections response",
+        //   JSON.stringify(response.data.response)
+        // );
         setSubDirections(response.data.response);
       })
       .catch((error) => {
