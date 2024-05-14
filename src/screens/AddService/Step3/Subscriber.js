@@ -86,6 +86,7 @@ const Subscriber = (props) => {
             contentContainerStyle={styles.scrollContainer}
             bounces={false}
           >
+            <Text>Subscriber</Text>
             <LoanInput
               label="Хэмжих нэгж"
               value={state?.serviceData?.counter}

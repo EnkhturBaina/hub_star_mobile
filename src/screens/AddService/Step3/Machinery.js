@@ -86,6 +86,7 @@ const Machinery = (props) => {
             contentContainerStyle={styles.scrollContainer}
             bounces={false}
           >
+            <Text>Machinery</Text>
             <LoanInput
               label="Хэмжих нэгж"
               value={state?.serviceData?.counter}

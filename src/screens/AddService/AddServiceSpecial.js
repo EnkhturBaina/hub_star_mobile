@@ -6,7 +6,11 @@ import Constants from "expo-constants";
 import MainContext from "../../contexts/MainContext";
 import Step1Special from "./Step1Special";
 import Step2Special from "./Step2Special";
-import Step3 from "./Step3";
+import Machinery from "./Step3/Machinery";
+import Transportation from "./Step3/Transportation";
+import Supplier from "./Step3/Supplier";
+import Executor from "./Step3/Executor";
+import Subscriber from "./Step3/Subscriber";
 
 const AddServiceSpecial = (props) => {
   const state = useContext(MainContext);
@@ -50,7 +54,21 @@ const AddServiceSpecial = (props) => {
       />
       {state?.currentStep == 1 && <Step1Special totalStep={totalStep} />}
       {state?.currentStep == 2 && <Step2Special totalStep={totalStep} />}
-      {state?.currentStep == 3 && <Step3 totalStep={totalStep} />}
+      {state?.currentStep == 3 && state.userType?.type == "SUBSCRIBER" ? (
+        <Subscriber totalStep={totalStep} />
+      ) : null}
+      {state?.currentStep == 3 && state.userType?.type == "EXECUTOR" ? (
+        <Executor totalStep={totalStep} />
+      ) : null}
+      {state?.currentStep == 3 && state.userType?.type == "SUPPLIER" ? (
+        <Supplier totalStep={totalStep} />
+      ) : null}
+      {state?.currentStep == 3 && state.userType?.type == "TRANSPORTATION" ? (
+        <Transportation totalStep={totalStep} />
+      ) : null}
+      {state?.currentStep == 3 && state.userType?.type == "MACHINERY" ? (
+        <Machinery totalStep={totalStep} />
+      ) : null}
     </SafeAreaView>
   );
 };

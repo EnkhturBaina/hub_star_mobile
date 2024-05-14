@@ -86,6 +86,7 @@ const Executor = (props) => {
             contentContainerStyle={styles.scrollContainer}
             bounces={false}
           >
+            <Text>Executor</Text>
             <LoanInput
               label="Хэмжих нэгж"
               value={state?.serviceData?.counter}
