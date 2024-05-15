@@ -18,7 +18,36 @@
       "buildNumber": "1.0.0",
       "infoPlist": {
         "NSFaceIDUsageDescription": "FaceID эсвэл TouchID ашиглан тохиргоо идэвхжүүлснээр та апп руу шууд нэвтрэх боломжтой."
-      }
+      },
+      "CFBundleAllowMixedLocalizations": true,
+      "NSAppTransportSecurity": {
+        "NSAllowsArbitraryLoads": true,
+        "NSAllowsLocalNetworking": true,
+        "NSExceptionDomains": {
+          "192.82.92.170": {
+            "NSIncludesSubdomains": true,
+            "NSExceptionAllowsInsecureHTTPLoads": true
+          }
+        }
+      },
+      "NSPrivacyAccessedAPITypes": [
+        {
+          "NSPrivacyAccessedAPICategory": "NSPrivacyAccessedAPICategorySystemBootTime",
+          "NSPrivacyAccessedAPIUsageDescription": "This app requires access to system boot time to optimize performance."
+        },
+        {
+          "NSPrivacyAccessedAPICategory": "NSPrivacyAccessedAPICategoryDiskSpace",
+          "NSPrivacyAccessedAPIUsageDescription": "This app needs access to disk space to store and manage data efficiently."
+        },
+        {
+          "NSPrivacyAccessedAPICategory": "NSPrivacyAccessedAPICategoryFileTimestamp",
+          "NSPrivacyAccessedAPIUsageDescription": "Access to file timestamps is essential for managing files and ensuring data integrity."
+        },
+        {
+          "NSPrivacyAccessedAPICategory": "NSPrivacyAccessedAPICategoryUserDefaults",
+          "NSPrivacyAccessedAPIUsageDescription": "Access to user defaults is required to store user preferences and settings."
+        }
+      ]
     },
     "android": {
       "adaptiveIcon": {
@@ -36,6 +65,12 @@
       "favicon": "./assets/favicon.png"
     },
     "plugins": [
+      [
+        "@config-plugins/detox",
+        {
+          "subdomains": "*"
+        }
+      ],
       [
         "expo-local-authentication",
         {

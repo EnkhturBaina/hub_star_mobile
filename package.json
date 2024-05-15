@@ -9,6 +9,7 @@
     "web": "expo start --web"
   },
   "dependencies": {
+    "@config-plugins/detox": "^8.0.0",
     "@likashefqet/react-native-image-zoom": "^3.0.0",
     "@react-native-async-storage/async-storage": "1.23.1",
     "@react-native-community/masked-view": "^0.1.11",
@@ -21,9 +22,11 @@
     "@rneui/themed": "^4.0.0-rc.8",
     "axios": "^1.6.7",
     "dayjs": "^1.11.11",
+    "detox": "^20.21.0",
     "expo": "^51.0.0",
     "expo-blur": "~13.0.2",
     "expo-constants": "~16.0.1",
+    "expo-contacts": "~13.0.3",
     "expo-linear-gradient": "~13.0.2",
     "expo-local-authentication": "~14.0.1",
     "expo-status-bar": "~1.12.1",
@@ -46,8 +49,7 @@
     "react-native-star-rating-widget": "^1.7.3",
     "react-native-tab-view": "^3.5.2",
     "react-native-webview": "^13.10.0",
-    "typescript": "~5.3.3",
-    "expo-contacts": "~13.0.3"
+    "typescript": "~5.3.3"
   },
   "devDependencies": {
     "@babel/core": "^7.24.0",
