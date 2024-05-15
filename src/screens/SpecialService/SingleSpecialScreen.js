@@ -19,7 +19,7 @@ import { ImageZoom } from "@likashefqet/react-native-image-zoom";
 import MainContext from "../../contexts/MainContext";
 import "dayjs/locale/es";
 import dayjs from "dayjs";
-import { StarRatingDisplay } from "react-native-star-rating-widget";
+// import { StarRatingDisplay } from "react-native-star-rating-widget";
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
@@ -202,7 +202,7 @@ const SingleSpecialScreen = (props) => {
             >
               <Text style={{ fontWeight: "bold" }}>Үнэлгээ </Text>
               <View style={{ flexDirection: "row", alignItems: "center" }}>
-                <StarRatingDisplay
+                {/* <StarRatingDisplay
                   rating={
                     parseInt(adviceData.rating) > 0
                       ? parseInt(adviceData.rating) / 2
@@ -219,7 +219,7 @@ const SingleSpecialScreen = (props) => {
                     ? parseInt(adviceData.rating) / 2
                     : 0}{" "}
                   / 10
-                </Text>
+                </Text> */}
               </View>
               <Text style={{ fontWeight: "bold" }}>Үнэ </Text>
               <Text>
