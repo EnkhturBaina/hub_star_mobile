@@ -32,8 +32,10 @@ import * as LocalAuthentication from "expo-local-authentication";
 
 const LoginScreen = (props) => {
   const state = useContext(MainContext);
-  const [email, setEmail] = useState("ulziikhutag.gurensoft@gmail.com");
-  const [password, setPassword] = useState("WETITr");
+  // const [email, setEmail] = useState("ulziikhutag.gurensoft@gmail.com");
+  // const [password, setPassword] = useState("WETITr");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [hidePassword, setHidePassword] = useState(true);
 
   const [isBiometricSupported, setIsBiometricSupported] = useState(false);
