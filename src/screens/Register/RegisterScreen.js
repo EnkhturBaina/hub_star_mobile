@@ -282,7 +282,7 @@ const RegisterScreen = (props) => {
             <Text className="text-blue-500 ml-2">Бүртгүүлэх</Text>
           </TouchableOpacity>
         </View>
-        <View
+        {/* <View
           style={{
             flexDirection: "row",
             alignItems: "center",
@@ -329,7 +329,7 @@ const RegisterScreen = (props) => {
             />
             <Text className="font-medium text-base">Google</Text>
           </View>
-        </View>
+        </View> */}
         <RBSheet
           ref={refRBSheet}
           closeOnDragDown={true}

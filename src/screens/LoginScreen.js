@@ -216,7 +216,7 @@ const LoginScreen = (props) => {
         <View className="w-full mt-2">
           <GradientButton text="Нэвтрэх" action={login} />
         </View>
-        <View
+        {/* <View
           style={{
             flexDirection: "row",
             alignItems: "center",
@@ -263,7 +263,7 @@ const LoginScreen = (props) => {
             />
             <Text className="font-medium text-base">Google</Text>
           </View>
-        </View>
+        </View> */}
         <View className="flex flex-row items-center">
           <Text className="font-medium text-base my-2">
             Та бүртгэл үүсэгсэн үү?

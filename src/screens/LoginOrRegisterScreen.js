@@ -44,7 +44,7 @@ const LoginOrRegisterScreen = (props) => {
           source={splash_logo}
         />
         <Text className="font-bold text-2xl mb-4">Нэвтрэх хэсэг</Text>
-        <View className="mb-2 flex-row rounded-lg items-center py-4 bg-white w-11/12 justify-center border border-gray-300 mx-4">
+        {/* <View className="mb-2 flex-row rounded-lg items-center py-4 bg-white w-11/12 justify-center border border-gray-300 mx-4">
           <Image
             style={{
               resizeMode: "contain",
@@ -85,7 +85,7 @@ const LoginOrRegisterScreen = (props) => {
             Эсвэл
           </Text>
           <Divider style={{ width: "30%" }} />
-        </View>
+        </View> */}
         <View className="w-11/12">
           <GradientButton
             text="Нэвтрэх"

@@ -202,16 +202,21 @@ export const MainStore = (props) => {
   // AsyncStorage.clear();
   const logout = async () => {
     console.log("token", token);
+    console.log("X_API_KEY", X_API_KEY);
     setIsLoading(true);
     try {
       axios
-        .post(`${SERVER_URL}authentication/logout`, {
-          headers: {
-            "Content-Type": "application/json",
-            "x-api-key": X_API_KEY,
-            Authorization: `Bearer ${token}`,
-          },
-        })
+        .post(
+          `${SERVER_URL}authentication/logout`,
+          {},
+          {
+            headers: {
+              "Content-Type": "application/json",
+              "x-api-key": X_API_KEY,
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        )
         .then(async (response) => {
           console.log("logout", response.data);
           await AsyncStorage.removeItem("user");
@@ -224,7 +229,7 @@ export const MainStore = (props) => {
         .catch(function (error) {
           setErrorMsg(error.response?.data?.message);
           if (error.response) {
-            // console.log("error.response logout", error.response.data);
+            console.log("error.response logout", error.response.data);
           }
         })
         .finally(() => {
