@@ -34,6 +34,8 @@ const LoginScreen = (props) => {
 
 	const [isBiometricSupported, setIsBiometricSupported] = useState(false);
 
+	let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
+
 	const [visibleSnack, setVisibleSnack] = useState(false);
 	const [snackBarMsg, setSnackBarMsg] = useState("");
 	const [rememberEmail, setRememberEmail] = useState(false);
@@ -70,7 +72,6 @@ const LoginScreen = (props) => {
 	useEffect(() => {}, []);
 
 	const login = () => {
-		let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
 		if (email == "") {
 			onToggleSnackBar("И-мэйл хаягаа оруулна уу");
 		} else if (reg.test(email) === false) {
@@ -172,13 +173,14 @@ const LoginScreen = (props) => {
 					/>
 					<TouchableOpacity
 						onPress={() => {
-							console.log("email", email);
-							if (email) {
+							if (email == "") {
+								onToggleSnackBar("И-мэйл хаягаа оруулна уу");
+							} else if (reg.test(email) === false) {
+								onToggleSnackBar("И-мэйл хаягаа зөв оруулна уу");
+							} else {
 								props.navigation.navigate("ResetPassword", {
 									email: email
 								});
-							} else {
-								console.log("XX");
 							}
 						}}
 					>
