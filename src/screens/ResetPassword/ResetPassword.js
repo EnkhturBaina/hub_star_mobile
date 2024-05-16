@@ -1,13 +1,55 @@
 import { ActivityIndicator, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React, { useState } from "react";
 import forgot from "../../../assets/password/forgot.png";
-import { MAIN_COLOR } from "../../constant";
+import { MAIN_COLOR, SERVER_URL, X_API_KEY } from "../../constant";
 import { Button, Icon } from "@rneui/base";
 import axios from "axios";
 
 const ResetPassword = (props) => {
 	const [selectedType, setSelectedType] = useState("");
 	const [loadingAction, setLoadingAction] = useState(false);
+	const [details, setDetails] = useState("");
+	const [errorMsg, setErrorMsg] = useState("");
+
+	const emailOTP = () => {
+		try {
+			setLoadingAction(true);
+			axios
+				.post(
+					`${SERVER_URL}authentication/email/otp`,
+					{
+						email: props.route?.params?.email?.toLowerCase(),
+						type: "Forget"
+					},
+					{
+						headers: {
+							"Content-Type": "application/json",
+							"x-api-key": X_API_KEY
+						}
+					}
+				)
+				.then(async (response) => {
+					// console.log("confirm OTP", response.data);
+					if (response.data?.statusCode == 200) {
+						setErrorMsg("");
+						props.navigation.navigate("ConfirmPassword", {
+							details_prop: response.data.response.details
+						});
+					}
+				})
+				.catch(function (error) {
+					setErrorMsg(error.response?.data?.message);
+					if (error.response) {
+						console.log("error.response", error.response.data);
+					}
+				})
+				.finally(() => {
+					setLoadingAction(false);
+				});
+		} catch (error) {
+			console.log("error", error);
+		}
+	};
 
 	return (
 		<ScrollView
@@ -23,6 +65,7 @@ const ResetPassword = (props) => {
 			<Image source={forgot} resizeMode="contain" style={{ width: "100%", height: 200 }} />
 			<Text style={styles.mainText}>Бүртгэлтэй утасны дугаар болон И-мэйлээр нууц үгээ сэргээх боломжтой</Text>
 
+			{errorMsg ? <Text className="font-bold text-center text-red-500">{errorMsg}</Text> : null}
 			<View>
 				<TouchableOpacity
 					style={[styles.cardContainer, { borderColor: selectedType == "sms" ? MAIN_COLOR : "#fff" }]}
@@ -72,12 +115,7 @@ const ResetPassword = (props) => {
 					color={MAIN_COLOR}
 					radius={12}
 					onPress={() => {
-						props.navigation.navigate(
-							"ConfirmPassword" <
-								{
-									email: props.route?.params?.email
-								}
-						);
+						emailOTP();
 					}}
 					titleStyle={{}}
 					buttonStyle={{ height: 45 }}

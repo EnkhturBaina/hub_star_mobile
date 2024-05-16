@@ -10,15 +10,20 @@ import {
 } from "react-native";
 import React, { useState, useEffect } from "react";
 import { CodeField, Cursor, useBlurOnFulfill, useClearByFocusCell } from "react-native-confirmation-code-field";
-import { MAIN_BG_GRAY, MAIN_COLOR } from "../../constant";
+import { MAIN_BG_GRAY, MAIN_COLOR, SERVER_URL, X_API_KEY } from "../../constant";
 import { Button } from "@rneui/base";
 import { useHeaderHeight } from "@react-navigation/elements";
 import confirm from "../../../assets/password/confirm.png";
+import axios from "axios";
 
-const CELL_COUNT = 4;
+const CELL_COUNT = 6;
 
 const ConfirmPassword = (props) => {
 	const headerHeight = useHeaderHeight();
+
+	const [isWaiting, setIsWaiting] = useState(false);
+	const [errorMsg, setErrorMsg] = useState("");
+
 	const ref = useBlurOnFulfill({ value, cellCount: CELL_COUNT });
 	const [confirmButtonDisabled, setConfirmButtonDisabled] = useState(true);
 	const [value, setValue] = useState("");
@@ -30,8 +35,47 @@ const ConfirmPassword = (props) => {
 	useEffect(() => {}, []);
 	useEffect(() => {
 		//Баталгаажуулах код оруулсан button Идэвхтэй болгох
-		setConfirmButtonDisabled(value.length == 4 ? false : true);
+		setConfirmButtonDisabled(value.length == 6 ? false : true);
 	}, [value]);
+
+	const confirmOTP = () => {
+		try {
+			setIsWaiting(true);
+			axios
+				.post(
+					`${SERVER_URL}authentication/verify/otp`,
+					{
+						otp: value,
+						details: route.params?.details,
+						type: "Registration"
+					},
+					{
+						headers: {
+							"Content-Type": "application/json",
+							"x-api-key": X_API_KEY
+						}
+					}
+				)
+				.then(async (response) => {
+					// console.log("confirm OTP", response.data);
+					if (response.data?.statusCode == 200) {
+						// props.navigation.navigate("BioScreen");
+						props.navigation.navigate("ChangePassword");
+					}
+				})
+				.catch(function (error) {
+					setErrorMsg(error.response?.data?.message);
+					if (error.response) {
+						// console.log("error.response", error.response.data);
+					}
+				})
+				.finally(() => {
+					setIsWaiting(false);
+				});
+		} catch (error) {
+			// console.log("error", error);
+		}
+	};
 	return (
 		<KeyboardAvoidingView
 			keyboardVerticalOffset={headerHeight}
@@ -46,7 +90,8 @@ const ConfirmPassword = (props) => {
 				contentContainerStyle={styles.mainContainer}
 			>
 				<Text style={{ fontWeight: "500" }}>
-					Бид таны {props.route?.params?.email} луу баталгаажуулах код илгээлээ.
+					Бид таны <Text style={{ fontWeight: "bold" }}>{props.route?.params?.email}</Text> луу баталгаажуулах код
+					илгээлээ.
 				</Text>
 
 				<Image source={confirm} resizeMode="contain" style={{ width: "100%", height: 150 }} />
@@ -70,7 +115,7 @@ const ConfirmPassword = (props) => {
 						</View>
 					)}
 				/>
-				<TouchableOpacity>
+				{/* <TouchableOpacity>
 					<Text
 						style={{
 							fontWeight: "500",
@@ -79,14 +124,14 @@ const ConfirmPassword = (props) => {
 					>
 						Дахин илгээх үү? 00:30
 					</Text>
-				</TouchableOpacity>
+				</TouchableOpacity> */}
 				<Button
 					containerStyle={{ marginTop: 10 }}
 					title="Баталгаажуулах"
 					color={MAIN_COLOR}
 					radius={12}
 					onPress={() => {
-						props.navigation.navigate("ChangePassword");
+						confirmOTP();
 					}}
 					titleStyle={{
 						fontWeight: "bold"
@@ -110,7 +155,6 @@ const styles = StyleSheet.create({
 		justifyContent: "space-around"
 	},
 	codeFieldRoot: {
-		width: 230,
 		marginLeft: "auto",
 		marginRight: "auto"
 	},
@@ -121,7 +165,8 @@ const styles = StyleSheet.create({
 		alignItems: "center",
 		borderColor: MAIN_BG_GRAY,
 		borderWidth: 1,
-		borderRadius: 8
+		borderRadius: 8,
+		marginRight: 5
 	},
 	cellText: {
 		color: "#000",
