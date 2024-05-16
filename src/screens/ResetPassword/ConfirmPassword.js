@@ -46,8 +46,8 @@ const ConfirmPassword = (props) => {
 					`${SERVER_URL}authentication/verify/otp`,
 					{
 						otp: value,
-						details: route.params?.details,
-						type: "Registration"
+						details: props?.route.params?.details_prop,
+						type: "Forget"
 					},
 					{
 						headers: {
@@ -57,7 +57,7 @@ const ConfirmPassword = (props) => {
 					}
 				)
 				.then(async (response) => {
-					// console.log("confirm OTP", response.data);
+					console.log("confirm OTP", response.data);
 					if (response.data?.statusCode == 200) {
 						// props.navigation.navigate("BioScreen");
 						props.navigation.navigate("ChangePassword");
@@ -66,14 +66,14 @@ const ConfirmPassword = (props) => {
 				.catch(function (error) {
 					setErrorMsg(error.response?.data?.message);
 					if (error.response) {
-						// console.log("error.response", error.response.data);
+						console.log("error.response", error.response.data);
 					}
 				})
 				.finally(() => {
 					setIsWaiting(false);
 				});
 		} catch (error) {
-			// console.log("error", error);
+			console.log("error", error);
 		}
 	};
 	return (
