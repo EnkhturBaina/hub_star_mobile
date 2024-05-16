@@ -129,7 +129,7 @@ const RegisterScreen = (props) => {
 			<ScrollView contentContainerStyle={styles.scrollContainer} bounces={false}>
 				<TouchableOpacity activeOpacity={0.9} onPress={() => {}} style={{ alignItems: "center", marginVertical: 20 }}>
 					<Avatar size={100} rounded source={PersonCircle} title="Bj" containerStyle={{ backgroundColor: "grey" }}>
-						<Avatar.Accessory size={28} onPress={() => {}} color="#fff" style={{ backgroundColor: MAIN_COLOR }} />
+						{/* <Avatar.Accessory size={28} onPress={() => {}} color="#fff" style={{ backgroundColor: MAIN_COLOR }} /> */}
 					</Avatar>
 				</TouchableOpacity>
 				<Text className="font-bold text-2xl mb-4 text-center">Нэвтрэх хэсэг</Text>
