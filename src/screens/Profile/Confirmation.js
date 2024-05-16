@@ -18,13 +18,21 @@ const Confirmation = (props) => {
 	const state = useContext(MainContext);
 
 	const tabBarHeight = useBottomTabBarHeight();
+	const [tempState, setTempState] = useState("");
 
 	const [visibleDialog, setVisibleDialog] = useState(false); //Dialog харуулах
 	const [dialogType, setDialogType] = useState("warning"); //Dialog харуулах төрөл
 	const [dialogText, setDialogText] = useState(""); //Dialog -н текст
 
 	const [loadingProfileData, setLoadingProfileData] = useState(false);
-	const [profileData, setProfileData] = useState(null);
+	const [profileData, setProfileData] = useState({
+		userType: "",
+		mainDirectionId: "",
+		organizationName: "",
+		organizationRegno: "",
+		webUrl: "",
+		experience: ""
+	});
 
 	const [visibleSnack, setVisibleSnack] = useState(false);
 	const [snackBarMsg, setSnackBarMsg] = useState("");
@@ -60,7 +68,7 @@ const Confirmation = (props) => {
 				}
 			})
 			.then((response) => {
-				// console.log("AAA", response.data.response?.user);
+				// console.log("AAA", JSON.stringify(response.data.response));
 				setProfileData(response.data.response?.user);
 			})
 			.catch((error) => {
@@ -76,30 +84,37 @@ const Confirmation = (props) => {
 	};
 
 	useEffect(() => {
-		// getProfileData();
+		getProfileData();
 	}, []);
 
 	const saveProfileData = async () => {
-		if (!profileData.lastName) {
-			onToggleSnackBar("Овог оруулна уу.");
-		} else if (!profileData.firstName) {
-			onToggleSnackBar("Нэр оруулна уу.");
-		} else if (!profileData.jobPosition) {
-			onToggleSnackBar("Албан тушаал оруулна уу.");
-		} else if (!profileData.phone) {
-			onToggleSnackBar("Утасны дугаар оруулна уу.");
-		} else if (!profileData.address) {
+		if (!profileData.userType) {
+			onToggleSnackBar("Хэрэглэгчийн төрөл сонгоно уу.");
+		} else if (!profileData.mainDirectionId) {
+			onToggleSnackBar("Үйл ажиллагааны үндсэн чиглэл сонгоно уу.");
+		} else if (!profileData.organizationName) {
+			onToggleSnackBar("Байгууллагын нэр оруулна уу.");
+		} else if (!profileData.organizationRegno) {
+			onToggleSnackBar("Байгууллагын регистрийн дугаар оруулна уу.");
+		}
+		//  else if (!profileData.webUrl) {
+		// 	onToggleSnackBar("Веб хуудас оруулна уу.");
+		// }
+		else if (tempState) {
+			onToggleSnackBar("Байгууллагын танилцуулга ба ажлын туршлага оруулна уу.");
+		} else if (!profileData.experience) {
 			onToggleSnackBar("Хаяг оруулна уу.");
 		} else {
 			axios
 				.patch(
 					`${SERVER_URL}users/${state.userId}`,
 					{
-						lastName: profileData?.LastName,
-						firstName: profileData?.firstName,
-						jobPosition: profileData?.jobPosition,
-						phone: profileData?.phone,
-						address: profileData?.address
+						userType: profileData?.userType?.type,
+						mainDirectionId: profileData.mainDirectionId?.id,
+						organizationName: profileData?.organizationName,
+						organizationRegno: profileData?.organizationRegno,
+						// webUrl: profileData?.webUrl,
+						experience: profileData?.experience
 					},
 					{
 						headers: {
@@ -110,34 +125,13 @@ const Confirmation = (props) => {
 				)
 				.then(async (response) => {
 					if (response.data) {
-						// console.log("response.data", response.data);
-						state.setFirstName(profileData?.firstName);
-						state.setLastName(profileData?.lastName);
-						state.setPhone(profileData?.phone);
-
-						await AsyncStorage.setItem(
-							"user",
-							JSON.stringify({
-								accessToken: state?.token,
-								email: response.data?.response?.email,
-								id: response.data?.response?.id,
-								firstName: response.data?.response?.firstName,
-								lastName: response.data?.response?.lastName,
-								phone: response.data?.response?.phone
-							})
-						);
-						state.setUserData((prevState) => ({
-							...prevState,
-							email: response.data?.response?.email,
-							firstName: response.data?.response?.firstName,
-							lastName: response.data?.response?.lastName,
-							phone: response.data?.response?.phone
-						}));
+						console.log("response.data", response.data);
 						setDialogText("Амжилттай.");
 						setVisibleDialog(true);
 					}
 				})
 				.catch(function (error) {
+					console.log("err", error.response.data);
 					if (error.response.status == "401") {
 						state.setIsLoggedIn(false);
 						state.setErrorMsg("Токены хүчинтэй хугацаа дууссан байна. Дахин нэвтэрнэ үү");
@@ -170,7 +164,7 @@ const Confirmation = (props) => {
 									}}
 								>
 									<Text style={styles.selectedText} numberOfLines={1}>
-										{state?.serviceData.userType != "" ? state?.serviceData.userType?.title : "Сонгох"}
+										{profileData.userType != "" ? profileData.userType?.title : "Сонгох"}
 									</Text>
 									<Icon name="keyboard-arrow-down" type="material-icons" size={30} color={GRAY_ICON_COLOR} />
 								</TouchableOpacity>
@@ -180,11 +174,17 @@ const Confirmation = (props) => {
 								<TouchableOpacity
 									style={styles.touchableSelect}
 									onPress={() => {
-										setLookupData(UserTabData, "userType", "title");
+										setLookupData(state?.mainDirection, "mainDirectionId", "name");
 									}}
 								>
 									<Text style={styles.selectedText} numberOfLines={1}>
-										{state?.serviceData.userType != "" ? state?.serviceData.userType?.title : "Сонгох"}
+										{!profileData.mainDirectionId
+											? "Сонгох"
+											: state?.mainDirection?.map((el, index) => {
+													if (el.id === profileData.mainDirectionId?.id) {
+														return profileData.mainDirectionId?.name;
+													}
+											  })}
 									</Text>
 									<Icon name="keyboard-arrow-down" type="material-icons" size={30} color={GRAY_ICON_COLOR} />
 								</TouchableOpacity>
@@ -210,53 +210,48 @@ const Confirmation = (props) => {
 							</View>
 							<LoanInput
 								label="Байгууллагын нэр"
-								value={profileData?.lastName}
+								value={profileData?.organizationName}
 								onChangeText={(e) =>
 									setProfileData((prevState) => ({
 										...prevState,
-										lastName: e
+										organizationName: e
 									}))
 								}
 							/>
 							<LoanInput
 								label="Байгууллагын регистрийн дугаар"
-								value={profileData?.firstName}
+								value={profileData?.organizationRegno}
 								onChangeText={(e) =>
 									setProfileData((prevState) => ({
 										...prevState,
-										firstName: e
+										organizationRegno: e
 									}))
 								}
 							/>
 							<LoanInput
 								label="Веб хуудас"
-								value={profileData?.jobPosition}
+								value={profileData?.webUrl}
 								onChangeText={(e) =>
 									setProfileData((prevState) => ({
 										...prevState,
-										jobPosition: e
+										webUrl: e
 									}))
 								}
 							/>
 							<LoanInput
 								label="Байгууллагын үйл ажилгааний чиглэл"
-								value={profileData?.phone}
+								value={tempState}
 								keyboardType="number-pad"
 								maxLength={8}
-								onChangeText={(e) =>
-									setProfileData((prevState) => ({
-										...prevState,
-										phone: e
-									}))
-								}
+								onChangeText={(e) => setTempState(e)}
 							/>
 							<LoanInput
 								label="Байгууллагын танилцуулга ба ажлын туршлага"
-								value={profileData?.address}
+								value={profileData?.experience}
 								onChangeText={(e) =>
 									setProfileData((prevState) => ({
 										...prevState,
-										address: e
+										experience: e
 									}))
 								}
 								multiline={true}
@@ -291,7 +286,7 @@ const Confirmation = (props) => {
 				lookUpType="profile"
 				handle={uselessParam}
 				action={(e) => {
-					state?.setServiceData((prevState) => ({
+					setProfileData((prevState) => ({
 						...prevState,
 						[fieldName]: e
 					}));
