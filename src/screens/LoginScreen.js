@@ -25,19 +25,12 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as LocalAuthentication from "expo-local-authentication";
 
 const LoginScreen = (props) => {
-<<<<<<< HEAD
 	const state = useContext(MainContext);
-	const [email, setEmail] = useState("ulziikhutag.gurensoft@gmail.com");
-	const [password, setPassword] = useState("WETITr");
+	// const [email, setEmail] = useState("ulziikhutag.gurensoft@gmail.com");
+	// const [password, setPassword] = useState("WETITr");
+	const [email, setEmail] = useState("");
+	const [password, setPassword] = useState("");
 	const [hidePassword, setHidePassword] = useState(true);
-=======
-  const state = useContext(MainContext);
-  // const [email, setEmail] = useState("ulziikhutag.gurensoft@gmail.com");
-  // const [password, setPassword] = useState("WETITr");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [hidePassword, setHidePassword] = useState(true);
->>>>>>> f94496d40eaf3a3a40c2ad349938bb0c1d5bda6b
 
 	const [isBiometricSupported, setIsBiometricSupported] = useState(false);
 
