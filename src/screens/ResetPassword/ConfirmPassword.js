@@ -1,13 +1,4 @@
-import {
-	StyleSheet,
-	Text,
-	View,
-	TouchableOpacity,
-	ScrollView,
-	KeyboardAvoidingView,
-	Platform,
-	Image
-} from "react-native";
+import { StyleSheet, Text, View, ScrollView, KeyboardAvoidingView, Platform, Image } from "react-native";
 import React, { useState, useEffect } from "react";
 import { CodeField, Cursor, useBlurOnFulfill, useClearByFocusCell } from "react-native-confirmation-code-field";
 import { MAIN_BG_GRAY, MAIN_COLOR, SERVER_URL, X_API_KEY } from "../../constant";
@@ -21,7 +12,6 @@ const CELL_COUNT = 6;
 const ConfirmPassword = (props) => {
 	const headerHeight = useHeaderHeight();
 
-	const [isWaiting, setIsWaiting] = useState(false);
 	const [errorMsg, setErrorMsg] = useState("");
 
 	const ref = useBlurOnFulfill({ value, cellCount: CELL_COUNT });
@@ -40,7 +30,6 @@ const ConfirmPassword = (props) => {
 
 	const confirmOTP = () => {
 		try {
-			setIsWaiting(true);
 			axios
 				.post(
 					`${SERVER_URL}authentication/verify/otp`,
@@ -60,20 +49,20 @@ const ConfirmPassword = (props) => {
 					console.log("confirm OTP", response.data);
 					if (response.data?.statusCode == 200) {
 						// props.navigation.navigate("BioScreen");
-						props.navigation.navigate("ChangePassword");
+						props.navigation.navigate("ChangePassword", {
+							email_prop: response.data.response?.email,
+							access_token: response.data.response?.accessToken
+						});
 					}
 				})
 				.catch(function (error) {
-					setErrorMsg(error.response?.data?.message);
-					if (error.response) {
-						console.log("error.response", error.response.data);
+					console.log("error.response", error.response.data);
+					if (error.response.data.message) {
+						setErrorMsg(error.response.data.message);
 					}
-				})
-				.finally(() => {
-					setIsWaiting(false);
 				});
 		} catch (error) {
-			console.log("error", error);
+			// console.log("error", error);
 		}
 	};
 	return (
@@ -90,9 +79,10 @@ const ConfirmPassword = (props) => {
 				contentContainerStyle={styles.mainContainer}
 			>
 				<Text style={{ fontWeight: "500" }}>
-					Бид таны <Text style={{ fontWeight: "bold" }}>{props.route?.params?.email}</Text> луу баталгаажуулах код
+					Бид таны <Text style={{ fontWeight: "bold" }}>{props.route?.params?.email_prop}</Text> луу баталгаажуулах код
 					илгээлээ.
 				</Text>
+				{errorMsg ? <Text className="font-bold text-center text-red-500">{errorMsg}</Text> : null}
 
 				<Image source={confirm} resizeMode="contain" style={{ width: "100%", height: 150 }} />
 				<CodeField

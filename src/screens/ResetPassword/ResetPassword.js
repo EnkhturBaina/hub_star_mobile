@@ -8,7 +8,6 @@ import axios from "axios";
 const ResetPassword = (props) => {
 	const [selectedType, setSelectedType] = useState("");
 	const [loadingAction, setLoadingAction] = useState(false);
-	const [details, setDetails] = useState("");
 	const [errorMsg, setErrorMsg] = useState("");
 
 	const emailOTP = () => {
@@ -33,7 +32,8 @@ const ResetPassword = (props) => {
 					if (response.data?.statusCode == 200) {
 						setErrorMsg("");
 						props.navigation.navigate("ConfirmPassword", {
-							details_prop: response.data.response.details
+							details_prop: response.data.response.details,
+							email_prop: props.route?.params?.email
 						});
 					}
 				})
