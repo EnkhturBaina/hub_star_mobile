@@ -46,8 +46,8 @@ const PublicSelection = (props) => {
 	};
 
 	const createAD = () => {
-		if (state?.serviceData?.counter == "") {
-			onToggleSnackBar("Ажлын тоо хэмжээ оруулна уу.");
+		if (state?.serviceData?.unitAmount == "") {
+			onToggleSnackBar("Төсөвт өртөг оруулна уу.");
 		} else if (state?.serviceData?.desciption == "") {
 			onToggleSnackBar("Тайлбар оруулна уу.");
 		} else if (state?.serviceData?.email == "") {

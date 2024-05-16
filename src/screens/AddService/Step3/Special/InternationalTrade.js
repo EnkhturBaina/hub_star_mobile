@@ -46,8 +46,10 @@ const InternationalTrade = (props) => {
 	};
 
 	const createAD = () => {
-		if (state?.serviceData?.counter == "") {
-			onToggleSnackBar("Ажлын тоо хэмжээ оруулна уу.");
+		if (state?.serviceData?.measurement == "") {
+			onToggleSnackBar("Хэмжих нэгж оруулна уу.");
+		} else if (state?.serviceData?.unitAmount == "") {
+			onToggleSnackBar("Үнэ оруулна уу.");
 		} else if (state?.serviceData?.desciption == "") {
 			onToggleSnackBar("Тайлбар оруулна уу.");
 		} else if (state?.serviceData?.email == "") {
