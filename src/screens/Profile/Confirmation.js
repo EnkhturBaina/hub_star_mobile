@@ -20,6 +20,9 @@ const Confirmation = (props) => {
 	const tabBarHeight = useBottomTabBarHeight();
 	const [tempState, setTempState] = useState("");
 
+	const [tempUserType, setTempUserType] = useState("");
+	const [tempMainDirectionId, setTempMainDirectionId] = useState("");
+
 	const [visibleDialog, setVisibleDialog] = useState(false); //Dialog харуулах
 	const [dialogType, setDialogType] = useState("warning"); //Dialog харуулах төрөл
 	const [dialogText, setDialogText] = useState(""); //Dialog -н текст
@@ -68,8 +71,10 @@ const Confirmation = (props) => {
 				}
 			})
 			.then((response) => {
-				// console.log("AAA", JSON.stringify(response.data.response));
+				console.log("AAA", JSON.stringify(response.data.response));
 				setProfileData(response.data.response?.user);
+				setTempUserType(response.data.response?.user?.userType);
+				setTempMainDirectionId(response.data.response?.user?.mainDirectionId);
 			})
 			.catch((error) => {
 				console.error("Error fetching EditProfile=>get ProfileData=>:", error);
@@ -178,8 +183,16 @@ const Confirmation = (props) => {
 									}}
 								>
 									<Text style={styles.selectedText} numberOfLines={1}>
-										{!profileData.mainDirectionId
+										{!profileData.mainDirectionId && tempMainDirectionId == ""
 											? "Сонгох"
+											: tempMainDirectionId != ""
+											? state?.mainDirection?.map((xx, index) => {
+													console.log("profileData.mainDirectionId", profileData.mainDirectionId);
+													console.log("xx", xx.id);
+													if (!profileData.mainDirectionId && xx.id === tempMainDirectionId) {
+														return xx.name;
+													}
+											  })
 											: state?.mainDirection?.map((el, index) => {
 													if (el.id === profileData.mainDirectionId?.id) {
 														return profileData.mainDirectionId?.name;
