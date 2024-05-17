@@ -11,9 +11,9 @@ import {
 	Modal
 } from "react-native";
 import React, { useContext, useEffect, useState } from "react";
-import { IMG_URL, MAIN_COLOR, SERVER_URL, X_API_KEY } from "../../constant";
+import { IMG_URL, SERVER_URL, X_API_KEY } from "../../constant";
 import axios from "axios";
-import { Dialog, Icon } from "@rneui/base";
+import { Icon } from "@rneui/base";
 import GradientButton from "../../components/GradientButton";
 import ServiceDTLSkeleton from "../../components/Skeletons/ServiceDTLSkeleton";
 import { ImageZoom } from "@likashefqet/react-native-image-zoom";
@@ -63,17 +63,6 @@ const SingleSpecialScreen = (props) => {
 		getAdvice();
 	}, []);
 
-	const ZoomImg = gestureHandlerRootHOC(() => {
-		if (Platform.OS == "ios") {
-			return <ImageZoom source={{ uri: zoomImgURL }} style={{ flex: 1, height: 200, width: "100%" }} />;
-		} else {
-			return (
-				<Modal>
-					<ImageZoom source={{ uri: zoomImgURL }} style={{ flex: 1, height: 200, width: "100%" }} />
-				</Modal>
-			);
-		}
-	});
 	return (
 		<View
 			style={{
@@ -229,14 +218,6 @@ const SingleSpecialScreen = (props) => {
 						</View>
 					</ScrollView>
 				)}
-				{/* <Dialog
-					isVisible={visible1}
-					onBackdropPress={() => {
-						setVisible1(!visible1);
-					}}
-					style={{ backgroundColor: "red" }}
-					overlayStyle={styles.dialogOverlay}
-				> */}
 				<Modal
 					animationType="slide"
 					transparent={true}
@@ -244,15 +225,19 @@ const SingleSpecialScreen = (props) => {
 						setVisible1(!visible1);
 					}}
 					visible={visible1}
+					style={{
+						backgroundColor: "rgba(52, 52, 52, 0.9)"
+					}}
 				>
-					<GestureHandlerRootView>
-						<ImageZoom source={{ uri: zoomImgURL }} style={{ flex: 1, height: 200, width: "100%" }} />
-					</GestureHandlerRootView>
-					<View style={{ width: 200, alignSelf: "center", marginTop: 10 }}>
-						<GradientButton text="Хаах" action={() => setVisible1(false)} height={40} radius={6} />
+					<View style={{ flex: 1, backgroundColor: "rgba(52, 52, 52, 0.9)" }}>
+						<GestureHandlerRootView>
+							<ImageZoom source={{ uri: zoomImgURL }} style={{ flex: 1, height: 200, width: "100%" }} />
+						</GestureHandlerRootView>
+						<View style={{ width: 200, alignSelf: "center", marginTop: 10 }}>
+							<GradientButton text="Хаах" action={() => setVisible1(false)} height={40} radius={6} />
+						</View>
 					</View>
 				</Modal>
-				{/* </Dialog> */}
 			</SafeAreaProvider>
 		</View>
 	);
