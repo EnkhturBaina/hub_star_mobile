@@ -41,7 +41,7 @@ const Confirmation = (props) => {
 	const [uselessParam, setUselessParam] = useState(false); //BottomSheet -г дуудаж байгааг мэдэх гэж ашиглаж байгамоо
 	const [fieldName, setFieldName] = useState(""); //Context -н аль утгыг OBJECT -с update хийхийг хадгалах
 	const [displayName, setDisplayName] = useState(""); //LOOKUP -д харагдах утга (display value)
-	const [actionKey, setActionKey] = useState(""); //
+	const [actionKey, setActionKey] = useState(""); //Сонгогдсон OBJECT -с ямар key -р утга авах (Жнь: {object}.id)
 
 	const setLookupData = (data, field, display, action_key) => {
 		// console.log("refRBSheet", refRBSheet);
@@ -111,8 +111,8 @@ const Confirmation = (props) => {
 				.patch(
 					`${SERVER_URL}users/${state.userId}`,
 					{
-						userType: profileData?.userType?.type,
-						mainDirectionId: profileData.mainDirectionId?.id,
+						userType: profileData?.userType,
+						mainDirectionId: profileData.mainDirectionId,
 						organizationName: profileData?.organizationName,
 						organizationRegno: profileData?.organizationRegno,
 						// webUrl: profileData?.webUrl,
