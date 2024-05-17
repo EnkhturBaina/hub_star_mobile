@@ -7,12 +7,13 @@ import {
 	ScrollView,
 	Image,
 	TouchableOpacity,
-	ActivityIndicator
+	ActivityIndicator,
+	Modal
 } from "react-native";
 import React, { useContext, useEffect, useState } from "react";
 import { IMG_URL, MAIN_COLOR, MAIN_COLOR_GRAY, SERVER_URL, X_API_KEY } from "../../constant";
 import axios from "axios";
-import { Dialog, Icon } from "@rneui/base";
+import { Icon } from "@rneui/base";
 import GradientButton from "../../components/GradientButton";
 import ServiceDTLSkeleton from "../../components/Skeletons/ServiceDTLSkeleton";
 import { ImageZoom } from "@likashefqet/react-native-image-zoom";
@@ -22,6 +23,7 @@ import dayjs from "dayjs";
 // import { StarRatingDisplay } from "react-native-star-rating-widget";
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 import { SafeAreaProvider } from "react-native-safe-area-context";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 const SingleMainDirServiceScreen = (props) => {
 	const tabBarHeight = useBottomTabBarHeight();
@@ -215,19 +217,26 @@ const SingleMainDirServiceScreen = (props) => {
 						</View>
 					</ScrollView>
 				)}
-				<Dialog
-					isVisible={visible1}
-					onBackdropPress={() => {
+				<Modal
+					animationType="slide"
+					transparent={true}
+					onRequestClose={() => {
 						setVisible1(!visible1);
 					}}
-					style={{ backgroundColor: "red" }}
-					overlayStyle={styles.dialogOverlay}
+					visible={visible1}
+					style={{
+						backgroundColor: "rgba(52, 52, 52, 0.9)"
+					}}
 				>
-					<ImageZoom source={{ uri: zoomImgURL }} style={{ flex: 1, height: 200, width: "100%" }} />
-					<View style={{ width: 200, alignSelf: "center", marginTop: 10 }}>
-						<GradientButton text="Хаах" action={() => setVisible1(false)} height={40} radius={6} />
+					<View style={{ flex: 1, backgroundColor: "rgba(52, 52, 52, 0.9)" }}>
+						<GestureHandlerRootView>
+							<ImageZoom source={{ uri: zoomImgURL }} style={{ flex: 1, height: 200, width: "100%" }} />
+						</GestureHandlerRootView>
+						<View style={{ width: 200, alignSelf: "center", marginTop: 10 }}>
+							<GradientButton text="Хаах" action={() => setVisible1(false)} height={40} radius={6} />
+						</View>
 					</View>
-				</Dialog>
+				</Modal>
 			</SafeAreaProvider>
 		</View>
 	);

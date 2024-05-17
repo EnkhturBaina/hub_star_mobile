@@ -20,9 +20,6 @@ const Confirmation = (props) => {
 	const tabBarHeight = useBottomTabBarHeight();
 	const [tempState, setTempState] = useState("");
 
-	const [tempUserType, setTempUserType] = useState("");
-	const [tempMainDirectionId, setTempMainDirectionId] = useState("");
-
 	const [visibleDialog, setVisibleDialog] = useState(false); //Dialog харуулах
 	const [dialogType, setDialogType] = useState("warning"); //Dialog харуулах төрөл
 	const [dialogText, setDialogText] = useState(""); //Dialog -н текст
@@ -44,13 +41,15 @@ const Confirmation = (props) => {
 	const [uselessParam, setUselessParam] = useState(false); //BottomSheet -г дуудаж байгааг мэдэх гэж ашиглаж байгамоо
 	const [fieldName, setFieldName] = useState(""); //Context -н аль утгыг OBJECT -с update хийхийг хадгалах
 	const [displayName, setDisplayName] = useState(""); //LOOKUP -д харагдах утга (display value)
+	const [actionKey, setActionKey] = useState(""); //
 
-	const setLookupData = (data, field, display) => {
+	const setLookupData = (data, field, display, action_key) => {
 		// console.log("refRBSheet", refRBSheet);
 		setData(data); //Lookup -д харагдах дата
 		setFieldName(field); //Context -н object -н update хийх key
 		setDisplayName(display); //Lookup -д харагдах датаны текст талбар
 		setUselessParam(!uselessParam);
+		setActionKey(action_key);
 	};
 
 	//Snacbkbar харуулах
@@ -73,8 +72,6 @@ const Confirmation = (props) => {
 			.then((response) => {
 				console.log("AAA", JSON.stringify(response.data.response));
 				setProfileData(response.data.response?.user);
-				setTempUserType(response.data.response?.user?.userType);
-				setTempMainDirectionId(response.data.response?.user?.mainDirectionId);
 			})
 			.catch((error) => {
 				console.error("Error fetching EditProfile=>get ProfileData=>:", error);
@@ -165,11 +162,17 @@ const Confirmation = (props) => {
 								<TouchableOpacity
 									style={styles.touchableSelect}
 									onPress={() => {
-										setLookupData(UserTabData, "userType", "title");
+										setLookupData(UserTabData, "userType", "title", "type");
 									}}
 								>
 									<Text style={styles.selectedText} numberOfLines={1}>
-										{profileData.userType != "" ? profileData.userType?.title : "Сонгох"}
+										{profileData.userType
+											? UserTabData?.map((el, index) => {
+													if (el.type === profileData.userType) {
+														return el.title;
+													}
+											  })
+											: "Сонгох"}
 									</Text>
 									<Icon name="keyboard-arrow-down" type="material-icons" size={30} color={GRAY_ICON_COLOR} />
 								</TouchableOpacity>
@@ -179,25 +182,17 @@ const Confirmation = (props) => {
 								<TouchableOpacity
 									style={styles.touchableSelect}
 									onPress={() => {
-										setLookupData(state?.mainDirection, "mainDirectionId", "name");
+										setLookupData(state?.mainDirection, "mainDirectionId", "name", "id");
 									}}
 								>
 									<Text style={styles.selectedText} numberOfLines={1}>
-										{!profileData.mainDirectionId && tempMainDirectionId == ""
-											? "Сонгох"
-											: tempMainDirectionId != ""
-											? state?.mainDirection?.map((xx, index) => {
-													console.log("profileData.mainDirectionId", profileData.mainDirectionId);
-													console.log("xx", xx.id);
-													if (!profileData.mainDirectionId && xx.id === tempMainDirectionId) {
-														return xx.name;
+										{profileData.mainDirectionId
+											? state?.mainDirection?.map((el, index) => {
+													if (el.id === profileData.mainDirectionId) {
+														return el.name;
 													}
 											  })
-											: state?.mainDirection?.map((el, index) => {
-													if (el.id === profileData.mainDirectionId?.id) {
-														return profileData.mainDirectionId?.name;
-													}
-											  })}
+											: "Сонгох"}
 									</Text>
 									<Icon name="keyboard-arrow-down" type="material-icons" size={30} color={GRAY_ICON_COLOR} />
 								</TouchableOpacity>
@@ -304,6 +299,7 @@ const Confirmation = (props) => {
 						[fieldName]: e
 					}));
 				}}
+				actionKey={actionKey}
 			/>
 		</View>
 	);
