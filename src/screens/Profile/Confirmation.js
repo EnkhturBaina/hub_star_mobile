@@ -60,6 +60,7 @@ const Confirmation = (props) => {
 
 	//Snacbkbar хаах
 	const onDismissSnackBar = () => setVisibleSnack(false);
+
 	const getProfileData = async () => {
 		setLoadingProfileData(true);
 		await axios
@@ -70,7 +71,7 @@ const Confirmation = (props) => {
 				}
 			})
 			.then((response) => {
-				console.log("AAA", JSON.stringify(response.data.response));
+				// console.log("AAA", JSON.stringify(response.data.response));
 				setProfileData(response.data.response?.user);
 			})
 			.catch((error) => {
@@ -127,7 +128,7 @@ const Confirmation = (props) => {
 				)
 				.then(async (response) => {
 					if (response.data) {
-						console.log("response.data", response.data);
+						// console.log("response.data", response.data);
 						setDialogText("Амжилттай.");
 						setVisibleDialog(true);
 					}
