@@ -13,6 +13,7 @@ import axios from "axios";
 import Empty from "../../components/Empty";
 import UserTypeServicesSkeleton from "../../components/Skeletons/UserTypeServicesSkeleton";
 import MainDirSideBarFilter from "./MainDirSideBarFilter";
+import SideFIlterSkeleton from "../../components/Skeletons/SideFIlterSkeleton";
 
 const MainDirServiceScreen = (props) => {
 	const state = useContext(MainContext);
@@ -23,6 +24,9 @@ const MainDirServiceScreen = (props) => {
 	const [isOpen, setIsOpen] = useState(false);
 	const [loadingServices, setLoadingServices] = useState(false);
 	const [mainDirServiceData, setMainDirServiceData] = useState([]);
+
+	//route params -аар ирж байгаа Direction ID -аар parent Буюу MAIN_DIRECTION олж авах
+	const [mainDirId, setMainDirId] = useState(0);
 
 	useLayoutEffect(() => {
 		// TabBar Hide хийх
@@ -72,30 +76,49 @@ const MainDirServiceScreen = (props) => {
 				setLoadingServices(false);
 			});
 	};
+
 	useEffect(() => {
-		state.setMainDirParams((prevState) => ({
-			...prevState,
-			page: 1,
-			limit: 10,
-			mainDirectionId: props.route?.params?.mainDirectionId,
-			directionIds: props.route?.params?.directionId,
-			subDirectionIds: props.route?.params?.subDirectionId
-		}));
+		state.direction?.map((el, index) => {
+			if (el.id === props.route?.params?.directionId[0]) {
+				setMainDirId(el.mainDirectionId);
+			}
+		});
 	}, []);
 
 	useEffect(() => {
+		if (mainDirId != null) {
+			state.setMainDirParams((prevState) => ({
+				...prevState,
+				page: 1,
+				limit: 10,
+				mainDirectionId: mainDirId,
+				directionIds: props.route?.params?.directionId,
+				subDirectionIds: props.route?.params?.subDirectionId
+			}));
+		}
+	}, [mainDirId]);
+
+	useEffect(() => {
+		console.log("state.mainDirParams", state.mainDirParams);
+		if (mainDirId && state.mainDirParams.directionIds.length >= 1 && state.mainDirParams?.subDirectionIds.length >= 1) {
+			getMainDirServices();
+		}
 		//Side filter -с check хийгдэх үед GET service -н PARAM -уудыг бэлдээд SERVICE -г дуудах
-		state?.mainDirParams?.subDirectionIds?.length >= 0 && getMainDirServices();
 	}, [state.mainDirParams]);
+
 	return (
 		<SideMenu
 			menu={
-				<MainDirSideBarFilter
-					setIsOpen={setIsOpen}
-					isOpen={isOpen}
-					mainDirectionId={props.route?.params?.mainDirectionId}
-					subDir={props.route?.params?.subDirectionId}
-				/>
+				loadingServices ? (
+					<SideFIlterSkeleton />
+				) : (
+					<MainDirSideBarFilter
+						setIsOpen={setIsOpen}
+						isOpen={isOpen}
+						mainDirectionId={mainDirId != null && mainDirId}
+						subDir={props.route?.params?.subDirectionId}
+					/>
+				)
 			}
 			isOpen={isOpen}
 			onChange={(isOpen) => setIsOpen(isOpen)}
@@ -206,7 +229,6 @@ const MainDirServiceScreen = (props) => {
 										style={styles.gridItem}
 										key={index}
 										onPress={() => {
-											console.log("props.fromCAT", props.route?.params?.fromCAT);
 											props.navigation.navigate(
 												props.route?.params?.fromCAT ? "CAT_SingleMainDirServiceScreen" : "SingleMainDirServiceScreen",
 												{

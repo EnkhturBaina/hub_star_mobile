@@ -8,6 +8,7 @@ import HomeHeader from "./HomeScreenComponents/HomeHeader";
 import HomeSearch from "./HomeScreenComponents/HomeSearch";
 import SpecialService from "./HomeScreenComponents/SpecialService";
 import Advices from "./HomeScreenComponents/Advices";
+import { AutocompleteDropdownContextProvider } from "react-native-autocomplete-dropdown";
 
 const HomeScreen = (props) => {
 	const tabBarHeight = useBottomTabBarHeight();
@@ -20,22 +21,24 @@ const HomeScreen = (props) => {
 				backgroundColor: "#fff"
 			}}
 		>
-			<StatusBar translucent barStyle={Platform.OS == "ios" ? "dark-content" : "default"} />
-			<HomeHeader />
-			<HomeSearch />
-			<ScrollView
-				contentContainerStyle={{
-					flexGrow: 1,
-					paddingBottom: tabBarHeight
-				}}
-				showsVerticalScrollIndicator={false}
-				bounces={false}
-			>
-				<UserTypes />
-				<BannerNews />
-				<SpecialService />
-				<Advices />
-			</ScrollView>
+			<AutocompleteDropdownContextProvider>
+				<StatusBar translucent barStyle={Platform.OS == "ios" ? "dark-content" : "default"} />
+				<HomeHeader />
+				<HomeSearch />
+				<ScrollView
+					contentContainerStyle={{
+						flexGrow: 1,
+						paddingBottom: tabBarHeight
+					}}
+					showsVerticalScrollIndicator={false}
+					bounces={false}
+				>
+					<UserTypes />
+					<BannerNews />
+					<SpecialService />
+					<Advices />
+				</ScrollView>
+			</AutocompleteDropdownContextProvider>
 		</SafeAreaView>
 	);
 };

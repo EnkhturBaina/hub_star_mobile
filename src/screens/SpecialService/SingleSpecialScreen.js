@@ -24,6 +24,7 @@ import dayjs from "dayjs";
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { GestureHandlerRootView, gestureHandlerRootHOC } from "react-native-gesture-handler";
+import SpecialServiceData from "../../refs/SpecialServiceData";
 
 const SingleSpecialScreen = (props) => {
 	const state = useContext(MainContext);
@@ -42,10 +43,7 @@ const SingleSpecialScreen = (props) => {
 				}
 			})
 			.then((response) => {
-				// console.log(
-				//   "get Advice response",
-				//   JSON.stringify(response.data.response)
-				// );
+				console.log("get Advice response", JSON.stringify(response.data.response));
 				setAdviceData(response.data.response);
 			})
 			.catch((error) => {
@@ -152,6 +150,36 @@ const SingleSpecialScreen = (props) => {
 							}}
 						>
 							<Text style={{ fontWeight: "bold", fontSize: 22, marginTop: 10 }}>{adviceData?.title}</Text>
+							{SpecialServiceData.map((el, index) => {
+								if (el.type == adviceData.specialService) {
+									return (
+										<TouchableOpacity
+											onPress={() => {}}
+											style={{ flexDirection: "row", alignItems: "center", marginTop: 5 }}
+											key={index}
+										>
+											<Image
+												style={{
+													resizeMode: "contain",
+													width: 30,
+													height: 30
+												}}
+												source={el.icon}
+											/>
+											<Text
+												style={{
+													marginLeft: 5,
+													color: "#798585",
+													fontWeight: "500",
+													fontWeight: "bold"
+												}}
+											>
+												{el.title}
+											</Text>
+										</TouchableOpacity>
+									);
+								}
+							})}
 							<Text style={styles.breadContainer}>
 								{adviceData?.mainDirection != null ? `${adviceData?.mainDirection?.name} / ` : null}
 								{adviceData?.direction != null ? `${adviceData?.direction?.name} / ` : null}
