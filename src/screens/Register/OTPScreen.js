@@ -28,7 +28,7 @@ const OTPScreen = (props) => {
 	});
 
 	useEffect(() => {
-		if (value.length == 6) {
+		if (value?.length == 6) {
 			setIsDisabled(false);
 		} else {
 			setIsDisabled(true);

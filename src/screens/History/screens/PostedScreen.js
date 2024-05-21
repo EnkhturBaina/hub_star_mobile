@@ -59,9 +59,9 @@ const PostedScreen = (props) => {
 		>
 			<StatusBar translucent barStyle={Platform.OS == "ios" ? "dark-content" : "default"} />
 			<ScrollView contentContainerStyle={styles.gridContainer}>
-				{postedServiceData.length == 0 && loadingServices ? (
+				{postedServiceData?.length == 0 && loadingServices ? (
 					<ListServiceSkeleton />
-				) : postedServiceData.length == 0 && !loadingServices ? (
+				) : postedServiceData?.length == 0 && !loadingServices ? (
 					<Empty text="Байршуулсан үйлчилгээ олдсонгүй." />
 				) : (
 					postedServiceData?.map((el, index) => {

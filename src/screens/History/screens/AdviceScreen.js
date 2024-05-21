@@ -71,9 +71,9 @@ const AdviceScreen = (props) => {
 		>
 			<StatusBar translucent barStyle={Platform.OS == "ios" ? "dark-content" : "default"} />
 			<ScrollView contentContainerStyle={styles.gridContainer}>
-				{adviceData.length == 0 && loadingServices ? (
+				{adviceData?.length == 0 && loadingServices ? (
 					<ListServiceSkeleton />
-				) : adviceData.length == 0 && !loadingServices ? (
+				) : adviceData?.length == 0 && !loadingServices ? (
 					<Empty text="Хийгдэж буй ажил олдсонгүй." />
 				) : (
 					adviceData?.map((el, index) => {

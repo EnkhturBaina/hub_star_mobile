@@ -51,7 +51,7 @@ const ChangePassword = (props) => {
 	const handlePassword = (e) => {
 		setNewPassword(e);
 		e != repeatPassword ? setMatchPassword(false) : setMatchPassword(true);
-		e.length >= 8 ? setPasswordLengthValid(true) : setPasswordLengthValid(false);
+		e?.length >= 8 ? setPasswordLengthValid(true) : setPasswordLengthValid(false);
 
 		regex.test(e) ? setPasswordUpperValid(true) : setPasswordUpperValid(false);
 		regexChar.test(e) ? setPasswordCharValid(true) : setPasswordCharValid(false);

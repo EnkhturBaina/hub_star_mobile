@@ -356,16 +356,16 @@ export const MainStore = (props) => {
 	}, []);
 
 	const addCommas = (num) => {
-		return num?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+		return num?.toString()?.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 	};
 	const removeNonNumeric = (num) => {
 		if (num?.toString().charAt(0) === "0") {
-			num = num?.toString().substring(1);
+			num = num?.toString()?.substring(1);
 		}
-		if (num?.toString().replace(/[^0-9]/g, "") > 500000000) {
+		if (num?.toString()?.replace(/[^0-9]/g, "") > 500000000) {
 			num = num?.slice(0, -1);
 		}
-		return num?.toString().replace(/[^0-9]/g, "");
+		return num?.toString()?.replace(/[^0-9]/g, "");
 	};
 
 	const getTypeName = (userType, specialService, isSlash) => {

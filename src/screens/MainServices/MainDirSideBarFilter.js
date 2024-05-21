@@ -62,8 +62,8 @@ const MainDirSideBarFilter = (props) => {
 			}
 		});
 
-		const currentDirections = sideFilterData.filter((item) => {
-			return item.subDirections.some((subdir) => checkedItems.includes(subdir.id));
+		const currentDirections = sideFilterData?.filter((item) => {
+			return item.subDirections?.some((subdir) => checkedItems?.includes(subdir.id));
 		});
 
 		state.setMainDirParams((prevState) => ({
@@ -106,9 +106,9 @@ const MainDirSideBarFilter = (props) => {
 				bounces={false}
 				showsVerticalScrollIndicator={false}
 			>
-				{sideFilterData.length == 0 && loadingSideFilter ? (
+				{sideFilterData?.length == 0 && loadingSideFilter ? (
 					<SideFIlterSkeleton />
-				) : sideFilterData.length == 0 && !loadingSideFilter ? (
+				) : sideFilterData?.length == 0 && !loadingSideFilter ? (
 					<Empty text="Үр дүн олдсонгүй." />
 				) : (
 					sideFilterData?.map((el, index) => {

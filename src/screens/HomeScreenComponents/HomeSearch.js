@@ -1,14 +1,4 @@
-import {
-	StyleSheet,
-	Text,
-	View,
-	TouchableOpacity,
-	Platform,
-	ScrollView,
-	Image,
-	Dimensions,
-	TextInput
-} from "react-native";
+import { StyleSheet, Text, View, TouchableOpacity, ScrollView, Image, Dimensions, TextInput } from "react-native";
 import React, { useContext, useRef, useState } from "react";
 import {
 	GRAY_ICON_COLOR,
@@ -23,7 +13,6 @@ import RBSheet from "react-native-raw-bottom-sheet";
 import MainContext from "../../contexts/MainContext";
 import { useNavigation } from "@react-navigation/native";
 import { AutocompleteDropdown } from "react-native-autocomplete-dropdown";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 const width = Dimensions.get("window").width;
 const height = Dimensions.get("window").height;
@@ -53,6 +42,7 @@ const HomeSearch = () => {
 				inputContainerStyle={{
 					backgroundColor: MAIN_COLOR_GRAY
 				}}
+				emptyResultText="Үр дүн олдсонгүй."
 				renderItem={(item, text) => (
 					<TouchableOpacity
 						onPress={() => {
@@ -69,6 +59,9 @@ const HomeSearch = () => {
 					</TouchableOpacity>
 				)}
 				suggestionsListMaxHeight={300}
+				textInputProps={{
+					placeholder: "Хайх"
+				}}
 			/>
 			<TouchableOpacity style={styles.filterBtn} onPress={() => sheetRef.current.open()}>
 				<Icon name="sliders" type="feather" size={20} color={GRAY_ICON_COLOR} />

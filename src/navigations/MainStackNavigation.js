@@ -426,6 +426,7 @@ const HomeScreenStackNavigator = (props) => {
 				name="SpecialServiceScreen"
 				component={SpecialServiceScreen}
 				options={{
+					gestureEnabled: false,
 					title: "Онцгой үйлчилгээ",
 					headerTitleStyle: {
 						fontWeight: "800"
@@ -446,6 +447,7 @@ const HomeScreenStackNavigator = (props) => {
 				name="UserTypeServiceScreen"
 				component={UserTypeServiceScreen}
 				options={{
+					gestureEnabled: false,
 					title: "",
 					headerTitleStyle: {
 						fontWeight: "800"
@@ -486,6 +488,7 @@ const HomeScreenStackNavigator = (props) => {
 				name="MainAdviceScreen"
 				component={MainAdviceScreen}
 				options={{
+					gestureEnabled: false,
 					title: "Зөвлөмжүүд",
 					headerTitleStyle: {
 						fontWeight: "800"
@@ -526,6 +529,7 @@ const HomeScreenStackNavigator = (props) => {
 				name="MainDirServiceScreen"
 				component={MainDirServiceScreen}
 				options={{
+					gestureEnabled: false,
 					title: "",
 					headerTitleStyle: {
 						fontWeight: "800"
@@ -593,6 +597,7 @@ const CategoryStackNavigator = (props) => {
 				name="CAT_MainDirServiceScreen"
 				component={MainDirServiceScreen}
 				options={{
+					gestureEnabled: false,
 					title: "",
 					headerTitleStyle: {
 						fontWeight: "800"

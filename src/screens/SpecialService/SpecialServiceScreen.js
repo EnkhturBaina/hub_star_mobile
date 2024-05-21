@@ -140,9 +140,9 @@ const SpecialServiceScreen = (props) => {
 					/>
 				</View>
 				<ScrollView contentContainerStyle={styles.gridContainer} showsVerticalScrollIndicator={false}>
-					{specialServiceData.length == 0 && loadingServices ? (
+					{specialServiceData?.length == 0 && loadingServices ? (
 						<SpecialServiceListSekeleton />
-					) : specialServiceData.length == 0 && !loadingServices ? (
+					) : specialServiceData?.length == 0 && !loadingServices ? (
 						<Empty text="Онцгой үйлчилгээ олдсонгүй." />
 					) : (
 						specialServiceData?.map((el, index) => {

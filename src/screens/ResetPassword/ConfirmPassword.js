@@ -25,7 +25,7 @@ const ConfirmPassword = (props) => {
 	useEffect(() => {}, []);
 	useEffect(() => {
 		//Баталгаажуулах код оруулсан button Идэвхтэй болгох
-		setConfirmButtonDisabled(value.length == 6 ? false : true);
+		setConfirmButtonDisabled(value?.length == 6 ? false : true);
 	}, [value]);
 
 	const confirmOTP = () => {

@@ -179,9 +179,9 @@ const UserTypeServiceScreen = (props) => {
 				</View>
 				<ScrollView contentContainerStyle={styles.gridScrollContainer} showsVerticalScrollIndicator={false}>
 					<View style={styles.gridContainer}>
-						{userTypeServiceData.length == 0 && loadingServices ? (
+						{userTypeServiceData?.length == 0 && loadingServices ? (
 							<UserTypeServicesSkeleton />
-						) : userTypeServiceData.length == 0 && !loadingServices ? (
+						) : userTypeServiceData?.length == 0 && !loadingServices ? (
 							<Empty text="Үйлчилгээ олдсонгүй." />
 						) : (
 							userTypeServiceData?.map((el, index) => {

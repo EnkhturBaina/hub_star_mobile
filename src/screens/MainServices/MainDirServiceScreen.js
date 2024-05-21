@@ -13,8 +13,6 @@ import axios from "axios";
 import Empty from "../../components/Empty";
 import UserTypeServicesSkeleton from "../../components/Skeletons/UserTypeServicesSkeleton";
 import MainDirSideBarFilter from "./MainDirSideBarFilter";
-import SideFIlterSkeleton from "../../components/Skeletons/SideFIlterSkeleton";
-import SpecialServiceData from "../../refs/SpecialServiceData";
 
 const MainDirServiceScreen = (props) => {
 	const state = useContext(MainContext);
@@ -130,11 +128,13 @@ const MainDirServiceScreen = (props) => {
 										}
 									]}
 									onPress={() => {
+										console.log("el", el);
 										state.setSelectedUserType(el.type);
 										state.setUserTypeParam((prevState) => ({
 											...prevState,
 											userType: el.type
 										}));
+										props.navigation.navigate("UserTypeServiceScreen");
 									}}
 								>
 									<Image style={styles.typeLogo} source={el.image} />
@@ -199,9 +199,9 @@ const MainDirServiceScreen = (props) => {
 				</View>
 				<ScrollView contentContainerStyle={styles.gridScrollContainer} showsVerticalScrollIndicator={false}>
 					<View style={styles.gridContainer}>
-						{mainDirServiceData.length == 0 && loadingServices ? (
+						{mainDirServiceData?.length == 0 && loadingServices ? (
 							<UserTypeServicesSkeleton />
-						) : mainDirServiceData.length == 0 && !loadingServices ? (
+						) : mainDirServiceData?.length == 0 && !loadingServices ? (
 							<Empty text="Үйлчилгээ олдсонгүй." />
 						) : (
 							mainDirServiceData?.map((el, index) => {
