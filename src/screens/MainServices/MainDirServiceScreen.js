@@ -26,9 +26,6 @@ const MainDirServiceScreen = (props) => {
 	const [loadingServices, setLoadingServices] = useState(false);
 	const [mainDirServiceData, setMainDirServiceData] = useState([]);
 
-	//route params -аар ирж байгаа Direction ID -аар parent Буюу MAIN_DIRECTION олж авах
-	const [mainDirId, setMainDirId] = useState(0);
-
 	useLayoutEffect(() => {
 		// TabBar Hide хийх
 		props.navigation?.getParent()?.setOptions({
@@ -50,6 +47,7 @@ const MainDirServiceScreen = (props) => {
 	}, [props.navigation]);
 
 	const getMainDirServices = async () => {
+		console.log("RUN get MainDirServices <==========");
 		setLoadingServices(true);
 		setMainDirServiceData([]);
 		await axios
@@ -79,29 +77,17 @@ const MainDirServiceScreen = (props) => {
 	};
 
 	useEffect(() => {
-		state.direction?.map((el, index) => {
-			if (el.id === props.route?.params?.directionId[0]) {
-				setMainDirId(el.mainDirectionId);
-			}
-		});
+		state.setMainDirParams((prevState) => ({
+			...prevState,
+			mainDirectionId: props.route?.params?.mainDirectionId,
+			directionIds: props.route?.params?.directionId,
+			subDirectionIds: props.route?.params?.subDirectionId
+		}));
 	}, []);
 
 	useEffect(() => {
-		if (mainDirId != null) {
-			state.setMainDirParams((prevState) => ({
-				...prevState,
-				page: 1,
-				limit: 10,
-				mainDirectionId: mainDirId,
-				directionIds: props.route?.params?.directionId,
-				subDirectionIds: props.route?.params?.subDirectionId
-			}));
-		}
-	}, [mainDirId]);
-
-	useEffect(() => {
-		console.log("state.mainDirParams", state.mainDirParams);
-		if (mainDirId && state.mainDirParams.directionIds.length >= 1 && state.mainDirParams?.subDirectionIds.length >= 1) {
+		if (state.mainDirParams?.directionIds?.length >= 1 && state.mainDirParams?.subDirectionIds?.length >= 1) {
+			console.log("state.mainDirParams", state.mainDirParams);
 			getMainDirServices();
 		}
 		//Side filter -с check хийгдэх үед GET service -н PARAM -уудыг бэлдээд SERVICE -г дуудах
@@ -113,12 +99,7 @@ const MainDirServiceScreen = (props) => {
 				loadingServices ? (
 					<SideFIlterSkeleton />
 				) : (
-					<MainDirSideBarFilter
-						setIsOpen={setIsOpen}
-						isOpen={isOpen}
-						mainDirectionId={mainDirId != null && mainDirId}
-						subDir={props.route?.params?.subDirectionId}
-					/>
+					<MainDirSideBarFilter setIsOpen={setIsOpen} isOpen={isOpen} subDir={props.route?.params?.subDirectionId} />
 				)
 			}
 			isOpen={isOpen}

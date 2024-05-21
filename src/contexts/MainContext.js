@@ -142,15 +142,14 @@ export const MainStore = (props) => {
 				}
 			})
 			.then((response) => {
-				// console.log(
-				//   "get SpecialServiceData response",
-				//   JSON.stringify(response.data.response)
+				// console.log("get SpecialServiceData response", JSON.stringify(response.data.response));
 				response.data.response?.map((el) => {
 					setSubDirectionData((prevState) => [
 						...prevState,
 						{
 							id: el.id,
 							title: el.name,
+							mainDirectionId: el.direction?.mainDirectionId,
 							directionId: el.directionId
 						}
 					]);

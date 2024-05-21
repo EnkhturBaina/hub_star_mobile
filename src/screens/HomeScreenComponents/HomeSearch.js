@@ -56,7 +56,9 @@ const HomeSearch = () => {
 				renderItem={(item, text) => (
 					<TouchableOpacity
 						onPress={() => {
+							// console.log("item", item);
 							navigation.navigate("MainDirServiceScreen", {
+								mainDirectionId: item.mainDirectionId,
 								directionId: [item.directionId],
 								subDirectionId: [item.id],
 								fromCAT: false
@@ -174,6 +176,7 @@ const HomeSearch = () => {
 																	onPress={() => {
 																		sheetRef.current.close();
 																		navigation.navigate("MainDirServiceScreen", {
+																			mainDirectionId: child.mainDirectionId,
 																			directionId: [child.id],
 																			subDirectionId: [sub.id],
 																			fromCAT: false
