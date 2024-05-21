@@ -16,12 +16,11 @@ const MainDirSideBarFilter = (props) => {
 	const [sideFilterData, setSideFilterData] = useState([]);
 
 	const getSideFilterData = async () => {
-		// console.log("RUN get SideFilterData =========>", state.mainDirParams);
 		setLoadingSideFilter(true);
 		await axios
 			.get(`${SERVER_URL}reference/direction`, {
 				params: {
-					mainDirectionId: state?.mainDirParams?.mainDirectionId
+					mainDirectionId: props.mainDirId
 				},
 				headers: {
 					"X-API-KEY": X_API_KEY
@@ -46,7 +45,7 @@ const MainDirSideBarFilter = (props) => {
 			});
 	};
 	useEffect(() => {
-		getSideFilterData();
+		sideFilterData?.length == 0 && getSideFilterData();
 		//HomeScreen -с сонгож орсон DIR -г checked болгох
 		setChecked((prevState) => ({
 			...prevState,
@@ -55,31 +54,23 @@ const MainDirSideBarFilter = (props) => {
 	}, []);
 
 	useEffect(() => {
-		console.log("checked ======>", checked);
 		var checkedItems = [];
 		//Checkbox дарах үед CHECK хийгдсэнүүдээр хайх
 		Object.keys(checked).forEach(function (key, index) {
 			if (checked[key]) {
-				checkedItems.push(key);
+				checkedItems.push(parseInt(key));
 			}
 		});
 
-		console.log("checkedItems ======>", checkedItems);
-		// console.log("sideFilterData ======>", JSON.stringify(sideFilterData));
-
 		const currentDirections = sideFilterData.filter((item) => {
-			console.log(
-				"ZAAAAAAAAAAAAAAA",
-				item.subDirections.some((subdir) => checkedItems.includes(`${subdir.id}`))
-			);
-			return item.subDirections.some((subdir) => checkedItems.includes(`${subdir.id}`));
+			return item.subDirections.some((subdir) => checkedItems.includes(subdir.id));
 		});
-		console.log("currentDirections ======>", currentDirections);
 
 		state.setMainDirParams((prevState) => ({
 			...prevState,
 			page: 1,
 			limit: 10,
+			mainDirectionId: props.mainDirId,
 			directionIds: currentDirections?.map((item) => item.id),
 			subDirectionIds: checkedItems
 		}));

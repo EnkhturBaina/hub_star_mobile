@@ -47,7 +47,6 @@ const MainDirServiceScreen = (props) => {
 	}, [props.navigation]);
 
 	const getMainDirServices = async () => {
-		console.log("RUN get MainDirServices <==========");
 		setLoadingServices(true);
 		setMainDirServiceData([]);
 		await axios
@@ -86,8 +85,7 @@ const MainDirServiceScreen = (props) => {
 	}, []);
 
 	useEffect(() => {
-		if (state.mainDirParams?.directionIds?.length >= 1 && state.mainDirParams?.subDirectionIds?.length >= 1) {
-			console.log("state.mainDirParams", state.mainDirParams);
+		if (state.mainDirParams?.subDirectionIds?.length >= 0) {
 			getMainDirServices();
 		}
 		//Side filter -с check хийгдэх үед GET service -н PARAM -уудыг бэлдээд SERVICE -г дуудах
@@ -96,11 +94,12 @@ const MainDirServiceScreen = (props) => {
 	return (
 		<SideMenu
 			menu={
-				loadingServices ? (
-					<SideFIlterSkeleton />
-				) : (
-					<MainDirSideBarFilter setIsOpen={setIsOpen} isOpen={isOpen} subDir={props.route?.params?.subDirectionId} />
-				)
+				<MainDirSideBarFilter
+					setIsOpen={setIsOpen}
+					isOpen={isOpen}
+					mainDirId={props.route?.params?.mainDirectionId}
+					subDir={props.route?.params?.subDirectionId}
+				/>
 			}
 			isOpen={isOpen}
 			onChange={(isOpen) => setIsOpen(isOpen)}

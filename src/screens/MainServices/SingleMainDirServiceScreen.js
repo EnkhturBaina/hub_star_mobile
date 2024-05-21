@@ -155,7 +155,7 @@ const SingleMainDirServiceScreen = (props) => {
 						>
 							<Text style={{ fontWeight: "bold", fontSize: 22, marginTop: 10 }}>{adviceData?.title}</Text>
 							<Text style={styles.breadContainer}>
-								{state.etTypeName(adviceData?.userType, adviceData?.specialService, (isSlash = true))}
+								{state.getTypeName(adviceData?.userType, adviceData?.specialService, (isSlash = true))}
 								{adviceData?.mainDirection != null ? `${adviceData?.mainDirection?.name} / ` : null}
 								{adviceData?.direction != null ? `${adviceData?.direction?.name} / ` : null}
 								{adviceData?.subDirection != null ? `${adviceData?.subDirection?.name}` : null}
