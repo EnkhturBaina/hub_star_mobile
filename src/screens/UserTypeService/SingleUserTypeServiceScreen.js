@@ -24,6 +24,7 @@ import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { Modal } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+import UserTabData from "../../refs/UserTabData";
 
 const SingleUserTypeServiceScreen = (props) => {
 	const tabBarHeight = useBottomTabBarHeight();
@@ -62,6 +63,7 @@ const SingleUserTypeServiceScreen = (props) => {
 	useEffect(() => {
 		getServiceData();
 	}, []);
+
 	return (
 		<View
 			style={{
@@ -152,6 +154,7 @@ const SingleUserTypeServiceScreen = (props) => {
 						>
 							<Text style={{ fontWeight: "bold", fontSize: 22, marginTop: 10 }}>{adviceData?.title}</Text>
 							<Text style={styles.breadContainer}>
+								{state.getTypeName(adviceData?.userType, adviceData?.specialService, (isSlash = true))}
 								{adviceData?.mainDirection != null ? `${adviceData?.mainDirection?.name} / ` : null}
 								{adviceData?.direction != null ? `${adviceData?.direction?.name} / ` : null}
 								{adviceData?.subDirection != null ? `${adviceData?.subDirection?.name}` : null}

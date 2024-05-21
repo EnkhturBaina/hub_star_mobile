@@ -24,6 +24,8 @@ import dayjs from "dayjs";
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+import UserTabData from "../../refs/UserTabData";
+import SpecialServiceData from "../../refs/SpecialServiceData";
 
 const SingleMainDirServiceScreen = (props) => {
 	const tabBarHeight = useBottomTabBarHeight();
@@ -62,6 +64,7 @@ const SingleMainDirServiceScreen = (props) => {
 	useEffect(() => {
 		getServiceData();
 	}, []);
+
 	return (
 		<View
 			style={{
@@ -152,6 +155,7 @@ const SingleMainDirServiceScreen = (props) => {
 						>
 							<Text style={{ fontWeight: "bold", fontSize: 22, marginTop: 10 }}>{adviceData?.title}</Text>
 							<Text style={styles.breadContainer}>
+								{state.etTypeName(adviceData?.userType, adviceData?.specialService, (isSlash = true))}
 								{adviceData?.mainDirection != null ? `${adviceData?.mainDirection?.name} / ` : null}
 								{adviceData?.direction != null ? `${adviceData?.direction?.name} / ` : null}
 								{adviceData?.subDirection != null ? `${adviceData?.subDirection?.name}` : null}

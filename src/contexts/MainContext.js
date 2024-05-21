@@ -3,6 +3,8 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 import { useNavigation } from "@react-navigation/native";
 import { X_API_KEY, SERVER_URL } from "../constant";
+import UserTabData from "../refs/UserTabData";
+import SpecialServiceData from "../refs/SpecialServiceData";
 
 const MainContext = React.createContext();
 
@@ -367,6 +369,26 @@ export const MainStore = (props) => {
 		return num?.toString().replace(/[^0-9]/g, "");
 	};
 
+	const getTypeName = (userType, specialService, isSlash) => {
+		var typeData = null;
+		if (userType !== null) {
+			typeData = UserTabData.filter((el) => el.type === userType).map(function (obj) {
+				return obj.title;
+			});
+		} else if (specialService !== null) {
+			typeData = SpecialServiceData.filter((el) => el.type === specialService).map(function (obj) {
+				return obj.title;
+			});
+		}
+		if (isSlash) {
+			//Үйлчилгээний дэлгэрэнгүй дотор харагдах
+			return typeData[0] ? `${typeData[0]} / ` : null;
+		} else {
+			//Үйлчилгээнүүд жагсаалтаар харагдах
+			return typeData[0] ? typeData[0] : null;
+		}
+	};
+
 	return (
 		<MainContext.Provider
 			value={{
@@ -417,7 +439,8 @@ export const MainStore = (props) => {
 				mainDirParams,
 				setMainDirParams,
 				subDirectionData,
-				direction
+				direction,
+				getTypeName
 			}}
 		>
 			{props.children}

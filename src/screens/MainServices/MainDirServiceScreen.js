@@ -14,6 +14,7 @@ import Empty from "../../components/Empty";
 import UserTypeServicesSkeleton from "../../components/Skeletons/UserTypeServicesSkeleton";
 import MainDirSideBarFilter from "./MainDirSideBarFilter";
 import SideFIlterSkeleton from "../../components/Skeletons/SideFIlterSkeleton";
+import SpecialServiceData from "../../refs/SpecialServiceData";
 
 const MainDirServiceScreen = (props) => {
 	const state = useContext(MainContext);
@@ -254,11 +255,11 @@ const MainDirServiceScreen = (props) => {
 											resizeMode="cover"
 										/>
 										<View style={{ flexDirection: "column", padding: 10 }}>
-											<Text numberOfLines={1} style={{ fontSize: 16, fontWeight: "500" }}>
+											<Text numberOfLines={2} style={{ fontSize: 16, fontWeight: "500" }}>
 												{el.title}
 											</Text>
 											<Text style={{ color: "#aeaeae", fontWeight: "500" }} numberOfLines={1}>
-												{el.desciption}
+												{state.getTypeName(el.userType, el.specialService, (isSlash = false))}
 											</Text>
 										</View>
 									</TouchableOpacity>

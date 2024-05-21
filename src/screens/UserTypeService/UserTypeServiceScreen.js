@@ -55,10 +55,7 @@ const UserTypeServiceScreen = (props) => {
 				}
 			})
 			.then((response) => {
-				// console.log(
-				//   "get UserTypeServices response",
-				//   JSON.stringify(response.data.response)
-				// );
+				// console.log("get UserTypeServices response", JSON.stringify(response.data.response));
 				setUserTypeServiceData(response.data.response.data);
 			})
 			.catch((error) => {
@@ -80,6 +77,7 @@ const UserTypeServiceScreen = (props) => {
 		//Side filter -с check хийгдэх үед GET service -н PARAM -уудыг бэлдээд SERVICE -г дуудах
 		getUserTypeServices();
 	}, [state.userTypeParam]);
+
 	return (
 		<SideMenu
 			menu={<UserTypeSideBarFilter setIsOpen={setIsOpen} isOpen={isOpen} />}
@@ -214,11 +212,11 @@ const UserTypeServiceScreen = (props) => {
 											resizeMode="cover"
 										/>
 										<View style={{ flexDirection: "column", padding: 10 }}>
-											<Text numberOfLines={1} style={{ fontSize: 16, fontWeight: "500" }}>
+											<Text numberOfLines={2} style={{ fontSize: 16, fontWeight: "500" }}>
 												{el.title}
 											</Text>
 											<Text style={{ color: "#aeaeae", fontWeight: "500" }} numberOfLines={1}>
-												{el.desciption}
+												{state.getTypeName(el.userType, el.specialService, (isSlash = false))}
 											</Text>
 										</View>
 									</TouchableOpacity>
