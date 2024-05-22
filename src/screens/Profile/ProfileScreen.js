@@ -106,33 +106,34 @@ const ProfileScreen = (props) => {
 		console.log("result uri ====>", result?.assets[0]?.uri);
 		if (!result.canceled) {
 			var image = result?.assets[0]?.uri;
+			console.log("image", image);
 			try {
-				// 	const formData = new FormData();
-				// 	if (image) {
-				// 		const fileName = image.split("/").pop();
-				// 		const fileType = fileName.split(".").pop();
-				// 		formData.append(
-				// 			"file",
-				// 			image
-				// 				? {
-				// 						uri: image,
-				// 						name: fileName,
-				// 						type: `image/${fileType}`
-				// 				  }
-				// 				: null
-				// 		);
-				// 	}
-
-				const response = await FileSystem.readAsStringAsync(result?.assets[0]?.uri, {
-					encoding: FileSystem.EncodingType.Base64
-				});
-
-				const blob = base64ToBlobasdasd(response);
-				console.log("blob", blob);
-
 				const formData = new FormData();
-				formData.append("file", blob);
-				console.log("formData", JSON.stringify(formData));
+				if (image) {
+					const fileName = image.split("/").pop();
+					const fileType = fileName.split(".").pop();
+					formData.append(
+						"file",
+						image
+							? {
+									uri: image,
+									name: fileName,
+									type: `image/${fileType}`
+							  }
+							: null
+					);
+				}
+
+				// const response = await FileSystem.readAsStringAsync(result?.assets[0]?.uri, {
+				// 	encoding: FileSystem.EncodingType.Base64
+				// });
+
+				// const blob = base64ToBlobasdasd(response);
+				// console.log("blob", blob);
+
+				// const formData = new FormData();
+				// formData.append("file", blob);
+				// console.log("formData", JSON.stringify(formData));
 
 				state.fileUpload(formData);
 			} catch (error) {

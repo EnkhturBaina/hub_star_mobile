@@ -392,6 +392,7 @@ export const MainStore = (props) => {
 	};
 
 	const fileUpload = async (file) => {
+		console.log("file", JSON.stringify(file));
 		await axios
 			.post(
 				`${SERVER_URL}local-files/fileUpload`,
