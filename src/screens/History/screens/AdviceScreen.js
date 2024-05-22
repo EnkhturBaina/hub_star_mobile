@@ -44,8 +44,7 @@ const AdviceScreen = (props) => {
 			.catch((error) => {
 				console.error("Error fetching get Advices:", error);
 				if (error.response.status == "401") {
-					state.setIsLoggedIn(false);
-					state.setErrorMsg("Токены хүчинтэй хугацаа дууссан байна. Дахин нэвтэрнэ үү");
+					state.Handle_401();
 				}
 			})
 			.finally(() => {

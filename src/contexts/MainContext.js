@@ -159,8 +159,7 @@ export const MainStore = (props) => {
 				setIsLoading(false);
 				console.error("Error fetching get SpecialServiceData:", error);
 				if (error.response.status == "401") {
-					setIsLoggedIn(false);
-					setErrorMsg("Токены хүчинтэй хугацаа дууссан байна. Дахин нэвтэрнэ үү");
+					Handle_401();
 				}
 			})
 			.finally(() => {
@@ -320,8 +319,7 @@ export const MainStore = (props) => {
 				setIsLoading(false);
 				console.error("Error fetching get Main Direction:", error);
 				if (error.response.status == "401") {
-					setIsLoggedIn(false);
-					setErrorMsg("Токены хүчинтэй хугацаа дууссан байна. Дахин нэвтэрнэ үү");
+					Handle_401();
 				}
 			});
 	};
@@ -343,8 +341,7 @@ export const MainStore = (props) => {
 				setIsLoading(false);
 				console.error("Error fetching get Main Direction:", error);
 				if (error.response.status == "401") {
-					setIsLoggedIn(false);
-					setErrorMsg("Токены хүчинтэй хугацаа дууссан байна. Дахин нэвтэрнэ үү");
+					Handle_401();
 				}
 			});
 	};
@@ -386,6 +383,12 @@ export const MainStore = (props) => {
 			//Үйлчилгээнүүд жагсаалтаар харагдах
 			return typeData[0] ? typeData[0] : null;
 		}
+	};
+
+	const Handle_401 = () => {
+		console.log("401");
+		setErrorMsg("Токены хүчинтэй хугацаа дууссан байна. Дахин нэвтэрнэ үү");
+		setIsLoggedIn(false);
 	};
 
 	return (
@@ -439,7 +442,9 @@ export const MainStore = (props) => {
 				setMainDirParams,
 				subDirectionData,
 				direction,
-				getTypeName
+				getTypeName,
+				setErrorMsg,
+				Handle_401
 			}}
 		>
 			{props.children}

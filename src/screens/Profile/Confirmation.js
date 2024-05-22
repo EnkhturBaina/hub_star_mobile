@@ -77,8 +77,7 @@ const Confirmation = (props) => {
 			.catch((error) => {
 				console.error("Error fetching EditProfile=>get ProfileData=>:", error);
 				if (error.response.status == "401") {
-					state.setIsLoggedIn(false);
-					state.setErrorMsg("Токены хүчинтэй хугацаа дууссан байна. Дахин нэвтэрнэ үү");
+					state.Handle_401();
 				}
 			})
 			.finally(() => {
@@ -136,8 +135,7 @@ const Confirmation = (props) => {
 				.catch(function (error) {
 					console.log("err", error.response.data);
 					if (error.response.status == "401") {
-						state.setIsLoggedIn(false);
-						state.setErrorMsg("Токены хүчинтэй хугацаа дууссан байна. Дахин нэвтэрнэ үү");
+						state.Handle_401();
 					}
 				});
 		}

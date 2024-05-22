@@ -42,8 +42,7 @@ const SliderDTLScreen = (props) => {
 			})
 			.catch((error) => {
 				if (error.response.status == "401") {
-					state.setIsLoggedIn(false);
-					state.setErrorMsg("Токены хүчинтэй хугацаа дууссан байна. Дахин нэвтэрнэ үү");
+					state.Handle_401();
 				}
 				// console.error("Error fetching get NewsDTL:", error.response.status);
 			});

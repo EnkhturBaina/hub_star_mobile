@@ -25,7 +25,8 @@ const HistoryScreen = (props) => {
 					process: "DONE"
 				},
 				headers: {
-					"X-API-KEY": X_API_KEY
+					"Content-Type": "application/json"
+					// "X-API-KEY": X_API_KEY
 				}
 			})
 			.then((response) => {
@@ -36,10 +37,10 @@ const HistoryScreen = (props) => {
 				setHistoryServiceData(response.data.response.data);
 			})
 			.catch((error) => {
-				console.error("Error fetching get HistoryServices:", error);
+				console.log("error.response.status", error.response.status);
+				console.log("error.response.data", error.response.data);
 				if (error.response.status == "401") {
-					state.setIsLoggedIn(false);
-					state.setErrorMsg("Токены хүчинтэй хугацаа дууссан байна. Дахин нэвтэрнэ үү");
+					state.Handle_401();
 				}
 			})
 			.finally(() => {
