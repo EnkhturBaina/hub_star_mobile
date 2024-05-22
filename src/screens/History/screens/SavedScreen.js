@@ -87,8 +87,8 @@ const SavedScreen = (props) => {
 									<Text numberOfLines={2} style={{ flex: 1, fontSize: 16, fontWeight: "500" }}>
 										{el.title}
 									</Text>
-									<Text style={{ color: "#aeaeae", fontWeight: "500" }} numberOfLines={3}>
-										{el.desciption}
+									<Text style={{ color: "#aeaeae", fontWeight: "500" }}>
+										{state.getTypeName(el.userType, el.specialService, (isSlash = false))}
 									</Text>
 								</View>
 							</TouchableOpacity>

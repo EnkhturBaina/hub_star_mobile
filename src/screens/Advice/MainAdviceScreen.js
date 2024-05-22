@@ -244,6 +244,7 @@ const styles = StyleSheet.create({
 		fontSize: 16
 	},
 	gridContainer: {
+		flexGrow: 1,
 		flexDirection: "row",
 		flexWrap: "wrap",
 		alignItems: "flex-start",

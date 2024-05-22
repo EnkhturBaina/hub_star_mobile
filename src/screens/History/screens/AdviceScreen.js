@@ -133,6 +133,7 @@ export default AdviceScreen;
 
 const styles = StyleSheet.create({
 	gridContainer: {
+		flexGrow: 1,
 		flexDirection: "row",
 		flexWrap: "wrap",
 		alignItems: "flex-start",

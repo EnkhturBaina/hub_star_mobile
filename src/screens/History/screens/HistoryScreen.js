@@ -25,8 +25,7 @@ const HistoryScreen = (props) => {
 					process: "DONE"
 				},
 				headers: {
-					"Content-Type": "application/json"
-					// "X-API-KEY": X_API_KEY
+					"X-API-KEY": X_API_KEY
 				}
 			})
 			.then((response) => {
@@ -95,7 +94,9 @@ const HistoryScreen = (props) => {
 									<Text numberOfLines={2} style={{ flex: 1, fontSize: 16, fontWeight: "500" }}>
 										{el.title}
 									</Text>
-									<Text style={{ color: "#aeaeae", fontWeight: "500" }}>{el.desciption}</Text>
+									<Text style={{ color: "#aeaeae", fontWeight: "500" }}>
+										{state.getTypeName(el.userType, el.specialService, (isSlash = false))}
+									</Text>
 								</View>
 							</TouchableOpacity>
 						);
