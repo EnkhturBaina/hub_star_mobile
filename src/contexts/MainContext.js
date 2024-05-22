@@ -390,6 +390,31 @@ export const MainStore = (props) => {
 		setErrorMsg("Токены хүчинтэй хугацаа дууссан байна. Дахин нэвтэрнэ үү");
 		setIsLoggedIn(false);
 	};
+	const fileUpload = async (file) => {
+		await axios
+			.post(
+				`${SERVER_URL}local-files/fileUpload`,
+				{ file },
+				{
+					headers: {
+						"Content-Type": "multipart/form-data",
+						"x-api-key": X_API_KEY,
+						Authorization: `Bearer ${token}`
+					}
+				}
+			)
+			.then(async (response) => {
+				// console.log("response login", response.data);
+				if (response.data) {
+				}
+			})
+			.catch(function (error) {
+				console.log("err", error.response.data);
+				if (error.response.status == "401") {
+					// Handle_401();
+				}
+			});
+	};
 
 	return (
 		<MainContext.Provider
@@ -444,7 +469,8 @@ export const MainStore = (props) => {
 				direction,
 				getTypeName,
 				setErrorMsg,
-				Handle_401
+				Handle_401,
+				fileUpload
 			}}
 		>
 			{props.children}

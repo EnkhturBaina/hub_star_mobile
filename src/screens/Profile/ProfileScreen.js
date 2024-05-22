@@ -94,6 +94,7 @@ const ProfileScreen = (props) => {
 						}}
 						onPress={() => {
 							console.log("X");
+							state.fileUpload();
 						}}
 						activeOpacity={0.7}
 					>

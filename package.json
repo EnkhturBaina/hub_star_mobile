@@ -52,7 +52,9 @@
     "react-native-star-rating-widget": "^1.7.3",
     "react-native-tab-view": "^3.5.2",
     "react-native-webview": "^13.10.0",
-    "typescript": "~5.3.3"
+    "typescript": "~5.3.3",
+    "expo-image-picker": "~15.0.5",
+    "expo-file-system": "~17.0.1"
   },
   "devDependencies": {
     "@babel/core": "^7.24.0",
