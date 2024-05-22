@@ -110,7 +110,7 @@ const LoginStackNavigator = (props) => {
 								navigation.navigate("LoginScreen");
 							}}
 						>
-							<Icon type="material-icons" name="keyboard-arrow-left" size={30} />
+							<Icon type="material-icons" name="keyboard-arrow-left" size={35} />
 						</TouchableOpacity>
 					)
 				}}
@@ -130,7 +130,7 @@ const LoginStackNavigator = (props) => {
 								navigation.goBack();
 							}}
 						>
-							<Icon type="material-icons" name="keyboard-arrow-left" size={30} />
+							<Icon type="material-icons" name="keyboard-arrow-left" size={35} />
 						</TouchableOpacity>
 					)
 				}}
@@ -150,7 +150,7 @@ const LoginStackNavigator = (props) => {
 								navigation.goBack();
 							}}
 						>
-							<Icon type="material-icons" name="keyboard-arrow-left" size={30} />
+							<Icon type="material-icons" name="keyboard-arrow-left" size={35} />
 						</TouchableOpacity>
 					)
 				}}
@@ -170,7 +170,7 @@ const LoginStackNavigator = (props) => {
 								navigation.goBack();
 							}}
 						>
-							<Icon type="material-icons" name="keyboard-arrow-left" size={30} />
+							<Icon type="material-icons" name="keyboard-arrow-left" size={35} />
 						</TouchableOpacity>
 					)
 				}}
@@ -190,7 +190,7 @@ const LoginStackNavigator = (props) => {
 								navigation.navigate("LoginScreen");
 							}}
 						>
-							<Icon type="material-icons" name="keyboard-arrow-left" size={30} />
+							<Icon type="material-icons" name="keyboard-arrow-left" size={35} />
 						</TouchableOpacity>
 					)
 				}}
@@ -210,7 +210,7 @@ const LoginStackNavigator = (props) => {
 								navigation.navigate("ResetPassword");
 							}}
 						>
-							<Icon type="material-icons" name="keyboard-arrow-left" size={30} />
+							<Icon type="material-icons" name="keyboard-arrow-left" size={35} />
 						</TouchableOpacity>
 					)
 				}}
@@ -230,7 +230,7 @@ const LoginStackNavigator = (props) => {
 								navigation.navigate("ConfirmPassword");
 							}}
 						>
-							<Icon type="material-icons" name="keyboard-arrow-left" size={30} />
+							<Icon type="material-icons" name="keyboard-arrow-left" size={35} />
 						</TouchableOpacity>
 					)
 				}}
@@ -277,7 +277,7 @@ const HomeScreenStackNavigator = (props) => {
 								navigation.navigate("HomeScreen");
 							}}
 						>
-							<Icon type="material-icons" name="keyboard-arrow-left" size={30} />
+							<Icon type="material-icons" name="keyboard-arrow-left" size={35} />
 						</TouchableOpacity>
 					)
 				}}
@@ -297,7 +297,7 @@ const HomeScreenStackNavigator = (props) => {
 								navigation.navigate("HomeScreen");
 							}}
 						>
-							<Icon type="material-icons" name="keyboard-arrow-left" size={30} />
+							<Icon type="material-icons" name="keyboard-arrow-left" size={35} />
 						</TouchableOpacity>
 					)
 				}}
@@ -317,7 +317,7 @@ const HomeScreenStackNavigator = (props) => {
 								navigation.navigate("HomeScreen");
 							}}
 						>
-							<Icon type="material-icons" name="keyboard-arrow-left" size={30} />
+							<Icon type="material-icons" name="keyboard-arrow-left" size={35} />
 						</TouchableOpacity>
 					)
 				}}
@@ -337,7 +337,7 @@ const HomeScreenStackNavigator = (props) => {
 								navigation.navigate("HomeScreen");
 							}}
 						>
-							<Icon type="material-icons" name="keyboard-arrow-left" size={30} />
+							<Icon type="material-icons" name="keyboard-arrow-left" size={35} />
 						</TouchableOpacity>
 					)
 				}}
@@ -357,7 +357,7 @@ const HomeScreenStackNavigator = (props) => {
 								navigation.navigate("NotificationScreen");
 							}}
 						>
-							<Icon type="material-icons" name="keyboard-arrow-left" size={30} />
+							<Icon type="material-icons" name="keyboard-arrow-left" size={35} />
 						</TouchableOpacity>
 					)
 				}}
@@ -377,7 +377,7 @@ const HomeScreenStackNavigator = (props) => {
 								navigation.navigate("HomeScreen");
 							}}
 						>
-							<Icon type="material-icons" name="keyboard-arrow-left" size={30} />
+							<Icon type="material-icons" name="keyboard-arrow-left" size={35} />
 						</TouchableOpacity>
 					)
 				}}
@@ -397,7 +397,7 @@ const HomeScreenStackNavigator = (props) => {
 								navigation.navigate("HistoryMainScreen");
 							}}
 						>
-							<Icon type="material-icons" name="keyboard-arrow-left" size={30} />
+							<Icon type="material-icons" name="keyboard-arrow-left" size={35} />
 						</TouchableOpacity>
 					)
 				}}
@@ -417,7 +417,7 @@ const HomeScreenStackNavigator = (props) => {
 								navigation.goBack();
 							}}
 						>
-							<Icon type="material-icons" name="keyboard-arrow-left" size={30} />
+							<Icon type="material-icons" name="keyboard-arrow-left" size={35} />
 						</TouchableOpacity>
 					)
 				}}
@@ -438,7 +438,7 @@ const HomeScreenStackNavigator = (props) => {
 								navigation.navigate("HomeScreen");
 							}}
 						>
-							<Icon type="material-icons" name="keyboard-arrow-left" size={30} />
+							<Icon type="material-icons" name="keyboard-arrow-left" size={35} />
 						</TouchableOpacity>
 					)
 				}}
@@ -459,7 +459,7 @@ const HomeScreenStackNavigator = (props) => {
 								navigation.navigate("HomeScreen");
 							}}
 						>
-							<Icon type="material-icons" name="keyboard-arrow-left" size={30} />
+							<Icon type="material-icons" name="keyboard-arrow-left" size={35} />
 						</TouchableOpacity>
 					)
 				}}
@@ -479,7 +479,7 @@ const HomeScreenStackNavigator = (props) => {
 								navigation.navigate("SpecialServiceScreen");
 							}}
 						>
-							<Icon type="material-icons" name="keyboard-arrow-left" size={30} />
+							<Icon type="material-icons" name="keyboard-arrow-left" size={35} />
 						</TouchableOpacity>
 					)
 				}}
@@ -500,7 +500,7 @@ const HomeScreenStackNavigator = (props) => {
 								navigation.navigate("HomeScreen");
 							}}
 						>
-							<Icon type="material-icons" name="keyboard-arrow-left" size={30} />
+							<Icon type="material-icons" name="keyboard-arrow-left" size={35} />
 						</TouchableOpacity>
 					)
 				}}
@@ -520,7 +520,7 @@ const HomeScreenStackNavigator = (props) => {
 								navigation.navigate("UserTypeServiceScreen");
 							}}
 						>
-							<Icon type="material-icons" name="keyboard-arrow-left" size={30} />
+							<Icon type="material-icons" name="keyboard-arrow-left" size={35} />
 						</TouchableOpacity>
 					)
 				}}
@@ -541,7 +541,7 @@ const HomeScreenStackNavigator = (props) => {
 								navigation.navigate("HomeScreen");
 							}}
 						>
-							<Icon type="material-icons" name="keyboard-arrow-left" size={30} />
+							<Icon type="material-icons" name="keyboard-arrow-left" size={35} />
 						</TouchableOpacity>
 					)
 				}}
@@ -561,7 +561,7 @@ const HomeScreenStackNavigator = (props) => {
 								navigation.navigate("MainDirServiceScreen");
 							}}
 						>
-							<Icon type="material-icons" name="keyboard-arrow-left" size={30} />
+							<Icon type="material-icons" name="keyboard-arrow-left" size={35} />
 						</TouchableOpacity>
 					)
 				}}
@@ -609,7 +609,7 @@ const CategoryStackNavigator = (props) => {
 								navigation.navigate("CategoryScreen");
 							}}
 						>
-							<Icon type="material-icons" name="keyboard-arrow-left" size={30} />
+							<Icon type="material-icons" name="keyboard-arrow-left" size={35} />
 						</TouchableOpacity>
 					)
 				}}
@@ -629,7 +629,7 @@ const CategoryStackNavigator = (props) => {
 								navigation.navigate("CAT_MainDirServiceScreen");
 							}}
 						>
-							<Icon type="material-icons" name="keyboard-arrow-left" size={30} />
+							<Icon type="material-icons" name="keyboard-arrow-left" size={35} />
 						</TouchableOpacity>
 					)
 				}}
@@ -665,7 +665,7 @@ const AddServiceStackNavigator = (props) => {
 								navigation.goBack();
 							}}
 						>
-							<Icon type="material-icons" name="keyboard-arrow-left" size={30} />
+							<Icon type="material-icons" name="keyboard-arrow-left" size={35} />
 						</TouchableOpacity>
 					)
 				}}
@@ -685,7 +685,7 @@ const AddServiceStackNavigator = (props) => {
 								navigation.navigate("AddServiceFirst");
 							}}
 						>
-							<Icon type="material-icons" name="keyboard-arrow-left" size={30} />
+							<Icon type="material-icons" name="keyboard-arrow-left" size={35} />
 						</TouchableOpacity>
 					)
 				}}
@@ -705,7 +705,7 @@ const AddServiceStackNavigator = (props) => {
 								navigation.navigate("AddServiceFirst");
 							}}
 						>
-							<Icon type="material-icons" name="keyboard-arrow-left" size={30} />
+							<Icon type="material-icons" name="keyboard-arrow-left" size={35} />
 						</TouchableOpacity>
 					)
 				}}
@@ -776,7 +776,7 @@ const ProfileStackNavigator = (props) => {
 								navigation.navigate("ProfileScreen");
 							}}
 						>
-							<Icon type="material-icons" name="keyboard-arrow-left" size={30} />
+							<Icon type="material-icons" name="keyboard-arrow-left" size={35} />
 						</TouchableOpacity>
 					)
 				}}
@@ -796,7 +796,7 @@ const ProfileStackNavigator = (props) => {
 								navigation.navigate("ProfileScreen");
 							}}
 						>
-							<Icon type="material-icons" name="keyboard-arrow-left" size={30} />
+							<Icon type="material-icons" name="keyboard-arrow-left" size={35} />
 						</TouchableOpacity>
 					)
 				}}
@@ -816,7 +816,7 @@ const ProfileStackNavigator = (props) => {
 								navigation.navigate("ProfileScreen");
 							}}
 						>
-							<Icon type="material-icons" name="keyboard-arrow-left" size={30} />
+							<Icon type="material-icons" name="keyboard-arrow-left" size={35} />
 						</TouchableOpacity>
 					)
 				}}
@@ -836,7 +836,7 @@ const ProfileStackNavigator = (props) => {
 								navigation.navigate("ProfileScreen");
 							}}
 						>
-							<Icon type="material-icons" name="keyboard-arrow-left" size={30} />
+							<Icon type="material-icons" name="keyboard-arrow-left" size={35} />
 						</TouchableOpacity>
 					)
 				}}
@@ -856,7 +856,7 @@ const ProfileStackNavigator = (props) => {
 								navigation.navigate("ProfileScreen");
 							}}
 						>
-							<Icon type="material-icons" name="keyboard-arrow-left" size={30} />
+							<Icon type="material-icons" name="keyboard-arrow-left" size={35} />
 						</TouchableOpacity>
 					)
 				}}
@@ -876,7 +876,7 @@ const ProfileStackNavigator = (props) => {
 								navigation.navigate("ProfileScreen");
 							}}
 						>
-							<Icon type="material-icons" name="keyboard-arrow-left" size={30} />
+							<Icon type="material-icons" name="keyboard-arrow-left" size={35} />
 						</TouchableOpacity>
 					)
 				}}
@@ -896,7 +896,7 @@ const ProfileStackNavigator = (props) => {
 								navigation.navigate("ProfileScreen");
 							}}
 						>
-							<Icon type="material-icons" name="keyboard-arrow-left" size={30} />
+							<Icon type="material-icons" name="keyboard-arrow-left" size={35} />
 						</TouchableOpacity>
 					)
 				}}
@@ -916,7 +916,7 @@ const ProfileStackNavigator = (props) => {
 								navigation.navigate("ProfileScreen");
 							}}
 						>
-							<Icon type="material-icons" name="keyboard-arrow-left" size={30} />
+							<Icon type="material-icons" name="keyboard-arrow-left" size={35} />
 						</TouchableOpacity>
 					)
 				}}
@@ -938,7 +938,8 @@ const styles = StyleSheet.create({
 	headerLeftContainer: {
 		marginLeft: 10,
 		flexDirection: "row",
-		alignItems: "center"
+		alignItems: "center",
+		width: 40
 	},
 	headerRightContainer: {
 		flexDirection: "row",

@@ -227,14 +227,14 @@ const MainDirServiceScreen = (props) => {
 											}
 											style={{
 												width: "100%",
-												height: 150,
+												height: 130,
 												borderTopLeftRadius: 6,
 												borderTopRightRadius: 6
 											}}
 											resizeMode="cover"
 										/>
 										<View style={{ flexDirection: "column", padding: 10 }}>
-											<Text numberOfLines={2} style={{ fontSize: 16, fontWeight: "500" }}>
+											<Text numberOfLines={2} style={{ fontSize: 16, fontWeight: "500", height: 40 }}>
 												{el.title}
 											</Text>
 											<Text style={{ color: "#aeaeae", fontWeight: "500" }} numberOfLines={1}>

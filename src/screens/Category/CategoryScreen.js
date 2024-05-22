@@ -10,22 +10,27 @@ import {
 	SafeAreaView,
 	TextInput
 } from "react-native";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Constants from "expo-constants";
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 import { GRAY_ICON_COLOR, IMG_URL, MAIN_BORDER_RADIUS, MAIN_COLOR, MAIN_COLOR_GRAY } from "../../constant";
 import { Icon, ListItem } from "@rneui/base";
 import MainContext from "../../contexts/MainContext";
-import { useNavigation } from "@react-navigation/native";
+import { useIsFocused, useNavigation } from "@react-navigation/native";
 import { AutocompleteDropdown, AutocompleteDropdownContextProvider } from "react-native-autocomplete-dropdown";
 
 const CategoryScreen = () => {
 	const navigation = useNavigation();
 	const tabBarHeight = useBottomTabBarHeight();
+	const isFocused = useIsFocused();
 	const state = useContext(MainContext);
 
 	const [expanded, setExpanded] = useState({});
 	const [selectedItem, setSelectedItem] = useState(null);
+
+	useEffect(() => {
+		setExpanded({});
+	}, [isFocused]);
 
 	return (
 		<SafeAreaView

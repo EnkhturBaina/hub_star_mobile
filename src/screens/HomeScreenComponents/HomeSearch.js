@@ -80,12 +80,13 @@ const HomeSearch = () => {
 						borderTopStartRadius: 16
 					}
 				}}
+				onClose={() => {
+					setExpanded({});
+				}}
 			>
 				<View style={styles.dirMainContainer}>
 					<ScrollView nestedScrollEnabled contentContainerStyle={styles.dirContainer} bounces={false}>
 						{state?.mainDirection?.map((el, index) => {
-							var dirArr = [];
-							var sub_dirArr = [];
 							return (
 								<View key={index} style={styles.eachDir}>
 									<View
