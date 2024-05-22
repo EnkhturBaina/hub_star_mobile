@@ -71,8 +71,7 @@ const ProfileScreen = (props) => {
 			.patch(
 				`${SERVER_URL}users/${profileData.id}`,
 				{
-					...(whichImg == "changeCover" ? { coverId: imgId } : null),
-					...(whichImg == "changeAvatar" ? { avatarId: imgId } : null)
+					[whichImg]: imgId
 				},
 				{
 					headers: {
@@ -86,8 +85,7 @@ const ProfileScreen = (props) => {
 
 				setProfileData((prevState) => ({
 					...prevState,
-					...(whichImg == "changeCover" ? { coverId: imgId } : null),
-					...(whichImg == "changeAvatar" ? { avatarId: imgId } : null)
+					[whichImg]: imgId
 				}));
 				// setProfileData(response.data.response?.user);
 			})
@@ -150,7 +148,7 @@ const ProfileScreen = (props) => {
 							borderRadius: 100
 						}}
 						onPress={() => {
-							uploadImageAsBinary("changeCover");
+							uploadImageAsBinary("coverId");
 						}}
 						activeOpacity={0.7}
 					>
@@ -160,7 +158,7 @@ const ProfileScreen = (props) => {
 				<View style={styles.profileCircle}>
 					<TouchableOpacity
 						onPress={() => {
-							uploadImageAsBinary("changeAvatar");
+							uploadImageAsBinary("avatarId");
 						}}
 					>
 						<Image
