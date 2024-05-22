@@ -30,7 +30,6 @@ import GradientButton from "../../components/GradientButton";
 import axios from "axios";
 import { menuList } from "./ProfileMenuList";
 import * as ImagePicker from "expo-image-picker";
-import * as FileSystem from "expo-file-system";
 
 const ProfileScreen = (props) => {
 	const state = useContext(MainContext);
@@ -67,77 +66,56 @@ const ProfileScreen = (props) => {
 				setLoadingProfileData(false);
 			});
 	};
+	const updateUserImg = async (imgId, whichImg) => {
+		await axios
+			.patch(
+				`${SERVER_URL}users/${profileData.id}`,
+				{
+					...(whichImg == "changeCover" ? { coverId: imgId } : null),
+					...(whichImg == "changeAvatar" ? { avatarId: imgId } : null)
+				},
+				{
+					headers: {
+						"X-API-KEY": X_API_KEY,
+						Authorization: `Bearer ${state.token}`
+					}
+				}
+			)
+			.then((response) => {
+				// console.log("update UserImg", response.data.response);
+
+				setProfileData((prevState) => ({
+					...prevState,
+					...(whichImg == "changeCover" ? { coverId: imgId } : null),
+					...(whichImg == "changeAvatar" ? { avatarId: imgId } : null)
+				}));
+				// setProfileData(response.data.response?.user);
+			})
+			.catch((error) => {
+				console.error("Error fetching get ProfileData:", error);
+				if (error.response.status == "401") {
+					state.Handle_401();
+				}
+			});
+	};
 
 	useEffect(() => {
 		getProfileData();
 	}, []);
-	const base64ToBlob = (base64) => {
-		const byteCharacters = atob(base64);
-		const byteNumbers = new Array(byteCharacters.length);
 
-		for (let i = 0; i < byteCharacters.length; i++) {
-			byteNumbers[i] = byteCharacters.charCodeAt(i);
-		}
-
-		const byteArray = new Uint8Array(byteNumbers);
-		return new Blob([byteArray], { type: "image/jpeg" }); // Specify the appropriate MIME type
-	};
-
-	const base64ToBlobasdasd = async (base64) => {
-		try {
-			const response = await fetch(`data:image/jpeg;base64,${base64}`);
-			const blob = await response.blob();
-			return blob;
-		} catch (error) {
-			console.error("Error converting base64 to blob: ", error);
-			return null;
-		}
-	};
-	const uploadImageAsBinary = async () => {
+	const uploadImageAsBinary = async (val) => {
 		const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
 
 		if (status !== "granted") {
-			console.log("Permission to access media library denied");
+			// console.log("Permission to access media library denied");
 			return;
 		}
-
 		const result = await ImagePicker.launchImageLibraryAsync();
-		console.log("result", result);
-		console.log("result uri ====>", result?.assets[0]?.uri);
 		if (!result.canceled) {
-			var image = result?.assets[0]?.uri;
-			console.log("image", image);
-			try {
-				const formData = new FormData();
-				if (image) {
-					const fileName = image.split("/").pop();
-					const fileType = fileName.split(".").pop();
-					formData.append(
-						"file",
-						image
-							? {
-									uri: image,
-									name: fileName,
-									type: `image/${fileType}`
-							  }
-							: null
-					);
-				}
-
-				// const response = await FileSystem.readAsStringAsync(result?.assets[0]?.uri, {
-				// 	encoding: FileSystem.EncodingType.Base64
-				// });
-
-				// const blob = base64ToBlobasdasd(response);
-				// console.log("blob", blob);
-
-				// const formData = new FormData();
-				// formData.append("file", blob);
-				// console.log("formData", JSON.stringify(formData));
-
-				state.fileUpload(formData);
-			} catch (error) {
-				console.log("error", error);
+			const data = await state.fileUpload(result?.assets[0]?.uri);
+			// console.log("data", data);
+			if (data) {
+				updateUserImg(data?.response?.id, val);
 			}
 		}
 	};
@@ -154,7 +132,14 @@ const ProfileScreen = (props) => {
 			<ScrollView contentContainerStyle={{ flexGrow: 1 }} showsVerticalScrollIndicator={false} bounces={false}>
 				<StatusBar translucent barStyle={Platform.OS == "ios" ? "dark-content" : "default"} />
 				<View style={{ position: "relative" }}>
-					<Image style={styles.headerBg} source={require("../../../assets/splash_bg_1.jpg")} />
+					<Image
+						style={styles.headerBg}
+						source={
+							profileData?.coverId
+								? { uri: IMG_URL + profileData?.coverId }
+								: require("../../../assets/splash_bg_1.jpg")
+						}
+					/>
 					<TouchableOpacity
 						style={{
 							position: "absolute",
@@ -165,9 +150,7 @@ const ProfileScreen = (props) => {
 							borderRadius: 100
 						}}
 						onPress={() => {
-							console.log("X");
-							uploadImageAsBinary();
-							// state.fileUpload();
+							uploadImageAsBinary("changeCover");
 						}}
 						activeOpacity={0.7}
 					>
@@ -175,16 +158,22 @@ const ProfileScreen = (props) => {
 					</TouchableOpacity>
 				</View>
 				<View style={styles.profileCircle}>
-					<Image
-						style={styles.userIcon}
-						source={
-							profileData?.avatarId
-								? {
-										uri: IMG_URL + profileData?.avatarId
-								  }
-								: require("../../../assets/PersonCircle.png")
-						}
-					/>
+					<TouchableOpacity
+						onPress={() => {
+							uploadImageAsBinary("changeAvatar");
+						}}
+					>
+						<Image
+							style={styles.userIcon}
+							source={
+								profileData?.avatarId
+									? {
+											uri: IMG_URL + profileData?.avatarId
+									  }
+									: require("../../../assets/PersonCircle.png")
+							}
+						/>
+					</TouchableOpacity>
 					<View
 						style={{
 							flexDirection: "column",

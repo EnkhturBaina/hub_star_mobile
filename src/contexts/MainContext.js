@@ -5,6 +5,7 @@ import { useNavigation } from "@react-navigation/native";
 import { X_API_KEY, SERVER_URL } from "../constant";
 import UserTabData from "../refs/UserTabData";
 import SpecialServiceData from "../refs/SpecialServiceData";
+import * as FileSystem from "expo-file-system";
 
 const MainContext = React.createContext();
 
@@ -391,31 +392,24 @@ export const MainStore = (props) => {
 		setIsLoggedIn(false);
 	};
 
-	const fileUpload = async (file) => {
-		console.log("file", JSON.stringify(file));
-		await axios
-			.post(
-				`${SERVER_URL}local-files/fileUpload`,
-				{ file },
-				{
-					headers: {
-						"Content-Type": "multipart/form-data",
-						"x-api-key": X_API_KEY,
-						Authorization: `Bearer ${token}`
-					}
-				}
-			)
-			.then(async (response) => {
-				console.log("response file Upload", response.data);
-				if (response.data) {
-				}
-			})
-			.catch(function (error) {
-				console.log("err", error.response.data);
-				if (error.response.status == "401") {
-					// Handle_401();
-				}
+	const fileUpload = async (fileUri) => {
+		try {
+			const response = await FileSystem.uploadAsync(`${SERVER_URL}local-files/fileUpload`, fileUri, {
+				fieldName: "file",
+				httpMethod: "POST",
+				uploadType: FileSystem.FileSystemUploadType.MULTIPART
 			});
+			// console.log("response=>", response?.status);
+			// console.log("response=>", response?.body);
+			if (response?.status == 200) {
+				const data = JSON.parse(response?.body);
+				return data;
+			} else {
+				return false;
+			}
+		} catch (error) {
+			console.log(error);
+		}
 	};
 
 	return (
