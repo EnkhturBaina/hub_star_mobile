@@ -13,6 +13,7 @@ import EditProfileSkeleton from "../../components/Skeletons/EditProfileSkeleton"
 import { Icon } from "@rneui/base";
 import UserTabData from "../../refs/UserTabData";
 import BottomSheet from "../../components/BottomSheet";
+import * as ImagePicker from "expo-image-picker";
 
 const Confirmation = (props) => {
 	const state = useContext(MainContext);
@@ -31,7 +32,11 @@ const Confirmation = (props) => {
 		organizationName: "",
 		organizationRegno: "",
 		webUrl: "",
-		experience: ""
+		experience: "",
+		frontPassportImageId: "",
+		behindPassportImageId: "",
+		selfieImageId: "",
+		organizationLogoId: ""
 	});
 
 	const [visibleSnack, setVisibleSnack] = useState(false);
@@ -43,6 +48,24 @@ const Confirmation = (props) => {
 	const [displayName, setDisplayName] = useState(""); //LOOKUP -д харагдах утга (display value)
 	const [actionKey, setActionKey] = useState(""); //Сонгогдсон OBJECT -с ямар key -р утга авах (Жнь: {object}.id)
 
+	const image_data = [
+		{
+			title: "Үнэмлэхний урд талын зураг",
+			path: "frontPassportImageId"
+		},
+		{
+			title: "Селфи зураг",
+			path: "selfieImageId"
+		},
+		{
+			title: "Үнэмлэхний ард талын зураг",
+			path: "behindPassportImageId"
+		},
+		{
+			title: "Лого",
+			path: "organizationLogoId"
+		}
+	];
 	const setLookupData = (data, field, display, action_key) => {
 		// console.log("refRBSheet", refRBSheet);
 		setData(data); //Lookup -д харагдах дата
@@ -141,6 +164,29 @@ const Confirmation = (props) => {
 		}
 	};
 
+	const uploadImageAsBinary = async (val) => {
+		const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+
+		if (status !== "granted") {
+			// console.log("Permission to access media library denied");
+			return;
+		}
+		const result = await ImagePicker.launchImageLibraryAsync();
+		if (!result.canceled) {
+			const data = await state.fileUpload(result?.assets[0]?.uri);
+			// console.log("data", data);
+			if (data) {
+				setProfileData((prevState) => ({
+					...prevState,
+					[val]: data?.response?.id
+				}));
+			}
+		}
+	};
+
+	useEffect(() => {
+		console.log("profileData", profileData);
+	}, [profileData]);
 	return (
 		<View
 			style={{
@@ -198,22 +244,21 @@ const Confirmation = (props) => {
 							</View>
 							<Text style={styles.label}>Зураг оруулах</Text>
 							<View style={styles.gridContainer}>
-								<TouchableOpacity onPress={() => {}} style={styles.gridItem}>
-									<Text style={styles.featureText}>Үнэмлэхний урд талын зураг</Text>
-									<Icon name="image" type="feather" size={20} color={GRAY_ICON_COLOR} />
-								</TouchableOpacity>
-								<TouchableOpacity onPress={() => {}} style={styles.gridItem}>
-									<Text style={styles.featureText}>Селфи зураг</Text>
-									<Icon name="image" type="feather" size={20} color={GRAY_ICON_COLOR} />
-								</TouchableOpacity>
-								<TouchableOpacity onPress={() => {}} style={styles.gridItem}>
-									<Text style={styles.featureText}>Үнэмлэхний ард талын зураг</Text>
-									<Icon name="image" type="feather" size={20} color={GRAY_ICON_COLOR} />
-								</TouchableOpacity>
-								<TouchableOpacity onPress={() => {}} style={styles.gridItem}>
-									<Text style={styles.featureText}>Лого</Text>
-									<Icon name="image" type="feather" size={20} color={GRAY_ICON_COLOR} />
-								</TouchableOpacity>
+								{image_data.map((el, index) => {
+									return (
+										<View key={index} style={styles.gridItem}>
+											<TouchableOpacity
+												onPress={() => {
+													uploadImageAsBinary(el.path);
+												}}
+												style={{ width: "90%", height: "100%", justifyContent: "center" }}
+											>
+												<Text style={styles.featureText}>{el.title}</Text>
+											</TouchableOpacity>
+											<Icon name="upload" type="feather" size={20} color={GRAY_ICON_COLOR} />
+										</View>
+									);
+								})}
 							</View>
 							<LoanInput
 								label="Байгууллагын нэр"
@@ -341,17 +386,18 @@ const styles = StyleSheet.create({
 	},
 	gridItem: {
 		marginBottom: 10,
-		borderRadius: 4,
-		height: 40,
+		borderRadius: 8,
+		height: 45,
 		flexDirection: "row",
-		justifyContent: "center",
+		justifyContent: "space-between",
 		alignItems: "center",
 		backgroundColor: MAIN_COLOR_GRAY,
-		width: "100%" // is 50% of container width
+		width: "100%", // is 50% of container width
+		paddingHorizontal: 20
 	},
 	featureText: {
 		color: "#798585",
-		marginRight: 5,
-		fontSize: 12
+		marginRight: 5
+		// fontSize: 12
 	}
 });
