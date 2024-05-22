@@ -390,6 +390,7 @@ export const MainStore = (props) => {
 		setErrorMsg("Токены хүчинтэй хугацаа дууссан байна. Дахин нэвтэрнэ үү");
 		setIsLoggedIn(false);
 	};
+
 	const fileUpload = async (file) => {
 		await axios
 			.post(
@@ -404,7 +405,7 @@ export const MainStore = (props) => {
 				}
 			)
 			.then(async (response) => {
-				// console.log("response login", response.data);
+				console.log("response file Upload", response.data);
 				if (response.data) {
 				}
 			})

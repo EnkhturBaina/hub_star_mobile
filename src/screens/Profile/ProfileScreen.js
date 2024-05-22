@@ -29,6 +29,8 @@ import RBSheet from "react-native-raw-bottom-sheet";
 import GradientButton from "../../components/GradientButton";
 import axios from "axios";
 import { menuList } from "./ProfileMenuList";
+import * as ImagePicker from "expo-image-picker";
+import * as FileSystem from "expo-file-system";
 
 const ProfileScreen = (props) => {
 	const state = useContext(MainContext);
@@ -69,6 +71,75 @@ const ProfileScreen = (props) => {
 	useEffect(() => {
 		getProfileData();
 	}, []);
+	const base64ToBlob = (base64) => {
+		const byteCharacters = atob(base64);
+		const byteNumbers = new Array(byteCharacters.length);
+
+		for (let i = 0; i < byteCharacters.length; i++) {
+			byteNumbers[i] = byteCharacters.charCodeAt(i);
+		}
+
+		const byteArray = new Uint8Array(byteNumbers);
+		return new Blob([byteArray], { type: "image/jpeg" }); // Specify the appropriate MIME type
+	};
+
+	const base64ToBlobasdasd = async (base64) => {
+		try {
+			const response = await fetch(`data:image/jpeg;base64,${base64}`);
+			const blob = await response.blob();
+			return blob;
+		} catch (error) {
+			console.error("Error converting base64 to blob: ", error);
+			return null;
+		}
+	};
+	const uploadImageAsBinary = async () => {
+		const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+
+		if (status !== "granted") {
+			console.log("Permission to access media library denied");
+			return;
+		}
+
+		const result = await ImagePicker.launchImageLibraryAsync();
+		console.log("result", result);
+		console.log("result uri ====>", result?.assets[0]?.uri);
+		if (!result.canceled) {
+			var image = result?.assets[0]?.uri;
+			try {
+				// 	const formData = new FormData();
+				// 	if (image) {
+				// 		const fileName = image.split("/").pop();
+				// 		const fileType = fileName.split(".").pop();
+				// 		formData.append(
+				// 			"file",
+				// 			image
+				// 				? {
+				// 						uri: image,
+				// 						name: fileName,
+				// 						type: `image/${fileType}`
+				// 				  }
+				// 				: null
+				// 		);
+				// 	}
+
+				const response = await FileSystem.readAsStringAsync(result?.assets[0]?.uri, {
+					encoding: FileSystem.EncodingType.Base64
+				});
+
+				const blob = base64ToBlobasdasd(response);
+				console.log("blob", blob);
+
+				const formData = new FormData();
+				formData.append("file", blob);
+				console.log("formData", JSON.stringify(formData));
+
+				state.fileUpload(formData);
+			} catch (error) {
+				console.log("error", error);
+			}
+		}
+	};
 
 	return (
 		<SafeAreaProvider
@@ -94,7 +165,8 @@ const ProfileScreen = (props) => {
 						}}
 						onPress={() => {
 							console.log("X");
-							state.fileUpload();
+							uploadImageAsBinary();
+							// state.fileUpload();
 						}}
 						activeOpacity={0.7}
 					>
