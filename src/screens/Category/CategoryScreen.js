@@ -14,7 +14,7 @@ import React, { useContext, useEffect, useState } from "react";
 import Constants from "expo-constants";
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 import { GRAY_ICON_COLOR, IMG_URL, MAIN_BORDER_RADIUS, MAIN_COLOR, MAIN_COLOR_GRAY } from "../../constant";
-import { Icon, ListItem } from "@rneui/base";
+import { Badge, Icon, ListItem } from "@rneui/base";
 import MainContext from "../../contexts/MainContext";
 import { useIsFocused, useNavigation } from "@react-navigation/native";
 import { AutocompleteDropdown, AutocompleteDropdownContextProvider } from "react-native-autocomplete-dropdown";
@@ -30,6 +30,7 @@ const CategoryScreen = () => {
 
 	useEffect(() => {
 		setExpanded({});
+		state.getNotifications();
 	}, [isFocused]);
 
 	return (
@@ -63,8 +64,29 @@ const CategoryScreen = () => {
 						</View>
 					</TouchableOpacity>
 					<View style={styles.headerIcons}>
-						<Icon name="bell" type="feather" size={23} style={{ marginRight: 10 }} onPress={() => console.log("X")} />
-						<Icon name="chatbox-ellipses-outline" type="ionicon" size={25} onPress={() => console.log("X")} />
+						<TouchableOpacity
+							style={{
+								height: 40,
+								width: 40,
+								justifyContent: "center",
+								marginRight: 10
+							}}
+							onPress={() => navigation.navigate("NotificationScreen")}
+						>
+							<Icon name="bell" type="feather" size={28} />
+							<Badge
+								status="success"
+								value={state.notifications?.length > 0 ? state.notifications?.filter((el) => !el.isSeen)?.length : 0}
+								containerStyle={{ position: "absolute", top: 0, left: 20 }}
+								badgeStyle={{ backgroundColor: MAIN_COLOR }}
+							/>
+						</TouchableOpacity>
+						<Icon
+							name="chatbox-ellipses-outline"
+							type="ionicon"
+							size={30}
+							onPress={() => navigation.navigate("HistoryMainScreen")}
+						/>
 					</View>
 				</View>
 				<TouchableOpacity
