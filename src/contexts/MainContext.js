@@ -434,9 +434,30 @@ export const MainStore = (props) => {
 				}
 				// console.error("Error fetching get NewsDTL:", error.response.status);
 			});
-		console.log("data", data);
 		return data;
 	};
+
+	const handleNotification = async (notification_data) => {
+		const data = await axios
+			.post(`${SERVER_URL}notification`, notification_data, {
+				headers: {
+					"x-api-key": X_API_KEY,
+					Authorization: `Bearer ${token}`
+				}
+			})
+			.then((response) => {
+				return "Үйлчилгээ амжилттай захиаллаа";
+			})
+			.catch((error) => {
+				console.log("error", error);
+				if (error.response.status == "401") {
+					Handle_401();
+				}
+				// console.error("Error fetching get NewsDTL:", error.response.status);
+			});
+		return data;
+	};
+
 	return (
 		<MainContext.Provider
 			value={{
@@ -492,7 +513,8 @@ export const MainStore = (props) => {
 				setErrorMsg,
 				Handle_401,
 				fileUpload,
-				saveAd
+				saveAd,
+				handleNotification
 			}}
 		>
 			{props.children}

@@ -55,7 +55,7 @@ const SingleSpecialScreen = (props) => {
 				}
 			})
 			.then((response) => {
-				// console.log("get Advice response", JSON.stringify(response.data.response));
+				console.log("get Advice response", JSON.stringify(response.data.response));
 				setAdviceData(response.data.response);
 			})
 			.catch((error) => {
@@ -181,7 +181,24 @@ const SingleSpecialScreen = (props) => {
 									}}
 								/>
 								<View style={{ width: "85%" }}>
-									<GradientButton text="Үйлчилгээг захиалах" action={() => {}} height={40} radius={6} />
+									<GradientButton
+										text="Үйлчилгээг захиалах"
+										action={() => {
+											state
+												.handleNotification({
+													id: 0,
+													authorId: adviceData.createdBy,
+													advertisementId: adviceData.id,
+													process: "DOING",
+													description: "Таньд ирсэн захиалга."
+												})
+												.then((value) => {
+													onToggleSnackBar(value);
+												});
+										}}
+										height={40}
+										radius={6}
+									/>
 								</View>
 							</View>
 							<Text>{adviceData?.desciption}</Text>
@@ -312,6 +329,7 @@ const styles = StyleSheet.create({
 		height: 220,
 		width: "100%",
 		flex: 1,
-		borderRadius: 12
+		borderRadius: 12,
+		backgroundColor: "#fff"
 	}
 });
