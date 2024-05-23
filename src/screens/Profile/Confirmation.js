@@ -1,6 +1,15 @@
-import { StyleSheet, View, Platform, ScrollView, KeyboardAvoidingView, Text, TouchableOpacity } from "react-native";
+import {
+	StyleSheet,
+	View,
+	Platform,
+	ScrollView,
+	KeyboardAvoidingView,
+	Text,
+	TouchableOpacity,
+	Modal
+} from "react-native";
 import React, { useState, useEffect, useContext } from "react";
-import { GRAY_ICON_COLOR, MAIN_COLOR_GRAY, SERVER_URL, X_API_KEY } from "../../constant";
+import { GRAY_ICON_COLOR, IMG_URL, MAIN_BG_GRAY, MAIN_COLOR_GRAY, SERVER_URL, X_API_KEY } from "../../constant";
 import MainContext from "../../contexts/MainContext";
 import LoanInput from "../../components/LoanInput";
 import CustomDialog from "../../components/CustomDialog";
@@ -8,12 +17,13 @@ import axios from "axios";
 import CustomSnackbar from "../../components/CustomSnackbar";
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 import GradientButton from "../../components/GradientButton";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import EditProfileSkeleton from "../../components/Skeletons/EditProfileSkeleton";
 import { Icon } from "@rneui/base";
 import UserTabData from "../../refs/UserTabData";
 import BottomSheet from "../../components/BottomSheet";
 import * as ImagePicker from "expo-image-picker";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { ImageZoom } from "@likashefqet/react-native-image-zoom";
 
 const Confirmation = (props) => {
 	const state = useContext(MainContext);
@@ -24,6 +34,8 @@ const Confirmation = (props) => {
 	const [visibleDialog, setVisibleDialog] = useState(false); //Dialog харуулах
 	const [dialogType, setDialogType] = useState("warning"); //Dialog харуулах төрөл
 	const [dialogText, setDialogText] = useState(""); //Dialog -н текст
+	const [visible1, setVisible1] = useState(false);
+	const [zoomImgURL, setZoomImgURL] = useState(null);
 
 	const [loadingProfileData, setLoadingProfileData] = useState(false);
 	const [profileData, setProfileData] = useState({
@@ -48,7 +60,7 @@ const Confirmation = (props) => {
 	const [displayName, setDisplayName] = useState(""); //LOOKUP -д харагдах утга (display value)
 	const [actionKey, setActionKey] = useState(""); //Сонгогдсон OBJECT -с ямар key -р утга авах (Жнь: {object}.id)
 
-	const image_data = [
+	const IMAGE_DATA = [
 		{
 			title: "Үнэмлэхний урд талын зураг",
 			path: "frontPassportImageId"
@@ -139,7 +151,11 @@ const Confirmation = (props) => {
 						organizationName: profileData?.organizationName,
 						organizationRegno: profileData?.organizationRegno,
 						// webUrl: profileData?.webUrl,
-						experience: profileData?.experience
+						experience: profileData?.experience,
+						frontPassportImageId: profileData?.frontPassportImageId,
+						selfieImageId: profileData?.selfieImageId,
+						behindPassportImageId: profileData?.behindPassportImageId,
+						organizationLogoId: profileData?.organizationLogoId
 					},
 					{
 						headers: {
@@ -184,9 +200,6 @@ const Confirmation = (props) => {
 		}
 	};
 
-	useEffect(() => {
-		console.log("profileData", profileData);
-	}, [profileData]);
 	return (
 		<View
 			style={{
@@ -244,18 +257,36 @@ const Confirmation = (props) => {
 							</View>
 							<Text style={styles.label}>Зураг оруулах</Text>
 							<View style={styles.gridContainer}>
-								{image_data.map((el, index) => {
+								{IMAGE_DATA.map((el, index) => {
 									return (
 										<View key={index} style={styles.gridItem}>
 											<TouchableOpacity
 												onPress={() => {
-													uploadImageAsBinary(el.path);
+													if (!profileData?.[el.path]) {
+														onToggleSnackBar(`${el.title} оруулаагүй байна.`);
+													} else {
+														setZoomImgURL(IMG_URL + profileData?.[el.path]);
+														setVisible1(true);
+													}
 												}}
 												style={{ width: "90%", height: "100%", justifyContent: "center" }}
 											>
 												<Text style={styles.featureText}>{el.title}</Text>
 											</TouchableOpacity>
-											<Icon name="upload" type="feather" size={20} color={GRAY_ICON_COLOR} />
+											<TouchableOpacity
+												style={{
+													height: 45,
+													justifyContent: "center",
+													width: 45,
+													borderLeftWidth: 1,
+													borderLeftColor: MAIN_BG_GRAY
+												}}
+												onPress={() => {
+													uploadImageAsBinary(el.path);
+												}}
+											>
+												<Icon name="upload" type="feather" size={20} color={GRAY_ICON_COLOR} />
+											</TouchableOpacity>
 										</View>
 									);
 								})}
@@ -345,6 +376,26 @@ const Confirmation = (props) => {
 				}}
 				actionKey={actionKey}
 			/>
+			<Modal
+				animationType="slide"
+				transparent={true}
+				onRequestClose={() => {
+					setVisible1(!visible1);
+				}}
+				visible={visible1}
+				style={{
+					backgroundColor: "rgba(52, 52, 52, 0.9)"
+				}}
+			>
+				<View style={{ flex: 1, backgroundColor: "rgba(52, 52, 52, 0.9)", paddingBottom: 20 }}>
+					<GestureHandlerRootView>
+						<ImageZoom source={{ uri: zoomImgURL }} style={{ flex: 1, height: 200, width: "100%" }} />
+					</GestureHandlerRootView>
+					<View style={{ width: 200, alignSelf: "center", marginTop: 10 }}>
+						<GradientButton text="Хаах" action={() => setVisible1(false)} height={40} radius={6} />
+					</View>
+				</View>
+			</Modal>
 		</View>
 	);
 };
