@@ -13,7 +13,6 @@ import {
 import React, { useContext, useEffect, useState } from "react";
 import { IMG_URL, SERVER_URL, X_API_KEY } from "../constant";
 import axios from "axios";
-import { Icon } from "@rneui/base";
 import GradientButton from "../components/GradientButton";
 import ServiceDTLSkeleton from "../components/Skeletons/ServiceDTLSkeleton";
 import { ImageZoom } from "@likashefqet/react-native-image-zoom";
@@ -55,7 +54,7 @@ const NotificationDTLScreen = (props) => {
 				}
 			})
 			.then((response) => {
-				console.log("get Advice response", JSON.stringify(response.data.response));
+				// console.log("get Advice response", JSON.stringify(response.data.response));
 				setAdviceData(response.data.response);
 			})
 			.catch((error) => {
@@ -70,8 +69,74 @@ const NotificationDTLScreen = (props) => {
 	};
 	useEffect(() => {
 		getAdvice();
+		handleSeen();
+		console.log("notif_process", props.route?.params?.notif_data);
 	}, []);
 
+	const handleSeen = async () => {
+		await axios
+			.patch(
+				`${SERVER_URL}notification/${props.route?.params?.notif_data?.id}`,
+				{
+					isSeen: true
+				},
+				{
+					headers: {
+						"X-API-KEY": X_API_KEY,
+						Authorization: `Bearer ${state.token}`
+					}
+				}
+			)
+			.then((response) => {
+				// console.log("handle Seen =========>", response.data.response);
+				state.getNotifications();
+			})
+			.catch((error) => {
+				console.error("Error fetching get ProfileData:", error);
+				if (error.response.status == "401") {
+					state.Handle_401();
+				}
+			});
+	};
+	const handleApprove = async () => {
+		await axios
+			.patch(
+				`${SERVER_URL}notification/${props.route?.params?.notif_data?.id}`,
+				{
+					process: "DOING",
+					doingBy: props.route?.params?.notif_data?.createdBy
+				},
+				{
+					headers: {
+						"X-API-KEY": X_API_KEY,
+						Authorization: `Bearer ${state.token}`
+					}
+				}
+			)
+			.then((response) => {
+				// console.log("handle Approve =========>", response.data);
+				if (response.data?.statusCode == 200) {
+					// onToggleSnackBar("Үйлчилгээний төлөв амжилттай солигдлоо");
+					state
+						.handleNotification({
+							id: 0,
+							authorId: props.route?.params?.notif_data.createdBy,
+							advertisementId: adviceData.id,
+							process: "CREATED",
+							description: "Таны захиалгыг хүлээн авлаа. Баяр хүргэе."
+						})
+						.then((value) => {
+							onToggleSnackBar("Амжилттай үйлчилгээний төлөв солигдлоо");
+						});
+				}
+			})
+			.catch((error) => {
+				console.error("Error fetching get ProfileData:", error);
+				if (error.response.status == "401") {
+					state.Handle_401();
+				}
+			});
+	};
 	return (
 		<View
 			style={{
@@ -224,44 +289,53 @@ const NotificationDTLScreen = (props) => {
 						</View>
 					</ScrollView>
 				)}
-				<View
-					style={{
-						flexDirection: "row",
-						justifyContent: "space-between",
-						marginTop: 10,
-						alignItems: "center",
-						marginHorizontal: 20,
-						paddingBottom: 20
-					}}
-				>
-					<TouchableOpacity
+				{props.route?.params?.notif_data?.process == "DOING" ? (
+					<View
 						style={{
-							width: "48%",
-							borderWidth: 2,
-							borderRadius: 8,
-							borderColor: "#aeaeae",
-							height: 40
+							flexDirection: "row",
+							justifyContent: "space-between",
+							marginTop: 10,
+							alignItems: "center",
+							marginHorizontal: 20,
+							paddingBottom: 20
 						}}
-						onPress={() => {}}
 					>
-						<Text
+						<TouchableOpacity
 							style={{
-								flex: 1,
-								textAlign: "center",
-								paddingVertical: Platform.OS == "ios" ? 8 : 0,
-								verticalAlign: "middle",
-								fontSize: 18,
-								fontWeight: "500",
-								color: "#aeaeae"
+								width: "48%",
+								borderWidth: 2,
+								borderRadius: 8,
+								borderColor: "#aeaeae",
+								height: 40
 							}}
+							onPress={() => {}}
 						>
-							Татгалзах
-						</Text>
-					</TouchableOpacity>
-					<View style={{ width: "48%" }}>
-						<GradientButton text="Зөвшөөрөх" action={() => {}} height={40} radius={6} />
+							<Text
+								style={{
+									flex: 1,
+									textAlign: "center",
+									paddingVertical: Platform.OS == "ios" ? 8 : 0,
+									verticalAlign: "middle",
+									fontSize: 18,
+									fontWeight: "500",
+									color: "#aeaeae"
+								}}
+							>
+								Татгалзах
+							</Text>
+						</TouchableOpacity>
+						<View style={{ width: "48%" }}>
+							<GradientButton
+								text="Зөвшөөрөх"
+								action={() => {
+									handleApprove();
+								}}
+								height={40}
+								radius={6}
+							/>
+						</View>
 					</View>
-				</View>
+				) : null}
 				<Modal
 					animationType="slide"
 					transparent={true}

@@ -42,7 +42,10 @@ const NotificationScreen = (props) => {
 							key={index2}
 							onPress={() =>
 								props.navigation.navigate("NotificationDTLScreen", {
-									adv_id: dtl.advertisement?.id
+									adv_id: dtl.advertisement?.id,
+									notif_data: dtl,
+									notif_id: dtl?.id,
+									notif_process: dtl?.process
 								})
 							}
 						>
