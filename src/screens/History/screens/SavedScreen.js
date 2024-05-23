@@ -14,6 +14,7 @@ const SavedScreen = (props) => {
 	const [savedServiceData, setSavedServiceData] = useState(null);
 
 	const getSavedServices = async () => {
+		console.log("getSavedServices");
 		setLoadingServices(true);
 		await axios
 			.get(`${SERVER_URL}authentication`, {

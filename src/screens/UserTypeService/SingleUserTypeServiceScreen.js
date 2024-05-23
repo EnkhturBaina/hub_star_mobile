@@ -24,7 +24,7 @@ import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { Modal } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-import UserTabData from "../../refs/UserTabData";
+import CustomSnackbar from "../../components/CustomSnackbar";
 
 const SingleUserTypeServiceScreen = (props) => {
 	const tabBarHeight = useBottomTabBarHeight();
@@ -33,6 +33,17 @@ const SingleUserTypeServiceScreen = (props) => {
 	const [adviceData, setAdviceData] = useState(null);
 	const [visible1, setVisible1] = useState(false);
 	const [zoomImgURL, setZoomImgURL] = useState(null);
+	const [visibleSnack, setVisibleSnack] = useState(false);
+	const [snackBarMsg, setSnackBarMsg] = useState("");
+
+	//Snacbkbar харуулах
+	const onToggleSnackBar = (msg) => {
+		setVisibleSnack(!visibleSnack);
+		setSnackBarMsg(msg);
+	};
+
+	//Snacbkbar хаах
+	const onDismissSnackBar = () => setVisibleSnack(false);
 
 	const getServiceData = async () => {
 		setLoadingAdvice(true);
@@ -79,6 +90,7 @@ const SingleUserTypeServiceScreen = (props) => {
 				}}
 			>
 				<StatusBar translucent barStyle={Platform.OS == "ios" ? "dark-content" : "default"} />
+				<CustomSnackbar visible={visibleSnack} dismiss={onDismissSnackBar} text={snackBarMsg} topPos={1} />
 				{loadingAdvice || adviceData == null ? (
 					<ServiceDTLSkeleton />
 				) : (
@@ -159,7 +171,17 @@ const SingleUserTypeServiceScreen = (props) => {
 								{adviceData?.subDirection != null ? `${adviceData?.subDirection?.name}` : null}
 							</Text>
 							<View style={styles.topSectionContainer}>
-								<Icon name="flag" type="feather" size={23} style={styles.flagIcon} />
+								<Icon
+									name="flag"
+									type="feather"
+									size={25}
+									style={styles.flagIcon}
+									onPress={() => {
+										state.saveAd(adviceData?.id).then((value) => {
+											onToggleSnackBar(value);
+										});
+									}}
+								/>
 								<View style={{ width: "85%" }}>
 									<GradientButton text="Үйлчилгээг захиалах" action={() => {}} height={40} radius={6} />
 								</View>
@@ -277,9 +299,10 @@ const styles = StyleSheet.create({
 	},
 	flagIcon: {
 		borderWidth: 0.5,
-		padding: 5,
+		padding: 8,
 		borderRadius: 8,
-		borderColor: "#aeaeae"
+		borderColor: "#aeaeae",
+		height: 40
 	},
 	breadContainer: {
 		color: "#646669",

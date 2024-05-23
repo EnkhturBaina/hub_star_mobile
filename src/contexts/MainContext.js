@@ -412,6 +412,31 @@ export const MainStore = (props) => {
 		}
 	};
 
+	const saveAd = async (ad_id) => {
+		const data = await axios
+			.post(
+				`${SERVER_URL}advertisement/save/${ad_id}`,
+				{},
+				{
+					headers: {
+						"x-api-key": X_API_KEY,
+						Authorization: `Bearer ${token}`
+					}
+				}
+			)
+			.then((response) => {
+				return "Үйлчилгээ амжилттай хадгаллаа";
+			})
+			.catch((error) => {
+				console.log("error", error);
+				if (error.response.status == "401") {
+					Handle_401();
+				}
+				// console.error("Error fetching get NewsDTL:", error.response.status);
+			});
+		console.log("data", data);
+		return data;
+	};
 	return (
 		<MainContext.Provider
 			value={{
@@ -466,7 +491,8 @@ export const MainStore = (props) => {
 				getTypeName,
 				setErrorMsg,
 				Handle_401,
-				fileUpload
+				fileUpload,
+				saveAd
 			}}
 		>
 			{props.children}
