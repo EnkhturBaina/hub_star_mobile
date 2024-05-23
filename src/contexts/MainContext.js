@@ -35,6 +35,7 @@ export const MainStore = (props) => {
 	const [selectedSpecialService, setSelectedSpecialService] = useState(null);
 
 	const [subDirectionData, setSubDirectionData] = useState([]);
+	const [notifications, setNotifications] = useState([]);
 
 	const [currentStep, setCurrentStep] = useState(1);
 	const [serviceData, setServiceData] = useState({
@@ -457,6 +458,29 @@ export const MainStore = (props) => {
 			});
 		return data;
 	};
+	const getNotifications = async () => {
+		await axios
+			.get(`${SERVER_URL}notification`, {
+				params: {
+					authorId: userData?.id
+				},
+				headers: {
+					"x-api-key": X_API_KEY,
+					Authorization: `Bearer ${token}`
+				}
+			})
+			.then((response) => {
+				// console.log("get Notifications ===========>", JSON.stringify(response.data.response));
+				setNotifications(response.data.response);
+			})
+			.catch((error) => {
+				console.log("error", error);
+				if (error.response.status == "401") {
+					Handle_401();
+				}
+				// console.error("Error fetching get NewsDTL:", error.response.status);
+			});
+	};
 
 	return (
 		<MainContext.Provider
@@ -514,7 +538,9 @@ export const MainStore = (props) => {
 				Handle_401,
 				fileUpload,
 				saveAd,
-				handleNotification
+				handleNotification,
+				getNotifications,
+				notifications
 			}}
 		>
 			{props.children}
