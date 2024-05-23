@@ -70,7 +70,6 @@ const NotificationDTLScreen = (props) => {
 	useEffect(() => {
 		getAdvice();
 		handleSeen();
-		console.log("notif_process", props.route?.params?.notif_data);
 	}, []);
 
 	const handleSeen = async () => {
@@ -126,7 +125,7 @@ const NotificationDTLScreen = (props) => {
 							description: "Таны захиалгыг хүлээн авлаа. Баяр хүргэе."
 						})
 						.then((value) => {
-							onToggleSnackBar("Амжилттай үйлчилгээний төлөв солигдлоо");
+							onToggleSnackBar("Үйлчилгээний төлөв амжилттай солигдлоо");
 						});
 				}
 			})
