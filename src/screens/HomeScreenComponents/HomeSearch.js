@@ -23,6 +23,8 @@ const HomeSearch = () => {
 	const sheetRef = useRef(); //*****Bottomsheet
 	const [expanded, setExpanded] = useState({});
 	const [searchVal, setSearchVal] = useState("");
+	const searchRef = useRef(null);
+	const dropdownController = useRef(null);
 
 	const [selectedItem, setSelectedItem] = useState(null);
 
@@ -36,6 +38,13 @@ const HomeSearch = () => {
 		>
 			<Icon name="search" type="feather" size={20} color={GRAY_ICON_COLOR} />
 			<AutocompleteDropdown
+				// ref={searchRef}
+				// onBlur={() => {
+				// 	dropdownController.current.clear();
+				// }}
+				// controller={(controller) => {
+				// 	dropdownController.current = controller;
+				// }}
 				onSelectItem={setSelectedItem}
 				dataSet={state?.subDirectionData ?? null}
 				containerStyle={{ width: "80%", backgroundColor: MAIN_COLOR_GRAY }}
@@ -47,6 +56,7 @@ const HomeSearch = () => {
 					<TouchableOpacity
 						onPress={() => {
 							// console.log("item", item);
+							// dropdownController.current.clear();
 							navigation.navigate("MainDirServiceScreen", {
 								mainDirectionId: item.mainDirectionId,
 								directionId: [item.directionId],

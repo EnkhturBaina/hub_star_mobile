@@ -34,14 +34,14 @@ const CategoryScreen = () => {
 	}, [isFocused]);
 
 	return (
-		<SafeAreaView
-			style={{
-				flex: 1,
-				paddingTop: Constants.statusBarHeight,
-				backgroundColor: "#fff"
-			}}
-		>
-			<AutocompleteDropdownContextProvider>
+		<AutocompleteDropdownContextProvider>
+			<SafeAreaView
+				style={{
+					flex: 1,
+					paddingTop: Constants.statusBarHeight,
+					backgroundColor: "#fff"
+				}}
+			>
 				<StatusBar translucent barStyle={Platform.OS == "ios" ? "dark-content" : "default"} />
 				<View style={styles.stack1}>
 					<TouchableOpacity style={{ flexDirection: "row", alignItems: "center" }} onPress={() => {}}>
@@ -242,8 +242,8 @@ const CategoryScreen = () => {
 						);
 					})}
 				</ScrollView>
-			</AutocompleteDropdownContextProvider>
-		</SafeAreaView>
+			</SafeAreaView>
+		</AutocompleteDropdownContextProvider>
 	);
 };
 

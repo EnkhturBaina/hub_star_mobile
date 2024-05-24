@@ -14,14 +14,14 @@ const HomeScreen = (props) => {
 	const tabBarHeight = useBottomTabBarHeight();
 
 	return (
-		<SafeAreaView
-			style={{
-				flex: 1,
-				paddingTop: Constants.statusBarHeight,
-				backgroundColor: "#fff"
-			}}
-		>
-			<AutocompleteDropdownContextProvider>
+		<AutocompleteDropdownContextProvider>
+			<SafeAreaView
+				style={{
+					flex: 1,
+					paddingTop: Constants.statusBarHeight,
+					backgroundColor: "#fff"
+				}}
+			>
 				<StatusBar translucent barStyle={Platform.OS == "ios" ? "dark-content" : "default"} />
 				<HomeHeader />
 				<HomeSearch />
@@ -38,8 +38,8 @@ const HomeScreen = (props) => {
 					<SpecialService />
 					<Advices />
 				</ScrollView>
-			</AutocompleteDropdownContextProvider>
-		</SafeAreaView>
+			</SafeAreaView>
+		</AutocompleteDropdownContextProvider>
 	);
 };
 
