@@ -37,7 +37,7 @@ const HomeSearch = () => {
 			}}
 		>
 			<Icon name="search" type="feather" size={20} color={GRAY_ICON_COLOR} />
-			<AutocompleteDropdown
+			{/* <AutocompleteDropdown
 				// ref={searchRef}
 				// onBlur={() => {
 				// 	dropdownController.current.clear();
@@ -72,7 +72,7 @@ const HomeSearch = () => {
 				textInputProps={{
 					placeholder: "Хайх"
 				}}
-			/>
+			/> */}
 			<TouchableOpacity style={styles.filterBtn} onPress={() => sheetRef.current.open()}>
 				<Icon name="sliders" type="feather" size={20} color={GRAY_ICON_COLOR} />
 			</TouchableOpacity>
