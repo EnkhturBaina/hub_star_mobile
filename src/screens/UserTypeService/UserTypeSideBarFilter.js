@@ -21,7 +21,7 @@ const UserTypeSideBarFilter = (props) => {
 		await axios
 			.get(`${SERVER_URL}reference/main-direction`, {
 				params: {
-					userType: state?.selectedUserType
+					userType: state.selectedUserType
 				},
 				headers: {
 					"X-API-KEY": X_API_KEY
@@ -49,7 +49,7 @@ const UserTypeSideBarFilter = (props) => {
 	}, []);
 	useEffect(() => {
 		getSideFilterData();
-	}, [state?.selectedUserType]);
+	}, [state.selectedUserType]);
 
 	useEffect(() => {
 		var checkedItems = [];

@@ -21,7 +21,7 @@ const DoingScreen = (props) => {
 					order: "DESC",
 					page: 1,
 					limit: 10,
-					userBy: state?.userId,
+					userBy: state.userId,
 					process: "DOING"
 				},
 				headers: {

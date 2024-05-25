@@ -1,7 +1,7 @@
 import { Platform, SafeAreaView } from "react-native";
 import React, { useContext, useEffect, useLayoutEffect, useState } from "react";
 import { ProgressBar } from "react-native-paper";
-import { MAIN_COLOR } from "../../constant";
+import { MAIN_COLOR, SERVER_URL, X_API_KEY } from "../../constant";
 import Constants from "expo-constants";
 import Step1 from "./Step1";
 import Step2 from "./Step2";
@@ -11,6 +11,7 @@ import Executor from "./Step3/Executor";
 import Supplier from "./Step3/Supplier";
 import Transportation from "./Step3/Transportation";
 import Machinery from "./Step3/Machinery";
+import axios from "axios";
 
 const AddService = (props) => {
 	const state = useContext(MainContext);
@@ -48,25 +49,25 @@ const AddService = (props) => {
 			}}
 		>
 			<ProgressBar
-				progress={state?.currentStep / totalStep}
+				progress={state.currentStep / totalStep}
 				color={MAIN_COLOR}
 				style={{ marginVertical: 20, marginHorizontal: 20 }}
 			/>
-			{state?.currentStep == 1 && <Step1 totalStep={totalStep} />}
-			{state?.currentStep == 2 && <Step2 totalStep={totalStep} />}
-			{state?.currentStep == 3 && state.serviceData?.userType?.type == "SUBSCRIBER" ? (
+			{state.currentStep == 1 && <Step1 totalStep={totalStep} />}
+			{state.currentStep == 2 && <Step2 totalStep={totalStep} />}
+			{state.currentStep == 3 && state.serviceData?.userType?.type == "SUBSCRIBER" ? (
 				<Subscriber totalStep={totalStep} />
 			) : null}
-			{state?.currentStep == 3 && state.serviceData?.userType?.type == "EXECUTOR" ? (
+			{state.currentStep == 3 && state.serviceData?.userType?.type == "EXECUTOR" ? (
 				<Executor totalStep={totalStep} />
 			) : null}
-			{state?.currentStep == 3 && state.serviceData?.userType?.type == "SUPPLIER" ? (
+			{state.currentStep == 3 && state.serviceData?.userType?.type == "SUPPLIER" ? (
 				<Supplier totalStep={totalStep} />
 			) : null}
-			{state?.currentStep == 3 && state.serviceData?.userType?.type == "TRANSPORTATION" ? (
+			{state.currentStep == 3 && state.serviceData?.userType?.type == "TRANSPORTATION" ? (
 				<Transportation totalStep={totalStep} />
 			) : null}
-			{state?.currentStep == 3 && state.serviceData?.userType?.type == "MACHINERY" ? (
+			{state.currentStep == 3 && state.serviceData?.userType?.type == "MACHINERY" ? (
 				<Machinery totalStep={totalStep} />
 			) : null}
 		</SafeAreaView>

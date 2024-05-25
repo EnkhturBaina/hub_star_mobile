@@ -109,8 +109,8 @@ const BottomBar = (props) => {
 								tabPress: (e) => {
 									var tabName = e.target.split("-")?.[0];
 									if (tabName == "Нэмэх") {
-										// state?.clearServiceData();
-										// state?.setCurrentStep(1);
+										// state.clearServiceData();
+										// state.setCurrentStep(1);
 									}
 								}
 							}}

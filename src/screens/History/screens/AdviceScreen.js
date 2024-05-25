@@ -31,7 +31,7 @@ const AdviceScreen = (props) => {
 					order: "DESC",
 					page: 1,
 					limit: 10,
-					mainDirectionId: state?.userMainDirID
+					mainDirectionId: state.userMainDirID
 				},
 				headers: {
 					"X-API-KEY": X_API_KEY

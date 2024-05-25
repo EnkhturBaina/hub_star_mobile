@@ -119,8 +119,8 @@ const LoginScreen = (props) => {
 					source={splash_logo}
 				/>
 				<Text className="font-bold text-2xl mb-4">Нэвтрэх хэсэг</Text>
-				{state?.errorMsg ? (
-					<Text className="font-bold mb-4 text-red-500 text-center text-base">{state?.errorMsg}</Text>
+				{state.errorMsg ? (
+					<Text className="font-bold mb-4 text-red-500 text-center text-base">{state.errorMsg}</Text>
 				) : null}
 				<View style={styles.stackSection}>
 					<View style={styles.sectionStyle}>

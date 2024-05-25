@@ -46,18 +46,18 @@ const InternationalTrade = (props) => {
 	};
 
 	const createAD = () => {
-		if (state?.serviceData?.measurement == "") {
+		if (state.serviceData?.measurement == "") {
 			onToggleSnackBar("Хэмжих нэгж оруулна уу.");
-		} else if (state?.serviceData?.unitAmount == "") {
+		} else if (state.serviceData?.unitAmount == "") {
 			onToggleSnackBar("Үнэ оруулна уу.");
-		} else if (state?.serviceData?.desciption == "") {
+		} else if (state.serviceData?.desciption == "") {
 			onToggleSnackBar("Тайлбар оруулна уу.");
-		} else if (state?.serviceData?.email == "") {
+		} else if (state.serviceData?.email == "") {
 			onToggleSnackBar("И-мэйл оруулна уу.");
-		} else if (state?.serviceData?.phone == "") {
+		} else if (state.serviceData?.phone == "") {
 			onToggleSnackBar("Утас оруулна уу.");
 		} else {
-			// state?.setCurrentStep(3);
+			// state.setCurrentStep(3);
 		}
 	};
 	return (
@@ -78,9 +78,9 @@ const InternationalTrade = (props) => {
 					<ScrollView contentContainerStyle={styles.scrollContainer} bounces={false}>
 						<LoanInput
 							label="Хэмжих нэгж"
-							value={state?.serviceData?.measurement}
+							value={state.serviceData?.measurement}
 							onChangeText={(e) =>
-								state?.setServiceData((prevState) => ({
+								state.setServiceData((prevState) => ({
 									...prevState,
 									measurement: e
 								}))
@@ -89,9 +89,9 @@ const InternationalTrade = (props) => {
 						<LoanInput
 							label="Үнэ"
 							keyboardType="number-pad"
-							value={state?.serviceData?.unitAmount}
+							value={state.serviceData?.unitAmount}
 							onChangeText={(e) =>
-								state?.setServiceData((prevState) => ({
+								state.setServiceData((prevState) => ({
 									...prevState,
 									unitAmount: state.addCommas(state.removeNonNumeric(e))
 								}))
@@ -110,9 +110,9 @@ const InternationalTrade = (props) => {
 						</View>
 						<LoanInput
 							label="Тайлбар"
-							value={state?.serviceData?.desciption}
+							value={state.serviceData?.desciption}
 							onChangeText={(e) =>
-								state?.setServiceData((prevState) => ({
+								state.setServiceData((prevState) => ({
 									...prevState,
 									desciption: e
 								}))
@@ -122,9 +122,9 @@ const InternationalTrade = (props) => {
 						/>
 						<LoanInput
 							label="И-мэйл"
-							value={state?.serviceData?.email}
+							value={state.serviceData?.email}
 							onChangeText={(e) =>
-								state?.setServiceData((prevState) => ({
+								state.setServiceData((prevState) => ({
 									...prevState,
 									email: e
 								}))
@@ -133,9 +133,9 @@ const InternationalTrade = (props) => {
 						/>
 						<LoanInput
 							label="Утас"
-							value={state?.serviceData?.phone}
+							value={state.serviceData?.phone}
 							onChangeText={(e) =>
-								state?.setServiceData((prevState) => ({
+								state.setServiceData((prevState) => ({
 									...prevState,
 									phone: e
 								}))
@@ -153,11 +153,11 @@ const InternationalTrade = (props) => {
 								marginLeft: 5
 							}}
 							title="Мессэнжер нээх"
-							checked={state?.serviceData?.isMessenger}
+							checked={state.serviceData?.isMessenger}
 							onPress={() => {
-								state?.setServiceData((prevState) => ({
+								state.setServiceData((prevState) => ({
 									...prevState,
-									isMessenger: !state?.serviceData?.isMessenger
+									isMessenger: !state.serviceData?.isMessenger
 								}));
 							}}
 							iconType="material-community"
@@ -177,11 +177,11 @@ const InternationalTrade = (props) => {
 								marginLeft: 5
 							}}
 							title="Үйлчилгээний нөхцөл зөвшөөрөх"
-							checked={state?.serviceData?.isTermOfService}
+							checked={state.serviceData?.isTermOfService}
 							onPress={() => {
-								state?.setServiceData((prevState) => ({
+								state.setServiceData((prevState) => ({
 									...prevState,
-									isTermOfService: !state?.serviceData?.isTermOfService
+									isTermOfService: !state.serviceData?.isTermOfService
 								}));
 							}}
 							iconType="material-community"
@@ -194,14 +194,14 @@ const InternationalTrade = (props) => {
 							<TouchableOpacity
 								style={styles.backBtn}
 								onPress={() => {
-									state?.setCurrentStep(2);
+									state.setCurrentStep(2);
 								}}
 							>
 								<Text style={styles.backBtnText}>Буцах</Text>
 							</TouchableOpacity>
 							<View style={{ width: "48%" }}>
 								<GradientButton
-									text={`Хадгалах (${state?.currentStep}/${props.totalStep})`}
+									text={`Хадгалах (${state.currentStep}/${props.totalStep})`}
 									action={() => {
 										createAD();
 									}}
@@ -221,7 +221,7 @@ const InternationalTrade = (props) => {
 					lookUpType="profile"
 					handle={uselessParam}
 					action={(e) => {
-						state?.setServiceData((prevState) => ({
+						state.setServiceData((prevState) => ({
 							...prevState,
 							[fieldName]: e
 						}));

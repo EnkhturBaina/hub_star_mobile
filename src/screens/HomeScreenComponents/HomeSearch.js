@@ -46,7 +46,7 @@ const HomeSearch = () => {
 				// 	dropdownController.current = controller;
 				// }}
 				onSelectItem={setSelectedItem}
-				dataSet={state?.subDirectionData ?? null}
+				dataSet={state.subDirectionData ?? null}
 				containerStyle={{ width: "80%", backgroundColor: MAIN_COLOR_GRAY }}
 				inputContainerStyle={{
 					backgroundColor: MAIN_COLOR_GRAY
@@ -96,7 +96,7 @@ const HomeSearch = () => {
 			>
 				<View style={styles.dirMainContainer}>
 					<ScrollView nestedScrollEnabled contentContainerStyle={styles.dirContainer} bounces={false}>
-						{state?.mainDirection?.map((el, index) => {
+						{state.mainDirection?.map((el, index) => {
 							return (
 								<View key={index} style={styles.eachDir}>
 									<View

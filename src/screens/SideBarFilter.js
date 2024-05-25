@@ -19,7 +19,7 @@ const SideBarFilter = (props) => {
 		setLoadingSideFilter(true);
 		await axios
 			.get(`${SERVER_URL}reference/direction`, {
-				params: state?.specialServiceParams,
+				params: state.specialServiceParams,
 				headers: {
 					"X-API-KEY": X_API_KEY
 				}

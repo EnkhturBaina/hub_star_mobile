@@ -22,7 +22,7 @@ const PostedScreen = (props) => {
 					order: "DESC",
 					page: 1,
 					limit: 10,
-					createdBy: state?.userId
+					createdBy: state.userId
 				},
 				headers: {
 					"X-API-KEY": X_API_KEY

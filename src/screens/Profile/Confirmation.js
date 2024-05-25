@@ -240,12 +240,12 @@ const Confirmation = (props) => {
 								<TouchableOpacity
 									style={styles.touchableSelect}
 									onPress={() => {
-										setLookupData(state?.mainDirection, "mainDirectionId", "name", "id");
+										setLookupData(state.mainDirection, "mainDirectionId", "name", "id");
 									}}
 								>
 									<Text style={styles.selectedText} numberOfLines={1}>
 										{profileData.mainDirectionId
-											? state?.mainDirection?.map((el, index) => {
+											? state.mainDirection?.map((el, index) => {
 													if (el.id === profileData.mainDirectionId) {
 														return el.name;
 													}

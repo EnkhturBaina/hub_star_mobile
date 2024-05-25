@@ -101,7 +101,7 @@ const EditProfile = (props) => {
 						await AsyncStorage.setItem(
 							"user",
 							JSON.stringify({
-								accessToken: state?.token,
+								accessToken: state.token,
 								email: response.data?.response?.email,
 								id: response.data?.response?.id,
 								firstName: response.data?.response?.firstName,

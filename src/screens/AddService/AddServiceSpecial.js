@@ -49,28 +49,28 @@ const AddServiceSpecial = (props) => {
 			}}
 		>
 			<ProgressBar
-				progress={state?.currentStep / totalStep}
+				progress={state.currentStep / totalStep}
 				color={MAIN_COLOR}
 				style={{ marginVertical: 20, marginHorizontal: 20 }}
 			/>
-			{state?.currentStep == 1 && <Step1Special totalStep={totalStep} />}
-			{state?.currentStep == 2 && <Step2Special totalStep={totalStep} />}
-			{state?.currentStep == 3 && state.serviceData?.specialService?.type == "PUBLIC_SELECTION" ? (
+			{state.currentStep == 1 && <Step1Special totalStep={totalStep} />}
+			{state.currentStep == 2 && <Step2Special totalStep={totalStep} />}
+			{state.currentStep == 3 && state.serviceData?.specialService?.type == "PUBLIC_SELECTION" ? (
 				<PublicSelection totalStep={totalStep} />
 			) : null}
-			{state?.currentStep == 3 && state.serviceData?.specialService?.type == "INTERNATIONAL_TRADE" ? (
+			{state.currentStep == 3 && state.serviceData?.specialService?.type == "INTERNATIONAL_TRADE" ? (
 				<InternationalTrade totalStep={totalStep} />
 			) : null}
-			{state?.currentStep == 3 && state.serviceData?.specialService?.type == "CONSULTING_SERVICE" ? (
+			{state.currentStep == 3 && state.serviceData?.specialService?.type == "CONSULTING_SERVICE" ? (
 				<ConsultingService totalStep={totalStep} />
 			) : null}
-			{state?.currentStep == 3 && state.serviceData?.specialService?.type == "VOCATIONAL_TRAINING" ? (
+			{state.currentStep == 3 && state.serviceData?.specialService?.type == "VOCATIONAL_TRAINING" ? (
 				<VocationalTraining totalStep={totalStep} />
 			) : null}
-			{state?.currentStep == 3 && state.serviceData?.specialService?.type == "LABORATORY_MATERIAL" ? (
+			{state.currentStep == 3 && state.serviceData?.specialService?.type == "LABORATORY_MATERIAL" ? (
 				<LaboratoryMaterial totalStep={totalStep} />
 			) : null}
-			{state?.currentStep == 3 && state.serviceData?.specialService?.type == "MAKE_BUDGET" ? (
+			{state.currentStep == 3 && state.serviceData?.specialService?.type == "MAKE_BUDGET" ? (
 				<MakeBudget totalStep={totalStep} />
 			) : null}
 		</SafeAreaView>

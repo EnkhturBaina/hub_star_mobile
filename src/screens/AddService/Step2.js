@@ -82,42 +82,42 @@ const Step2 = (props) => {
 	}, []);
 
 	useEffect(() => {
-		state?.serviceData?.provinceId &&
+		state.serviceData?.provinceId &&
 			getAddress({
 				type: "DISTRICT",
-				parentId: state?.serviceData?.provinceId?.id
+				parentId: state.serviceData?.provinceId?.id
 			});
-	}, [state?.serviceData?.provinceId]);
+	}, [state.serviceData?.provinceId]);
 
 	useEffect(() => {
-		state?.serviceData?.districtId &&
+		state.serviceData?.districtId &&
 			getAddress({
 				type: "KHOROO",
-				parentId: state?.serviceData?.districtId?.id
+				parentId: state.serviceData?.districtId?.id
 			});
-	}, [state?.serviceData?.districtId]);
+	}, [state.serviceData?.districtId]);
 	//generalData.loanAmount?.replace(/,/g, "")
 
 	const goNext = () => {
-		// if (state?.serviceData?.title == "") {
+		// if (state.serviceData?.title == "") {
 		//   onToggleSnackBar("Зарын гарчиг оруулна уу.");
 		// } else if (
-		//   state?.serviceData?.userType.type === "SUBSCRIBER" &&
-		//   state?.serviceData?.price == ""
+		//   state.serviceData?.userType.type === "SUBSCRIBER" &&
+		//   state.serviceData?.price == ""
 		// ) {
 		//   onToggleSnackBar("Үнэ оруулна уу.");
-		// } else if (state?.serviceData?.provinceId == "") {
+		// } else if (state.serviceData?.provinceId == "") {
 		//   onToggleSnackBar("Аймаг, хот сонгоно уу.");
-		// } else if (state?.serviceData?.districtId == "") {
+		// } else if (state.serviceData?.districtId == "") {
 		//   onToggleSnackBar("Сум, дүүрэг сонгоно уу.");
-		// } else if (state?.serviceData?.khorooId == "") {
+		// } else if (state.serviceData?.khorooId == "") {
 		//   onToggleSnackBar("Баг, хороо сонгоно уу.");
-		// } else if (state?.serviceData?.address == "") {
+		// } else if (state.serviceData?.address == "") {
 		//   onToggleSnackBar("Байршил оруулна уу.");
 		// } else {
-		//   state?.setCurrentStep(3);
+		//   state.setCurrentStep(3);
 		// }
-		state?.setCurrentStep(3);
+		state.setCurrentStep(3);
 	};
 	return (
 		<KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={{ flex: 1 }}>
@@ -138,21 +138,21 @@ const Step2 = (props) => {
 					<ScrollView contentContainerStyle={styles.scrollContainer} bounces={false}>
 						<LoanInput
 							label="Зарын гарчиг"
-							value={state?.serviceData?.title}
+							value={state.serviceData?.title}
 							onChangeText={(e) =>
-								state?.setServiceData((prevState) => ({
+								state.setServiceData((prevState) => ({
 									...prevState,
 									title: e
 								}))
 							}
 						/>
-						{state?.serviceData?.userType.type === "SUBSCRIBER" ? (
+						{state.serviceData?.userType.type === "SUBSCRIBER" ? (
 							<LoanInput
 								label="Үнэ"
 								keyboardType="number-pad"
-								value={state?.serviceData?.price}
+								value={state.serviceData?.price}
 								onChangeText={(e) =>
-									state?.setServiceData((prevState) => ({
+									state.setServiceData((prevState) => ({
 										...prevState,
 										price: state.addCommas(state.removeNonNumeric(e))
 									}))
@@ -169,7 +169,7 @@ const Step2 = (props) => {
 								}}
 							>
 								<Text style={styles.selectedText} numberOfLines={1}>
-									{state?.serviceData.provinceId != "" ? state?.serviceData.provinceId?.name : "Сонгох"}
+									{state.serviceData.provinceId != "" ? state.serviceData.provinceId?.name : "Сонгох"}
 								</Text>
 								<Icon name="keyboard-arrow-down" type="material-icons" size={30} color={GRAY_ICON_COLOR} />
 							</TouchableOpacity>
@@ -184,7 +184,7 @@ const Step2 = (props) => {
 								disabled={districts?.length == 0}
 							>
 								<Text style={styles.selectedText} numberOfLines={1}>
-									{state?.serviceData.districtId != "" ? state?.serviceData.districtId?.name : "Сонгох"}
+									{state.serviceData.districtId != "" ? state.serviceData.districtId?.name : "Сонгох"}
 								</Text>
 								<Icon name="keyboard-arrow-down" type="material-icons" size={30} color={GRAY_ICON_COLOR} />
 							</TouchableOpacity>
@@ -199,16 +199,16 @@ const Step2 = (props) => {
 								disabled={khoroos?.length == 0}
 							>
 								<Text style={styles.selectedText} numberOfLines={1}>
-									{state?.serviceData.khorooId != "" ? state?.serviceData.khorooId?.name : "Сонгох"}
+									{state.serviceData.khorooId != "" ? state.serviceData.khorooId?.name : "Сонгох"}
 								</Text>
 								<Icon name="keyboard-arrow-down" type="material-icons" size={30} color={GRAY_ICON_COLOR} />
 							</TouchableOpacity>
 						</View>
 						<LoanInput
 							label="Байршил"
-							value={state?.serviceData?.address}
+							value={state.serviceData?.address}
 							onChangeText={(e) =>
-								state?.setServiceData((prevState) => ({
+								state.setServiceData((prevState) => ({
 									...prevState,
 									address: e
 								}))
@@ -220,14 +220,14 @@ const Step2 = (props) => {
 							<TouchableOpacity
 								style={styles.backBtn}
 								onPress={() => {
-									state?.setCurrentStep(1);
+									state.setCurrentStep(1);
 								}}
 							>
 								<Text style={styles.backBtnText}>Буцах</Text>
 							</TouchableOpacity>
 							<View style={{ width: "48%" }}>
 								<GradientButton
-									text={`Хадгалах (${state?.currentStep}/${props.totalStep})`}
+									text={`Хадгалах (${state.currentStep}/${props.totalStep})`}
 									action={() => {
 										goNext();
 									}}
@@ -247,7 +247,7 @@ const Step2 = (props) => {
 					lookUpType="profile"
 					handle={uselessParam}
 					action={(e) => {
-						state?.setServiceData((prevState) => ({
+						state.setServiceData((prevState) => ({
 							...prevState,
 							[fieldName]: e
 						}));

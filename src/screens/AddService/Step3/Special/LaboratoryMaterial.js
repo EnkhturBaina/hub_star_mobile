@@ -46,16 +46,16 @@ const LaboratoryMaterial = (props) => {
 	};
 
 	const createAD = () => {
-		if (state?.serviceData?.unitAmount == "") {
+		if (state.serviceData?.unitAmount == "") {
 			onToggleSnackBar("Үйлчилгээний үнэ оруулна уу.");
-		} else if (state?.serviceData?.desciption == "") {
+		} else if (state.serviceData?.desciption == "") {
 			onToggleSnackBar("Тайлбар оруулна уу.");
-		} else if (state?.serviceData?.email == "") {
+		} else if (state.serviceData?.email == "") {
 			onToggleSnackBar("И-мэйл оруулна уу.");
-		} else if (state?.serviceData?.phone == "") {
+		} else if (state.serviceData?.phone == "") {
 			onToggleSnackBar("Утас оруулна уу.");
 		} else {
-			// state?.setCurrentStep(3);
+			// state.setCurrentStep(3);
 		}
 	};
 	return (
@@ -77,9 +77,9 @@ const LaboratoryMaterial = (props) => {
 						<LoanInput
 							label="Үйлчилгээний үнэ"
 							keyboardType="number-pad"
-							value={state?.serviceData?.unitAmount}
+							value={state.serviceData?.unitAmount}
 							onChangeText={(e) =>
-								state?.setServiceData((prevState) => ({
+								state.setServiceData((prevState) => ({
 									...prevState,
 									unitAmount: state.addCommas(state.removeNonNumeric(e))
 								}))
@@ -98,9 +98,9 @@ const LaboratoryMaterial = (props) => {
 						</View>
 						<LoanInput
 							label="Тайлбар"
-							value={state?.serviceData?.desciption}
+							value={state.serviceData?.desciption}
 							onChangeText={(e) =>
-								state?.setServiceData((prevState) => ({
+								state.setServiceData((prevState) => ({
 									...prevState,
 									desciption: e
 								}))
@@ -110,9 +110,9 @@ const LaboratoryMaterial = (props) => {
 						/>
 						<LoanInput
 							label="И-мэйл"
-							value={state?.serviceData?.email}
+							value={state.serviceData?.email}
 							onChangeText={(e) =>
-								state?.setServiceData((prevState) => ({
+								state.setServiceData((prevState) => ({
 									...prevState,
 									email: e
 								}))
@@ -121,9 +121,9 @@ const LaboratoryMaterial = (props) => {
 						/>
 						<LoanInput
 							label="Утас"
-							value={state?.serviceData?.phone}
+							value={state.serviceData?.phone}
 							onChangeText={(e) =>
-								state?.setServiceData((prevState) => ({
+								state.setServiceData((prevState) => ({
 									...prevState,
 									phone: e
 								}))
@@ -141,11 +141,11 @@ const LaboratoryMaterial = (props) => {
 								marginLeft: 5
 							}}
 							title="Мессэнжер нээх"
-							checked={state?.serviceData?.isMessenger}
+							checked={state.serviceData?.isMessenger}
 							onPress={() => {
-								state?.setServiceData((prevState) => ({
+								state.setServiceData((prevState) => ({
 									...prevState,
-									isMessenger: !state?.serviceData?.isMessenger
+									isMessenger: !state.serviceData?.isMessenger
 								}));
 							}}
 							iconType="material-community"
@@ -165,11 +165,11 @@ const LaboratoryMaterial = (props) => {
 								marginLeft: 5
 							}}
 							title="Үйлчилгээний нөхцөл зөвшөөрөх"
-							checked={state?.serviceData?.isTermOfService}
+							checked={state.serviceData?.isTermOfService}
 							onPress={() => {
-								state?.setServiceData((prevState) => ({
+								state.setServiceData((prevState) => ({
 									...prevState,
-									isTermOfService: !state?.serviceData?.isTermOfService
+									isTermOfService: !state.serviceData?.isTermOfService
 								}));
 							}}
 							iconType="material-community"
@@ -182,14 +182,14 @@ const LaboratoryMaterial = (props) => {
 							<TouchableOpacity
 								style={styles.backBtn}
 								onPress={() => {
-									state?.setCurrentStep(2);
+									state.setCurrentStep(2);
 								}}
 							>
 								<Text style={styles.backBtnText}>Буцах</Text>
 							</TouchableOpacity>
 							<View style={{ width: "48%" }}>
 								<GradientButton
-									text={`Хадгалах (${state?.currentStep}/${props.totalStep})`}
+									text={`Хадгалах (${state.currentStep}/${props.totalStep})`}
 									action={() => {
 										createAD();
 									}}
@@ -209,7 +209,7 @@ const LaboratoryMaterial = (props) => {
 					lookUpType="profile"
 					handle={uselessParam}
 					action={(e) => {
-						state?.setServiceData((prevState) => ({
+						state.setServiceData((prevState) => ({
 							...prevState,
 							[fieldName]: e
 						}));

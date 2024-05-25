@@ -30,8 +30,8 @@ const AddServiceFirst = (props) => {
 	}, [props.navigation]);
 
 	const handleChoose = (val) => {
-		state?.clearServiceData();
-		state?.setCurrentStep(1);
+		state.clearServiceData();
+		state.setCurrentStep(1);
 		setIsAddService(true);
 		setIsSpecial(val);
 

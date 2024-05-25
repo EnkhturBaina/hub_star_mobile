@@ -62,7 +62,7 @@ const CategoryScreen = memo(() => {
 								) : (
 									<Text style={styles.generalText}>Хэрэглэгч</Text>
 								)}
-								<Text style={{}}>ID дугаар: {state?.userId}</Text>
+								<Text style={{}}>ID дугаар: {state.userId}</Text>
 							</View>
 						</TouchableOpacity>
 						<View style={styles.headerIcons}>
@@ -91,7 +91,7 @@ const CategoryScreen = memo(() => {
 							/>
 						</View>
 					</View>
-					{state?.subDirectionData ? (
+					{state.subDirectionData ? (
 						<TouchableOpacity
 							style={styles.searchContainer}
 							activeOpacity={1}
@@ -107,7 +107,7 @@ const CategoryScreen = memo(() => {
 									}}
 									clearOnFocus={false}
 									onSelectItem={setSelectedItem}
-									dataSet={state?.subDirectionData ?? null}
+									dataSet={state.subDirectionData ?? null}
 									containerStyle={{ flexGrow: 1, flexShrink: 1, backgroundColor: MAIN_COLOR_GRAY }}
 									inputContainerStyle={{
 										backgroundColor: MAIN_COLOR_GRAY
@@ -147,7 +147,7 @@ const CategoryScreen = memo(() => {
 						}}
 						bounces={false}
 					>
-						{state?.mainDirection?.map((el, index) => {
+						{state.mainDirection?.map((el, index) => {
 							return (
 								<View
 									key={index}

@@ -43,30 +43,30 @@ const Step1 = (props) => {
 	};
 
 	useEffect(() => {
-		state?.setServiceData((prevState) => ({
+		state.setServiceData((prevState) => ({
 			...prevState,
 			directionId: "",
 			subDirectionId: ""
 		}));
 
-		state?.serviceData?.mainDirectionId && getDirections();
-	}, [state?.serviceData?.mainDirectionId]);
+		state.serviceData?.mainDirectionId && getDirections();
+	}, [state.serviceData?.mainDirectionId]);
 
 	useEffect(() => {
-		state?.setServiceData((prevState) => ({
+		state.setServiceData((prevState) => ({
 			...prevState,
 			subDirectionId: ""
 		}));
-		state?.serviceData?.directionId && getSubDirections();
-	}, [state?.serviceData?.directionId]);
+		state.serviceData?.directionId && getSubDirections();
+	}, [state.serviceData?.directionId]);
 
 	const getDirections = async () => {
 		setDirections([]);
 		await axios
 			.get(`${SERVER_URL}reference/direction`, {
 				params: {
-					mainDirectionId: state?.serviceData?.mainDirectionId.id,
-					userType: state?.serviceData?.userType.type
+					mainDirectionId: state.serviceData?.mainDirectionId.id,
+					userType: state.serviceData?.userType.type
 				},
 				headers: {
 					"X-API-KEY": X_API_KEY
@@ -92,8 +92,8 @@ const Step1 = (props) => {
 		await axios
 			.get(`${SERVER_URL}reference/sub-direction`, {
 				params: {
-					directionId: state?.serviceData?.directionId?.id,
-					userType: state?.serviceData?.userType.type
+					directionId: state.serviceData?.directionId?.id,
+					userType: state.serviceData?.userType.type
 				},
 				headers: {
 					"X-API-KEY": X_API_KEY
@@ -115,18 +115,18 @@ const Step1 = (props) => {
 	};
 
 	const goNext = () => {
-		// if (state?.serviceData?.categoryId == "") {
+		// if (state.serviceData?.categoryId == "") {
 		//   onToggleSnackBar("Хэрэглэгчийн төрөл сонгоно уу.");
-		// } else if (state?.serviceData?.mainDirectionId == "") {
+		// } else if (state.serviceData?.mainDirectionId == "") {
 		//   onToggleSnackBar("Үйл ажиллагааны үндсэн чиглэл сонгоно уу.");
-		// } else if (state?.serviceData?.directionId == "") {
+		// } else if (state.serviceData?.directionId == "") {
 		//   onToggleSnackBar("Үйл ажилллагааны чиглэл сонгоно уу.");
-		// } else if (state?.serviceData?.subDirectionId == "") {
+		// } else if (state.serviceData?.subDirectionId == "") {
 		//   onToggleSnackBar("Үйл ажиллагааны нэр сонгоно уу.");
 		// } else {
-		//   state?.setCurrentStep(2);
+		//   state.setCurrentStep(2);
 		// }
-		state?.setCurrentStep(2);
+		state.setCurrentStep(2);
 	};
 
 	return (
@@ -153,7 +153,7 @@ const Step1 = (props) => {
 							}}
 						>
 							<Text style={styles.selectedText} numberOfLines={1}>
-								{state?.serviceData.userType != "" ? state?.serviceData.userType?.title : "Сонгох"}
+								{state.serviceData.userType != "" ? state.serviceData.userType?.title : "Сонгох"}
 							</Text>
 							<Icon name="keyboard-arrow-down" type="material-icons" size={30} color={GRAY_ICON_COLOR} />
 						</TouchableOpacity>
@@ -163,11 +163,11 @@ const Step1 = (props) => {
 						<TouchableOpacity
 							style={styles.touchableSelect}
 							onPress={() => {
-								setLookupData(state?.mainDirection, "mainDirectionId", "name");
+								setLookupData(state.mainDirection, "mainDirectionId", "name");
 							}}
 						>
 							<Text style={styles.selectedText} numberOfLines={1}>
-								{state?.serviceData.mainDirectionId != "" ? state?.serviceData.mainDirectionId?.name : "Сонгох"}
+								{state.serviceData.mainDirectionId != "" ? state.serviceData.mainDirectionId?.name : "Сонгох"}
 							</Text>
 							<Icon name="keyboard-arrow-down" type="material-icons" size={30} color={GRAY_ICON_COLOR} />
 						</TouchableOpacity>
@@ -179,10 +179,10 @@ const Step1 = (props) => {
 							onPress={() => {
 								setLookupData(directions, "directionId", "name");
 							}}
-							disabled={state?.serviceData?.mainDirectionId == ""}
+							disabled={state.serviceData?.mainDirectionId == ""}
 						>
 							<Text style={styles.selectedText} numberOfLines={1}>
-								{state?.serviceData.directionId != "" ? state?.serviceData.directionId?.name : "Сонгох"}
+								{state.serviceData.directionId != "" ? state.serviceData.directionId?.name : "Сонгох"}
 							</Text>
 							<Icon name="keyboard-arrow-down" type="material-icons" size={30} color={GRAY_ICON_COLOR} />
 						</TouchableOpacity>
@@ -194,10 +194,10 @@ const Step1 = (props) => {
 							onPress={() => {
 								setLookupData(subDirections, "subDirectionId", "name");
 							}}
-							disabled={state?.serviceData?.directionId == ""}
+							disabled={state.serviceData?.directionId == ""}
 						>
 							<Text style={styles.selectedText} numberOfLines={1}>
-								{state?.serviceData.subDirectionId != "" ? state?.serviceData.subDirectionId?.name : "Сонгох"}
+								{state.serviceData.subDirectionId != "" ? state.serviceData.subDirectionId?.name : "Сонгох"}
 							</Text>
 							<Icon name="keyboard-arrow-down" type="material-icons" size={30} color={GRAY_ICON_COLOR} />
 						</TouchableOpacity>
@@ -213,7 +213,7 @@ const Step1 = (props) => {
 						</TouchableOpacity>
 						<View style={{ width: "48%" }}>
 							<GradientButton
-								text={`Хадгалах (${state?.currentStep}/${props.totalStep})`}
+								text={`Хадгалах (${state.currentStep}/${props.totalStep})`}
 								action={() => {
 									goNext();
 								}}
@@ -233,7 +233,7 @@ const Step1 = (props) => {
 				lookUpType="profile"
 				handle={uselessParam}
 				action={(e) => {
-					state?.setServiceData((prevState) => ({
+					state.setServiceData((prevState) => ({
 						...prevState,
 						[fieldName]: e
 					}));
