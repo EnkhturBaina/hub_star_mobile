@@ -9,17 +9,17 @@ import { AutocompleteDropdownContextProvider } from "react-native-autocomplete-d
 
 export default function App() {
 	return (
-		// <AutocompleteDropdownContextProvider>
-		<SafeAreaProvider>
-			<NavigationContainer>
-				<MainStore>
-					{/* <MainDrawerNavigation /> */}
-					{/* Drawer нэмэгдэхээр бол дээрхи кодны коммент -г авах */}
-					{/* <HomeScreenTabNavigation /> */}
-					<BottomBar />
-				</MainStore>
-			</NavigationContainer>
-		</SafeAreaProvider>
-		// </AutocompleteDropdownContextProvider>
+		<AutocompleteDropdownContextProvider>
+			<SafeAreaProvider>
+				<NavigationContainer>
+					<MainStore>
+						{/* <MainDrawerNavigation /> */}
+						{/* Drawer нэмэгдэхээр бол дээрхи кодны коммент -г авах */}
+						{/* <HomeScreenTabNavigation /> */}
+						<BottomBar />
+					</MainStore>
+				</NavigationContainer>
+			</SafeAreaProvider>
+		</AutocompleteDropdownContextProvider>
 	);
 }

@@ -8,10 +8,10 @@ import {
 	StatusBar,
 	Platform,
 	SafeAreaView,
-	TextInput
+	KeyboardAvoidingView
 } from "react-native";
-import React, { useContext, useEffect, useState } from "react";
 import Constants from "expo-constants";
+import React, { memo, useContext, useEffect, useRef, useState } from "react";
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 import { GRAY_ICON_COLOR, IMG_URL, MAIN_BORDER_RADIUS, MAIN_COLOR, MAIN_COLOR_GRAY } from "../../constant";
 import { Badge, Icon, ListItem } from "@rneui/base";
@@ -19,11 +19,12 @@ import MainContext from "../../contexts/MainContext";
 import { useIsFocused, useNavigation } from "@react-navigation/native";
 import { AutocompleteDropdown, AutocompleteDropdownContextProvider } from "react-native-autocomplete-dropdown";
 
-const CategoryScreen = () => {
+const CategoryScreen = memo(() => {
 	const navigation = useNavigation();
 	const tabBarHeight = useBottomTabBarHeight();
 	const isFocused = useIsFocused();
 	const state = useContext(MainContext);
+	const dropdownController = useRef(null);
 
 	const [expanded, setExpanded] = useState({});
 	const [selectedItem, setSelectedItem] = useState(null);
@@ -43,209 +44,219 @@ const CategoryScreen = () => {
 				}}
 			>
 				<StatusBar translucent barStyle={Platform.OS == "ios" ? "dark-content" : "default"} />
-				<View style={styles.stack1}>
-					<TouchableOpacity style={{ flexDirection: "row", alignItems: "center" }} onPress={() => {}}>
-						<View>
-							<Image
-								source={require("../../../assets/PersonCircle.png")}
-								style={{ width: 50, height: 50, borderRadius: 50 }}
-								resizeMode="contain"
-							/>
-						</View>
-						<View style={{ flexDirection: "column", marginLeft: 10 }}>
-							{state.lastName && state.firstName ? (
-								<Text style={{ fontWeight: "500" }}>
-									{state.lastName?.substr(0, 1)}. {state.firstName}
-								</Text>
-							) : (
-								<Text style={styles.generalText}>Хэрэглэгч</Text>
-							)}
-							<Text style={{}}>ID дугаар: {state?.userId}</Text>
-						</View>
-					</TouchableOpacity>
-					<View style={styles.headerIcons}>
-						<TouchableOpacity
-							style={{
-								height: 40,
-								width: 40,
-								justifyContent: "center",
-								marginRight: 10
-							}}
-							onPress={() => navigation.navigate("NotificationScreen")}
-						>
-							<Icon name="bell" type="feather" size={28} />
-							<Badge
-								status="success"
-								value={state.notifications?.length > 0 ? state.notifications?.filter((el) => !el.isSeen)?.length : 0}
-								containerStyle={{ position: "absolute", top: 0, left: 20 }}
-								badgeStyle={{ backgroundColor: MAIN_COLOR }}
-							/>
+				<KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === "ios" ? "padding" : "height"} enabled>
+					<View style={styles.stack1}>
+						<TouchableOpacity style={{ flexDirection: "row", alignItems: "center" }} onPress={() => {}}>
+							<View>
+								<Image
+									source={require("../../../assets/PersonCircle.png")}
+									style={{ width: 50, height: 50, borderRadius: 50 }}
+									resizeMode="contain"
+								/>
+							</View>
+							<View style={{ flexDirection: "column", marginLeft: 10 }}>
+								{state.lastName && state.firstName ? (
+									<Text style={{ fontWeight: "500" }}>
+										{state.lastName?.substr(0, 1)}. {state.firstName}
+									</Text>
+								) : (
+									<Text style={styles.generalText}>Хэрэглэгч</Text>
+								)}
+								<Text style={{}}>ID дугаар: {state?.userId}</Text>
+							</View>
 						</TouchableOpacity>
-						<Icon
-							name="chatbox-ellipses-outline"
-							type="ionicon"
-							size={30}
-							onPress={() => navigation.navigate("HistoryMainScreen")}
-						/>
-					</View>
-				</View>
-				<TouchableOpacity
-					style={styles.searchContainer}
-					activeOpacity={1}
-					onPress={() => {
-						// props.navigation.navigate("SearchScreen")
-					}}
-				>
-					<Icon name="search" type="feather" size={20} color={GRAY_ICON_COLOR} />
-					<AutocompleteDropdown
-						onSelectItem={setSelectedItem}
-						dataSet={state?.subDirectionData ?? null}
-						containerStyle={{ width: "90%", backgroundColor: MAIN_COLOR_GRAY }}
-						inputContainerStyle={{
-							backgroundColor: MAIN_COLOR_GRAY
-						}}
-						emptyResultText="Үр дүн олдсонгүй."
-						renderItem={(item, text) => (
+						<View style={styles.headerIcons}>
 							<TouchableOpacity
-								onPress={() => {
-									// console.log("item", item);
-									navigation.navigate("CAT_MainDirServiceScreen", {
-										mainDirectionId: item.mainDirectionId,
-										directionId: [item.directionId],
-										subDirectionId: [item.id],
-										fromCAT: true
-									});
-								}}
-							>
-								<Text style={{ padding: 15 }}>{item.title}</Text>
-							</TouchableOpacity>
-						)}
-						suggestionsListMaxHeight={300}
-						textInputProps={{
-							placeholder: "Хайх"
-						}}
-					/>
-				</TouchableOpacity>
-				<ScrollView
-					nestedScrollEnabled
-					contentContainerStyle={{
-						flexGrow: 1,
-						paddingHorizontal: 20,
-						flexDirection: "column",
-						paddingTop: 20,
-						paddingBottom: tabBarHeight
-					}}
-					bounces={false}
-				>
-					{state?.mainDirection?.map((el, index) => {
-						return (
-							<View
-								key={index}
 								style={{
-									flexDirection: "column",
-									borderBottomWidth: 1,
-									borderBottomColor: "#ebebeb",
-									marginBottom: 10,
-									paddingBottom: 10
+									height: 40,
+									width: 40,
+									justifyContent: "center",
+									marginRight: 10
 								}}
+								onPress={() => navigation.navigate("NotificationScreen")}
 							>
+								<Icon name="bell" type="feather" size={28} />
+								<Badge
+									status="success"
+									value={state.notifications?.length > 0 ? state.notifications?.filter((el) => !el.isSeen)?.length : 0}
+									containerStyle={{ position: "absolute", top: 0, left: 20 }}
+									badgeStyle={{ backgroundColor: MAIN_COLOR }}
+								/>
+							</TouchableOpacity>
+							<Icon
+								name="chatbox-ellipses-outline"
+								type="ionicon"
+								size={30}
+								onPress={() => navigation.navigate("HistoryMainScreen")}
+							/>
+						</View>
+					</View>
+					{state?.subDirectionData ? (
+						<TouchableOpacity
+							style={styles.searchContainer}
+							activeOpacity={1}
+							onPress={() => {
+								// props.navigation.navigate("SearchScreen")
+							}}
+						>
+							<Icon name="search" type="feather" size={20} color={GRAY_ICON_COLOR} />
+							<View style={{ flex: 0, width: "90%", flexDirection: "row", alignItems: "center" }}>
+								<AutocompleteDropdown
+									controller={(controller) => {
+										dropdownController.current = controller;
+									}}
+									clearOnFocus={false}
+									onSelectItem={setSelectedItem}
+									dataSet={state?.subDirectionData ?? null}
+									containerStyle={{ flexGrow: 1, flexShrink: 1, backgroundColor: MAIN_COLOR_GRAY }}
+									inputContainerStyle={{
+										backgroundColor: MAIN_COLOR_GRAY
+									}}
+									emptyResultText="Үр дүн олдсонгүй."
+									renderItem={(item, text) => (
+										<TouchableOpacity
+											onPress={() => {
+												// console.log("item", item);
+												navigation.navigate("CAT_MainDirServiceScreen", {
+													mainDirectionId: item.mainDirectionId,
+													directionId: [item.directionId],
+													subDirectionId: [item.id],
+													fromCAT: true
+												});
+											}}
+										>
+											<Text style={{ padding: 15 }}>{item.title}</Text>
+										</TouchableOpacity>
+									)}
+									suggestionsListMaxHeight={300}
+									textInputProps={{
+										placeholder: "Хайх"
+									}}
+								/>
+							</View>
+						</TouchableOpacity>
+					) : null}
+					<ScrollView
+						nestedScrollEnabled
+						contentContainerStyle={{
+							flexGrow: 1,
+							paddingHorizontal: 20,
+							flexDirection: "column",
+							paddingTop: 20,
+							paddingBottom: tabBarHeight
+						}}
+						bounces={false}
+					>
+						{state?.mainDirection?.map((el, index) => {
+							return (
 								<View
+									key={index}
 									style={{
-										flexDirection: "row",
-										alignItems: "center",
-										paddingBottom: 3
+										flexDirection: "column",
+										borderBottomWidth: 1,
+										borderBottomColor: "#ebebeb",
+										marginBottom: 10,
+										paddingBottom: 10
 									}}
 								>
-									<Image style={{ width: 20, height: 20 }} source={{ uri: IMG_URL + el?.logoId }} />
-									<Text
+									<View
 										style={{
-											fontWeight: "bold",
-											textTransform: "uppercase",
-											marginLeft: 5
+											flexDirection: "row",
+											alignItems: "center",
+											paddingBottom: 3
 										}}
 									>
-										{el.name}
-									</Text>
-								</View>
-								<View
-									style={{
-										paddingTop: 10
-									}}
-								>
-									{el.directions?.map((child, index2) => {
-										const checkOpen = expanded[index + "-" + index2];
-										return (
-											<ListItem.Accordion
-												noIcon={child?.subDirections != "" ? false : true}
-												key={index + "-" + index2}
-												content={
-													<ListItem.Content>
-														<ListItem.Title
-															style={{
-																color: checkOpen ? MAIN_COLOR : "#000",
-																fontWeight: checkOpen ? "500" : "normal",
-																marginBottom: 5
-															}}
-														>
-															{child.name}
-														</ListItem.Title>
-													</ListItem.Content>
-												}
-												isExpanded={checkOpen}
-												onPress={() => {
-													child?.subDirections != "" &&
-														setExpanded((prevState) => ({
-															...prevState,
-															[index + "-" + index2]: !prevState[index + "-" + index2]
-														}));
-												}}
-												containerStyle={{
-													paddingVertical: 8,
-													paddingHorizontal: 3
-												}}
-											>
-												<ListItem
-													containerStyle={{
-														flexDirection: "column",
-														alignItems: "flex-start",
-														paddingVertical: 0
-													}}
-												>
-													{child?.subDirections?.map((sub, indexSub) => {
-														return (
-															<TouchableOpacity
-																key={indexSub}
+										<Image style={{ width: 20, height: 20 }} source={{ uri: IMG_URL + el?.logoId }} />
+										<Text
+											style={{
+												fontWeight: "bold",
+												textTransform: "uppercase",
+												marginLeft: 5
+											}}
+										>
+											{el.name}
+										</Text>
+									</View>
+									<View
+										style={{
+											paddingTop: 10
+										}}
+									>
+										{el.directions?.map((child, index2) => {
+											const checkOpen = expanded[index + "-" + index2];
+											return (
+												<ListItem.Accordion
+													noIcon={child?.subDirections != "" ? false : true}
+													key={index + "-" + index2}
+													content={
+														<ListItem.Content>
+															<ListItem.Title
 																style={{
-																	height: 40,
-																	width: "100%",
-																	justifyContent: "center"
-																}}
-																onPress={() => {
-																	navigation.navigate("CAT_MainDirServiceScreen", {
-																		mainDirectionId: el.id,
-																		directionId: [child.id],
-																		subDirectionId: [sub.id],
-																		fromCAT: true
-																	});
+																	color: checkOpen ? MAIN_COLOR : "#000",
+																	fontWeight: checkOpen ? "500" : "normal",
+																	marginBottom: 5
 																}}
 															>
-																<Text>{sub.name}</Text>
-															</TouchableOpacity>
-														);
-													})}
-												</ListItem>
-											</ListItem.Accordion>
-										);
-									})}
+																{child.name}
+															</ListItem.Title>
+														</ListItem.Content>
+													}
+													isExpanded={checkOpen}
+													onPress={() => {
+														child?.subDirections != "" &&
+															setExpanded((prevState) => ({
+																...prevState,
+																[index + "-" + index2]: !prevState[index + "-" + index2]
+															}));
+													}}
+													containerStyle={{
+														paddingVertical: 8,
+														paddingHorizontal: 3
+													}}
+												>
+													<ListItem
+														containerStyle={{
+															flexDirection: "column",
+															alignItems: "flex-start",
+															paddingVertical: 0
+														}}
+													>
+														{child?.subDirections?.map((sub, indexSub) => {
+															return (
+																<TouchableOpacity
+																	key={indexSub}
+																	style={{
+																		height: 40,
+																		width: "100%",
+																		justifyContent: "center"
+																	}}
+																	onPress={() => {
+																		navigation.navigate("CAT_MainDirServiceScreen", {
+																			mainDirectionId: el.id,
+																			directionId: [child.id],
+																			subDirectionId: [sub.id],
+																			fromCAT: true
+																		});
+																	}}
+																>
+																	<Text>{sub.name}</Text>
+																</TouchableOpacity>
+															);
+														})}
+													</ListItem>
+												</ListItem.Accordion>
+											);
+										})}
+									</View>
 								</View>
-							</View>
-						);
-					})}
-				</ScrollView>
+							);
+						})}
+					</ScrollView>
+				</KeyboardAvoidingView>
 			</SafeAreaView>
 		</AutocompleteDropdownContextProvider>
 	);
-};
+});
 
 export default CategoryScreen;
 
