@@ -39,70 +39,71 @@ export const MainStore = (props) => {
 
 	const [currentStep, setCurrentStep] = useState(1);
 	const [serviceData, setServiceData] = useState({
-		customerType: "",
-		mainDirectionId: "",
-		directionId: "",
-		subDirectionId: "",
-		userType: "",
-		provinceId: "",
-		districtId: "",
-		khorooId: "",
-		title: "",
-		address: "",
-		desciption: "",
+		customerType: null,
+		mainDirectionId: null,
+		directionId: null,
+		subDirectionId: null,
+		userType: null,
+		provinceId: null,
+		districtId: null,
+		khorooId: null,
+		title: null,
+		address: null,
+		desciption: null,
 		price: 0,
-		counter: 0,
-		email: "",
-		phone: "",
+		counter: null,
+		email: null,
+		phone: null,
 		isMessenger: false,
 		isTermOfService: false,
 		isAfternoon: false,
-		specialService: "",
-		productName: "",
-		unitAmount: "",
-		packageAmount: "",
-		workerCount: "",
-		measurement: "",
-		machineryTypeId: "",
-		markId: "",
-		powerId: "",
-		modelId: "",
-		fromAddress: "",
-		toAddress: "",
+		specialService: null,
+		productName: null,
+		unitAmount: 0,
+		packageAmount: 0,
+		workerCount: null,
+		measurement: null,
+		machineryTypeId: null,
+		markId: null,
+		powerId: null,
+		modelId: null,
+		fromAddress: null,
+		toAddress: null,
 		imageIds: []
 	});
 	const clearServiceData = () => {
 		setServiceData({
-			customerType: "",
-			mainDirectionId: "",
-			directionId: "",
-			subDirectionId: "",
-			userType: "",
-			provinceId: "",
-			districtId: "",
-			khorooId: "",
-			title: "",
-			address: "",
-			desciption: "",
+			customerType: null,
+			mainDirectionId: null,
+			directionId: null,
+			subDirectionId: null,
+			userType: null,
+			provinceId: null,
+			districtId: null,
+			khorooId: null,
+			title: null,
+			address: null,
+			desciption: null,
 			price: 0,
-			counter: 0,
-			email: "",
-			phone: "",
+			counter: null,
+			email: null,
+			phone: null,
 			isMessenger: false,
 			isTermOfService: false,
 			isAfternoon: false,
-			specialService: "",
-			productName: "",
-			unitAmount: "",
-			packageAmount: "",
-			workerCount: "",
-			measurement: "",
-			machineryTypeId: "",
-			markId: "",
-			powerId: "",
-			modelId: "",
-			fromAddress: "",
-			toAddress: ""
+			specialService: null,
+			productName: null,
+			unitAmount: 0,
+			packageAmount: 0,
+			workerCount: null,
+			measurement: null,
+			machineryTypeId: null,
+			markId: null,
+			powerId: null,
+			modelId: null,
+			fromAddress: null,
+			toAddress: null,
+			imageIds: []
 		});
 	};
 
@@ -486,11 +487,11 @@ export const MainStore = (props) => {
 
 	const createAd = async () => {
 		console.log("serviceData", JSON.stringify(serviceData));
-		await axios
+		const adResponse = await axios
 			.post(
 				`${SERVER_URL}advertisement`,
 				{
-					serviceData
+					...serviceData
 				},
 				{
 					headers: {
@@ -500,7 +501,8 @@ export const MainStore = (props) => {
 				}
 			)
 			.then((response) => {
-				console.log("CREATE AD =====>", response.data.response);
+				// console.log("CREATE AD =====>", response.data.response);
+				return response;
 			})
 			.catch((error) => {
 				console.log("error response data =>>", error.response.data);
@@ -509,6 +511,7 @@ export const MainStore = (props) => {
 				}
 				// console.error("Error fetching get NewsDTL:", error.response.status);
 			});
+		return adResponse;
 	};
 
 	return (

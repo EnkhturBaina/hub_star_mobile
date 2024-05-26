@@ -18,6 +18,7 @@ const Step1Special = (props) => {
 	const [uselessParam, setUselessParam] = useState(false); //BottomSheet -г дуудаж байгааг мэдэх гэж ашиглаж байгамоо
 	const [fieldName, setFieldName] = useState(""); //Context -н аль утгыг OBJECT -с update хийхийг хадгалах
 	const [displayName, setDisplayName] = useState(""); //LOOKUP -д харагдах утга (display value)
+	const [actionKey, setActionKey] = useState(""); //Сонгогдсон OBJECT -с ямар key -р утга авах (Жнь: {object}.id)
 
 	const [visibleSnack, setVisibleSnack] = useState(false);
 	const [snackBarMsg, setSnackBarMsg] = useState("");
@@ -33,12 +34,13 @@ const Step1Special = (props) => {
 	//Snacbkbar хаах
 	const onDismissSnackBar = () => setVisibleSnack(false);
 
-	const setLookupData = (data, field, display) => {
+	const setLookupData = (data, field, display, action_key) => {
 		// console.log("refRBSheet", refRBSheet);
 		setData(data); //Lookup -д харагдах дата
 		setFieldName(field); //Context -н object -н update хийх key
 		setDisplayName(display); //Lookup -д харагдах датаны текст талбар
 		setUselessParam(!uselessParam);
+		setActionKey(action_key);
 	};
 
 	useEffect(() => {
@@ -63,7 +65,7 @@ const Step1Special = (props) => {
 		await axios
 			.get(`${SERVER_URL}reference/direction`, {
 				params: {
-					specialService: state.serviceData?.specialService?.type
+					specialService: state.serviceData?.specialService
 				},
 				headers: {
 					"X-API-KEY": X_API_KEY
@@ -89,7 +91,7 @@ const Step1Special = (props) => {
 		await axios
 			.get(`${SERVER_URL}reference/sub-direction`, {
 				params: {
-					directionId: state.serviceData?.directionId?.id
+					directionId: state.serviceData?.directionId
 				},
 				headers: {
 					"X-API-KEY": X_API_KEY
@@ -138,11 +140,17 @@ const Step1Special = (props) => {
 						<TouchableOpacity
 							style={styles.touchableSelect}
 							onPress={() => {
-								setLookupData(SpecialServiceData, "specialService", "title");
+								setLookupData(SpecialServiceData, "specialService", "title", "type");
 							}}
 						>
 							<Text style={styles.selectedText} numberOfLines={1}>
-								{state.serviceData.specialService != "" ? state.serviceData.specialService?.title : "Сонгох"}
+								{state?.serviceData?.specialService
+									? SpecialServiceData?.map((el, index) => {
+											if (el.type === state?.serviceData?.specialService) {
+												return el.title;
+											}
+									  })
+									: "Сонгох"}
 							</Text>
 							<Icon name="keyboard-arrow-down" type="material-icons" size={30} color={GRAY_ICON_COLOR} />
 						</TouchableOpacity>
@@ -152,12 +160,18 @@ const Step1Special = (props) => {
 						<TouchableOpacity
 							style={styles.touchableSelect}
 							onPress={() => {
-								setLookupData(directions, "directionId", "name");
+								setLookupData(directions, "directionId", "name", "id");
 							}}
 							disabled={state.serviceData?.specialService == ""}
 						>
 							<Text style={styles.selectedText} numberOfLines={1}>
-								{state.serviceData.directionId != "" ? state.serviceData.directionId?.name : "Сонгох"}
+								{state?.serviceData?.directionId
+									? directions?.map((el, index) => {
+											if (el.id === state?.serviceData?.directionId) {
+												return el.name;
+											}
+									  })
+									: "Сонгох"}
 							</Text>
 							<Icon name="keyboard-arrow-down" type="material-icons" size={30} color={GRAY_ICON_COLOR} />
 						</TouchableOpacity>
@@ -167,12 +181,18 @@ const Step1Special = (props) => {
 						<TouchableOpacity
 							style={styles.touchableSelect}
 							onPress={() => {
-								setLookupData(subDirections, "subDirectionId", "name");
+								setLookupData(subDirections, "subDirectionId", "name", "id");
 							}}
 							disabled={state.serviceData?.directionId == ""}
 						>
 							<Text style={styles.selectedText} numberOfLines={1}>
-								{state.serviceData.subDirectionId != "" ? state.serviceData.subDirectionId?.name : "Сонгох"}
+								{state?.serviceData?.subDirectionId
+									? subDirections?.map((el, index) => {
+											if (el.id === state?.serviceData?.subDirectionId) {
+												return el.name;
+											}
+									  })
+									: "Сонгох"}
 							</Text>
 							<Icon name="keyboard-arrow-down" type="material-icons" size={30} color={GRAY_ICON_COLOR} />
 						</TouchableOpacity>
@@ -213,6 +233,7 @@ const Step1Special = (props) => {
 						[fieldName]: e
 					}));
 				}}
+				actionKey={actionKey}
 			/>
 		</SafeAreaView>
 	);

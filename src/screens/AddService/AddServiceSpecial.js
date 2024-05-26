@@ -36,9 +36,6 @@ const AddServiceSpecial = (props) => {
 			});
 		// TabBar Hide хийх
 	}, [props.navigation]);
-	useEffect(() => {
-		console.log(" =========> ", props?.route?.params);
-	}, []);
 
 	return (
 		<SafeAreaView
@@ -55,22 +52,22 @@ const AddServiceSpecial = (props) => {
 			/>
 			{state.currentStep == 1 && <Step1Special totalStep={totalStep} />}
 			{state.currentStep == 2 && <Step2Special totalStep={totalStep} />}
-			{state.currentStep == 3 && state.serviceData?.specialService?.type == "PUBLIC_SELECTION" ? (
+			{state.currentStep == 3 && state.serviceData?.specialService == "PUBLIC_SELECTION" ? (
 				<PublicSelection totalStep={totalStep} />
 			) : null}
-			{state.currentStep == 3 && state.serviceData?.specialService?.type == "INTERNATIONAL_TRADE" ? (
+			{state.currentStep == 3 && state.serviceData?.specialService == "INTERNATIONAL_TRADE" ? (
 				<InternationalTrade totalStep={totalStep} />
 			) : null}
-			{state.currentStep == 3 && state.serviceData?.specialService?.type == "CONSULTING_SERVICE" ? (
+			{state.currentStep == 3 && state.serviceData?.specialService == "CONSULTING_SERVICE" ? (
 				<ConsultingService totalStep={totalStep} />
 			) : null}
-			{state.currentStep == 3 && state.serviceData?.specialService?.type == "VOCATIONAL_TRAINING" ? (
+			{state.currentStep == 3 && state.serviceData?.specialService == "VOCATIONAL_TRAINING" ? (
 				<VocationalTraining totalStep={totalStep} />
 			) : null}
-			{state.currentStep == 3 && state.serviceData?.specialService?.type == "LABORATORY_MATERIAL" ? (
+			{state.currentStep == 3 && state.serviceData?.specialService == "LABORATORY_MATERIAL" ? (
 				<LaboratoryMaterial totalStep={totalStep} />
 			) : null}
-			{state.currentStep == 3 && state.serviceData?.specialService?.type == "MAKE_BUDGET" ? (
+			{state.currentStep == 3 && state.serviceData?.specialService == "MAKE_BUDGET" ? (
 				<MakeBudget totalStep={totalStep} />
 			) : null}
 		</SafeAreaView>

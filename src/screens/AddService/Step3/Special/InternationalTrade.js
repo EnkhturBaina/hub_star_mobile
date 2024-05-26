@@ -13,7 +13,6 @@ import React, { useContext, useEffect, useState } from "react";
 import { GRAY_ICON_COLOR, IMG_URL, MAIN_COLOR, MAIN_COLOR_GRAY } from "../../../../constant";
 import Constants from "expo-constants";
 import CustomSnackbar from "../../../../components/CustomSnackbar";
-import BottomSheet from "../../../../components/BottomSheet";
 import { CheckBox, Icon } from "@rneui/base";
 import GradientButton from "../../../../components/GradientButton";
 import LoanInput from "../../../../components/LoanInput";
@@ -22,13 +21,12 @@ import * as ImagePicker from "expo-image-picker";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { ImageZoom } from "@likashefqet/react-native-image-zoom";
 import { Modal } from "react-native";
+import CustomDialog from "../../../../components/CustomDialog";
+import { useNavigation } from "@react-navigation/native";
 
 const InternationalTrade = (props) => {
 	const state = useContext(MainContext);
-	const [data, setData] = useState(""); //BottomSheet рүү дамжуулах Дата
-	const [uselessParam, setUselessParam] = useState(false); //BottomSheet -г дуудаж байгааг мэдэх гэж ашиглаж байгамоо
-	const [fieldName, setFieldName] = useState(""); //Context -н аль утгыг OBJECT -с update хийхийг хадгалах
-	const [displayName, setDisplayName] = useState(""); //LOOKUP -д харагдах утга (display value)
+	const navigation = useNavigation();
 
 	const [visibleSnack, setVisibleSnack] = useState(false);
 	const [snackBarMsg, setSnackBarMsg] = useState("");
@@ -36,6 +34,12 @@ const InternationalTrade = (props) => {
 
 	const [visible1, setVisible1] = useState(false);
 	const [zoomImgURL, setZoomImgURL] = useState(null);
+
+	const [visibleDialog, setVisibleDialog] = useState(false); //Dialog харуулах
+	const [dialogType, setDialogType] = useState("success"); //Dialog харуулах төрөл
+	const [dialogText, setDialogText] = useState(""); //Dialog -н текст
+
+	const [tempUnitAmount, setTempUnitAmount] = useState(null);
 
 	//Snacbkbar харуулах
 	const onToggleSnackBar = (msg) => {
@@ -46,15 +50,7 @@ const InternationalTrade = (props) => {
 	//Snacbkbar хаах
 	const onDismissSnackBar = () => setVisibleSnack(false);
 
-	const setLookupData = (data, field, display) => {
-		// console.log("refRBSheet", refRBSheet);
-		setData(data); //Lookup -д харагдах дата
-		setFieldName(field); //Context -н object -н update хийх key
-		setDisplayName(display); //Lookup -д харагдах датаны текст талбар
-		setUselessParam(!uselessParam);
-	};
-
-	const createAD = () => {
+	const createAD = async () => {
 		if (state.serviceData?.measurement == "") {
 			onToggleSnackBar("Хэмжих нэгж оруулна уу.");
 		} else if (state.serviceData?.unitAmount == "") {
@@ -66,8 +62,15 @@ const InternationalTrade = (props) => {
 		} else if (state.serviceData?.phone == "") {
 			onToggleSnackBar("Утас оруулна уу.");
 		} else {
-			// state.setCurrentStep(3);
-			state.createAd();
+			state
+				.createAd()
+				.then((res) => {
+					if (res.data.statusCode == 200) setDialogText("Таны зар амжилттай нийтлэгдлээ.");
+					setVisibleDialog(true);
+				})
+				.catch((err) => {
+					// console.log("err", err);
+				});
 		}
 	};
 
@@ -97,6 +100,12 @@ const InternationalTrade = (props) => {
 			imageIds: images
 		}));
 	}, [images]);
+	useEffect(() => {
+		state.setServiceData((prevState) => ({
+			...prevState,
+			unitAmount: parseInt(tempUnitAmount?.replaceAll(",", ""))
+		}));
+	}, [tempUnitAmount]);
 
 	return (
 		<KeyboardAvoidingView
@@ -127,13 +136,14 @@ const InternationalTrade = (props) => {
 						<LoanInput
 							label="Үнэ"
 							keyboardType="number-pad"
-							value={state.serviceData?.unitAmount}
-							onChangeText={(e) =>
-								state.setServiceData((prevState) => ({
-									...prevState,
-									unitAmount: state.addCommas(state.removeNonNumeric(e))
-								}))
-							}
+							value={tempUnitAmount}
+							onChangeText={(e) => {
+								setTempUnitAmount(state.addCommas(state.removeNonNumeric(e)));
+								// state.setServiceData((prevState) => ({
+								// 	...prevState,
+								// 	unitAmount: state.addCommas(state.removeNonNumeric(e))
+								// }))
+							}}
 						/>
 						<Text style={styles.label}>Зураг оруулах</Text>
 						<View style={styles.gridContainer}>
@@ -266,22 +276,6 @@ const InternationalTrade = (props) => {
 					</ScrollView>
 				</View>
 
-				<BottomSheet
-					bodyText={data}
-					dragDown={true}
-					backClick={true}
-					type="lookup"
-					fieldName={fieldName}
-					displayName={displayName}
-					lookUpType="profile"
-					handle={uselessParam}
-					action={(e) => {
-						state.setServiceData((prevState) => ({
-							...prevState,
-							[fieldName]: e
-						}));
-					}}
-				/>
 				<Modal
 					animationType="slide"
 					transparent={true}
@@ -315,6 +309,21 @@ const InternationalTrade = (props) => {
 						</View>
 					</View>
 				</Modal>
+				<CustomDialog
+					visible={visibleDialog}
+					confirmFunction={() => {
+						setVisibleDialog(false);
+						state.setCurrentStep(1);
+						state.clearServiceData();
+						navigation.navigate("AddServiceFirst");
+						// dialogType == "success" && props.navigation.goBack();
+					}}
+					declineFunction={() => {}}
+					text={dialogText}
+					confirmBtnText="Хаах"
+					DeclineBtnText=""
+					type={dialogType}
+				/>
 			</SafeAreaView>
 		</KeyboardAvoidingView>
 	);

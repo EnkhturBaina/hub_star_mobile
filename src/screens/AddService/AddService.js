@@ -55,19 +55,15 @@ const AddService = (props) => {
 			/>
 			{state.currentStep == 1 && <Step1 totalStep={totalStep} />}
 			{state.currentStep == 2 && <Step2 totalStep={totalStep} />}
-			{state.currentStep == 3 && state.serviceData?.userType?.type == "SUBSCRIBER" ? (
+			{state.currentStep == 3 && state.serviceData?.userType == "SUBSCRIBER" ? (
 				<Subscriber totalStep={totalStep} />
 			) : null}
-			{state.currentStep == 3 && state.serviceData?.userType?.type == "EXECUTOR" ? (
-				<Executor totalStep={totalStep} />
-			) : null}
-			{state.currentStep == 3 && state.serviceData?.userType?.type == "SUPPLIER" ? (
-				<Supplier totalStep={totalStep} />
-			) : null}
-			{state.currentStep == 3 && state.serviceData?.userType?.type == "TRANSPORTATION" ? (
+			{state.currentStep == 3 && state.serviceData?.userType == "EXECUTOR" ? <Executor totalStep={totalStep} /> : null}
+			{state.currentStep == 3 && state.serviceData?.userType == "SUPPLIER" ? <Supplier totalStep={totalStep} /> : null}
+			{state.currentStep == 3 && state.serviceData?.userType == "TRANSPORTATION" ? (
 				<Transportation totalStep={totalStep} />
 			) : null}
-			{state.currentStep == 3 && state.serviceData?.userType?.type == "MACHINERY" ? (
+			{state.currentStep == 3 && state.serviceData?.userType == "MACHINERY" ? (
 				<Machinery totalStep={totalStep} />
 			) : null}
 		</SafeAreaView>
