@@ -483,29 +483,30 @@ export const MainStore = (props) => {
 	};
 
 	const createAd = async () => {
-		await axios
-			.post(
-				`${SERVER_URL}advertisement`,
-				{
-					serviceData
-				},
-				{
-					headers: {
-						"x-api-key": X_API_KEY,
-						Authorization: `Bearer ${token}`
-					}
-				}
-			)
-			.then((response) => {
-				console.log("CREATE AD =====>", response.data.response);
-			})
-			.catch((error) => {
-				console.log("error", error);
-				if (error.response.status == "401") {
-					Handle_401();
-				}
-				// console.error("Error fetching get NewsDTL:", error.response.status);
-			});
+		console.log("serviceData", serviceData);
+		// await axios
+		// 	.post(
+		// 		`${SERVER_URL}advertisement`,
+		// 		{
+		// 			serviceData
+		// 		},
+		// 		{
+		// 			headers: {
+		// 				"x-api-key": X_API_KEY,
+		// 				Authorization: `Bearer ${token}`
+		// 			}
+		// 		}
+		// 	)
+		// 	.then((response) => {
+		// 		console.log("CREATE AD =====>", response.data.response);
+		// 	})
+		// 	.catch((error) => {
+		// 		console.log("error", error);
+		// 		if (error.response.status == "401") {
+		// 			Handle_401();
+		// 		}
+		// 		// console.error("Error fetching get NewsDTL:", error.response.status);
+		// 	});
 	};
 
 	return (

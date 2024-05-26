@@ -32,8 +32,22 @@ const CategoryScreen = memo(() => {
 	useEffect(() => {
 		setExpanded({});
 		state.getNotifications();
+		console.log("STATE", JSON.stringify(state.subDirectionData));
 	}, [isFocused]);
-
+	const DATA_TEMP = [
+		{
+			id: 1,
+			title: "xxxxxxx 1"
+		},
+		{
+			id: 2,
+			title: "zzzzzzz 2"
+		},
+		{
+			id: 3,
+			title: "yyyyyy 3"
+		}
+	];
 	return (
 		<AutocompleteDropdownContextProvider>
 			<SafeAreaView
@@ -107,7 +121,8 @@ const CategoryScreen = memo(() => {
 									}}
 									clearOnFocus={false}
 									onSelectItem={setSelectedItem}
-									dataSet={state.subDirectionData ?? null}
+									// dataSet={state.subDirectionData ?? null}
+									dataSet={DATA_TEMP}
 									containerStyle={{ flexGrow: 1, flexShrink: 1, backgroundColor: MAIN_COLOR_GRAY }}
 									inputContainerStyle={{
 										backgroundColor: MAIN_COLOR_GRAY
@@ -131,6 +146,14 @@ const CategoryScreen = memo(() => {
 									suggestionsListMaxHeight={300}
 									textInputProps={{
 										placeholder: "Хайх"
+									}}
+									flatListProps={{
+										removeClippedSubviews: true,
+										maxToRenderPerBatch: 10,
+										initialNumToRender: 10,
+										onEndReachedThreshold: 0.1,
+										windowSize: 5,
+										updateCellsBatchingPeriod: 30
 									}}
 								/>
 							</View>
@@ -285,10 +308,5 @@ const styles = StyleSheet.create({
 		marginTop: 10,
 		marginHorizontal: 20,
 		marginBottom: 5
-	},
-	searchInput: {
-		alignItems: "center",
-		flexDirection: "row",
-		justifyContent: "flex-start"
 	}
 });
