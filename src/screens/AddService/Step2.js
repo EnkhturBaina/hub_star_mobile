@@ -30,6 +30,7 @@ const Step2 = (props) => {
 	const [uselessParam, setUselessParam] = useState(false); //BottomSheet -г дуудаж байгааг мэдэх гэж ашиглаж байгамоо
 	const [fieldName, setFieldName] = useState(""); //Context -н аль утгыг OBJECT -с update хийхийг хадгалах
 	const [displayName, setDisplayName] = useState(""); //LOOKUP -д харагдах утга (display value)
+	const [actionKey, setActionKey] = useState(""); //Сонгогдсон OBJECT -с ямар key -р утга авах (Жнь: {object}.id)
 
 	const [visibleSnack, setVisibleSnack] = useState(false);
 	const [snackBarMsg, setSnackBarMsg] = useState("");
@@ -43,12 +44,13 @@ const Step2 = (props) => {
 	//Snacbkbar хаах
 	const onDismissSnackBar = () => setVisibleSnack(false);
 
-	const setLookupData = (data, field, display) => {
+	const setLookupData = (data, field, display, action_key) => {
 		// console.log("refRBSheet", refRBSheet);
 		setData(data); //Lookup -д харагдах дата
 		setFieldName(field); //Context -н object -н update хийх key
 		setDisplayName(display); //Lookup -д харагдах датаны текст талбар
 		setUselessParam(!uselessParam);
+		setActionKey(action_key);
 	};
 
 	const getAddress = async (params) => {
@@ -81,10 +83,11 @@ const Step2 = (props) => {
 	}, []);
 
 	useEffect(() => {
+		console.log("state.serviceData?.provinceId", state.serviceData?.provinceId);
 		state.serviceData?.provinceId &&
 			getAddress({
 				type: "DISTRICT",
-				parentId: state.serviceData?.provinceId?.id
+				parentId: state.serviceData?.provinceId
 			});
 	}, [state.serviceData?.provinceId]);
 
@@ -92,7 +95,7 @@ const Step2 = (props) => {
 		state.serviceData?.districtId &&
 			getAddress({
 				type: "KHOROO",
-				parentId: state.serviceData?.districtId?.id
+				parentId: state.serviceData?.districtId
 			});
 	}, [state.serviceData?.districtId]);
 	//generalData.loanAmount?.replace(/,/g, "")
@@ -164,11 +167,17 @@ const Step2 = (props) => {
 							<TouchableOpacity
 								style={styles.touchableSelect}
 								onPress={() => {
-									setLookupData(provinces, "provinceId", "name");
+									setLookupData(provinces, "provinceId", "name", "id");
 								}}
 							>
 								<Text style={styles.selectedText} numberOfLines={1}>
-									{state.serviceData.provinceId != "" ? state.serviceData.provinceId?.name : "Сонгох"}
+									{state?.serviceData?.provinceId
+										? provinces?.map((el, index) => {
+												if (el.id === state?.serviceData?.provinceId) {
+													return el.name;
+												}
+										  })
+										: "Сонгох"}
 								</Text>
 								<Icon name="keyboard-arrow-down" type="material-icons" size={30} color={GRAY_ICON_COLOR} />
 							</TouchableOpacity>
@@ -178,12 +187,18 @@ const Step2 = (props) => {
 							<TouchableOpacity
 								style={styles.touchableSelect}
 								onPress={() => {
-									setLookupData(districts, "districtId", "name");
+									setLookupData(districts, "districtId", "name", "id");
 								}}
 								disabled={districts?.length == 0}
 							>
 								<Text style={styles.selectedText} numberOfLines={1}>
-									{state.serviceData.districtId != "" ? state.serviceData.districtId?.name : "Сонгох"}
+									{state?.serviceData?.districtId
+										? districts?.map((el, index) => {
+												if (el.id === state?.serviceData?.districtId) {
+													return el.name;
+												}
+										  })
+										: "Сонгох"}
 								</Text>
 								<Icon name="keyboard-arrow-down" type="material-icons" size={30} color={GRAY_ICON_COLOR} />
 							</TouchableOpacity>
@@ -193,12 +208,18 @@ const Step2 = (props) => {
 							<TouchableOpacity
 								style={styles.touchableSelect}
 								onPress={() => {
-									setLookupData(khoroos, "khorooId", "name");
+									setLookupData(khoroos, "khorooId", "name", "id");
 								}}
 								disabled={khoroos?.length == 0}
 							>
 								<Text style={styles.selectedText} numberOfLines={1}>
-									{state.serviceData.khorooId != "" ? state.serviceData.khorooId?.name : "Сонгох"}
+									{state?.serviceData?.khorooId
+										? khoroos?.map((el, index) => {
+												if (el.id === state?.serviceData?.khorooId) {
+													return el.name;
+												}
+										  })
+										: "Сонгох"}
 								</Text>
 								<Icon name="keyboard-arrow-down" type="material-icons" size={30} color={GRAY_ICON_COLOR} />
 							</TouchableOpacity>
@@ -251,6 +272,7 @@ const Step2 = (props) => {
 							[fieldName]: e
 						}));
 					}}
+					actionKey={actionKey}
 				/>
 			</SafeAreaView>
 		</KeyboardAvoidingView>

@@ -6,24 +6,35 @@ import {
 	KeyboardAvoidingView,
 	ScrollView,
 	Platform,
-	TouchableOpacity
+	TouchableOpacity,
+	Modal,
+	Image
 } from "react-native";
-import React, { useContext, useState } from "react";
-import { GRAY_ICON_COLOR, MAIN_COLOR, MAIN_COLOR_GRAY } from "../../../constant";
+import React, { useContext, useEffect, useState } from "react";
+import { GRAY_ICON_COLOR, IMG_URL, MAIN_COLOR, MAIN_COLOR_GRAY } from "../../../constant";
 import Constants from "expo-constants";
 import CustomSnackbar from "../../../components/CustomSnackbar";
-import BottomSheet from "../../../components/BottomSheet";
 import { CheckBox, Icon } from "@rneui/base";
 import GradientButton from "../../../components/GradientButton";
 import LoanInput from "../../../components/LoanInput";
 import MainContext from "../../../contexts/MainContext";
+import * as ImagePicker from "expo-image-picker";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { ImageZoom } from "@likashefqet/react-native-image-zoom";
+import { useNavigation } from "@react-navigation/native";
+import CustomDialog from "../../../components/CustomDialog";
 
 const Subscriber = (props) => {
 	const state = useContext(MainContext);
-	const [data, setData] = useState(""); //BottomSheet рүү дамжуулах Дата
-	const [uselessParam, setUselessParam] = useState(false); //BottomSheet -г дуудаж байгааг мэдэх гэж ашиглаж байгамоо
-	const [fieldName, setFieldName] = useState(""); //Context -н аль утгыг OBJECT -с update хийхийг хадгалах
-	const [displayName, setDisplayName] = useState(""); //LOOKUP -д харагдах утга (display value)
+	const navigation = useNavigation();
+
+	const [images, setImages] = useState([]);
+	const [visible1, setVisible1] = useState(false);
+	const [zoomImgURL, setZoomImgURL] = useState(null);
+
+	const [visibleDialog, setVisibleDialog] = useState(false); //Dialog харуулах
+	const [dialogType, setDialogType] = useState("success"); //Dialog харуулах төрөл
+	const [dialogText, setDialogText] = useState(""); //Dialog -н текст
 
 	const [visibleSnack, setVisibleSnack] = useState(false);
 	const [snackBarMsg, setSnackBarMsg] = useState("");
@@ -36,14 +47,6 @@ const Subscriber = (props) => {
 
 	//Snacbkbar хаах
 	const onDismissSnackBar = () => setVisibleSnack(false);
-
-	const setLookupData = (data, field, display) => {
-		// console.log("refRBSheet", refRBSheet);
-		setData(data); //Lookup -д харагдах дата
-		setFieldName(field); //Context -н object -н update хийх key
-		setDisplayName(display); //Lookup -д харагдах датаны текст талбар
-		setUselessParam(!uselessParam);
-	};
 
 	const createAD = () => {
 		if (state.serviceData?.measurement == "") {
@@ -60,6 +63,33 @@ const Subscriber = (props) => {
 			// state.setCurrentStep(3);
 		}
 	};
+	const uploadImageAsBinary = async (imgId) => {
+		const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+
+		if (status !== "granted") {
+			// console.log("Permission to access media library denied");
+			return;
+		}
+		const result = await ImagePicker.launchImageLibraryAsync();
+		if (!result.canceled) {
+			const data = await state.fileUpload(result?.assets[0]?.uri);
+			// console.log("data", data);
+			if (data) {
+				//Зураг солих бол өмнөх оруулсан зурагны ID устгах
+				const newImages = images.filter((img) => img !== imgId);
+				setImages(newImages);
+
+				setImages((prevState) => [...prevState, data?.response?.id]);
+			}
+		}
+	};
+	useEffect(() => {
+		state.setServiceData((prevState) => ({
+			...prevState,
+			imageIds: images
+		}));
+	}, [images]);
+
 	return (
 		<KeyboardAvoidingView
 			behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -104,14 +134,31 @@ const Subscriber = (props) => {
 						/>
 						<Text style={styles.label}>Зураг оруулах</Text>
 						<View style={styles.gridContainer}>
-							{[...Array(10)]?.map((el, index) => {
+							{state?.serviceData?.imageIds?.map((el, index) => {
 								return (
-									<TouchableOpacity onPress={() => {}} style={styles.gridItem} key={index}>
-										<Text style={styles.featureText}>Зураг нэмэх</Text>
-										<Icon name="image" type="feather" size={20} color={GRAY_ICON_COLOR} />
-									</TouchableOpacity>
+									<View key={index} style={styles.gridItem}>
+										<TouchableOpacity
+											onPress={() => {
+												setZoomImgURL(el);
+												setVisible1(true);
+											}}
+											style={{ width: "80%", justifyContent: "center", padding: 5 }}
+										>
+											<Image source={{ uri: IMG_URL + el }} style={{ height: "100%", width: "100%" }} />
+										</TouchableOpacity>
+									</View>
 								);
 							})}
+							<TouchableOpacity
+								activeOpacity={0.7}
+								onPress={() => {
+									uploadImageAsBinary();
+								}}
+								style={styles.gridItem}
+							>
+								<Icon name="pluscircle" type="antdesign" size={30} color="#c5c5c5" />
+								<Text style={{ fontSize: 18, color: "#919395" }}>Зураг нэмэх</Text>
+							</TouchableOpacity>
 						</View>
 						<LoanInput
 							label="Тайлбар"
@@ -215,22 +262,53 @@ const Subscriber = (props) => {
 						</View>
 					</ScrollView>
 				</View>
-
-				<BottomSheet
-					bodyText={data}
-					dragDown={true}
-					backClick={true}
-					type="lookup"
-					fieldName={fieldName}
-					displayName={displayName}
-					lookUpType="profile"
-					handle={uselessParam}
-					action={(e) => {
-						state.setServiceData((prevState) => ({
-							...prevState,
-							[fieldName]: e
-						}));
+				<Modal
+					animationType="slide"
+					transparent={true}
+					onRequestClose={() => {
+						setVisible1(!visible1);
 					}}
+					visible={visible1}
+					style={{
+						backgroundColor: "rgba(52, 52, 52, 0.9)"
+					}}
+				>
+					<View style={{ flex: 1, backgroundColor: "rgba(52, 52, 52, 0.9)", paddingBottom: 20 }}>
+						<GestureHandlerRootView>
+							<ImageZoom source={{ uri: IMG_URL + zoomImgURL }} style={{ flex: 1, height: 200, width: "100%" }} />
+						</GestureHandlerRootView>
+						<View style={{ marginTop: 10, flexDirection: "row", justifyContent: "space-evenly", alignItems: "center" }}>
+							<View style={{ width: "44%" }}>
+								<GradientButton
+									text="Солих"
+									action={() => {
+										setVisible1(false);
+										uploadImageAsBinary(zoomImgURL);
+									}}
+									height={40}
+									radius={6}
+								/>
+							</View>
+							<View style={{ width: "44%" }}>
+								<GradientButton text="Хаах" action={() => setVisible1(false)} height={40} radius={6} />
+							</View>
+						</View>
+					</View>
+				</Modal>
+				<CustomDialog
+					visible={visibleDialog}
+					confirmFunction={() => {
+						setVisibleDialog(false);
+						state.setCurrentStep(1);
+						state.clearServiceData();
+						navigation.navigate("AddServiceFirst");
+						// dialogType == "success" && props.navigation.goBack();
+					}}
+					declineFunction={() => {}}
+					text={dialogText}
+					confirmBtnText="Хаах"
+					DeclineBtnText=""
+					type={dialogType}
 				/>
 			</SafeAreaView>
 		</KeyboardAvoidingView>
@@ -277,21 +355,11 @@ const styles = StyleSheet.create({
 	gridItem: {
 		marginBottom: 10,
 		borderRadius: 4,
-		height: 32,
-		flexDirection: "row",
-		justifyContent: "center",
+		height: 100,
+		flexDirection: "column",
+		justifyContent: "space-evenly",
 		alignItems: "center",
 		backgroundColor: MAIN_COLOR_GRAY,
 		width: "48%" // is 50% of container width
-	},
-	featureIcon: {
-		resizeMode: "contain",
-		width: 40,
-		height: 40
-	},
-	featureText: {
-		color: "#798585",
-		marginRight: 5,
-		fontSize: 12
 	}
 });

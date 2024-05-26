@@ -7,7 +7,8 @@ import {
 	ScrollView,
 	Platform,
 	TouchableOpacity,
-	Image
+	Image,
+	Modal
 } from "react-native";
 import React, { useContext, useEffect, useState } from "react";
 import { GRAY_ICON_COLOR, IMG_URL, MAIN_COLOR, MAIN_COLOR_GRAY } from "../../../../constant";
@@ -20,7 +21,6 @@ import MainContext from "../../../../contexts/MainContext";
 import * as ImagePicker from "expo-image-picker";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { ImageZoom } from "@likashefqet/react-native-image-zoom";
-import { Modal } from "react-native";
 import CustomDialog from "../../../../components/CustomDialog";
 import { useNavigation } from "@react-navigation/native";
 
@@ -100,6 +100,7 @@ const InternationalTrade = (props) => {
 			imageIds: images
 		}));
 	}, [images]);
+
 	useEffect(() => {
 		state.setServiceData((prevState) => ({
 			...prevState,
