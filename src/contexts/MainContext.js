@@ -485,7 +485,7 @@ export const MainStore = (props) => {
 	};
 
 	const createAd = async () => {
-		console.log("serviceData", serviceData);
+		console.log("serviceData", JSON.stringify(serviceData));
 		await axios
 			.post(
 				`${SERVER_URL}advertisement`,
@@ -503,7 +503,7 @@ export const MainStore = (props) => {
 				console.log("CREATE AD =====>", response.data.response);
 			})
 			.catch((error) => {
-				console.log("error", error);
+				console.log("error response data =>>", error.response.data);
 				if (error.response.status == "401") {
 					Handle_401();
 				}
