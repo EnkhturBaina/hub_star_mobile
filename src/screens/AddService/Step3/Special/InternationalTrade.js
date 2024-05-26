@@ -96,7 +96,6 @@ const InternationalTrade = (props) => {
 			...prevState,
 			imageIds: images
 		}));
-		console.log("images", images);
 	}, [images]);
 
 	return (
@@ -367,14 +366,5 @@ const styles = StyleSheet.create({
 		alignItems: "center",
 		backgroundColor: MAIN_COLOR_GRAY,
 		width: "48%" // is 50% of container width
-	},
-	featureIcon: {
-		resizeMode: "contain",
-		width: 40,
-		height: 40
-	},
-	featureText: {
-		color: "#798585",
-		fontSize: 12
 	}
 });
