@@ -6,10 +6,11 @@ import {
 	KeyboardAvoidingView,
 	ScrollView,
 	Platform,
-	TouchableOpacity
+	TouchableOpacity,
+	Image
 } from "react-native";
-import React, { useContext, useState } from "react";
-import { GRAY_ICON_COLOR, MAIN_COLOR, MAIN_COLOR_GRAY } from "../../../../constant";
+import React, { useContext, useEffect, useState } from "react";
+import { GRAY_ICON_COLOR, IMG_URL, MAIN_COLOR, MAIN_COLOR_GRAY } from "../../../../constant";
 import Constants from "expo-constants";
 import CustomSnackbar from "../../../../components/CustomSnackbar";
 import BottomSheet from "../../../../components/BottomSheet";
@@ -17,6 +18,10 @@ import { CheckBox, Icon } from "@rneui/base";
 import GradientButton from "../../../../components/GradientButton";
 import LoanInput from "../../../../components/LoanInput";
 import MainContext from "../../../../contexts/MainContext";
+import * as ImagePicker from "expo-image-picker";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { ImageZoom } from "@likashefqet/react-native-image-zoom";
+import { Modal } from "react-native";
 
 const InternationalTrade = (props) => {
 	const state = useContext(MainContext);
@@ -27,6 +32,10 @@ const InternationalTrade = (props) => {
 
 	const [visibleSnack, setVisibleSnack] = useState(false);
 	const [snackBarMsg, setSnackBarMsg] = useState("");
+	const [images, setImages] = useState([]);
+
+	const [visible1, setVisible1] = useState(false);
+	const [zoomImgURL, setZoomImgURL] = useState(null);
 
 	//Snacbkbar харуулах
 	const onToggleSnackBar = (msg) => {
@@ -58,8 +67,38 @@ const InternationalTrade = (props) => {
 			onToggleSnackBar("Утас оруулна уу.");
 		} else {
 			// state.setCurrentStep(3);
+			state.createAd();
 		}
 	};
+
+	const uploadImageAsBinary = async (imgId) => {
+		const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+
+		if (status !== "granted") {
+			// console.log("Permission to access media library denied");
+			return;
+		}
+		const result = await ImagePicker.launchImageLibraryAsync();
+		if (!result.canceled) {
+			const data = await state.fileUpload(result?.assets[0]?.uri);
+			// console.log("data", data);
+			if (data) {
+				//Зураг солих бол өмнөх оруулсан зурагны ID устгах
+				const newImages = images.filter((img) => img !== imgId);
+				setImages(newImages);
+
+				setImages((prevState) => [...prevState, data?.response?.id]);
+			}
+		}
+	};
+	useEffect(() => {
+		state.setServiceData((prevState) => ({
+			...prevState,
+			imageIds: images
+		}));
+		console.log("images", images);
+	}, [images]);
+
 	return (
 		<KeyboardAvoidingView
 			behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -99,14 +138,31 @@ const InternationalTrade = (props) => {
 						/>
 						<Text style={styles.label}>Зураг оруулах</Text>
 						<View style={styles.gridContainer}>
-							{[...Array(10)]?.map((el, index) => {
+							{state?.serviceData?.imageIds?.map((el, index) => {
 								return (
-									<TouchableOpacity onPress={() => {}} style={styles.gridItem} key={index}>
-										<Text style={styles.featureText}>Зураг нэмэх</Text>
-										<Icon name="image" type="feather" size={20} color={GRAY_ICON_COLOR} />
-									</TouchableOpacity>
+									<View key={index} style={styles.gridItem}>
+										<TouchableOpacity
+											onPress={() => {
+												setZoomImgURL(el);
+												setVisible1(true);
+											}}
+											style={{ width: "80%", justifyContent: "center", padding: 5 }}
+										>
+											<Image source={{ uri: IMG_URL + el }} style={{ height: "100%", width: "100%" }} />
+										</TouchableOpacity>
+									</View>
 								);
 							})}
+							<TouchableOpacity
+								activeOpacity={0.7}
+								onPress={() => {
+									uploadImageAsBinary();
+								}}
+								style={styles.gridItem}
+							>
+								<Icon name="pluscircle" type="antdesign" size={30} color="#c5c5c5" />
+								<Text style={{ fontSize: 18, color: "#919395" }}>Зураг нэмэх</Text>
+							</TouchableOpacity>
 						</View>
 						<LoanInput
 							label="Тайлбар"
@@ -227,6 +283,39 @@ const InternationalTrade = (props) => {
 						}));
 					}}
 				/>
+				<Modal
+					animationType="slide"
+					transparent={true}
+					onRequestClose={() => {
+						setVisible1(!visible1);
+					}}
+					visible={visible1}
+					style={{
+						backgroundColor: "rgba(52, 52, 52, 0.9)"
+					}}
+				>
+					<View style={{ flex: 1, backgroundColor: "rgba(52, 52, 52, 0.9)", paddingBottom: 20 }}>
+						<GestureHandlerRootView>
+							<ImageZoom source={{ uri: IMG_URL + zoomImgURL }} style={{ flex: 1, height: 200, width: "100%" }} />
+						</GestureHandlerRootView>
+						<View style={{ marginTop: 10, flexDirection: "row", justifyContent: "space-evenly", alignItems: "center" }}>
+							<View style={{ width: "44%" }}>
+								<GradientButton
+									text="Солих"
+									action={() => {
+										setVisible1(false);
+										uploadImageAsBinary(zoomImgURL);
+									}}
+									height={40}
+									radius={6}
+								/>
+							</View>
+							<View style={{ width: "44%" }}>
+								<GradientButton text="Хаах" action={() => setVisible1(false)} height={40} radius={6} />
+							</View>
+						</View>
+					</View>
+				</Modal>
 			</SafeAreaView>
 		</KeyboardAvoidingView>
 	);
@@ -272,9 +361,9 @@ const styles = StyleSheet.create({
 	gridItem: {
 		marginBottom: 10,
 		borderRadius: 4,
-		height: 32,
-		flexDirection: "row",
-		justifyContent: "center",
+		height: 100,
+		flexDirection: "column",
+		justifyContent: "space-evenly",
 		alignItems: "center",
 		backgroundColor: MAIN_COLOR_GRAY,
 		width: "48%" // is 50% of container width
@@ -286,7 +375,6 @@ const styles = StyleSheet.create({
 	},
 	featureText: {
 		color: "#798585",
-		marginRight: 5,
 		fontSize: 12
 	}
 });

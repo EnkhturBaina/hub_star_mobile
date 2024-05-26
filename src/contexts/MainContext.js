@@ -68,7 +68,8 @@ export const MainStore = (props) => {
 		powerId: "",
 		modelId: "",
 		fromAddress: "",
-		toAddress: ""
+		toAddress: "",
+		imageIds: []
 	});
 	const clearServiceData = () => {
 		setServiceData({
@@ -394,6 +395,7 @@ export const MainStore = (props) => {
 	};
 
 	const fileUpload = async (fileUri) => {
+		console.log("fileUri", fileUri);
 		try {
 			const response = await FileSystem.uploadAsync(`${SERVER_URL}local-files/fileUpload`, fileUri, {
 				fieldName: "file",
@@ -401,7 +403,7 @@ export const MainStore = (props) => {
 				uploadType: FileSystem.FileSystemUploadType.MULTIPART
 			});
 			// console.log("response=>", response?.status);
-			// console.log("response=>", response?.body);
+			console.log("response=>", response?.body);
 			if (response?.status == 200) {
 				const data = JSON.parse(response?.body);
 				return data;
@@ -484,29 +486,29 @@ export const MainStore = (props) => {
 
 	const createAd = async () => {
 		console.log("serviceData", serviceData);
-		// await axios
-		// 	.post(
-		// 		`${SERVER_URL}advertisement`,
-		// 		{
-		// 			serviceData
-		// 		},
-		// 		{
-		// 			headers: {
-		// 				"x-api-key": X_API_KEY,
-		// 				Authorization: `Bearer ${token}`
-		// 			}
-		// 		}
-		// 	)
-		// 	.then((response) => {
-		// 		console.log("CREATE AD =====>", response.data.response);
-		// 	})
-		// 	.catch((error) => {
-		// 		console.log("error", error);
-		// 		if (error.response.status == "401") {
-		// 			Handle_401();
-		// 		}
-		// 		// console.error("Error fetching get NewsDTL:", error.response.status);
-		// 	});
+		await axios
+			.post(
+				`${SERVER_URL}advertisement`,
+				{
+					serviceData
+				},
+				{
+					headers: {
+						"x-api-key": X_API_KEY,
+						Authorization: `Bearer ${token}`
+					}
+				}
+			)
+			.then((response) => {
+				console.log("CREATE AD =====>", response.data.response);
+			})
+			.catch((error) => {
+				console.log("error", error);
+				if (error.response.status == "401") {
+					Handle_401();
+				}
+				// console.error("Error fetching get NewsDTL:", error.response.status);
+			});
 	};
 
 	return (

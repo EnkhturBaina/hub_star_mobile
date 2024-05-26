@@ -52,7 +52,6 @@ const Step2Special = (props) => {
 	};
 
 	const getAddress = async (params) => {
-		console.log("params ==========>", params.type);
 		await axios
 			.get(`${SERVER_URL}reference/address`, {
 				params,
@@ -61,7 +60,7 @@ const Step2Special = (props) => {
 				}
 			})
 			.then((response) => {
-				console.log("get Address", JSON.stringify(response.data.response));
+				// console.log("get Address", JSON.stringify(response.data.response));
 				params.type == "PROVINCE" && setProvinces(response?.data?.response);
 				params.type == "DISTRICT" && setDistricts(response?.data?.response);
 				params.type == "KHOROO" && setKhoroos(response?.data?.response);

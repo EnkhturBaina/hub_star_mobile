@@ -52,7 +52,6 @@ const Step2 = (props) => {
 	};
 
 	const getAddress = async (params) => {
-		console.log("params ==========>", params.type);
 		await axios
 			.get(`${SERVER_URL}reference/address`, {
 				params,
