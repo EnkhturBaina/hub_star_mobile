@@ -32,7 +32,7 @@ const CategoryScreen = memo(() => {
 	useEffect(() => {
 		setExpanded({});
 		state.getNotifications();
-		console.log("STATE", JSON.stringify(state.subDirectionData));
+		// console.log("STATE", JSON.stringify(state.subDirectionData));
 	}, [isFocused]);
 	const DATA_TEMP = [
 		{
