@@ -18,3 +18,5 @@ npm install expo@latest
 
 npx expo-doctor
 npx expo install --fix
+
+eas update --branch development --message "Fixes typo"
