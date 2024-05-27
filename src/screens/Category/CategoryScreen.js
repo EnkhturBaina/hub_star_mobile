@@ -115,7 +115,7 @@ const CategoryScreen = memo(() => {
 						>
 							<Icon name="search" type="feather" size={20} color={GRAY_ICON_COLOR} />
 							<View style={{ flex: 0, width: "90%", flexDirection: "row", alignItems: "center" }}>
-								<AutocompleteDropdown
+								{/* <AutocompleteDropdown
 									controller={(controller) => {
 										dropdownController.current = controller;
 									}}
@@ -155,7 +155,7 @@ const CategoryScreen = memo(() => {
 										windowSize: 5,
 										updateCellsBatchingPeriod: 30
 									}}
-								/>
+								/> */}
 							</View>
 						</TouchableOpacity>
 					) : null}
