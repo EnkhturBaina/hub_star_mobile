@@ -10,7 +10,7 @@ const SpecialService = () => {
 	const navigation = useNavigation();
 	return (
 		<View>
-			<Text style={{ fontWeight: 500, fontSize: 16, marginLeft: 20 }}>Онцгой үйлчилгээ.</Text>
+			<Text style={{ fontWeight: 500, fontSize: 16, marginLeft: 20 }}>Онцгой үйлчилгээ</Text>
 			<View style={styles.gridContainer}>
 				{SpecialServiceData?.map((el, index) => {
 					return (

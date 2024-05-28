@@ -448,7 +448,7 @@ const HomeScreenStackNavigator = (props) => {
 				component={UserTypeServiceScreen}
 				options={{
 					gestureEnabled: false,
-					title: "",
+					title: "Энгийн үйлчилгээ",
 					headerTitleStyle: {
 						fontWeight: "800"
 					},
@@ -530,7 +530,7 @@ const HomeScreenStackNavigator = (props) => {
 				component={MainDirServiceScreen}
 				options={{
 					gestureEnabled: false,
-					title: "",
+					title: "Энгийн үйлчилгээ",
 					headerTitleStyle: {
 						fontWeight: "800"
 					},

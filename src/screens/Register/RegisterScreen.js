@@ -157,7 +157,6 @@ const RegisterScreen = (props) => {
 						value={lastName}
 						placeholder="Овог"
 						returnKeyType="done"
-						maxLength={8}
 						onChangeText={setLastName}
 					/>
 				</View>
@@ -168,7 +167,6 @@ const RegisterScreen = (props) => {
 						value={firstName}
 						placeholder="Нэр"
 						returnKeyType="done"
-						maxLength={8}
 						onChangeText={setFirstName}
 					/>
 				</View>

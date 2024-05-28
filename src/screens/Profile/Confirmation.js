@@ -325,7 +325,6 @@ const Confirmation = (props) => {
 								label="Байгууллагын үйл ажилгааний чиглэл"
 								value={tempState}
 								keyboardType="number-pad"
-								maxLength={8}
 								onChangeText={(e) => setTempState(e)}
 							/>
 							<LoanInput

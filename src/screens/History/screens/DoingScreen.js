@@ -79,7 +79,8 @@ const DoingScreen = (props) => {
 										width: 100,
 										height: 90,
 										borderTopLeftRadius: 6,
-										borderBottomLeftRadius: 6
+										borderBottomLeftRadius: 6,
+										backgroundColor: "#fff"
 									}}
 									resizeMode="cover"
 								/>

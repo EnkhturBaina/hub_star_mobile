@@ -116,7 +116,10 @@ const AdviceScreen = (props) => {
 					}}
 					ref={webview}
 					source={{
-						uri: IMG_URL + selectedAdviceURL
+						uri:
+							Platform.OS == "ios"
+								? IMG_URL + selectedAdviceURL
+								: "http://docs.google.com/gview?embedded=true&url=" + IMG_URL + selectedAdviceURL
 					}}
 					onLoadStart={() => {
 						// setVisibleDialogLoader(true);

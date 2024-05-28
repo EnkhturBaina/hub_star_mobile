@@ -138,60 +138,63 @@ const SpecialServiceScreen = (props) => {
 						}}
 					/>
 				</View>
-				<ScrollView contentContainerStyle={styles.gridContainer} showsVerticalScrollIndicator={false}>
-					{specialServiceData?.length == 0 && loadingServices ? (
-						<SpecialServiceListSekeleton />
-					) : specialServiceData?.length == 0 && !loadingServices ? (
-						<Empty text="Онцгой үйлчилгээ олдсонгүй." />
-					) : (
-						specialServiceData?.map((el, index) => {
-							return (
-								<TouchableOpacity
-									style={styles.gridItem}
-									key={index}
-									onPress={() => {
-										props.navigation.navigate("SingleSpecialScreen", {
-											adv_id: el.id
-										});
-									}}
-								>
-									<ActivityIndicator
-										size="small"
-										style={{
-											position: "absolute",
-											alignSelf: "center",
-											justifyContent: "center",
-											height: 150
+				<ScrollView contentContainerStyle={styles.gridScrollContainer} showsVerticalScrollIndicator={false}>
+					<View style={styles.gridContainer}>
+						{specialServiceData?.length == 0 && loadingServices ? (
+							<SpecialServiceListSekeleton />
+						) : specialServiceData?.length == 0 && !loadingServices ? (
+							<Empty text="Онцгой үйлчилгээ олдсонгүй." />
+						) : (
+							specialServiceData?.map((el, index) => {
+								return (
+									<TouchableOpacity
+										style={styles.gridItem}
+										key={index}
+										onPress={() => {
+											props.navigation.navigate("SingleSpecialScreen", {
+												adv_id: el.id
+											});
 										}}
-									/>
-									<Image
-										source={
-											el.images[0]
-												? {
-														uri: IMG_URL + el.images[0]?.id
-												  }
-												: require("../../../assets/splash_bg_1.jpg")
-										}
-										style={{
-											width: "100%",
-											height: 150,
-											borderTopLeftRadius: 6,
-											borderTopRightRadius: 6
-										}}
-										resizeMode="cover"
-									/>
-									<View style={{ flexDirection: "column", padding: 10 }}>
-										<Text numberOfLines={2} style={{ fontSize: 16, fontWeight: "500" }}>
-											{el.title}
-										</Text>
-										<Text style={{ color: "#aeaeae", fontWeight: "500" }} numberOfLines={1}>
-											{state.getTypeName(el.userType, el.specialService, (isSlash = false))}
-										</Text>
-									</View>
-								</TouchableOpacity>
-							);
-						})
-					)}
+									>
+										<ActivityIndicator
+											size="small"
+											style={{
+												position: "absolute",
+												alignSelf: "center",
+												justifyContent: "center",
+												height: 150
+											}}
+										/>
+										<Image
+											source={
+												el.images[0]
+													? {
+															uri: IMG_URL + el.images[0]?.id
+													  }
+													: require("../../../assets/splash_bg_1.jpg")
+											}
+											style={{
+												width: "100%",
+												height: 150,
+												borderTopLeftRadius: 6,
+												borderTopRightRadius: 6,
+												backgroundColor: "#fff"
+											}}
+											resizeMode="cover"
+										/>
+										<View style={{ flexDirection: "column", padding: 10 }}>
+											<Text numberOfLines={2} style={{ fontSize: 16, fontWeight: "500" }}>
+												{el.title}
+											</Text>
+											<Text style={{ color: "#aeaeae", fontWeight: "500" }} numberOfLines={1}>
+												{state.getTypeName(el.userType, el.specialService, (isSlash = false))}
+											</Text>
+										</View>
+									</TouchableOpacity>
+								);
+							})
+						)}
+					</View>
 				</ScrollView>
 			</SafeAreaProvider>
 		</SideMenu>
@@ -236,13 +239,19 @@ const styles = StyleSheet.create({
 		height: 40,
 		fontSize: 16
 	},
+	gridScrollContainer: {
+		flexGrow: 1
+	},
 	gridContainer: {
-		flexGrow: 1,
-		paddingTop: 10
+		flex: 1,
+		flexDirection: "row",
+		flexWrap: "wrap",
+		alignItems: "flex-start",
+		justifyContent: "space-between",
+		marginHorizontal: 20
 	},
 	gridItem: {
-		marginBottom: 10,
-		marginHorizontal: 20,
+		marginBottom: 15,
 		shadowOpacity: 0.1,
 		shadowRadius: 3,
 		shadowOffset: {
@@ -251,6 +260,7 @@ const styles = StyleSheet.create({
 		},
 		elevation: 2,
 		backgroundColor: "#fff",
-		borderRadius: 6
+		borderRadius: 6,
+		width: "48%"
 	}
 });
