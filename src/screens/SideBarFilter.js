@@ -121,8 +121,8 @@ const SideBarFilter = (props) => {
 												textStyle={styles.checkboxTextStyle}
 												title={
 													<View style={styles.checkboxTextContainer}>
-														<Text style={{ width: "90%" }}>{child.name}</Text>
-														<Text style={{ width: "5%" }}>{child.advertisements?.length}</Text>
+														<Text style={{ width: "80%" }}>{child.name}</Text>
+														<Text style={{ width: "8%" }}>{child.advertisements?.length}</Text>
 													</View>
 												}
 												checked={checkedItem}

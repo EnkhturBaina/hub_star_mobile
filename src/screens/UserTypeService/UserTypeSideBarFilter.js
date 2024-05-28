@@ -217,33 +217,5 @@ const styles = StyleSheet.create({
 		borderBottomColor: "#ebebeb",
 		marginBottom: 10,
 		paddingBottom: 10
-	},
-	checkboxContainerStyle: {
-		padding: 0,
-		margin: 0,
-		marginLeft: 0,
-		marginBottom: 10
-	},
-	checkboxTextContainer: {
-		flex: 1,
-		flexDirection: "row",
-		justifyContent: "space-between",
-		alignItems: "center",
-		marginLeft: 5
-	},
-	checkboxTextStyle: {
-		color: "#798585",
-		fontWeight: "500",
-		marginLeft: 5
-	},
-	filterRowData: {
-		flexDirection: "row",
-		alignItems: "center",
-		paddingBottom: 3
-	},
-	filterRowDataTitle: {
-		fontWeight: "bold",
-		textTransform: "uppercase",
-		marginLeft: 5
 	}
 });
