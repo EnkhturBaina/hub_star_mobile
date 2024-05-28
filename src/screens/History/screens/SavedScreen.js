@@ -68,7 +68,13 @@ const SavedScreen = (props) => {
 								}}
 							>
 								<Image
-									source={{ uri: IMG_URL + el.images[0]?.id }}
+									source={
+										el.images[0]
+											? {
+													uri: IMG_URL + el.images[0]?.id
+											  }
+											: require("../../../../assets/splash_bg_1.jpg")
+									}
 									style={{
 										width: 100,
 										height: 90,
