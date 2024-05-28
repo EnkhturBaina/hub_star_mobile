@@ -1,5 +1,5 @@
 import { SafeAreaView, StyleSheet, Text, Platform, StatusBar, KeyboardAvoidingView, Pressable } from "react-native";
-import React, { useContext, useRef, useState } from "react";
+import React, { memo, useCallback, useContext, useRef, useState } from "react";
 import Empty from "../../components/Empty";
 import { MAIN_COLOR_GRAY, SERVER_URL, X_API_KEY } from "../../constant";
 import MainContext from "../../contexts/MainContext";
@@ -7,7 +7,7 @@ import axios from "axios";
 import { AutocompleteDropdown, AutocompleteDropdownContextProvider } from "react-native-autocomplete-dropdown";
 import Constants from "expo-constants";
 
-const ChatScreen = () => {
+const ChatScreen = memo(() => {
 	const state = useContext(MainContext);
 	const [searchQuery, setSearchQuery] = useState("");
 	const [loadingSideFilter, setLoadingSideFilter] = useState(false);
@@ -39,7 +39,7 @@ const ChatScreen = () => {
 		});
 	}
 
-	const getSideFilterData = async (val) => {
+	const getSideFilterData = useCallback(async (val) => {
 		setLoadingSideFilter(true);
 		await axios
 			.get(`${SERVER_URL}reference/main-direction/filter`, {
@@ -66,7 +66,7 @@ const ChatScreen = () => {
 				console.log("sideFilterData", sideFilterData);
 				setLoadingSideFilter(false);
 			});
-	};
+	}, []);
 	return (
 		<AutocompleteDropdownContextProvider>
 			<SafeAreaView
@@ -123,7 +123,7 @@ const ChatScreen = () => {
 			</SafeAreaView>
 		</AutocompleteDropdownContextProvider>
 	);
-};
+});
 
 export default ChatScreen;
 
