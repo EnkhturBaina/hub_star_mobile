@@ -517,7 +517,8 @@ const HomeScreenStackNavigator = (props) => {
 						<TouchableOpacity
 							style={styles.headerLeftContainer}
 							onPress={() => {
-								navigation.navigate("UserTypeServiceScreen");
+								// navigation.navigate("UserTypeServiceScreen");
+								navigation.goBack();
 							}}
 						>
 							<Icon type="material-icons" name="keyboard-arrow-left" size={35} />

@@ -9,6 +9,7 @@ import HomeSearch from "./HomeScreenComponents/HomeSearch";
 import SpecialService from "./HomeScreenComponents/SpecialService";
 import Advices from "./HomeScreenComponents/Advices";
 import { AutocompleteDropdownContextProvider } from "react-native-autocomplete-dropdown";
+import HomeAdsScreen from "./HomeScreenComponents/HomeAdsScreen";
 
 const HomeScreen = (props) => {
 	const tabBarHeight = useBottomTabBarHeight();
@@ -28,7 +29,7 @@ const HomeScreen = (props) => {
 				<ScrollView
 					contentContainerStyle={{
 						flexGrow: 1,
-						paddingBottom: tabBarHeight
+						paddingBottom: Platform.OS == "ios" ? 80 : 80
 					}}
 					showsVerticalScrollIndicator={false}
 					bounces={false}
@@ -37,6 +38,7 @@ const HomeScreen = (props) => {
 					<BannerNews />
 					<SpecialService />
 					<Advices />
+					<HomeAdsScreen />
 				</ScrollView>
 			</SafeAreaView>
 		</AutocompleteDropdownContextProvider>

@@ -21,6 +21,7 @@ export const MainStore = (props) => {
 	const [errorMsg, setErrorMsg] = useState("");
 	const [userData, setUserData] = useState(null);
 	const [userMainDirID, setUserMainDirID] = useState(null);
+	const [advertisement, setAdvertisement] = useState(null);
 
 	const [mainDirection, setMainDirection] = useState([]);
 	const [direction, setDirection] = useState([]);
@@ -158,6 +159,7 @@ export const MainStore = (props) => {
 						}
 					]);
 				});
+				getHomeScreenAds();
 			})
 			.catch((error) => {
 				setIsLoading(false);
@@ -165,9 +167,6 @@ export const MainStore = (props) => {
 				if (error.response.status == "401") {
 					Handle_401();
 				}
-			})
-			.finally(() => {
-				setIsLoading(false);
 			});
 	};
 
@@ -513,7 +512,38 @@ export const MainStore = (props) => {
 			});
 		return adResponse;
 	};
-
+	const getHomeScreenAds = async () => {
+		await axios
+			.get(`${SERVER_URL}advertisement`, {
+				params: {
+					page: 1,
+					pageCount: 1,
+					hasNextPage: false,
+					hasPreviousPage: false,
+					itemCount: 1,
+					limit: 10
+				},
+				headers: {
+					"X-API-KEY": X_API_KEY
+				}
+			})
+			.then((response) => {
+				// console.log(
+				//   "get DoingServices",
+				//   JSON.stringify(response.data.response)
+				// );
+				setAdvertisement(response.data.response.data);
+			})
+			.catch((error) => {
+				console.error("Error fetching get DoingServices:", error);
+				if (error.response.status == "401") {
+					Handle_401();
+				}
+			})
+			.finally(() => {
+				setIsLoading(false);
+			});
+	};
 	return (
 		<MainContext.Provider
 			value={{
@@ -573,7 +603,8 @@ export const MainStore = (props) => {
 				handleNotification,
 				getNotifications,
 				notifications,
-				createAd
+				createAd,
+				advertisement
 			}}
 		>
 			{props.children}
