@@ -1,12 +1,4 @@
-import {
-	SafeAreaView,
-	StyleSheet,
-	Text,
-	Platform,
-	StatusBar,
-	KeyboardAvoidingView,
-	TouchableOpacity
-} from "react-native";
+import { SafeAreaView, StyleSheet, Text, Platform, StatusBar, KeyboardAvoidingView, Pressable } from "react-native";
 import React, { useContext, useRef, useState } from "react";
 import Empty from "../../components/Empty";
 import { MAIN_COLOR_GRAY, SERVER_URL, X_API_KEY } from "../../constant";
@@ -105,9 +97,13 @@ const ChatScreen = () => {
 						renderItem={(item, text) => {
 							console.log("item", item);
 							return (
-								<TouchableOpacity onPress={() => {}}>
+								<Pressable
+									onPress={() => {
+										console.log("X");
+									}}
+								>
 									<Text style={{ padding: 15 }}>{item.title}</Text>
-								</TouchableOpacity>
+								</Pressable>
 							);
 						}}
 						suggestionsListMaxHeight={300}
