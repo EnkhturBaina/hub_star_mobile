@@ -51,15 +51,17 @@ const InternationalTrade = (props) => {
 	const onDismissSnackBar = () => setVisibleSnack(false);
 
 	const createFnc = async () => {
-		if (state.serviceData?.measurement == "") {
+		if (state.serviceData?.measurement == null) {
 			onToggleSnackBar("Хэмжих нэгж оруулна уу.");
-		} else if (state.serviceData?.unitAmount == "") {
+		} else if (tempUnitAmount == null) {
 			onToggleSnackBar("Үнэ оруулна уу.");
-		} else if (state.serviceData?.desciption == "") {
+		} else if (state.serviceData?.imageIds?.length == 0) {
+			onToggleSnackBar("Зураг оруулна уу.");
+		} else if (state.serviceData?.desciption == null) {
 			onToggleSnackBar("Тайлбар оруулна уу.");
-		} else if (state.serviceData?.email == "") {
+		} else if (state.serviceData?.email == null) {
 			onToggleSnackBar("И-мэйл оруулна уу.");
-		} else if (state.serviceData?.phone == "") {
+		} else if (state.serviceData?.phone == null) {
 			onToggleSnackBar("Утас оруулна уу.");
 		} else {
 			state

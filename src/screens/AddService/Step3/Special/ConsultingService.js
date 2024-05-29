@@ -11,7 +11,7 @@ import {
 	Image
 } from "react-native";
 import React, { useContext, useEffect, useState } from "react";
-import { GRAY_ICON_COLOR, MAIN_COLOR, MAIN_COLOR_GRAY } from "../../../../constant";
+import { GRAY_ICON_COLOR, IMG_URL, MAIN_COLOR, MAIN_COLOR_GRAY } from "../../../../constant";
 import Constants from "expo-constants";
 import CustomSnackbar from "../../../../components/CustomSnackbar";
 import { CheckBox, Icon } from "@rneui/base";
@@ -267,6 +267,54 @@ const ConsultingService = (props) => {
 						</View>
 					</ScrollView>
 				</View>
+				<Modal
+					animationType="slide"
+					transparent={true}
+					onRequestClose={() => {
+						setVisible1(!visible1);
+					}}
+					visible={visible1}
+					style={{
+						backgroundColor: "rgba(52, 52, 52, 0.9)"
+					}}
+				>
+					<View style={{ flex: 1, backgroundColor: "rgba(52, 52, 52, 0.9)", paddingBottom: 20 }}>
+						<GestureHandlerRootView>
+							<ImageZoom source={{ uri: IMG_URL + zoomImgURL }} style={{ flex: 1, height: 200, width: "100%" }} />
+						</GestureHandlerRootView>
+						<View style={{ marginTop: 10, flexDirection: "row", justifyContent: "space-evenly", alignItems: "center" }}>
+							<View style={{ width: "44%" }}>
+								<GradientButton
+									text="Солих"
+									action={() => {
+										setVisible1(false);
+										uploadImageAsBinary(zoomImgURL);
+									}}
+									height={40}
+									radius={6}
+								/>
+							</View>
+							<View style={{ width: "44%" }}>
+								<GradientButton text="Хаах" action={() => setVisible1(false)} height={40} radius={6} />
+							</View>
+						</View>
+					</View>
+				</Modal>
+				<CustomDialog
+					visible={visibleDialog}
+					confirmFunction={() => {
+						setVisibleDialog(false);
+						state.setCurrentStep(1);
+						state.clearServiceData();
+						navigation.navigate("AddServiceFirst");
+						// dialogType == "success" && props.navigation.goBack();
+					}}
+					declineFunction={() => {}}
+					text={dialogText}
+					confirmBtnText="Хаах"
+					DeclineBtnText=""
+					type={dialogType}
+				/>
 			</SafeAreaView>
 		</KeyboardAvoidingView>
 	);

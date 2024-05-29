@@ -212,24 +212,26 @@ const Machinery = (props) => {
 						<LoanInput
 							label="Нэгж үнэлгээ.цаг"
 							keyboardType="number-pad"
-							value={state.serviceData?.unitAmount}
-							onChangeText={(e) =>
-								state.setServiceData((prevState) => ({
-									...prevState,
-									unitAmount: state.addCommas(state.removeNonNumeric(e))
-								}))
-							}
+							value={tempUnitAmount}
+							onChangeText={(e) => {
+								setTempUnitAmount(state.addCommas(state.removeNonNumeric(e)));
+								// state.setServiceData((prevState) => ({
+								// 	...prevState,
+								// 	unitAmount: state.addCommas(state.removeNonNumeric(e))
+								// }))
+							}}
 						/>
 						<LoanInput
 							label="Багц үнэлгээ.өдөр"
 							keyboardType="number-pad"
-							value={state.serviceData?.packageAmount}
-							onChangeText={(e) =>
-								state.setServiceData((prevState) => ({
-									...prevState,
-									packageAmount: state.addCommas(state.removeNonNumeric(e))
-								}))
-							}
+							value={tempPackageAmount}
+							onChangeText={(e) => {
+								setTempPackageAmount(state.addCommas(state.removeNonNumeric(e)));
+								// state.setServiceData((prevState) => ({
+								// 	...prevState,
+								// 	unitAmount: state.addCommas(state.removeNonNumeric(e))
+								// }))
+							}}
 						/>
 						<LoanInput
 							label="Хаанаас"
