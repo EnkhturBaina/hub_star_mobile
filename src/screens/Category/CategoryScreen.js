@@ -115,14 +115,14 @@ const CategoryScreen = memo(() => {
 						>
 							<Icon name="search" type="feather" size={20} color={GRAY_ICON_COLOR} />
 							<View style={{ flex: 0, width: "90%", flexDirection: "row", alignItems: "center" }}>
-								{/* <AutocompleteDropdown
+								<AutocompleteDropdown
 									controller={(controller) => {
 										dropdownController.current = controller;
 									}}
 									clearOnFocus={false}
 									onSelectItem={setSelectedItem}
-									// dataSet={state.subDirectionData ?? null}
-									dataSet={DATA_TEMP}
+									dataSet={state.subDirectionData ?? null}
+									// dataSet={DATA_TEMP}
 									containerStyle={{ flexGrow: 1, flexShrink: 1, backgroundColor: MAIN_COLOR_GRAY }}
 									inputContainerStyle={{
 										backgroundColor: MAIN_COLOR_GRAY
@@ -155,7 +155,7 @@ const CategoryScreen = memo(() => {
 										windowSize: 5,
 										updateCellsBatchingPeriod: 30
 									}}
-								/> */}
+								/>
 							</View>
 						</TouchableOpacity>
 					) : null}
