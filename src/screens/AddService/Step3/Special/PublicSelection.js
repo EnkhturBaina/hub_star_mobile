@@ -45,7 +45,7 @@ const PublicSelection = (props) => {
 		setUselessParam(!uselessParam);
 	};
 
-	const createAD = () => {
+	const createFnc = () => {
 		if (state.serviceData?.unitAmount == "") {
 			onToggleSnackBar("Төсөвт өртөг оруулна уу.");
 		} else if (state.serviceData?.desciption == "") {
@@ -191,7 +191,7 @@ const PublicSelection = (props) => {
 								<GradientButton
 									text={`Хадгалах (${state.currentStep}/${props.totalStep})`}
 									action={() => {
-										createAD();
+										createFnc();
 									}}
 								/>
 							</View>

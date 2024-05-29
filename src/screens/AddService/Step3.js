@@ -45,7 +45,7 @@ const Step3 = (props) => {
 		setUselessParam(!uselessParam);
 	};
 
-	const createAD = () => {
+	const createFnc = () => {
 		if (state.serviceData?.counter == "") {
 			onToggleSnackBar("Ажлын тоо хэмжээ оруулна уу.");
 		} else if (state.serviceData?.desciption == "") {
@@ -200,7 +200,7 @@ const Step3 = (props) => {
 								<GradientButton
 									text={`Хадгалах (${state.currentStep}/${props.totalStep})`}
 									action={() => {
-										createAD();
+										createFnc();
 									}}
 								/>
 							</View>

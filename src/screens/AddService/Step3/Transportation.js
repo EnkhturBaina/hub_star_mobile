@@ -67,7 +67,7 @@ const Transportation = (props) => {
 	//Snacbkbar хаах
 	const onDismissSnackBar = () => setVisibleSnack(false);
 
-	const createAD = () => {
+	const createFnc = () => {
 		if (state.serviceData?.machineryTypeId == "") {
 			onToggleSnackBar("Машин механизмийн төрөл сонгоно уу.");
 		} else if (state.serviceData?.markId == "") {
@@ -214,7 +214,7 @@ const Transportation = (props) => {
 						/>
 						<Text style={styles.label}>Зураг оруулах</Text>
 						<View style={styles.gridContainer}>
-							{state?.serviceData?.imageIds?.map((el, index) => {
+							{state.serviceData?.imageIds?.map((el, index) => {
 								return (
 									<View key={index} style={styles.gridItem}>
 										<TouchableOpacity
@@ -335,7 +335,7 @@ const Transportation = (props) => {
 								<GradientButton
 									text={`Хадгалах (${state.currentStep}/${props.totalStep})`}
 									action={() => {
-										createAD();
+										createFnc();
 									}}
 								/>
 							</View>

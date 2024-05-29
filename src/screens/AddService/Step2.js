@@ -171,9 +171,9 @@ const Step2 = (props) => {
 								}}
 							>
 								<Text style={styles.selectedText} numberOfLines={1}>
-									{state?.serviceData?.provinceId
+									{state.serviceData?.provinceId
 										? provinces?.map((el, index) => {
-												if (el.id === state?.serviceData?.provinceId) {
+												if (el.id === state.serviceData?.provinceId) {
 													return el.name;
 												}
 										  })
@@ -192,9 +192,9 @@ const Step2 = (props) => {
 								disabled={districts?.length == 0}
 							>
 								<Text style={styles.selectedText} numberOfLines={1}>
-									{state?.serviceData?.districtId
+									{state.serviceData?.districtId
 										? districts?.map((el, index) => {
-												if (el.id === state?.serviceData?.districtId) {
+												if (el.id === state.serviceData?.districtId) {
 													return el.name;
 												}
 										  })
@@ -213,9 +213,9 @@ const Step2 = (props) => {
 								disabled={khoroos?.length == 0}
 							>
 								<Text style={styles.selectedText} numberOfLines={1}>
-									{state?.serviceData?.khorooId
+									{state.serviceData?.khorooId
 										? khoroos?.map((el, index) => {
-												if (el.id === state?.serviceData?.khorooId) {
+												if (el.id === state.serviceData?.khorooId) {
 													return el.name;
 												}
 										  })

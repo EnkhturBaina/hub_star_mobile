@@ -155,9 +155,9 @@ const Step1 = (props) => {
 							}}
 						>
 							<Text style={styles.selectedText} numberOfLines={1}>
-								{state?.serviceData?.userType
+								{state.serviceData?.userType
 									? UserTabData?.map((el, index) => {
-											if (el.type === state?.serviceData?.userType) {
+											if (el.type === state.serviceData?.userType) {
 												return el.title;
 											}
 									  })
@@ -175,9 +175,9 @@ const Step1 = (props) => {
 							}}
 						>
 							<Text style={styles.selectedText} numberOfLines={1}>
-								{state?.serviceData?.mainDirectionId
+								{state.serviceData?.mainDirectionId
 									? state.mainDirection?.map((el, index) => {
-											if (el.id === state?.serviceData?.mainDirectionId) {
+											if (el.id === state.serviceData?.mainDirectionId) {
 												return el.name;
 											}
 									  })
@@ -196,9 +196,9 @@ const Step1 = (props) => {
 							disabled={state.serviceData?.mainDirectionId == ""}
 						>
 							<Text style={styles.selectedText} numberOfLines={1}>
-								{state?.serviceData?.directionId
+								{state.serviceData?.directionId
 									? directions?.map((el, index) => {
-											if (el.id === state?.serviceData?.directionId) {
+											if (el.id === state.serviceData?.directionId) {
 												return el.name;
 											}
 									  })
@@ -217,9 +217,9 @@ const Step1 = (props) => {
 							disabled={state.serviceData?.directionId == ""}
 						>
 							<Text style={styles.selectedText} numberOfLines={1}>
-								{state?.serviceData?.subDirectionId
+								{state.serviceData?.subDirectionId
 									? subDirections?.map((el, index) => {
-											if (el.id === state?.serviceData?.subDirectionId) {
+											if (el.id === state.serviceData?.subDirectionId) {
 												return el.name;
 											}
 									  })

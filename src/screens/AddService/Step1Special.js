@@ -144,9 +144,9 @@ const Step1Special = (props) => {
 							}}
 						>
 							<Text style={styles.selectedText} numberOfLines={1}>
-								{state?.serviceData?.specialService
+								{state.serviceData?.specialService
 									? SpecialServiceData?.map((el, index) => {
-											if (el.type === state?.serviceData?.specialService) {
+											if (el.type === state.serviceData?.specialService) {
 												return el.title;
 											}
 									  })
@@ -165,9 +165,9 @@ const Step1Special = (props) => {
 							disabled={state.serviceData?.specialService == ""}
 						>
 							<Text style={styles.selectedText} numberOfLines={1}>
-								{state?.serviceData?.directionId
+								{state.serviceData?.directionId
 									? directions?.map((el, index) => {
-											if (el.id === state?.serviceData?.directionId) {
+											if (el.id === state.serviceData?.directionId) {
 												return el.name;
 											}
 									  })
@@ -186,9 +186,9 @@ const Step1Special = (props) => {
 							disabled={state.serviceData?.directionId == ""}
 						>
 							<Text style={styles.selectedText} numberOfLines={1}>
-								{state?.serviceData?.subDirectionId
+								{state.serviceData?.subDirectionId
 									? subDirections?.map((el, index) => {
-											if (el.id === state?.serviceData?.subDirectionId) {
+											if (el.id === state.serviceData?.subDirectionId) {
 												return el.name;
 											}
 									  })

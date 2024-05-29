@@ -68,7 +68,7 @@ const Machinery = (props) => {
 		setActionKey(action_key);
 	};
 
-	const createAD = () => {
+	const createFnc = () => {
 		if (state.serviceData?.machineryTypeId == "") {
 			onToggleSnackBar("Машин механизмийн төрөл сонгоно уу.");
 		} else if (state.serviceData?.markId == "") {
@@ -253,7 +253,7 @@ const Machinery = (props) => {
 						/>
 						<Text style={styles.label}>Зураг оруулах</Text>
 						<View style={styles.gridContainer}>
-							{state?.serviceData?.imageIds?.map((el, index) => {
+							{state.serviceData?.imageIds?.map((el, index) => {
 								return (
 									<View key={index} style={styles.gridItem}>
 										<TouchableOpacity
@@ -374,7 +374,7 @@ const Machinery = (props) => {
 								<GradientButton
 									text={`Хадгалах (${state.currentStep}/${props.totalStep})`}
 									action={() => {
-										createAD();
+										createFnc();
 									}}
 								/>
 							</View>

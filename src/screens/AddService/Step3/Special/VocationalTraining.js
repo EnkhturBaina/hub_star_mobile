@@ -45,7 +45,7 @@ const VocationalTraining = (props) => {
 		setUselessParam(!uselessParam);
 	};
 
-	const createAD = () => {
+	const createFnc = () => {
 		if (state.serviceData?.unitAmount == "") {
 			onToggleSnackBar("Үйлчилгээний үнэ оруулна уу.");
 		} else if (state.serviceData?.desciption == "") {
@@ -191,7 +191,7 @@ const VocationalTraining = (props) => {
 								<GradientButton
 									text={`Хадгалах (${state.currentStep}/${props.totalStep})`}
 									action={() => {
-										createAD();
+										createFnc();
 									}}
 								/>
 							</View>

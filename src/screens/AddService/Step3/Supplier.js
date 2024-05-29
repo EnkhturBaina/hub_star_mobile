@@ -52,7 +52,7 @@ const Supplier = (props) => {
 	//Snacbkbar хаах
 	const onDismissSnackBar = () => setVisibleSnack(false);
 
-	const createAD = () => {
+	const createFnc = () => {
 		if (state.serviceData?.productName == "") {
 			onToggleSnackBar("Бүтээгдэхүүний нэр оруулна уу.");
 		} else if (state.serviceData?.unitAmount == "") {
@@ -163,7 +163,7 @@ const Supplier = (props) => {
 						/>
 						<Text style={styles.label}>Зураг оруулах</Text>
 						<View style={styles.gridContainer}>
-							{state?.serviceData?.imageIds?.map((el, index) => {
+							{state.serviceData?.imageIds?.map((el, index) => {
 								return (
 									<View key={index} style={styles.gridItem}>
 										<TouchableOpacity
@@ -284,7 +284,7 @@ const Supplier = (props) => {
 								<GradientButton
 									text={`Хадгалах (${state.currentStep}/${props.totalStep})`}
 									action={() => {
-										createAD();
+										createFnc();
 									}}
 								/>
 							</View>
