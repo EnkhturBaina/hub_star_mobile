@@ -69,30 +69,38 @@ const Machinery = (props) => {
 	};
 
 	const createFnc = () => {
-		if (state.serviceData?.machineryTypeId == "") {
+		if (state.serviceData?.machineryTypeId == null) {
 			onToggleSnackBar("Машин механизмийн төрөл сонгоно уу.");
-		} else if (state.serviceData?.markId == "") {
+		} else if (state.serviceData?.markId == null) {
 			onToggleSnackBar("Марк сонгоно уу.");
-		} else if (state.serviceData?.markId == "") {
+		} else if (state.serviceData?.markId == null) {
 			onToggleSnackBar("Загвар сонгоно уу.");
-		} else if (state.serviceData?.modelId == "") {
+		} else if (state.serviceData?.modelId == null) {
 			onToggleSnackBar("Хүчин чадал сонгоно уу.");
-		} else if (state.serviceData?.unitAmount == "") {
+		} else if (tempUnitAmount == null) {
 			onToggleSnackBar("Нэгж үнэлгээ.цаг оруулна уу.");
-		} else if (state.serviceData?.packageAmount == "") {
+		} else if (tempPackageAmount == null) {
 			onToggleSnackBar("Багц үнэлгээ.өдөр оруулна уу.");
-		} else if (state.serviceData?.fromAddress == "") {
+		} else if (state.serviceData?.fromAddress == null) {
 			onToggleSnackBar("Хаанаас гэдгээ оруулна уу.");
-		} else if (state.serviceData?.toAddress == "") {
+		} else if (state.serviceData?.toAddress == null) {
 			onToggleSnackBar("Хаашаа гэдгээ оруулна уу.");
-		} else if (state.serviceData?.desciption == "") {
+		} else if (state.serviceData?.desciption == null) {
 			onToggleSnackBar("Тайлбар оруулна уу.");
-		} else if (state.serviceData?.email == "") {
+		} else if (state.serviceData?.email == null) {
 			onToggleSnackBar("И-мэйл оруулна уу.");
-		} else if (state.serviceData?.phone == "") {
+		} else if (state.serviceData?.phone == null) {
 			onToggleSnackBar("Утас оруулна уу.");
 		} else {
-			// state.setCurrentStep(3);
+			state
+				.createAd()
+				.then((res) => {
+					if (res.data.statusCode == 200) setDialogText("Таны зар амжилттай нийтлэгдлээ.");
+					setVisibleDialog(true);
+				})
+				.catch((err) => {
+					// console.log("err", err);
+				});
 		}
 	};
 

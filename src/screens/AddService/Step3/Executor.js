@@ -51,20 +51,28 @@ const Executor = (props) => {
 	const onDismissSnackBar = () => setVisibleSnack(false);
 
 	const createFnc = () => {
-		if (state.serviceData?.workerCount == "") {
+		if (state.serviceData?.workerCount == null) {
 			onToggleSnackBar("Ажилчдын тоо оруулна уу.");
-		} else if (state.serviceData?.counter == "") {
+		} else if (state.serviceData?.counter == null) {
 			onToggleSnackBar("Ажлын тоо хэмжээ оруулна уу.");
-		} else if (state.serviceData?.price == "") {
+		} else if (tempPrice == null) {
 			onToggleSnackBar("Үнэ оруулна уу.");
-		} else if (state.serviceData?.desciption == "") {
+		} else if (state.serviceData?.desciption == null) {
 			onToggleSnackBar("Тайлбар ба ажлын туршлага оруулна уу.");
-		} else if (state.serviceData?.email == "") {
+		} else if (state.serviceData?.email == null) {
 			onToggleSnackBar("И-мэйл оруулна уу.");
-		} else if (state.serviceData?.phone == "") {
+		} else if (state.serviceData?.phone == null) {
 			onToggleSnackBar("Утас оруулна уу.");
 		} else {
-			// state.setCurrentStep(3);
+			state
+				.createAd()
+				.then((res) => {
+					if (res.data.statusCode == 200) setDialogText("Таны зар амжилттай нийтлэгдлээ.");
+					setVisibleDialog(true);
+				})
+				.catch((err) => {
+					// console.log("err", err);
+				});
 		}
 	};
 

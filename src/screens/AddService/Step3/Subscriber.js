@@ -49,18 +49,26 @@ const Subscriber = (props) => {
 	const onDismissSnackBar = () => setVisibleSnack(false);
 
 	const createFnc = () => {
-		if (state.serviceData?.measurement == "") {
+		if (state.serviceData?.measurement == null) {
 			onToggleSnackBar("Хэмжих нэгж оруулна уу.");
-		} else if (state.serviceData?.counter == "") {
+		} else if (state.serviceData?.counter == null) {
 			onToggleSnackBar("Ажлын тоо хэмжээ оруулна уу.");
-		} else if (state.serviceData?.desciption == "") {
+		} else if (state.serviceData?.desciption == null) {
 			onToggleSnackBar("Тайлбар оруулна уу.");
-		} else if (state.serviceData?.email == "") {
+		} else if (state.serviceData?.email == null) {
 			onToggleSnackBar("И-мэйл оруулна уу.");
-		} else if (state.serviceData?.phone == "") {
+		} else if (state.serviceData?.phone == null) {
 			onToggleSnackBar("Утас оруулна уу.");
 		} else {
-			// state.setCurrentStep(3);
+			state
+				.createAd()
+				.then((res) => {
+					if (res.data.statusCode == 200) setDialogText("Таны зар амжилттай нийтлэгдлээ.");
+					setVisibleDialog(true);
+				})
+				.catch((err) => {
+					// console.log("err", err);
+				});
 		}
 	};
 	const uploadImageAsBinary = async (imgId) => {
