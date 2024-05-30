@@ -19,6 +19,9 @@ const SpecialService = () => {
 								state.setSelectedSpecialService(el.type);
 								state.setSpecialServiceParams((prevState) => ({
 									...prevState,
+									page: 1,
+									directionIds: null,
+									subDirectionIds: null,
 									specialService: el.type
 								}));
 								navigation.navigate("SpecialServiceScreen");

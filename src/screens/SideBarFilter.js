@@ -46,6 +46,8 @@ const SideBarFilter = (props) => {
 	}, []);
 
 	useEffect(() => {
+		props.listEndFnc(false);
+		props.setSpecialServiceData([]);
 		var checkedItems = [];
 		//Checkbox дарах үед CHECK хийгдсэнүүдээр хайх
 		Object.keys(checked).forEach(function (key, index) {
@@ -54,17 +56,25 @@ const SideBarFilter = (props) => {
 			}
 		});
 
-		const currentDirections = sideFilterData?.filter((item) => {
-			return item.subDirections?.some((subdir) => checkedItems?.includes(subdir.id));
-		});
+		if (checkedItems.length == 0) {
+			state.setSpecialServiceParams((prevState) => ({
+				...prevState,
+				page: 1,
+				directionIds: null,
+				subDirectionIds: null
+			}));
+		} else {
+			const currentDirections = sideFilterData?.filter((item) => {
+				return item.subDirections?.some((subdir) => checkedItems?.includes(subdir.id));
+			});
 
-		state.setSpecialServiceParams((prevState) => ({
-			...prevState,
-			page: 1,
-			limit: 10,
-			directionIds: currentDirections?.map((item) => item.id),
-			subDirectionIds: checkedItems
-		}));
+			state.setSpecialServiceParams((prevState) => ({
+				...prevState,
+				page: 1,
+				directionIds: currentDirections?.map((item) => item.id),
+				subDirectionIds: checkedItems
+			}));
+		}
 	}, [checked]);
 
 	return (
