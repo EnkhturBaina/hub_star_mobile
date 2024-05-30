@@ -30,7 +30,7 @@ const HomeHeader = () => {
 						source={
 							state.notifications?.length > 0
 								? require(`../../../assets/figma-icons/bell_badge.png`)
-								: require(`../../../assets/figma-icons/bell_badge.png`)
+								: require(`../../../assets/figma-icons/bell.png`)
 						}
 					/>
 				</TouchableOpacity>
