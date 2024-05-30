@@ -119,7 +119,6 @@ export const MainStore = (props) => {
 
 	const [userTypeParam, setUserTypeParam] = useState({
 		order: "DESC",
-		process: "CREATED",
 		page: 1,
 		limit: 10,
 		userType: null,

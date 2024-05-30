@@ -64,7 +64,7 @@ const UserTypeSideBarFilter = (props) => {
 			return item.directions?.some((subdir) => checkedItems.includes(subdir.id));
 		});
 
-		state.setSpecialServiceParams((prevState) => ({
+		state.setUserTypeParam((prevState) => ({
 			...prevState,
 			page: 1,
 			limit: 10,

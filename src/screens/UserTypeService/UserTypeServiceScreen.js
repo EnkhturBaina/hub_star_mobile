@@ -46,7 +46,6 @@ const UserTypeServiceScreen = (props) => {
 
 	const getUserTypeServices = async () => {
 		setLoadingServices(true);
-		setUserTypeServiceData([]);
 		await axios
 			.get(`${SERVER_URL}advertisement`, {
 				params: state.userTypeParam,
