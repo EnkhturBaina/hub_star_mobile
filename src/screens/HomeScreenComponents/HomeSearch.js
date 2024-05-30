@@ -74,7 +74,8 @@ const HomeSearch = () => {
 				}}
 			/> */}
 			<TouchableOpacity style={styles.filterBtn} onPress={() => sheetRef.current.open()}>
-				<Icon name="sliders" type="feather" size={20} color={GRAY_ICON_COLOR} />
+				{/* <Icon name="sliders" type="feather" size={20} color={GRAY_ICON_COLOR} /> */}
+				<Image style={{ width: 20, height: 20 }} source={require("../../../assets/figma-icons/filter.png")} />
 			</TouchableOpacity>
 			<RBSheet
 				ref={sheetRef}
@@ -231,7 +232,8 @@ const styles = StyleSheet.create({
 		height: "100%",
 		justifyContent: "center",
 		width: 40,
-		height: 40
+		height: 40,
+		alignItems: "center"
 	},
 	dirMainContainer: {
 		width: "100%",
