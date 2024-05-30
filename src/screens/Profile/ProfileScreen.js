@@ -200,7 +200,7 @@ const ProfileScreen = (props) => {
 					{menuList.map((el, index) => {
 						return (
 							<TouchableOpacity key={index} style={styles.gridMenus} onPress={() => props.navigation.navigate(el.nav)}>
-								{el.icon}
+								<Image style={{ width: 24, height: 24 }} source={el.icon} />
 								<Text style={styles.menuText}>{el.name}</Text>
 							</TouchableOpacity>
 						);
@@ -213,7 +213,7 @@ const ProfileScreen = (props) => {
 							setVisibleDialog(true);
 						}}
 					>
-						<Icon name="user-x" type="feather" size={25} color="red" />
+						<Icon name="deleteuser" type="antdesign" size={25} color="red" />
 						<Text style={styles.lastText}>Бүртгэл устгах</Text>
 					</TouchableOpacity>
 					<TouchableOpacity
@@ -222,7 +222,7 @@ const ProfileScreen = (props) => {
 							sheetRef.current.open();
 						}}
 					>
-						<Icon name="log-out" type="feather" size={25} color="red" />
+						<Image style={{ width: 24, height: 24 }} source={require("../../../assets/figma-icons/logout.png")} />
 						<Text style={styles.lastText}>Системээс гарах</Text>
 					</TouchableOpacity>
 				</View>

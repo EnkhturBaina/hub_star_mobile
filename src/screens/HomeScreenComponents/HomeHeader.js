@@ -1,9 +1,7 @@
 import { StyleSheet, Image, View, TouchableOpacity } from "react-native";
 import React, { useContext, useEffect } from "react";
-import { Badge, Icon } from "@rneui/base";
 import { useIsFocused, useNavigation } from "@react-navigation/native";
 import MainContext from "../../contexts/MainContext";
-import { MAIN_COLOR } from "../../constant";
 
 const HomeHeader = () => {
 	const navigation = useNavigation();
@@ -20,27 +18,28 @@ const HomeHeader = () => {
 			<View style={styles.headerIcons}>
 				<TouchableOpacity
 					style={{
-						height: 40,
-						width: 40,
+						height: 30,
+						width: 30,
 						justifyContent: "center",
 						marginRight: 10
 					}}
 					onPress={() => navigation.navigate("NotificationScreen")}
 				>
-					<Icon name="bell" type="feather" size={28} />
-					<Badge
-						status="success"
-						value={state.notifications?.length > 0 ? state.notifications?.filter((el) => !el.isSeen)?.length : 0}
-						containerStyle={{ position: "absolute", top: 0, left: 20 }}
-						badgeStyle={{ backgroundColor: MAIN_COLOR }}
+					<Image
+						style={{ width: "100%", height: "100%" }}
+						source={
+							state.notifications?.length > 0
+								? require(`../../../assets/figma-icons/bell_badge.png`)
+								: require(`../../../assets/figma-icons/bell_badge.png`)
+						}
 					/>
 				</TouchableOpacity>
-				<Icon
-					name="chatbox-ellipses-outline"
-					type="ionicon"
-					size={30}
+				<TouchableOpacity
 					onPress={() => navigation.navigate("HistoryMainScreen")}
-				/>
+					style={{ height: 30, width: 30, justifyContent: "center", alignItems: "center" }}
+				>
+					<Image style={{ width: "100%", height: "100%" }} source={require("../../../assets/figma-icons/chat.png")} />
+				</TouchableOpacity>
 			</View>
 		</View>
 	);
