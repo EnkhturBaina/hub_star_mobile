@@ -19,41 +19,36 @@ const TABS = [
 	{
 		name: "HomeTab",
 		title: "Нүүр",
-		icon: "home",
-		iconActive: "home",
-		iconType: "antdesign",
+		icon: require("../../assets/figma-icons/home.png"),
+		iconActive: require("../../assets/figma-icons/home-white.png"),
 		component: HomeScreenStackNavigator
 	},
 	{
 		name: "CatTab",
 		title: "Ангилал",
-		icon: "document-text-outline",
-		iconActive: "document-text",
-		iconType: "ionicon",
+		icon: require("../../assets/figma-icons/cat.png"),
+		iconActive: require("../../assets/figma-icons/cat-white.png"),
 		component: CategoryStackNavigator
 	},
 	{
 		name: "AddTab",
 		title: "Нэмэх",
-		icon: "add-circle-outline",
-		iconActive: "add-circle",
-		iconType: "ionicon",
+		icon: require("../../assets/figma-icons/add.png"),
+		iconActive: require("../../assets/figma-icons/add-white.png"),
 		component: AddServiceStackNavigator
 	},
 	{
 		name: "ChatTab",
 		title: "Чат",
-		icon: "chatbubbles-outline",
-		iconActive: "chatbubbles",
-		iconType: "ionicon",
+		icon: require("../../assets/figma-icons/chatMenu.png"),
+		iconActive: require("../../assets/figma-icons/chatMenu-white.png"),
 		component: ChatStackNavigator
 	},
 	{
 		name: "ProfileTab",
 		title: "Профайл",
-		icon: "person-circle-outline",
-		iconActive: "person-circle",
-		iconType: "ionicon",
+		icon: require("../../assets/figma-icons/profile.png"),
+		iconActive: require("../../assets/figma-icons/profile-white.png"),
 		component: ProfileStackNavigator
 	}
 ];
@@ -119,18 +114,15 @@ const BottomBar = (props) => {
 							component={tab.component}
 							options={{
 								tabBarIcon: ({ focused }) => (
-									<View>
-										<Icon
-											name={focused ? tab.iconActive : tab.icon}
-											type={tab.iconType}
-											size={25}
-											color={focused ? "#fff" : "#000"}
-										/>
+									<View style={{ flexDirection: "column", alignItems: "center" }}>
+										<Image style={{ width: 24, height: 24 }} source={focused ? tab.iconActive : tab.icon} />
 										<Text
 											style={{
 												textAlign: "center",
 												fontSize: 12,
-												color: focused ? "#fff" : "#000"
+												color: focused ? "#fff" : "#000",
+												fontWeight: "500",
+												marginTop: 5
 											}}
 										>
 											{tab.title}
