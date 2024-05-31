@@ -107,8 +107,7 @@ const UserTypeServiceScreen = (props) => {
 						width: "100%",
 						height: 130,
 						borderTopLeftRadius: 6,
-						borderTopRightRadius: 6,
-						backgroundColor: "#fff"
+						borderTopRightRadius: 6
 					}}
 					resizeMode="cover"
 				/>

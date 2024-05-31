@@ -25,6 +25,7 @@ const UserTypes = (props) => {
 								state.setSelectedUserType(el.type);
 								state.setUserTypeParam((prevState) => ({
 									...prevState,
+									page: 1,
 									userType: el.type
 								}));
 								navigation.navigate("UserTypeServiceScreen");
