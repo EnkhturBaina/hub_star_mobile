@@ -6,11 +6,14 @@ import { X_API_KEY, SERVER_URL } from "../constant";
 import UserTabData from "../refs/UserTabData";
 import SpecialServiceData from "../refs/SpecialServiceData";
 import * as FileSystem from "expo-file-system";
+import * as Updates from "expo-updates";
 
 const MainContext = React.createContext();
 
 export const MainStore = (props) => {
 	const navigation = useNavigation();
+	const [isCheckingUpdate, setIsCheckingUpdate] = useState(false);
+	const [updateAvailable, setUpdateAvailable] = useState(false);
 
 	const [userId, setUserId] = useState("");
 	const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -137,6 +140,28 @@ export const MainStore = (props) => {
 		directionIds: null,
 		subDirectionIds: null
 	});
+	useEffect(() => {
+		setIsLoading(true);
+		checkUserData();
+		checkForUpdates();
+	}, []);
+
+	const checkForUpdates = async () => {
+		setIsCheckingUpdate(true);
+		try {
+			const update = await Updates.checkForUpdateAsync();
+			if (update.isAvailable) {
+				setUpdateAvailable(true);
+				await Updates.fetchUpdateAsync();
+				Updates.reloadAsync(); // This will reload the app to apply the update
+			}
+		} catch (error) {
+			console.error(error);
+		} finally {
+			setIsCheckingUpdate(false);
+			getMainDirection();
+		}
+	};
 
 	const getAllSubDirections = async () => {
 		await axios
@@ -347,12 +372,6 @@ export const MainStore = (props) => {
 				}
 			});
 	};
-
-	useEffect(() => {
-		setIsLoading(true);
-		checkUserData();
-		getMainDirection();
-	}, []);
 
 	const addCommas = (num) => {
 		return num?.toString()?.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -603,7 +622,9 @@ export const MainStore = (props) => {
 				getNotifications,
 				notifications,
 				createAd,
-				advertisement
+				advertisement,
+				isCheckingUpdate,
+				updateAvailable
 			}}
 		>
 			{props.children}

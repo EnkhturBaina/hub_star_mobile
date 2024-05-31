@@ -65,8 +65,10 @@ const VocationalTraining = (props) => {
 			state
 				.createAd()
 				.then((res) => {
-					if (res.data.statusCode == 200) setDialogText("Таны зар амжилттай нийтлэгдлээ.");
-					setVisibleDialog(true);
+					if (res.data.statusCode == 200) {
+						setDialogText("Таны зар амжилттай нийтлэгдлээ.");
+						setVisibleDialog(true);
+					}
 				})
 				.catch((err) => {
 					// console.log("err", err);
