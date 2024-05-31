@@ -17,14 +17,13 @@ import GradientButton from "../components/GradientButton";
 import ServiceDTLSkeleton from "../components/Skeletons/ServiceDTLSkeleton";
 import { ImageZoom } from "@likashefqet/react-native-image-zoom";
 import MainContext from "../contexts/MainContext";
-import "dayjs/locale/es";
-import dayjs from "dayjs";
 // import { StarRatingDisplay } from "react-native-star-rating-widget";
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import CustomSnackbar from "../components/CustomSnackbar";
 import SingleServiceTypes from "../components/SingleServiceTypes";
+import SingleServiceDetails from "../components/SingleServiceDetails";
 
 const NotificationDTLScreen = (props) => {
 	const state = useContext(MainContext);
@@ -237,57 +236,7 @@ const NotificationDTLScreen = (props) => {
 							<Text>{adviceData?.desciption}</Text>
 						</View>
 						<SingleServiceTypes directionId={adviceData?.directionId} />
-						<View
-							style={{
-								flex: 1,
-								backgroundColor: "#f3f3f3",
-								flexDirection: "column",
-								padding: 20,
-								gap: 10
-							}}
-						>
-							<Text style={{ fontWeight: "bold" }}>Үнэлгээ </Text>
-							<View style={{ flexDirection: "row", alignItems: "center" }}>
-								{/* <StarRatingDisplay
-                  rating={
-                    parseInt(adviceData.rating) > 0
-                      ? parseInt(adviceData.rating) / 2
-                      : 0
-                  }
-                  starSize={25}
-                  emptyColor={MAIN_COLOR}
-                  color={MAIN_COLOR}
-                  style={{ padding: 0 }}
-                />
-                <Text>
-                  {" "}
-                  {parseInt(adviceData.rating) > 0
-                    ? parseInt(adviceData.rating) / 2
-                    : 0}{" "}
-                  / 10
-                </Text> */}
-							</View>
-							<Text style={{ fontWeight: "bold" }}>Үнэ </Text>
-							<Text>{state.addCommas(state.removeNonNumeric(adviceData?.unitAmount)) ?? "-"}₮</Text>
-							<Text style={{ fontWeight: "bold" }}>Нийтэлсэн огноо </Text>
-							<Text>{dayjs(adviceData?.createdAt).format("YYYY-MM-DD HH:mm:ss") ?? "-"}</Text>
-							<Text style={{ fontWeight: "bold" }}>Зарын дугаар </Text>
-							<Text>{adviceData?.id ?? "-"} </Text>
-							<Text style={{ fontWeight: "bold" }}>Утасны дугаар </Text>
-							<Text>{adviceData?.phone ?? "-"} </Text>
-							<Text style={{ fontWeight: "bold" }}>Зар байршуулсан </Text>
-							<Text>
-								{adviceData?.createdUser?.organizationName
-									? adviceData?.createdUser?.organizationName
-									: adviceData?.createdUser?.lastName + " " + adviceData?.createdUser?.firstName}{" "}
-							</Text>
-							<Text style={{ fontWeight: "bold" }}>Веб хуудас </Text>
-							<Text> - </Text>
-							<Text style={{ fontWeight: "bold" }}>И-мэйл </Text>
-							<Text>{adviceData?.email ?? "-"} </Text>
-							<Text style={{ fontWeight: "bold" }}>Байршил </Text>
-							<Text>{adviceData?.address ?? "-"} </Text>
-						</View>
+						<SingleServiceDetails adviceData={adviceData} />
 					</ScrollView>
 				)}
 				{props.route?.params?.notif_data?.process == "DOING" ? (
