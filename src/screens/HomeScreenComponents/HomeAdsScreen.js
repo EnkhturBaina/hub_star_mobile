@@ -32,7 +32,7 @@ const HomeAdsScreen = () => {
 											}
 										]}
 										onPress={() =>
-											navigation.navigate("SingleUserTypeServiceScreen", {
+											navigation.navigate("SingleHomeAdScreen", {
 												adv_id: el.id
 											})
 										}

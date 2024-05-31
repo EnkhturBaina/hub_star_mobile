@@ -25,6 +25,7 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import { Modal } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import CustomSnackbar from "../../components/CustomSnackbar";
+import SingleServiceTypes from "../../components/SingleServiceTypes";
 
 const SingleUserTypeServiceScreen = (props) => {
 	const tabBarHeight = useBottomTabBarHeight();
@@ -205,6 +206,7 @@ const SingleUserTypeServiceScreen = (props) => {
 							</View>
 							<Text>{adviceData?.desciption}</Text>
 						</View>
+						<SingleServiceTypes directionId={adviceData?.directionId} />
 						<View
 							style={{
 								flex: 1,

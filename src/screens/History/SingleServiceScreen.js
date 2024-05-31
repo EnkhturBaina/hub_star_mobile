@@ -25,6 +25,7 @@ import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import CustomSnackbar from "../../components/CustomSnackbar";
+import SingleServiceTypes from "../../components/SingleServiceTypes";
 
 const SingleServiceScreen = (props) => {
 	const state = useContext(MainContext);
@@ -202,6 +203,7 @@ const SingleServiceScreen = (props) => {
 							</View>
 							<Text>{adviceData?.desciption}</Text>
 						</View>
+						<SingleServiceTypes directionId={adviceData?.directionId} />
 						<View
 							style={{
 								flex: 1,

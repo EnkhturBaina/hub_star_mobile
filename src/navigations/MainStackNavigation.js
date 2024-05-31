@@ -47,6 +47,7 @@ import MainDirServiceScreen from "../screens/MainServices/MainDirServiceScreen";
 import SingleMainDirServiceScreen from "../screens/MainServices/SingleMainDirServiceScreen";
 import AddServiceFirst from "../screens/AddService/AddServiceFirst";
 import AddServiceSpecial from "../screens/AddService/AddServiceSpecial";
+import SingleHomeAdScreen from "../screens/HomeScreenComponents/SingleHomeAdScreen";
 
 const Stack = createStackNavigator();
 const width = Dimensions.get("screen").width;
@@ -508,6 +509,27 @@ const HomeScreenStackNavigator = (props) => {
 			<Stack.Screen
 				name="SingleUserTypeServiceScreen"
 				component={SingleUserTypeServiceScreen}
+				options={{
+					title: "",
+					headerTitleStyle: {
+						fontWeight: "800"
+					},
+					headerLeft: () => (
+						<TouchableOpacity
+							style={styles.headerLeftContainer}
+							onPress={() => {
+								// navigation.navigate("UserTypeServiceScreen");
+								navigation.goBack();
+							}}
+						>
+							<Icon type="material-icons" name="keyboard-arrow-left" size={35} />
+						</TouchableOpacity>
+					)
+				}}
+			/>
+			<Stack.Screen
+				name="SingleHomeAdScreen"
+				component={SingleHomeAdScreen}
 				options={{
 					title: "",
 					headerTitleStyle: {

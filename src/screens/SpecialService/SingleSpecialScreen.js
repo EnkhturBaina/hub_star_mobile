@@ -25,7 +25,7 @@ import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import CustomSnackbar from "../../components/CustomSnackbar";
-import { Chip } from "react-native-paper";
+import SingleServiceTypes from "../../components/SingleServiceTypes";
 
 const SingleSpecialScreen = (props) => {
 	const state = useContext(MainContext);
@@ -37,7 +37,6 @@ const SingleSpecialScreen = (props) => {
 
 	const [visibleSnack, setVisibleSnack] = useState(false);
 	const [snackBarMsg, setSnackBarMsg] = useState("");
-	const [subDirections, setSubDirections] = useState([]);
 
 	//Snacbkbar харуулах
 	const onToggleSnackBar = (msg) => {
@@ -59,7 +58,6 @@ const SingleSpecialScreen = (props) => {
 			.then((response) => {
 				// console.log("get Advice response", JSON.stringify(response.data.response));
 				setAdviceData(response.data.response);
-				getSubDirections(response.data.response.directionId);
 			})
 			.catch((error) => {
 				console.error("Error fetching SingleSpecialScreen=> getAdvice=>:", error);
@@ -69,32 +67,6 @@ const SingleSpecialScreen = (props) => {
 			})
 			.finally(() => {
 				setLoadingAdvice(false);
-			});
-	};
-
-	const getSubDirections = async (val) => {
-		setSubDirections([]);
-		await axios
-			.get(`${SERVER_URL}reference/sub-direction`, {
-				params: {
-					directionId: val
-				},
-				headers: {
-					"X-API-KEY": X_API_KEY
-				}
-			})
-			.then((response) => {
-				// console.log(
-				//   "get SubDirections response",
-				//   JSON.stringify(response.data.response)
-				// );
-				setSubDirections(response.data.response);
-			})
-			.catch((error) => {
-				console.error("Error fetching STEP1 get Directions:", error);
-				if (error.response.status == "401") {
-					state.Handle_401();
-				}
 			});
 	};
 
@@ -233,37 +205,7 @@ const SingleSpecialScreen = (props) => {
 							</View>
 							<Text>{adviceData?.desciption}</Text>
 						</View>
-						<View
-							style={{
-								flex: 1,
-								backgroundColor: "#f3f3f3",
-								flexDirection: "column",
-								padding: 20,
-								gap: 10
-							}}
-						>
-							<Text style={{ fontWeight: "bold", fontSize: 22 }}>ТӨРӨЛ</Text>
-							<View style={{ flex: 1, flexDirection: "row", flexWrap: "wrap", alignItems: "flex-start" }}>
-								{subDirections?.map((el, index) => {
-									return (
-										<Chip
-											mode="outlined"
-											key={index}
-											style={{
-												borderRadius: 30,
-												backgroundColor: "#FAFAFA",
-												borderColor: "#909294",
-												marginRight: 10,
-												marginBottom: 10
-											}}
-											textStyle={{ color: "#909294", fontWeight: "bold" }}
-										>
-											{el.name}
-										</Chip>
-									);
-								})}
-							</View>
-						</View>
+						<SingleServiceTypes directionId={adviceData?.directionId} />
 						<View
 							style={{
 								flex: 1,

@@ -7,35 +7,55 @@ import {
 	ScrollView,
 	Image,
 	TouchableOpacity,
-	ActivityIndicator,
-	Modal
+	ActivityIndicator
 } from "react-native";
-import React, { useContext, useEffect, useState } from "react";
-import { IMG_URL, SERVER_URL, X_API_KEY } from "../constant";
+import React, { useContext, useEffect, useLayoutEffect, useState } from "react";
+import { IMG_URL, MAIN_COLOR, MAIN_COLOR_GRAY, SERVER_URL, X_API_KEY } from "../../constant";
 import axios from "axios";
-import GradientButton from "../components/GradientButton";
-import ServiceDTLSkeleton from "../components/Skeletons/ServiceDTLSkeleton";
+import { Icon } from "@rneui/base";
+import GradientButton from "../../components/GradientButton";
+import ServiceDTLSkeleton from "../../components/Skeletons/ServiceDTLSkeleton";
 import { ImageZoom } from "@likashefqet/react-native-image-zoom";
-import MainContext from "../contexts/MainContext";
+import MainContext from "../../contexts/MainContext";
 import "dayjs/locale/es";
 import dayjs from "dayjs";
 // import { StarRatingDisplay } from "react-native-star-rating-widget";
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 import { SafeAreaProvider } from "react-native-safe-area-context";
+import { Modal } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-import CustomSnackbar from "../components/CustomSnackbar";
-import SingleServiceTypes from "../components/SingleServiceTypes";
+import CustomSnackbar from "../../components/CustomSnackbar";
+import SingleServiceTypes from "../../components/SingleServiceTypes";
 
-const NotificationDTLScreen = (props) => {
-	const state = useContext(MainContext);
+const SingleHomeAdScreen = (props) => {
 	const tabBarHeight = useBottomTabBarHeight();
+	const state = useContext(MainContext);
 	const [loadingAdvice, setLoadingAdvice] = useState(false);
 	const [adviceData, setAdviceData] = useState(null);
 	const [visible1, setVisible1] = useState(false);
 	const [zoomImgURL, setZoomImgURL] = useState(null);
-
 	const [visibleSnack, setVisibleSnack] = useState(false);
 	const [snackBarMsg, setSnackBarMsg] = useState("");
+
+	useLayoutEffect(() => {
+		// TabBar Hide хийх
+		props.navigation?.getParent()?.setOptions({
+			tabBarStyle: {
+				display: "none"
+			}
+		});
+		return () =>
+			props.navigation?.getParent()?.setOptions({
+				tabBarStyle: {
+					position: "absolute",
+					borderTopLeftRadius: 20,
+					borderTopRightRadius: 20,
+					height: Platform.OS == "ios" ? 105 : 80,
+					padding: 10
+				}
+			});
+		// TabBar Hide хийх
+	}, [props.navigation]);
 
 	//Snacbkbar харуулах
 	const onToggleSnackBar = (msg) => {
@@ -46,7 +66,7 @@ const NotificationDTLScreen = (props) => {
 	//Snacbkbar хаах
 	const onDismissSnackBar = () => setVisibleSnack(false);
 
-	const getAdvice = async () => {
+	const getServiceData = async () => {
 		setLoadingAdvice(true);
 		await axios
 			.get(`${SERVER_URL}advertisement/${props.route?.params?.adv_id}`, {
@@ -55,11 +75,14 @@ const NotificationDTLScreen = (props) => {
 				}
 			})
 			.then((response) => {
-				// console.log("get Advice response", JSON.stringify(response.data.response));
+				// console.log(
+				//   "get Advice response",
+				//   JSON.stringify(response.data.response)
+				// );
 				setAdviceData(response.data.response);
 			})
 			.catch((error) => {
-				console.error("Error fetching SingleSpecialScreen=> getAdvice=>:", error);
+				console.error("Error fetching get ServiceData:", error);
 				if (error.response.status == "401") {
 					state.Handle_401();
 				}
@@ -69,74 +92,9 @@ const NotificationDTLScreen = (props) => {
 			});
 	};
 	useEffect(() => {
-		getAdvice();
-		handleSeen();
+		getServiceData();
 	}, []);
 
-	const handleSeen = async () => {
-		await axios
-			.patch(
-				`${SERVER_URL}notification/${props.route?.params?.notif_data?.id}`,
-				{
-					isSeen: true
-				},
-				{
-					headers: {
-						"X-API-KEY": X_API_KEY,
-						Authorization: `Bearer ${state.token}`
-					}
-				}
-			)
-			.then((response) => {
-				// console.log("handle Seen =========>", response.data.response);
-				state.getNotifications();
-			})
-			.catch((error) => {
-				console.error("Error fetching get ProfileData:", error);
-				if (error.response.status == "401") {
-					state.Handle_401();
-				}
-			});
-	};
-	const handleApprove = async () => {
-		await axios
-			.patch(
-				`${SERVER_URL}notification/${props.route?.params?.notif_data?.id}`,
-				{
-					process: "DOING",
-					doingBy: props.route?.params?.notif_data?.createdBy
-				},
-				{
-					headers: {
-						"X-API-KEY": X_API_KEY,
-						Authorization: `Bearer ${state.token}`
-					}
-				}
-			)
-			.then((response) => {
-				// console.log("handle Approve =========>", response.data);
-				if (response.data?.statusCode == 200) {
-					// onToggleSnackBar("Үйлчилгээний төлөв амжилттай солигдлоо");
-					state
-						.handleNotification({
-							id: 0,
-							authorId: props.route?.params?.notif_data.createdBy,
-							advertisementId: adviceData.id,
-							process: "CREATED",
-							description: "Таны захиалгыг хүлээн авлаа. Баяр хүргэе."
-						})
-						.then((value) => {
-							onToggleSnackBar("Үйлчилгээний төлөв амжилттай солигдлоо");
-						});
-				}
-			})
-			.catch((error) => {
-				console.error("Error fetching get ProfileData:", error);
-				if (error.response.status == "401") {
-					state.Handle_401();
-				}
-			});
-	};
 	return (
 		<View
 			style={{
@@ -233,7 +191,39 @@ const NotificationDTLScreen = (props) => {
 								{adviceData?.direction != null ? `${adviceData?.direction?.name} / ` : null}
 								{adviceData?.subDirection != null ? `${adviceData?.subDirection?.name}` : null}
 							</Text>
-
+							<View style={styles.topSectionContainer}>
+								<Icon
+									name="flag"
+									type="feather"
+									size={25}
+									style={styles.flagIcon}
+									onPress={() => {
+										state.saveAd(adviceData?.id).then((value) => {
+											onToggleSnackBar(value);
+										});
+									}}
+								/>
+								<View style={{ width: "85%" }}>
+									<GradientButton
+										text="Үйлчилгээг захиалах"
+										action={() => {
+											state
+												.handleNotification({
+													id: 0,
+													authorId: adviceData.createdBy,
+													advertisementId: adviceData.id,
+													process: "DOING",
+													description: "Таньд ирсэн захиалга."
+												})
+												.then((value) => {
+													onToggleSnackBar(value);
+												});
+										}}
+										height={40}
+										radius={6}
+									/>
+								</View>
+							</View>
 							<Text>{adviceData?.desciption}</Text>
 						</View>
 						<SingleServiceTypes directionId={adviceData?.directionId} />
@@ -246,7 +236,7 @@ const NotificationDTLScreen = (props) => {
 								gap: 10
 							}}
 						>
-							<Text style={{ fontWeight: "bold" }}>Үнэлгээ </Text>
+							<Text style={{ fontWeight: "bold" }}>Үнэлгээ</Text>
 							<View style={{ flexDirection: "row", alignItems: "center" }}>
 								{/* <StarRatingDisplay
                   rating={
@@ -290,53 +280,6 @@ const NotificationDTLScreen = (props) => {
 						</View>
 					</ScrollView>
 				)}
-				{props.route?.params?.notif_data?.process == "DOING" ? (
-					<View
-						style={{
-							flexDirection: "row",
-							justifyContent: "space-between",
-							marginTop: 10,
-							alignItems: "center",
-							marginHorizontal: 20,
-							paddingBottom: 20
-						}}
-					>
-						<TouchableOpacity
-							style={{
-								width: "48%",
-								borderWidth: 2,
-								borderRadius: 8,
-								borderColor: "#aeaeae",
-								height: 40
-							}}
-							onPress={() => {}}
-						>
-							<Text
-								style={{
-									flex: 1,
-									textAlign: "center",
-									paddingVertical: Platform.OS == "ios" ? 8 : 0,
-									verticalAlign: "middle",
-									fontSize: 18,
-									fontWeight: "500",
-									color: "#aeaeae"
-								}}
-							>
-								Татгалзах
-							</Text>
-						</TouchableOpacity>
-						<View style={{ width: "48%" }}>
-							<GradientButton
-								text="Зөвшөөрөх"
-								action={() => {
-									handleApprove();
-								}}
-								height={40}
-								radius={6}
-							/>
-						</View>
-					</View>
-				) : null}
 				<Modal
 					animationType="slide"
 					transparent={true}
@@ -362,7 +305,7 @@ const NotificationDTLScreen = (props) => {
 	);
 };
 
-export default NotificationDTLScreen;
+export default SingleHomeAdScreen;
 
 const styles = StyleSheet.create({
 	slideImg: {
