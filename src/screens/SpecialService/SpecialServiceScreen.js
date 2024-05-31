@@ -23,7 +23,6 @@ const SpecialServiceScreen = (props) => {
 
 	const [loadingServices, setLoadingServices] = useState(false);
 	const [specialServiceData, setSpecialServiceData] = useState([]);
-	const [offset, setOffset] = useState(1);
 	const [isListEnd, setIsListEnd] = useState(false); //Бүх дата харуулж дууссан үед харагдах
 
 	useLayoutEffect(() => {

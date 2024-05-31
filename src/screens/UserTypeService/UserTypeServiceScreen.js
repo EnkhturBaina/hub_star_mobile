@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Image, ScrollView, TouchableOpacity } from "react-native";
+import { StyleSheet, Text, View, Image, ScrollView, TouchableOpacity, FlatList, ActivityIndicator } from "react-native";
 import React, { useContext, useEffect, useLayoutEffect, useState } from "react";
 import { StatusBar, Platform } from "react-native";
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
@@ -23,6 +23,7 @@ const UserTypeServiceScreen = (props) => {
 	const [isOpen, setIsOpen] = useState(false);
 	const [loadingServices, setLoadingServices] = useState(false);
 	const [userTypeServiceData, setUserTypeServiceData] = useState([]);
+	const [isListEnd, setIsListEnd] = useState(false);
 
 	useLayoutEffect(() => {
 		// TabBar Hide хийх
@@ -45,40 +46,104 @@ const UserTypeServiceScreen = (props) => {
 	}, [props.navigation]);
 
 	const getUserTypeServices = async () => {
-		setLoadingServices(true);
-		await axios
-			.get(`${SERVER_URL}advertisement`, {
-				params: state.userTypeParam,
-				headers: {
-					"X-API-KEY": X_API_KEY
-				}
-			})
-			.then((response) => {
-				// console.log("get UserTypeServices response", JSON.stringify(response.data.response));
-				setUserTypeServiceData(response.data.response.data);
-			})
-			.catch((error) => {
-				console.error("Error fetching get UserTypeServices:", error);
-				if (error.response.status == "401") {
-					state.Handle_401();
-				}
-			})
-			.finally(() => {
-				setLoadingServices(false);
-			});
+		if (!loadingServices && !isListEnd) {
+			// console.log("getUserTypeServices RUN ===========>", state.userTypeParam);
+			setLoadingServices(true);
+			await axios
+				.get(`${SERVER_URL}advertisement`, {
+					params: state.userTypeParam,
+					headers: {
+						"X-API-KEY": X_API_KEY
+					}
+				})
+				.then((response) => {
+					// console.log("get UserTypeServices response", JSON.stringify(response.data.response));
+					if (response.data.response.data?.length > 0) {
+						setUserTypeServiceData([...userTypeServiceData, ...response.data.response.data]);
+						state.setUserTypeParam((prevState) => ({
+							...prevState,
+							page: state.userTypeParam.page + 1
+						}));
+					} else {
+						setIsListEnd(true);
+					}
+				})
+				.catch((error) => {
+					console.error("Error fetching get UserTypeServices:", error);
+					if (error.response.status == "401") {
+						state.Handle_401();
+					}
+				})
+				.finally(() => {
+					setLoadingServices(false);
+				});
+		}
 	};
-	useEffect(() => {
-		getUserTypeServices();
-	}, []);
 
 	useEffect(() => {
 		//Side filter -с check хийгдэх үед GET service -н PARAM -уудыг бэлдээд SERVICE -г дуудах
 		getUserTypeServices();
-	}, [state.userTypeParam]);
+	}, [state.userTypeParam.directionIds, state.userTypeParam.subDirectionIds, state.userTypeParam.userType]);
 
+	const renderItem = ({ item }) => {
+		return (
+			<TouchableOpacity
+				style={styles.gridItem}
+				onPress={() => {
+					props.navigation.navigate("SingleUserTypeServiceScreen", {
+						adv_id: item.id
+					});
+				}}
+			>
+				<Image
+					source={
+						item.images[0]
+							? {
+									uri: IMG_URL + item.images[0]?.id
+							  }
+							: require("../../../assets/splash_bg_1.jpg")
+					}
+					style={{
+						width: "100%",
+						height: 130,
+						borderTopLeftRadius: 6,
+						borderTopRightRadius: 6,
+						backgroundColor: "#fff"
+					}}
+					resizeMode="cover"
+				/>
+				<View style={{ flexDirection: "column", padding: 10 }}>
+					<Text numberOfLines={2} style={{ fontSize: 16, fontWeight: "500", height: 40 }}>
+						{item.title}
+					</Text>
+					<Text style={{ color: "#aeaeae", fontWeight: "500" }} numberOfLines={1}>
+						{state.getTypeName(item.userType, item.specialService, (isSlash = false))}
+					</Text>
+				</View>
+			</TouchableOpacity>
+		);
+	};
+	const renderFooter = () => {
+		return (
+			<View style={{ paddingBottom: Platform.OS == "ios" ? 20 : 10 }}>
+				{loadingServices ? (
+					<ActivityIndicator color={MAIN_COLOR} style={{ padding: 5 }} />
+				) : isListEnd && !loadingServices ? (
+					<Text style={{ width: "100%", textAlign: "center" }}>Бүх үйлчилгээг харууллаа.</Text>
+				) : null}
+			</View>
+		);
+	};
 	return (
 		<SideMenu
-			menu={<UserTypeSideBarFilter setIsOpen={setIsOpen} isOpen={isOpen} />}
+			menu={
+				<UserTypeSideBarFilter
+					setIsOpen={setIsOpen}
+					isOpen={isOpen}
+					listEndFnc={setIsListEnd}
+					listData={setUserTypeServiceData}
+				/>
+			}
 			isOpen={isOpen}
 			onChange={(isOpen) => setIsOpen(isOpen)}
 		>
@@ -111,8 +176,11 @@ const UserTypeServiceScreen = (props) => {
 										state.setSelectedUserType(el.type);
 										state.setUserTypeParam((prevState) => ({
 											...prevState,
+											page: 1,
 											userType: el.type
 										}));
+										setIsListEnd(false);
+										setUserTypeServiceData([]);
 									}}
 								>
 									<Image style={styles.typeLogo} source={el.image} />
@@ -175,55 +243,27 @@ const UserTypeServiceScreen = (props) => {
 						}}
 					/>
 				</View>
-				<ScrollView contentContainerStyle={styles.gridScrollContainer} showsVerticalScrollIndicator={false}>
-					<View style={styles.gridContainer}>
-						{userTypeServiceData?.length == 0 && loadingServices ? (
-							<UserTypeServicesSkeleton />
-						) : userTypeServiceData?.length == 0 && !loadingServices ? (
-							<Empty text="Үйлчилгээ олдсонгүй." />
-						) : (
-							userTypeServiceData?.map((el, index) => {
-								return (
-									<TouchableOpacity
-										style={styles.gridItem}
-										key={index}
-										onPress={() => {
-											props.navigation.navigate("SingleUserTypeServiceScreen", {
-												adv_id: el.id
-											});
-										}}
-									>
-										<Image
-											source={
-												el.images[0]
-													? {
-															uri: IMG_URL + el.images[0]?.id
-													  }
-													: require("../../../assets/splash_bg_1.jpg")
-											}
-											style={{
-												width: "100%",
-												height: 130,
-												borderTopLeftRadius: 6,
-												borderTopRightRadius: 6,
-												backgroundColor: "#fff"
-											}}
-											resizeMode="cover"
-										/>
-										<View style={{ flexDirection: "column", padding: 10 }}>
-											<Text numberOfLines={2} style={{ fontSize: 16, fontWeight: "500", height: 40 }}>
-												{el.title}
-											</Text>
-											<Text style={{ color: "#aeaeae", fontWeight: "500" }} numberOfLines={1}>
-												{state.getTypeName(el.userType, el.specialService, (isSlash = false))}
-											</Text>
-										</View>
-									</TouchableOpacity>
-								);
-							})
-						)}
-					</View>
-				</ScrollView>
+				<View style={styles.gridContainer}>
+					{userTypeServiceData?.length == 0 && loadingServices ? (
+						<UserTypeServicesSkeleton />
+					) : userTypeServiceData?.length == 0 && !loadingServices ? (
+						<Empty text="Үйлчилгээ олдсонгүй." />
+					) : (
+						<FlatList
+							data={userTypeServiceData}
+							initialNumToRender={10}
+							keyExtractor={(item, index) => index.toString()}
+							columnWrapperStyle={{ justifyContent: "space-between" }}
+							numColumns={2}
+							renderItem={renderItem}
+							ListFooterComponent={renderFooter} //List ны хамгийн доор харагдах
+							onEndReached={getUserTypeServices} //Scroll доошоо тулхад ажиллах
+							onEndReachedThreshold={0.5}
+							showsVerticalScrollIndicator={false}
+							bounces={false}
+						/>
+					)}
+				</View>
 			</SafeAreaProvider>
 		</SideMenu>
 	);
@@ -266,9 +306,6 @@ const styles = StyleSheet.create({
 	inputSearchStyle: {
 		height: 40,
 		fontSize: 16
-	},
-	gridScrollContainer: {
-		flexGrow: 1
 	},
 	gridContainer: {
 		flex: 1,

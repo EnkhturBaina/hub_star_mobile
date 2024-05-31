@@ -52,6 +52,8 @@ const UserTypeSideBarFilter = (props) => {
 	}, [state.selectedUserType]);
 
 	useEffect(() => {
+		props.listEndFnc(false);
+		props.listData([]);
 		var checkedItems = [];
 		//Checkbox дарах үед CHECK хийгдсэнүүдээр хайх
 		Object.keys(checked).forEach(function (key, index) {
@@ -60,17 +62,26 @@ const UserTypeSideBarFilter = (props) => {
 			}
 		});
 
-		const currentDirections = sideFilterData?.filter((item) => {
-			return item.directions?.some((subdir) => checkedItems.includes(subdir.id));
-		});
+		if (checkedItems.length == 0) {
+			state.setUserTypeParam((prevState) => ({
+				...prevState,
+				page: 1,
+				directionIds: null,
+				subDirectionIds: null
+			}));
+		} else {
+			const currentDirections = sideFilterData?.filter((item) => {
+				return item.directions?.some((subdir) => checkedItems.includes(subdir.id));
+			});
 
-		state.setUserTypeParam((prevState) => ({
-			...prevState,
-			page: 1,
-			limit: 10,
-			directionIds: currentDirections?.map((item) => item.id),
-			subDirectionIds: checkedItems
-		}));
+			state.setUserTypeParam((prevState) => ({
+				...prevState,
+				page: 1,
+				limit: 10,
+				directionIds: currentDirections?.map((item) => item.id),
+				subDirectionIds: checkedItems
+			}));
+		}
 	}, [checked]);
 
 	return (
