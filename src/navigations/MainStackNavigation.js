@@ -48,6 +48,7 @@ import SingleMainDirServiceScreen from "../screens/MainServices/SingleMainDirSer
 import AddServiceFirst from "../screens/AddService/AddServiceFirst";
 import AddServiceSpecial from "../screens/AddService/AddServiceSpecial";
 import SingleHomeAdScreen from "../screens/HomeScreenComponents/SingleHomeAdScreen";
+import SingleServiceViewProfileScreen from "../components/SingleServiceViewProfileScreen";
 
 const Stack = createStackNavigator();
 const width = Dimensions.get("screen").width;
@@ -395,7 +396,7 @@ const HomeScreenStackNavigator = (props) => {
 						<TouchableOpacity
 							style={styles.headerLeftContainer}
 							onPress={() => {
-								navigation.navigate("HistoryMainScreen");
+								navigation.goBack();
 							}}
 						>
 							<Icon type="material-icons" name="keyboard-arrow-left" size={35} />
@@ -582,6 +583,26 @@ const HomeScreenStackNavigator = (props) => {
 							style={styles.headerLeftContainer}
 							onPress={() => {
 								navigation.navigate("MainDirServiceScreen");
+							}}
+						>
+							<Icon type="material-icons" name="keyboard-arrow-left" size={35} />
+						</TouchableOpacity>
+					)
+				}}
+			/>
+			<Stack.Screen
+				name="SingleServiceViewProfileScreen"
+				component={SingleServiceViewProfileScreen}
+				options={{
+					title: "",
+					headerTitleStyle: {
+						fontWeight: "800"
+					},
+					headerLeft: () => (
+						<TouchableOpacity
+							style={styles.headerLeftContainer}
+							onPress={() => {
+								navigation.goBack();
 							}}
 						>
 							<Icon type="material-icons" name="keyboard-arrow-left" size={35} />

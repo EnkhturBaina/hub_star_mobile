@@ -4,9 +4,11 @@ import MainContext from "../contexts/MainContext";
 import "dayjs/locale/es";
 import dayjs from "dayjs";
 import GradientButton from "./GradientButton";
+import { useNavigation } from "@react-navigation/native";
 
 const SingleServiceDetails = (props) => {
 	const state = useContext(MainContext);
+	const navigation = useNavigation();
 	return (
 		<View
 			style={{
@@ -58,7 +60,16 @@ const SingleServiceDetails = (props) => {
 			<Text>{props.adviceData?.email ?? "-"} </Text>
 			<Text style={{ fontWeight: "bold" }}>Байршил </Text>
 			<Text>{props.adviceData?.address ?? "-"} </Text>
-			<GradientButton text="Профайл үзэх" action={() => {}} height={40} radius={6} />
+			<GradientButton
+				text="Профайл үзэх"
+				action={() => {
+					navigation.navigate("SingleServiceViewProfileScreen", {
+						createdBy: props.adviceData.createdBy
+					});
+				}}
+				height={40}
+				radius={6}
+			/>
 			<TouchableOpacity
 				activeOpacity={1}
 				style={{
