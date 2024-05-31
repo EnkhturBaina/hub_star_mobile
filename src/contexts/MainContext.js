@@ -132,7 +132,7 @@ export const MainStore = (props) => {
 
 	const [mainDirParams, setMainDirParams] = useState({
 		order: "DESC",
-		process: "CREATED",
+		// process: "CREATED",
 		page: 1,
 		limit: 10,
 		userType: null,
