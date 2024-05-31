@@ -64,16 +64,18 @@ const SideBarFilter = (props) => {
 				subDirectionIds: null
 			}));
 		} else {
-			const currentDirections = sideFilterData?.filter((item) => {
-				return item.subDirections?.some((subdir) => checkedItems?.includes(subdir.id));
-			});
+			if (sideFilterData?.length > 0) {
+				const currentDirections = sideFilterData?.filter((item) => {
+					return item.subDirections?.some((subdir) => checkedItems?.includes(subdir.id));
+				});
 
-			state.setSpecialServiceParams((prevState) => ({
-				...prevState,
-				page: 1,
-				directionIds: currentDirections?.map((item) => item.id),
-				subDirectionIds: checkedItems
-			}));
+				state.setSpecialServiceParams((prevState) => ({
+					...prevState,
+					page: 1,
+					directionIds: currentDirections?.map((item) => item.id),
+					subDirectionIds: checkedItems
+				}));
+			}
 		}
 	}, [checked]);
 

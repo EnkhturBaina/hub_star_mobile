@@ -70,17 +70,19 @@ const UserTypeSideBarFilter = (props) => {
 				subDirectionIds: null
 			}));
 		} else {
-			const currentDirections = sideFilterData?.filter((item) => {
-				return item.directions?.some((subdir) => checkedItems.includes(subdir.id));
-			});
+			if (sideFilterData?.length > 0) {
+				const currentDirections = sideFilterData?.filter((item) => {
+					return item.directions?.some((subdir) => checkedItems.includes(subdir.id));
+				});
 
-			state.setUserTypeParam((prevState) => ({
-				...prevState,
-				page: 1,
-				limit: 10,
-				directionIds: currentDirections?.map((item) => item.id),
-				subDirectionIds: checkedItems
-			}));
+				state.setUserTypeParam((prevState) => ({
+					...prevState,
+					page: 1,
+					limit: 10,
+					directionIds: currentDirections?.map((item) => item.id),
+					subDirectionIds: checkedItems
+				}));
+			}
 		}
 	}, [checked]);
 

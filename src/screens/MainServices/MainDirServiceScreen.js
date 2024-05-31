@@ -61,6 +61,7 @@ const MainDirServiceScreen = (props) => {
 					//   "get UserTypeServices response",
 					//   JSON.stringify(response.data.response)
 					// );
+					// setMainDirServiceData(response.data.response.data);
 					if (response.data.response.data?.length > 0) {
 						setMainDirServiceData([...mainDirServiceData, ...response.data.response.data]);
 						state.setMainDirParams((prevState) => ({

@@ -69,16 +69,18 @@ const MainDirSideBarFilter = (props) => {
 				page: 1
 			}));
 		} else {
-			const currentDirections = sideFilterData?.filter((item) => {
-				return item.subDirections?.some((subdir) => checkedItems?.includes(subdir.id));
-			});
-			state.setMainDirParams((prevState) => ({
-				...prevState,
-				page: 1,
-				mainDirectionId: props.mainDirId,
-				directionIds: currentDirections?.map((item) => item.id),
-				subDirectionIds: checkedItems
-			}));
+			if (sideFilterData.length > 0) {
+				const currentDirections = sideFilterData?.filter((item) => {
+					return item.subDirections?.some((subdir) => checkedItems?.includes(subdir.id));
+				});
+				state.setMainDirParams((prevState) => ({
+					...prevState,
+					page: 1,
+					mainDirectionId: props.mainDirId,
+					directionIds: currentDirections?.map((item) => item.id),
+					subDirectionIds: checkedItems
+				}));
+			}
 		}
 	}, [checked]);
 
