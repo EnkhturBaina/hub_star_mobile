@@ -6,6 +6,7 @@ import MainContext from "../../contexts/MainContext";
 import axios from "axios";
 import { AutocompleteDropdown, AutocompleteDropdownContextProvider } from "react-native-autocomplete-dropdown";
 import Constants from "expo-constants";
+import { Icon } from "@rneui/base";
 
 const ChatScreen = memo(() => {
 	const state = useContext(MainContext);
@@ -118,6 +119,12 @@ const ChatScreen = memo(() => {
 							windowSize: 5,
 							updateCellsBatchingPeriod: 30
 						}}
+						ChevronIconComponent={
+							<Icon name="search" type="feather" size={20} onPress={() => dropdownController.current.toggle()} />
+						}
+						ClearIconComponent={
+							<Icon name="delete" type="feather" size={20} onPress={() => dropdownController.current.clear()} />
+						}
 					/>
 				</KeyboardAvoidingView>
 			</SafeAreaView>
