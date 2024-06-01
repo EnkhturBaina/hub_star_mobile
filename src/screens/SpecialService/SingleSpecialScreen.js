@@ -18,7 +18,6 @@ import GradientButton from "../../components/GradientButton";
 import ServiceDTLSkeleton from "../../components/Skeletons/ServiceDTLSkeleton";
 import { ImageZoom } from "@likashefqet/react-native-image-zoom";
 import MainContext from "../../contexts/MainContext";
-// import { StarRatingDisplay } from "react-native-star-rating-widget";
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
