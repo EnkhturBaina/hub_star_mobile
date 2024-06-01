@@ -1,18 +1,21 @@
 import { StyleSheet, Text, View, TouchableOpacity, ScrollView, Image, Dimensions, TextInput } from "react-native";
-import React, { useContext, useRef, useState } from "react";
+import React, { useCallback, useContext, useRef, useState } from "react";
 import {
 	GRAY_ICON_COLOR,
 	IMG_URL,
 	MAIN_BG_GRAY,
 	MAIN_BORDER_RADIUS,
 	MAIN_COLOR,
-	MAIN_COLOR_GRAY
+	MAIN_COLOR_GRAY,
+	SERVER_URL,
+	X_API_KEY
 } from "../../constant";
 import { Icon, ListItem } from "@rneui/base";
 import RBSheet from "react-native-raw-bottom-sheet";
 import MainContext from "../../contexts/MainContext";
 import { useNavigation } from "@react-navigation/native";
 import { AutocompleteDropdown } from "react-native-autocomplete-dropdown";
+import axios from "axios";
 
 const width = Dimensions.get("window").width;
 const height = Dimensions.get("window").height;
@@ -25,9 +28,65 @@ const HomeSearch = () => {
 	const [searchVal, setSearchVal] = useState("");
 	const searchRef = useRef(null);
 	const dropdownController = useRef(null);
+	const [loadingSideFilter, setLoadingSideFilter] = useState(false);
+	const [sideFilterData, setSideFilterData] = useState([]);
 
 	const [selectedItem, setSelectedItem] = useState(null);
 
+	function convertToSingleArray(data) {
+		let result = [];
+		data.forEach((item) => {
+			if (item.directions) {
+				result = result.concat(item.directions);
+			}
+			if (item.directions && item.directions.length > 0 && item.directions[0].subDirections) {
+				result = result.concat(item.directions[0].subDirections);
+			}
+		});
+		return result;
+	}
+
+	function changeKey(array, oldKey, newKey) {
+		return array.map((item) => {
+			const newItem = { ...item };
+			if (newItem.hasOwnProperty(oldKey)) {
+				newItem[newKey] = newItem[oldKey];
+				delete newItem[oldKey];
+			}
+			return newItem;
+		});
+	}
+
+	const getSideFilterData = useCallback(async (val) => {
+		setLoadingSideFilter(true);
+		await axios
+			.get(`${SERVER_URL}reference/main-direction/filter`, {
+				params: {
+					name: val
+				},
+				headers: {
+					"X-API-KEY": X_API_KEY
+				}
+			})
+			.then((response) => {
+				if (response.data.response.data.length > 0) {
+					dropdownController.current.open();
+				}
+				// console.log("get SideFilterData response", JSON.stringify(response.data.response));
+				const singleArray = convertToSingleArray(response.data.response?.data);
+				const modifiedArray = changeKey(singleArray, "name", "title");
+				setSideFilterData(modifiedArray);
+			})
+			.catch((error) => {
+				console.error("Error fetching Side BarFilter:", error);
+				if (error.response.status == "401") {
+					state.Handle_401();
+				}
+			})
+			.finally(() => {
+				setLoadingSideFilter(false);
+			});
+	}, []);
 	return (
 		<TouchableOpacity
 			style={styles.searchContainer}
@@ -37,26 +96,26 @@ const HomeSearch = () => {
 			}}
 		>
 			<Icon name="search" type="feather" size={20} color={GRAY_ICON_COLOR} />
-			{/* <AutocompleteDropdown
-				// ref={searchRef}
-				// onBlur={() => {
-				// 	dropdownController.current.clear();
-				// }}
-				// controller={(controller) => {
-				// 	dropdownController.current = controller;
-				// }}
+			<AutocompleteDropdown
+				controller={(controller) => {
+					dropdownController.current = controller;
+				}}
+				loading={loadingSideFilter}
+				clearOnFocus={false}
 				onSelectItem={setSelectedItem}
-				dataSet={state.subDirectionData ?? null}
-				containerStyle={{ width: "80%", backgroundColor: MAIN_COLOR_GRAY }}
+				dataSet={sideFilterData}
+				containerStyle={{ flexGrow: 1, flexShrink: 1, backgroundColor: MAIN_COLOR_GRAY }}
 				inputContainerStyle={{
 					backgroundColor: MAIN_COLOR_GRAY
+				}}
+				onChangeText={(e) => {
+					getSideFilterData(e);
 				}}
 				emptyResultText="Үр дүн олдсонгүй."
 				renderItem={(item, text) => (
 					<TouchableOpacity
 						onPress={() => {
 							// console.log("item", item);
-							// dropdownController.current.clear();
 							navigation.navigate("MainDirServiceScreen", {
 								mainDirectionId: item.mainDirectionId,
 								directionId: [item.directionId],
@@ -72,7 +131,15 @@ const HomeSearch = () => {
 				textInputProps={{
 					placeholder: "Хайх"
 				}}
-			/> */}
+				flatListProps={{
+					removeClippedSubviews: true,
+					maxToRenderPerBatch: 10,
+					initialNumToRender: 10,
+					onEndReachedThreshold: 0.1,
+					windowSize: 5,
+					updateCellsBatchingPeriod: 30
+				}}
+			/>
 			<TouchableOpacity style={styles.filterBtn} onPress={() => sheetRef.current.open()}>
 				{/* <Icon name="sliders" type="feather" size={20} color={GRAY_ICON_COLOR} /> */}
 				<Image style={{ width: 20, height: 20 }} source={require("../../../assets/figma-icons/filter.png")} />

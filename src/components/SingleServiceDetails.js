@@ -5,7 +5,7 @@ import "dayjs/locale/es";
 import dayjs from "dayjs";
 import GradientButton from "./GradientButton";
 import { useNavigation } from "@react-navigation/native";
-// import { StarRatingDisplay } from "react-native-star-rating-widget";
+import { StarRatingDisplay } from "react-native-star-rating-widget";
 import { MAIN_COLOR } from "../constant";
 
 const SingleServiceDetails = (props) => {
@@ -23,14 +23,14 @@ const SingleServiceDetails = (props) => {
 		>
 			<Text style={{ fontWeight: "bold" }}>Үнэлгээ</Text>
 			<View style={{ flexDirection: "row", alignItems: "center" }}>
-				{/* <StarRatingDisplay
+				<StarRatingDisplay
 					rating={parseInt(props.adviceData.rating) > 0 ? parseInt(props.adviceData.rating) / 2 : 0}
 					starSize={25}
 					emptyColor={MAIN_COLOR}
 					color={MAIN_COLOR}
-					style={{ padding: 0 }}
+					starStyle={{ marginLeft: 0 }}
 				/>
-				<Text> {parseInt(props.adviceData.rating) > 0 ? parseInt(props.adviceData.rating) / 2 : 0} / 10</Text> */}
+				<Text> {parseInt(props.adviceData.rating) > 0 ? parseInt(props.adviceData.rating) / 2 : 0} / 10</Text>
 			</View>
 			<Text style={{ fontWeight: "bold" }}>Үнэ </Text>
 			<Text>{state.addCommas(state.removeNonNumeric(props.adviceData?.unitAmount)) ?? "-"}₮</Text>

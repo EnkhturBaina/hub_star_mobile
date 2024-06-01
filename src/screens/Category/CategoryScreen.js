@@ -11,13 +11,22 @@ import {
 	KeyboardAvoidingView
 } from "react-native";
 import Constants from "expo-constants";
-import React, { memo, useContext, useEffect, useRef, useState } from "react";
+import React, { memo, useCallback, useContext, useEffect, useRef, useState } from "react";
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
-import { GRAY_ICON_COLOR, IMG_URL, MAIN_BORDER_RADIUS, MAIN_COLOR, MAIN_COLOR_GRAY } from "../../constant";
-import { Badge, Icon, ListItem } from "@rneui/base";
+import {
+	GRAY_ICON_COLOR,
+	IMG_URL,
+	MAIN_BORDER_RADIUS,
+	MAIN_COLOR,
+	MAIN_COLOR_GRAY,
+	SERVER_URL,
+	X_API_KEY
+} from "../../constant";
+import { Icon, ListItem } from "@rneui/base";
 import MainContext from "../../contexts/MainContext";
 import { useIsFocused, useNavigation } from "@react-navigation/native";
 import { AutocompleteDropdown, AutocompleteDropdownContextProvider } from "react-native-autocomplete-dropdown";
+import axios from "axios";
 
 const CategoryScreen = memo(() => {
 	const navigation = useNavigation();
@@ -25,6 +34,8 @@ const CategoryScreen = memo(() => {
 	const isFocused = useIsFocused();
 	const state = useContext(MainContext);
 	const dropdownController = useRef(null);
+	const [loadingSideFilter, setLoadingSideFilter] = useState(false);
+	const [sideFilterData, setSideFilterData] = useState([]);
 
 	const [expanded, setExpanded] = useState({});
 	const [selectedItem, setSelectedItem] = useState(null);
@@ -34,20 +45,61 @@ const CategoryScreen = memo(() => {
 		state.getNotifications();
 		// console.log("STATE", JSON.stringify(state.subDirectionData));
 	}, [isFocused]);
-	const DATA_TEMP = [
-		{
-			id: 1,
-			title: "xxxxxxx 1"
-		},
-		{
-			id: 2,
-			title: "zzzzzzz 2"
-		},
-		{
-			id: 3,
-			title: "yyyyyy 3"
-		}
-	];
+
+	function convertToSingleArray(data) {
+		let result = [];
+		data.forEach((item) => {
+			if (item.directions) {
+				result = result.concat(item.directions);
+			}
+			if (item.directions && item.directions.length > 0 && item.directions[0].subDirections) {
+				result = result.concat(item.directions[0].subDirections);
+			}
+		});
+		return result;
+	}
+
+	function changeKey(array, oldKey, newKey) {
+		return array.map((item) => {
+			const newItem = { ...item };
+			if (newItem.hasOwnProperty(oldKey)) {
+				newItem[newKey] = newItem[oldKey];
+				delete newItem[oldKey];
+			}
+			return newItem;
+		});
+	}
+
+	const getSideFilterData = useCallback(async (val) => {
+		setLoadingSideFilter(true);
+		await axios
+			.get(`${SERVER_URL}reference/main-direction/filter`, {
+				params: {
+					name: val
+				},
+				headers: {
+					"X-API-KEY": X_API_KEY
+				}
+			})
+			.then((response) => {
+				if (response.data.response.data.length > 0) {
+					dropdownController.current.open();
+				}
+				// console.log("get SideFilterData response", JSON.stringify(response.data.response));
+				const singleArray = convertToSingleArray(response.data.response?.data);
+				const modifiedArray = changeKey(singleArray, "name", "title");
+				setSideFilterData(modifiedArray);
+			})
+			.catch((error) => {
+				console.error("Error fetching Side BarFilter:", error);
+				if (error.response.status == "401") {
+					state.Handle_401();
+				}
+			})
+			.finally(() => {
+				setLoadingSideFilter(false);
+			});
+	}, []);
 	return (
 		<AutocompleteDropdownContextProvider>
 			<SafeAreaView
@@ -123,13 +175,16 @@ const CategoryScreen = memo(() => {
 									controller={(controller) => {
 										dropdownController.current = controller;
 									}}
+									loading={loadingSideFilter}
 									clearOnFocus={false}
 									onSelectItem={setSelectedItem}
-									dataSet={state.subDirectionData ?? null}
-									// dataSet={DATA_TEMP}
+									dataSet={sideFilterData}
 									containerStyle={{ flexGrow: 1, flexShrink: 1, backgroundColor: MAIN_COLOR_GRAY }}
 									inputContainerStyle={{
 										backgroundColor: MAIN_COLOR_GRAY
+									}}
+									onChangeText={(e) => {
+										getSideFilterData(e);
 									}}
 									emptyResultText="Үр дүн олдсонгүй."
 									renderItem={(item, text) => (
