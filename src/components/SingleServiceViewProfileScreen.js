@@ -1,6 +1,6 @@
-import { StyleSheet, Text, View, StatusBar, Platform } from "react-native";
+import { StyleSheet, Text, View, StatusBar, Platform, TouchableOpacity, Image } from "react-native";
 import React, { useContext, useEffect, useState } from "react";
-import { MAIN_COLOR, SERVER_URL, X_API_KEY } from "../constant";
+import { GRAY_ICON_COLOR, IMG_URL, MAIN_COLOR, SERVER_URL, X_API_KEY } from "../constant";
 import axios from "axios";
 import MainContext from "../contexts/MainContext";
 import { SafeAreaProvider } from "react-native-safe-area-context";
@@ -9,6 +9,7 @@ import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 import About from "./OtherProfile/About";
 import Works from "./OtherProfile/Works";
 import Contact from "./OtherProfile/Contact";
+import OtherProfileSkeleton from "./Skeletons/OtherProfileSkeleton";
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -32,7 +33,7 @@ const SingleServiceViewProfileScreen = (props) => {
 				}
 			})
 			.then((response) => {
-				// console.log("get OtherProfile", JSON.stringify(response.data.response));
+				console.log("get OtherProfile", JSON.stringify(response.data.response));
 				setOtherProfileData(response.data.response);
 			})
 			.catch((error) => {
@@ -55,34 +56,110 @@ const SingleServiceViewProfileScreen = (props) => {
 			}}
 		>
 			<StatusBar translucent barStyle={Platform.OS == "ios" ? "dark-content" : "default"} />
-			<Tab.Navigator
-				screenOptions={{
-					tabBarAndroidRipple: {
-						color: "transparent"
-					},
-					tabBarLabelStyle: {
-						textTransform: "none"
-					},
-					tabBarItemStyle: {},
-					tabBarStyle: {
-						backgroundColor: "#fff"
-					},
-					tabBarIndicatorStyle: {
-						backgroundColor: MAIN_COLOR,
-						height: 5
-						// width: 50,
-					},
-					tabBarScrollEnabled: false
-				}}
-			>
-				<Tab.Screen name="Танилцуулга" children={() => <About data={otherProfileData} />} />
-				<Tab.Screen name="Хийсэн ажиллууд" children={() => <Works user_id={otherProfileData?.id} />} />
-				<Tab.Screen name="Холбогдох" children={() => <Contact data={otherProfileData} />} />
-			</Tab.Navigator>
+			{loadingOtherProfile ? (
+				<OtherProfileSkeleton />
+			) : (
+				<>
+					<View style={{ position: "relative" }}>
+						<Image
+							style={styles.headerBg}
+							source={
+								otherProfileData?.coverId
+									? { uri: IMG_URL + otherProfileData?.coverId }
+									: require("../../assets/splash_bg_1.jpg")
+							}
+						/>
+					</View>
+					<View style={styles.profileCircle}>
+						<TouchableOpacity
+							onPress={() => {
+								// uploadImageAsBinary("avatarId");
+							}}
+						>
+							<Image
+								style={styles.userIcon}
+								source={
+									otherProfileData?.avatarId
+										? {
+												uri: IMG_URL + otherProfileData?.avatarId
+										  }
+										: require("../../assets/PersonCircle.png")
+								}
+							/>
+						</TouchableOpacity>
+						<View
+							style={{
+								flexDirection: "column",
+								top: 60,
+								marginLeft: 20
+							}}
+						>
+							<Text style={{ fontWeight: "bold", fontSize: 20 }}>
+								{state.lastName && state.firstName ? (
+									<Text style={{ fontWeight: "500" }}>
+										{state.lastName?.substr(0, 1)}. {state.firstName}
+									</Text>
+								) : (
+									<Text style={styles.generalText}>Хэрэглэгч</Text>
+								)}
+							</Text>
+							<Text style={{ color: GRAY_ICON_COLOR }}>“МЕТА СТАРТ” ХХК Захирал</Text>
+						</View>
+					</View>
+					<View style={{ flex: 1, marginTop: 50 }}>
+						<Tab.Navigator
+							screenOptions={{
+								tabBarAndroidRipple: {
+									color: "transparent"
+								},
+								tabBarLabelStyle: {
+									textTransform: "none"
+								},
+								tabBarItemStyle: {},
+								tabBarStyle: {
+									backgroundColor: "#fff"
+								},
+								tabBarIndicatorStyle: {
+									backgroundColor: MAIN_COLOR,
+									height: 5
+									// width: 50,
+								},
+								tabBarScrollEnabled: false
+							}}
+						>
+							<Tab.Screen name="Танилцуулга" children={() => <About data={otherProfileData} />} />
+							<Tab.Screen name="Хийсэн ажиллууд" children={() => <Works user_id={otherProfileData?.id} />} />
+							<Tab.Screen name="Холбогдох" children={() => <Contact data={otherProfileData} />} />
+						</Tab.Navigator>
+					</View>
+				</>
+			)}
 		</SafeAreaProvider>
 	);
 };
 
 export default SingleServiceViewProfileScreen;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+	headerBg: {
+		width: "100%",
+		height: 150,
+		resizeMode: "cover"
+	},
+	userIcon: {
+		width: 100,
+		height: 100,
+		resizeMode: "contain",
+		borderWidth: 4,
+		borderRadius: 120,
+		borderColor: "#fff",
+		backgroundColor: "#fff"
+	},
+	profileCircle: {
+		position: "absolute",
+		flexDirection: "row",
+		top: 100,
+		paddingHorizontal: 20,
+		paddingBottom: 30
+	}
+});
