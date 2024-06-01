@@ -25,6 +25,7 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 import CustomSnackbar from "../../components/CustomSnackbar";
 import SingleServiceTypes from "../../components/SingleServiceTypes";
 import SingleServiceDetails from "../../components/SingleServiceDetails";
+import SingleServiceAdvices from "../../components/SingleServiceAdvices";
 
 const SingleSpecialScreen = (props) => {
 	const state = useContext(MainContext);
@@ -55,7 +56,7 @@ const SingleSpecialScreen = (props) => {
 				}
 			})
 			.then((response) => {
-				// console.log("get Advice response", JSON.stringify(response.data.response));
+				console.log("get Advice response", JSON.stringify(response.data.response));
 				setAdviceData(response.data.response);
 			})
 			.catch((error) => {
@@ -205,15 +206,7 @@ const SingleSpecialScreen = (props) => {
 							<Text>{adviceData?.desciption}</Text>
 						</View>
 						<SingleServiceTypes directionId={adviceData?.directionId} />
-						<View
-							style={{
-								flex: 1,
-								backgroundColor: "#fff",
-								flexDirection: "column",
-								padding: 20,
-								gap: 10
-							}}
-						></View>
+						<SingleServiceAdvices mainDirectionId={adviceData?.mainDirectionId} directionId={adviceData?.directionId} />
 						<SingleServiceDetails adviceData={adviceData} />
 					</ScrollView>
 				)}

@@ -45,11 +45,12 @@ const SingleServiceTypes = (props) => {
 				flex: 1,
 				backgroundColor: "#f3f3f3",
 				flexDirection: "column",
-				padding: 20,
+				paddingHorizontal: 20,
+				paddingTop: 10,
 				gap: 10
 			}}
 		>
-			<Text style={{ fontWeight: "bold", fontSize: 22 }}>ТӨРӨЛ</Text>
+			<Text style={{ fontWeight: "bold", fontSize: 16 }}>Төрөл</Text>
 			<View style={{ flex: 1, flexDirection: "row", flexWrap: "wrap", alignItems: "flex-start" }}>
 				{subDirections?.map((el, index) => {
 					return (
