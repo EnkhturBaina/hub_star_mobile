@@ -100,20 +100,20 @@ const Step2Special = (props) => {
 	//generalData.loanAmount?.replace(/,/g, "")
 
 	const goNext = () => {
-		// if (state.serviceData?.title == "") {
-		//   onToggleSnackBar("Зарын гарчиг оруулна уу.");
-		// } else if (state.serviceData?.provinceId == "") {
-		//   onToggleSnackBar("Аймаг, хот сонгоно уу.");
-		// } else if (state.serviceData?.districtId == "") {
-		//   onToggleSnackBar("Сум, дүүрэг сонгоно уу.");
-		// } else if (state.serviceData?.khorooId == "") {
-		//   onToggleSnackBar("Баг, хороо сонгоно уу.");
-		// } else if (state.serviceData?.address == "") {
-		//   onToggleSnackBar("Байршил оруулна уу.");
-		// } else {
-		//   state.setCurrentStep(3);
-		// }
-		state.setCurrentStep(3);
+		if (state.serviceData?.title == null) {
+			onToggleSnackBar("Зарын гарчиг оруулна уу.");
+		} else if (state.serviceData?.provinceId == null) {
+			onToggleSnackBar("Аймаг, хот сонгоно уу.");
+		} else if (state.serviceData?.districtId == null) {
+			onToggleSnackBar("Сум, дүүрэг сонгоно уу.");
+		} else if (state.serviceData?.khorooId == null) {
+			onToggleSnackBar("Баг, хороо сонгоно уу.");
+		} else if (state.serviceData?.address == null) {
+			onToggleSnackBar("Байршил оруулна уу.");
+		} else {
+			state.setCurrentStep(3);
+		}
+		// state.setCurrentStep(3);
 	};
 	return (
 		<KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={{ flex: 1 }}>

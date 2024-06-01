@@ -106,10 +106,12 @@ const InternationalTrade = (props) => {
 	}, [images]);
 
 	useEffect(() => {
-		state.setServiceData((prevState) => ({
-			...prevState,
-			unitAmount: parseInt(tempUnitAmount?.replaceAll(",", ""))
-		}));
+		if (tempUnitAmount != null) {
+			state.setServiceData((prevState) => ({
+				...prevState,
+				unitAmount: parseInt(tempUnitAmount?.replaceAll(",", ""))
+			}));
+		}
 	}, [tempUnitAmount]);
 
 	return (

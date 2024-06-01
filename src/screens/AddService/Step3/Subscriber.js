@@ -135,6 +135,7 @@ const Subscriber = (props) => {
 						<LoanInput
 							label="Ажлын тоо хэмжээ"
 							value={state.serviceData?.counter}
+							keyboardType="number-pad"
 							onChangeText={(e) =>
 								state.setServiceData((prevState) => ({
 									...prevState,

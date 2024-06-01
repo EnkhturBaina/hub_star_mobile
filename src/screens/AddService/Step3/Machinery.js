@@ -134,11 +134,13 @@ const Machinery = (props) => {
 	}, [images]);
 
 	useEffect(() => {
-		state.setServiceData((prevState) => ({
-			...prevState,
-			unitAmount: parseInt(tempUnitAmount?.replaceAll(",", "")),
-			packageAmount: parseInt(tempPackageAmount?.replaceAll(",", ""))
-		}));
+		if (tempUnitAmount != null || tempPackageAmount != null) {
+			state.setServiceData((prevState) => ({
+				...prevState,
+				unitAmount: parseInt(tempUnitAmount?.replaceAll(",", "")),
+				packageAmount: parseInt(tempPackageAmount?.replaceAll(",", ""))
+			}));
+		}
 	}, [tempUnitAmount, tempPackageAmount]);
 
 	return (

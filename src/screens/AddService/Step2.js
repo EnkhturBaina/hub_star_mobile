@@ -35,6 +35,8 @@ const Step2 = (props) => {
 	const [visibleSnack, setVisibleSnack] = useState(false);
 	const [snackBarMsg, setSnackBarMsg] = useState("");
 
+	const [tempPrice, setTempPrice] = useState(null);
+
 	//Snacbkbar харуулах
 	const onToggleSnackBar = (msg) => {
 		setVisibleSnack(!visibleSnack);
@@ -62,7 +64,7 @@ const Step2 = (props) => {
 				}
 			})
 			.then((response) => {
-				console.log("get Address", JSON.stringify(response.data.response));
+				// console.log("get Address", JSON.stringify(response.data.response));
 				params.type == "PROVINCE" && setProvinces(response?.data?.response);
 				params.type == "DISTRICT" && setDistricts(response?.data?.response);
 				params.type == "KHOROO" && setKhoroos(response?.data?.response);
@@ -83,7 +85,6 @@ const Step2 = (props) => {
 	}, []);
 
 	useEffect(() => {
-		console.log("state.serviceData?.provinceId", state.serviceData?.provinceId);
 		state.serviceData?.provinceId &&
 			getAddress({
 				type: "DISTRICT",
@@ -101,26 +102,32 @@ const Step2 = (props) => {
 	//generalData.loanAmount?.replace(/,/g, "")
 
 	const goNext = () => {
-		// if (state.serviceData?.title == "") {
-		//   onToggleSnackBar("Зарын гарчиг оруулна уу.");
-		// } else if (
-		//   state.serviceData?.userType.type === "SUBSCRIBER" &&
-		//   state.serviceData?.price == ""
-		// ) {
-		//   onToggleSnackBar("Үнэ оруулна уу.");
-		// } else if (state.serviceData?.provinceId == "") {
-		//   onToggleSnackBar("Аймаг, хот сонгоно уу.");
-		// } else if (state.serviceData?.districtId == "") {
-		//   onToggleSnackBar("Сум, дүүрэг сонгоно уу.");
-		// } else if (state.serviceData?.khorooId == "") {
-		//   onToggleSnackBar("Баг, хороо сонгоно уу.");
-		// } else if (state.serviceData?.address == "") {
-		//   onToggleSnackBar("Байршил оруулна уу.");
-		// } else {
-		//   state.setCurrentStep(3);
-		// }
-		state.setCurrentStep(3);
+		if (state.serviceData?.title == null) {
+			onToggleSnackBar("Зарын гарчиг оруулна уу.");
+		} else if (state.serviceData?.userType.type === "SUBSCRIBER" && tempPrice == null) {
+			onToggleSnackBar("Үнэ оруулна уу.");
+		} else if (state.serviceData?.provinceId == null) {
+			onToggleSnackBar("Аймаг, хот сонгоно уу.");
+		} else if (state.serviceData?.districtId == null) {
+			onToggleSnackBar("Сум, дүүрэг сонгоно уу.");
+		} else if (state.serviceData?.khorooId == null) {
+			onToggleSnackBar("Баг, хороо сонгоно уу.");
+		} else if (state.serviceData?.address == null) {
+			onToggleSnackBar("Байршил оруулна уу.");
+		} else {
+			state.setCurrentStep(3);
+		}
+		// state.setCurrentStep(3);
 	};
+
+	useEffect(() => {
+		if (tempPrice != null) {
+			state.setServiceData((prevState) => ({
+				...prevState,
+				price: parseInt(tempPrice?.replaceAll(",", ""))
+			}));
+		}
+	}, [tempPrice]);
 	return (
 		<KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={{ flex: 1 }}>
 			<SafeAreaView
@@ -152,13 +159,14 @@ const Step2 = (props) => {
 							<LoanInput
 								label="Үнэ"
 								keyboardType="number-pad"
-								value={state.serviceData?.price}
-								onChangeText={(e) =>
-									state.setServiceData((prevState) => ({
-										...prevState,
-										price: state.addCommas(state.removeNonNumeric(e))
-									}))
-								}
+								value={tempPrice}
+								onChangeText={(e) => {
+									setTempPrice(state.addCommas(state.removeNonNumeric(e)));
+									// state.setServiceData((prevState) => ({
+									// 	...prevState,
+									// 	price: state.addCommas(state.removeNonNumeric(e))
+									// }))
+								}}
 							/>
 						) : null}
 

@@ -47,8 +47,8 @@ const Step1 = (props) => {
 	useEffect(() => {
 		state.setServiceData((prevState) => ({
 			...prevState,
-			directionId: "",
-			subDirectionId: ""
+			directionId: null,
+			subDirectionId: null
 		}));
 
 		state.serviceData?.mainDirectionId && getDirections();
@@ -57,12 +57,13 @@ const Step1 = (props) => {
 	useEffect(() => {
 		state.setServiceData((prevState) => ({
 			...prevState,
-			subDirectionId: ""
+			subDirectionId: null
 		}));
 		state.serviceData?.directionId && getSubDirections();
 	}, [state.serviceData?.directionId]);
 
 	const getDirections = async () => {
+		console.log("RUN getDirections");
 		setDirections([]);
 		await axios
 			.get(`${SERVER_URL}reference/direction`, {
@@ -75,10 +76,7 @@ const Step1 = (props) => {
 				}
 			})
 			.then((response) => {
-				// console.log(
-				//   "get Directions response",
-				//   JSON.stringify(response.data.response)
-				// );
+				console.log("get Directions response", JSON.stringify(response.data.response));
 				setDirections(response.data.response);
 			})
 			.catch((error) => {
@@ -117,18 +115,18 @@ const Step1 = (props) => {
 	};
 
 	const goNext = () => {
-		// if (state.serviceData?.categoryId == "") {
-		//   onToggleSnackBar("Хэрэглэгчийн төрөл сонгоно уу.");
-		// } else if (state.serviceData?.mainDirectionId == "") {
-		//   onToggleSnackBar("Үйл ажиллагааны үндсэн чиглэл сонгоно уу.");
-		// } else if (state.serviceData?.directionId == "") {
-		//   onToggleSnackBar("Үйл ажилллагааны чиглэл сонгоно уу.");
-		// } else if (state.serviceData?.subDirectionId == "") {
-		//   onToggleSnackBar("Үйл ажиллагааны нэр сонгоно уу.");
-		// } else {
-		//   state.setCurrentStep(2);
-		// }
-		state.setCurrentStep(2);
+		if (state.serviceData?.userType == null) {
+			onToggleSnackBar("Хэрэглэгчийн төрөл сонгоно уу.");
+		} else if (state.serviceData?.mainDirectionId == null) {
+			onToggleSnackBar("Үйл ажиллагааны үндсэн чиглэл сонгоно уу.");
+		} else if (state.serviceData?.directionId == null) {
+			onToggleSnackBar("Үйл ажилллагааны чиглэл сонгоно уу.");
+		} else if (state.serviceData?.subDirectionId == null) {
+			onToggleSnackBar("Үйл ажиллагааны нэр сонгоно уу.");
+		} else {
+			state.setCurrentStep(2);
+		}
+		// state.setCurrentStep(2);
 	};
 
 	return (
@@ -193,7 +191,7 @@ const Step1 = (props) => {
 							onPress={() => {
 								setLookupData(directions, "directionId", "name", "id");
 							}}
-							disabled={state.serviceData?.mainDirectionId == ""}
+							disabled={state.serviceData?.mainDirectionId == null}
 						>
 							<Text style={styles.selectedText} numberOfLines={1}>
 								{state.serviceData?.directionId
@@ -214,7 +212,7 @@ const Step1 = (props) => {
 							onPress={() => {
 								setLookupData(subDirections, "subDirectionId", "name", "id");
 							}}
-							disabled={state.serviceData?.directionId == ""}
+							disabled={state.serviceData?.directionId == null}
 						>
 							<Text style={styles.selectedText} numberOfLines={1}>
 								{state.serviceData?.subDirectionId

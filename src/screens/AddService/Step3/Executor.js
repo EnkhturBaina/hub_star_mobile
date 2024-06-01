@@ -106,10 +106,12 @@ const Executor = (props) => {
 	}, [images]);
 
 	useEffect(() => {
-		state.setServiceData((prevState) => ({
-			...prevState,
-			price: parseInt(tempPrice?.replaceAll(",", ""))
-		}));
+		if (tempPrice != null) {
+			state.setServiceData((prevState) => ({
+				...prevState,
+				price: parseInt(tempPrice?.replaceAll(",", ""))
+			}));
+		}
 	}, [tempPrice]);
 
 	return (
@@ -147,6 +149,7 @@ const Executor = (props) => {
 						<LoanInput
 							label="Ажлын тоо хэмжээ"
 							value={state.serviceData?.counter}
+							keyboardType="number-pad"
 							onChangeText={(e) =>
 								state.setServiceData((prevState) => ({
 									...prevState,

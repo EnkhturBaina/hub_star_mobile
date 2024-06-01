@@ -46,8 +46,8 @@ const Step1Special = (props) => {
 	useEffect(() => {
 		state.setServiceData((prevState) => ({
 			...prevState,
-			directionId: "",
-			subDirectionId: ""
+			directionId: null,
+			subDirectionId: null
 		}));
 		state.serviceData?.specialService && getDirections();
 	}, [state.serviceData?.specialService]);
@@ -55,7 +55,7 @@ const Step1Special = (props) => {
 	useEffect(() => {
 		state.setServiceData((prevState) => ({
 			...prevState,
-			subDirectionId: ""
+			subDirectionId: null
 		}));
 		state.serviceData?.directionId && getSubDirections();
 	}, [state.serviceData?.directionId]);
@@ -113,16 +113,16 @@ const Step1Special = (props) => {
 	};
 
 	const goNext = () => {
-		// if (state.serviceData?.specialService == "") {
-		//   onToggleSnackBar("Онцгой үйлчилгээ сонгоно уу.");
-		// } else if (state.serviceData?.directionId == "") {
-		//   onToggleSnackBar("Үйл ажилллагааны чиглэл сонгоно уу.");
-		// } else if (state.serviceData?.subDirectionId == "") {
-		//   onToggleSnackBar("Үйл ажиллагааны нэр сонгоно уу.");
-		// } else {
-		//   state.setCurrentStep(2);
-		// }
-		state.setCurrentStep(2);
+		if (state.serviceData?.specialService == null) {
+			onToggleSnackBar("Онцгой үйлчилгээ сонгоно уу.");
+		} else if (state.serviceData?.directionId == null) {
+			onToggleSnackBar("Үйл ажилллагааны чиглэл сонгоно уу.");
+		} else if (state.serviceData?.subDirectionId == null) {
+			onToggleSnackBar("Үйл ажиллагааны нэр сонгоно уу.");
+		} else {
+			state.setCurrentStep(2);
+		}
+		// state.setCurrentStep(2);
 	};
 
 	return (
@@ -162,7 +162,7 @@ const Step1Special = (props) => {
 							onPress={() => {
 								setLookupData(directions, "directionId", "name", "id");
 							}}
-							disabled={state.serviceData?.specialService == ""}
+							disabled={state.serviceData?.specialService == null}
 						>
 							<Text style={styles.selectedText} numberOfLines={1}>
 								{state.serviceData?.directionId
@@ -183,7 +183,7 @@ const Step1Special = (props) => {
 							onPress={() => {
 								setLookupData(subDirections, "subDirectionId", "name", "id");
 							}}
-							disabled={state.serviceData?.directionId == ""}
+							disabled={state.serviceData?.directionId == null}
 						>
 							<Text style={styles.selectedText} numberOfLines={1}>
 								{state.serviceData?.subDirectionId
