@@ -25,6 +25,7 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 import CustomSnackbar from "../../components/CustomSnackbar";
 import SingleServiceTypes from "../../components/SingleServiceTypes";
 import SingleServiceDetails from "../../components/SingleServiceDetails";
+import SingleServiceAdvices from "../../components/SingleServiceAdvices";
 
 const SingleHomeAdScreen = (props) => {
 	const tabBarHeight = useBottomTabBarHeight();
@@ -226,6 +227,7 @@ const SingleHomeAdScreen = (props) => {
 							<Text>{adviceData?.desciption}</Text>
 						</View>
 						<SingleServiceTypes directionId={adviceData?.directionId} />
+						<SingleServiceAdvices mainDirectionId={adviceData?.mainDirectionId} directionId={adviceData?.directionId} />
 						<SingleServiceDetails adviceData={adviceData} />
 					</ScrollView>
 				)}
