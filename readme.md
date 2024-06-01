@@ -20,3 +20,13 @@ npx expo-doctor
 npx expo install --fix
 
 eas update --branch development --message "Fixes typo"
+
+## CHECK
+
+eas update:configure and follow all the steps.
+
+eas build --profile production – don't forget to increase the build number
+
+eas submit -p ios --latest in order to have the last build on testflight and also make sure you update the app in your phone.
+
+eas update after this, force close the app 2-3 times and you'll see the changes.
