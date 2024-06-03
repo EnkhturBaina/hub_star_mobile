@@ -18,6 +18,7 @@ import { IMG_URL, MAIN_COLOR, SERVER_URL, X_API_KEY } from "../../../constant";
 import axios from "axios";
 import ListServiceSkeleton from "../../../components/Skeletons/ListServiceSkeleton";
 import Empty from "../../../components/Empty";
+import { Menu, PaperProvider } from "react-native-paper";
 
 const PostedScreen = (props) => {
 	const state = useContext(MainContext);
@@ -26,6 +27,11 @@ const PostedScreen = (props) => {
 	const [postedServiceData, setPostedServiceData] = useState([]);
 	const [offset, setOffset] = useState(1);
 	const [isListEnd, setIsListEnd] = useState(false); //Бүх дата харуулж дууссан үед харагдах
+
+	const [visibleMenu, setVisibleMenu] = useState(null);
+
+	const openMenu = (id) => setVisibleMenu(id);
+	const closeMenu = () => setVisibleMenu(null);
 
 	const getPostedServices = async () => {
 		if (!loadingServices && !isListEnd) {
@@ -74,11 +80,13 @@ const PostedScreen = (props) => {
 		return (
 			<TouchableOpacity
 				style={styles.gridItem}
-				onPress={() => {
-					props.navigation.navigate("SingleServiceScreen", {
-						adv_id: item.id
-					});
-				}}
+				// onPress={() => {
+
+				// props.navigation.navigate("SingleServiceScreen", {
+				// 	adv_id: item.id
+				// });
+				// }}
+				onPress={() => openMenu(item.id)}
 			>
 				<Image
 					source={
@@ -111,6 +119,25 @@ const PostedScreen = (props) => {
 						{state.getTypeName(item.userType, item.specialService, (isSlash = false))}
 					</Text>
 				</View>
+				<Menu
+					visible={visibleMenu === item.id}
+					onDismiss={closeMenu}
+					elevation={1}
+					contentStyle={{ backgroundColor: "#fff", borderRadius: 6 }}
+					anchor={
+						<Icon
+							name="dots-three-vertical"
+							type="entypo"
+							size={20}
+							color="#c5c5c5"
+							onPress={() => openMenu(item.id)}
+							style={{ marginBottom: 10, marginRight: 5, padding: 5 }}
+						/>
+					}
+				>
+					<Menu.Item onPress={() => {}} title="Засах" />
+					<Menu.Item onPress={() => {}} title="Устгах" />
+				</Menu>
 			</TouchableOpacity>
 		);
 	};
@@ -179,7 +206,8 @@ const styles = StyleSheet.create({
 		backgroundColor: "#fff",
 		borderRadius: 6,
 		flexDirection: "row",
-		height: 90
+		height: 90,
+		alignItems: "flex-end"
 	},
 	addItemContainer: {
 		marginHorizontal: 20,

@@ -8,6 +8,7 @@ import BottomBar from "./src/navigations/BottomBar";
 import { AutocompleteDropdownContextProvider } from "react-native-autocomplete-dropdown";
 import * as Updates from "expo-updates";
 import { useEffect } from "react";
+import { PaperProvider } from "react-native-paper";
 
 export default function App() {
 	async function onFetchUpdateAsync() {
@@ -30,16 +31,18 @@ export default function App() {
 
 	return (
 		<AutocompleteDropdownContextProvider>
-			<SafeAreaProvider>
-				<NavigationContainer>
-					<MainStore>
-						{/* <MainDrawerNavigation /> */}
-						{/* Drawer нэмэгдэхээр бол дээрхи кодны коммент -г авах */}
-						{/* <HomeScreenTabNavigation /> */}
-						<BottomBar />
-					</MainStore>
-				</NavigationContainer>
-			</SafeAreaProvider>
+			<PaperProvider>
+				<SafeAreaProvider>
+					<NavigationContainer>
+						<MainStore>
+							{/* <MainDrawerNavigation /> */}
+							{/* Drawer нэмэгдэхээр бол дээрхи кодны коммент -г авах */}
+							{/* <HomeScreenTabNavigation /> */}
+							<BottomBar />
+						</MainStore>
+					</NavigationContainer>
+				</SafeAreaProvider>
+			</PaperProvider>
 		</AutocompleteDropdownContextProvider>
 	);
 }
