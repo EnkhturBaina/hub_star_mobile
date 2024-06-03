@@ -26,6 +26,7 @@ const HomeScreen = (props) => {
 				<StatusBar translucent barStyle={Platform.OS == "ios" ? "dark-content" : "default"} />
 				<HomeHeader />
 				<HomeSearch />
+				<UserTypes />
 				<ScrollView
 					contentContainerStyle={{
 						flexGrow: 1,
@@ -34,7 +35,6 @@ const HomeScreen = (props) => {
 					showsVerticalScrollIndicator={false}
 					bounces={false}
 				>
-					<UserTypes />
 					<BannerNews />
 					<SpecialService />
 					<Advices />
