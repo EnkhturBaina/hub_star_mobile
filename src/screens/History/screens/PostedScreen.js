@@ -19,6 +19,7 @@ import axios from "axios";
 import ListServiceSkeleton from "../../../components/Skeletons/ListServiceSkeleton";
 import Empty from "../../../components/Empty";
 import { Menu, PaperProvider } from "react-native-paper";
+import CustomDialog from "../../../components/CustomDialog";
 
 const PostedScreen = (props) => {
 	const state = useContext(MainContext);
@@ -29,6 +30,12 @@ const PostedScreen = (props) => {
 	const [isListEnd, setIsListEnd] = useState(false); //Бүх дата харуулж дууссан үед харагдах
 
 	const [visibleMenu, setVisibleMenu] = useState(null);
+
+	const [visibleDialog, setVisibleDialog] = useState(false); //Dialog харуулах
+	const [dialogType, setDialogType] = useState("success"); //Dialog харуулах төрөл
+	const [dialogText, setDialogText] = useState("Үйлчилгээг устгахдаа итгэлтэй байна уу?"); //Dialog -н текст
+
+	const [selectedAd, setSelectedAd] = useState(null);
 
 	const openMenu = (id) => setVisibleMenu(id);
 	const closeMenu = () => setVisibleMenu(null);
@@ -75,6 +82,36 @@ const PostedScreen = (props) => {
 	useEffect(() => {
 		getPostedServices();
 	}, []);
+
+	const removeAd = async () => {
+		await axios
+			.delete(`${SERVER_URL}advertisement/${selectedAd}`, {
+				headers: {
+					"X-API-KEY": X_API_KEY,
+					Authorization: `Bearer ${state.token}`
+				}
+			})
+			.then((response) => {
+				// console.log("remove Ad =========>", response.data);
+				if (response.data.statusCode == 200) {
+					setPostedServiceData(removeById(postedServiceData, selectedAd));
+				}
+			})
+			.catch((error) => {
+				console.error("Error fetching get ProfileData:", error);
+				if (error.response.status == "401") {
+					state.Handle_401();
+				}
+			});
+	};
+
+	const removeById = (array, id) => {
+		const index = array.findIndex((item) => item.id === id);
+		if (index !== -1) {
+			array.splice(index, 1);
+		}
+		return array;
+	};
 
 	const renderItem = ({ item }) => {
 		return (
@@ -135,8 +172,16 @@ const PostedScreen = (props) => {
 						/>
 					}
 				>
-					<Menu.Item onPress={() => {}} title="Засах" />
-					<Menu.Item onPress={() => {}} title="Устгах" />
+					<Menu.Item onPress={() => {}} leadingIcon="square-edit-outline" title="Засах" />
+					<Menu.Item
+						onPress={() => {
+							setSelectedAd(item.id);
+							closeMenu();
+							setVisibleDialog(true);
+						}}
+						leadingIcon="delete"
+						title="Устгах"
+					/>
 				</Menu>
 			</TouchableOpacity>
 		);
@@ -182,6 +227,20 @@ const PostedScreen = (props) => {
 					<Icon name="pluscircle" type="antdesign" size={50} color="#c5c5c5" />
 				</TouchableOpacity>
 			</ScrollView>
+			<CustomDialog
+				visible={visibleDialog}
+				confirmFunction={() => {
+					removeAd();
+					setVisibleDialog(false);
+				}}
+				declineFunction={() => {
+					setVisibleDialog(false);
+				}}
+				text={dialogText}
+				confirmBtnText="Устгах"
+				DeclineBtnText="Хаах"
+				type={dialogType}
+			/>
 		</SafeAreaProvider>
 	);
 };
