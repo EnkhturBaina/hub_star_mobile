@@ -352,7 +352,7 @@ const styles = StyleSheet.create({
 	},
 	typeText: {
 		marginLeft: 5,
-		textTransform: "uppercase",
+		textTransform: "capitalize",
 		fontWeight: "500"
 	}
 });

@@ -10,19 +10,39 @@ import {
 	Image,
 	TouchableOpacity
 } from "react-native";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useLayoutEffect, useState } from "react";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { Icon } from "@rneui/base";
-import MainContext from "../../../contexts/MainContext";
-import { IMG_URL, MAIN_COLOR, SERVER_URL, X_API_KEY } from "../../../constant";
+import MainContext from "../../contexts/MainContext";
+import { IMG_URL, MAIN_COLOR, SERVER_URL, X_API_KEY } from "../../constant";
 import axios from "axios";
-import ListServiceSkeleton from "../../../components/Skeletons/ListServiceSkeleton";
-import Empty from "../../../components/Empty";
+import ListServiceSkeleton from "../../components/Skeletons/ListServiceSkeleton";
+import Empty from "../../components/Empty";
 import { Menu, PaperProvider } from "react-native-paper";
-import CustomDialog from "../../../components/CustomDialog";
+import CustomDialog from "../../components/CustomDialog";
 
-const PostedScreen = (props) => {
+const Posted = (props) => {
 	const state = useContext(MainContext);
+
+	useLayoutEffect(() => {
+		// TabBar Hide хийх
+		props.navigation?.getParent()?.setOptions({
+			tabBarStyle: {
+				display: "none"
+			}
+		});
+		return () =>
+			props.navigation?.getParent()?.setOptions({
+				tabBarStyle: {
+					position: "absolute",
+					borderTopLeftRadius: 20,
+					borderTopRightRadius: 20,
+					height: Platform.OS == "ios" ? 105 : 80,
+					padding: 10
+				}
+			});
+		// TabBar Hide хийх
+	}, [props.navigation]);
 
 	const [loadingServices, setLoadingServices] = useState(false);
 	const [postedServiceData, setPostedServiceData] = useState([]);
@@ -117,11 +137,12 @@ const PostedScreen = (props) => {
 		return (
 			<TouchableOpacity
 				style={styles.gridItem}
-				onPress={() => {
-					props.navigation.navigate("SingleServiceScreen", {
-						adv_id: item.id
-					});
-				}}
+				// onPress={() => {
+
+				// props.navigation.navigate("SingleServiceScreen", {
+				// 	adv_id: item.id
+				// });
+				// }}
 			>
 				<Image
 					source={
@@ -129,7 +150,7 @@ const PostedScreen = (props) => {
 							? {
 									uri: IMG_URL + item.images[0]?.id
 							  }
-							: require("../../../../assets/splash_bg_1.jpg")
+							: require("../../../assets/splash_bg_1.jpg")
 					}
 					style={{
 						width: 100,
@@ -243,7 +264,7 @@ const PostedScreen = (props) => {
 	);
 };
 
-export default PostedScreen;
+export default Posted;
 
 const styles = StyleSheet.create({
 	gridContainer: {

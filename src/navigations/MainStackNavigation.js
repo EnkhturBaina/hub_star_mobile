@@ -49,6 +49,7 @@ import AddServiceFirst from "../screens/AddService/AddServiceFirst";
 import AddServiceSpecial from "../screens/AddService/AddServiceSpecial";
 import SingleHomeAdScreen from "../screens/HomeScreenComponents/SingleHomeAdScreen";
 import SingleServiceViewProfileScreen from "../components/SingleServiceViewProfileScreen";
+import Posted from "../screens/Profile/Posted";
 
 const Stack = createStackNavigator();
 const width = Dimensions.get("screen").width;
@@ -950,6 +951,26 @@ const ProfileStackNavigator = (props) => {
 				component={Invite}
 				options={{
 					title: "Найзаа урих",
+					headerTitleStyle: {
+						fontWeight: "800"
+					},
+					headerLeft: () => (
+						<TouchableOpacity
+							style={styles.headerLeftContainer}
+							onPress={() => {
+								navigation.navigate("ProfileScreen");
+							}}
+						>
+							<Icon type="material-icons" name="keyboard-arrow-left" size={35} />
+						</TouchableOpacity>
+					)
+				}}
+			/>
+			<Stack.Screen
+				name="Posted"
+				component={Posted}
+				options={{
+					title: "Байршуулсан үйлчилгээ",
 					headerTitleStyle: {
 						fontWeight: "800"
 					},

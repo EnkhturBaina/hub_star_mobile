@@ -36,9 +36,6 @@ const AddService = (props) => {
 			});
 		// TabBar Hide хийх
 	}, [props.navigation]);
-	useEffect(() => {
-		console.log(" =========> ", props?.route?.params);
-	}, []);
 
 	return (
 		<SafeAreaView

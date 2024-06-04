@@ -3,22 +3,28 @@ import { GRAY_ICON_COLOR } from "../../constant";
 
 export const menuList = [
 	{
-		id: 1,
+		id: 0,
 		name: "Профайл засах",
 		icon: require("../../../assets/figma-icons/profile-circle.png"),
 		nav: "EditProfile"
 	},
 	{
-		id: 2,
+		id: 1,
 		name: "Мэдэгдэл",
 		icon: require("../../../assets/figma-icons/setting.png"),
 		nav: "Notification"
 	},
 	{
-		id: 3,
+		id: 2,
 		name: "Дансны мэдээлэл",
 		icon: require("../../../assets/figma-icons/card-edit.png"),
 		nav: "Account"
+	},
+	{
+		id: 3,
+		name: "Байршуулсан үйлчилгээ",
+		icon: require("../../../assets/figma-icons/messageText.png"),
+		nav: "Posted"
 	},
 	{
 		id: 4,
