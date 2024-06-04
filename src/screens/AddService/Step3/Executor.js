@@ -11,9 +11,7 @@ import {
 	Image
 } from "react-native";
 import React, { useContext, useEffect, useState } from "react";
-import { GRAY_ICON_COLOR, IMG_URL, MAIN_COLOR, MAIN_COLOR_GRAY } from "../../../constant";
-import Constants from "expo-constants";
-import CustomSnackbar from "../../../components/CustomSnackbar";
+import { IMG_URL, MAIN_COLOR, MAIN_COLOR_GRAY } from "../../../constant";
 import { CheckBox, Icon } from "@rneui/base";
 import GradientButton from "../../../components/GradientButton";
 import LoanInput from "../../../components/LoanInput";
@@ -21,62 +19,13 @@ import MainContext from "../../../contexts/MainContext";
 import * as ImagePicker from "expo-image-picker";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { ImageZoom } from "@likashefqet/react-native-image-zoom";
-import { useNavigation } from "@react-navigation/native";
-import CustomDialog from "../../../components/CustomDialog";
 
 const Executor = (props) => {
 	const state = useContext(MainContext);
-	const navigation = useNavigation();
 
 	const [images, setImages] = useState([]);
 	const [visible1, setVisible1] = useState(false);
 	const [zoomImgURL, setZoomImgURL] = useState(null);
-
-	const [visibleSnack, setVisibleSnack] = useState(false);
-	const [snackBarMsg, setSnackBarMsg] = useState("");
-
-	const [visibleDialog, setVisibleDialog] = useState(false); //Dialog харуулах
-	const [dialogType, setDialogType] = useState("success"); //Dialog харуулах төрөл
-	const [dialogText, setDialogText] = useState(""); //Dialog -н текст
-
-	const [tempPrice, setTempPrice] = useState(null);
-
-	//Snacbkbar харуулах
-	const onToggleSnackBar = (msg) => {
-		setVisibleSnack(!visibleSnack);
-		setSnackBarMsg(msg);
-	};
-
-	//Snacbkbar хаах
-	const onDismissSnackBar = () => setVisibleSnack(false);
-
-	const createFnc = () => {
-		if (state.serviceData?.workerCount == null) {
-			onToggleSnackBar("Ажилчдын тоо оруулна уу.");
-		} else if (state.serviceData?.counter == null) {
-			onToggleSnackBar("Ажлын тоо хэмжээ оруулна уу.");
-		} else if (tempPrice == null) {
-			onToggleSnackBar("Үнэ оруулна уу.");
-		} else if (state.serviceData?.desciption == null) {
-			onToggleSnackBar("Тайлбар ба ажлын туршлага оруулна уу.");
-		} else if (state.serviceData?.email == null) {
-			onToggleSnackBar("И-мэйл оруулна уу.");
-		} else if (state.serviceData?.phone == null) {
-			onToggleSnackBar("Утас оруулна уу.");
-		} else {
-			state
-				.createAd()
-				.then((res) => {
-					if (res.data.statusCode == 200) {
-						setDialogText("Таны зар амжилттай нийтлэгдлээ.");
-						setVisibleDialog(true);
-					}
-				})
-				.catch((err) => {
-					// console.log("err", err);
-				});
-		}
-	};
 
 	const uploadImageAsBinary = async (imgId) => {
 		const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -106,13 +55,13 @@ const Executor = (props) => {
 	}, [images]);
 
 	useEffect(() => {
-		if (tempPrice != null) {
+		if (props.tempPrice != null) {
 			state.setServiceData((prevState) => ({
 				...prevState,
-				price: parseInt(tempPrice?.replaceAll(",", ""))
+				price: parseInt(props.tempPrice?.replaceAll(",", ""))
 			}));
 		}
-	}, [tempPrice]);
+	}, [props.tempPrice]);
 
 	return (
 		<KeyboardAvoidingView
@@ -126,18 +75,13 @@ const Executor = (props) => {
 					backgroundColor: "#fff"
 				}}
 			>
-				<CustomSnackbar
-					visible={visibleSnack}
-					dismiss={onDismissSnackBar}
-					text={snackBarMsg}
-					topPos={-Constants.statusBarHeight}
-				/>
 				<View style={{ flex: 1 }}>
 					<ScrollView contentContainerStyle={styles.scrollContainer} bounces={false}>
 						<Text>Executor</Text>
 						<LoanInput
 							label="Ажилчдын тоо"
 							value={state.serviceData?.workerCount}
+							keyboardType="number-pad"
 							onChangeText={(e) =>
 								state.setServiceData((prevState) => ({
 									...prevState,
@@ -159,9 +103,9 @@ const Executor = (props) => {
 						<LoanInput
 							label="Үнэ"
 							keyboardType="number-pad"
-							value={tempPrice}
+							value={props.tempPrice}
 							onChangeText={(e) => {
-								setTempPrice(state.addCommas(state.removeNonNumeric(e)));
+								props.setTempPrice(state.addCommas(state.removeNonNumeric(e)));
 								// state.setServiceData((prevState) => ({
 								// 	...prevState,
 								// 	price: state.addCommas(state.removeNonNumeric(e))
@@ -229,6 +173,7 @@ const Executor = (props) => {
 								}))
 							}
 							keyboardType="number-pad"
+							maxLength={8}
 						/>
 						<CheckBox
 							containerStyle={{
@@ -302,24 +247,6 @@ const Executor = (props) => {
 							checkedColor={MAIN_COLOR}
 							uncheckedColor={MAIN_COLOR}
 						/>
-						<View style={styles.btmButtonContainer}>
-							<TouchableOpacity
-								style={styles.backBtn}
-								onPress={() => {
-									state.setCurrentStep(2);
-								}}
-							>
-								<Text style={styles.backBtnText}>Буцах</Text>
-							</TouchableOpacity>
-							<View style={{ width: "48%" }}>
-								<GradientButton
-									text={`Хадгалах (${state.currentStep}/${props.totalStep})`}
-									action={() => {
-										createFnc();
-									}}
-								/>
-							</View>
-						</View>
 					</ScrollView>
 				</View>
 				<Modal
@@ -355,21 +282,6 @@ const Executor = (props) => {
 						</View>
 					</View>
 				</Modal>
-				<CustomDialog
-					visible={visibleDialog}
-					confirmFunction={() => {
-						setVisibleDialog(false);
-						state.setCurrentStep(1);
-						state.clearServiceData();
-						navigation.navigate("AddServiceFirst");
-						// dialogType == "success" && props.navigation.goBack();
-					}}
-					declineFunction={() => {}}
-					text={dialogText}
-					confirmBtnText="Хаах"
-					DeclineBtnText=""
-					type={dialogType}
-				/>
 			</SafeAreaView>
 		</KeyboardAvoidingView>
 	);
@@ -387,24 +299,6 @@ const styles = StyleSheet.create({
 	label: {
 		fontWeight: "bold",
 		padding: 5
-	},
-	btmButtonContainer: {
-		flexDirection: "row",
-		justifyContent: "space-between",
-		marginTop: 10
-	},
-	backBtn: {
-		width: "48%",
-		justifyContent: "center",
-		alignItems: "center",
-		borderRadius: 12,
-		borderWidth: 1.5,
-		borderColor: GRAY_ICON_COLOR
-	},
-	backBtnText: {
-		fontSize: 16,
-		fontWeight: "bold",
-		color: GRAY_ICON_COLOR
 	},
 	gridContainer: {
 		flexDirection: "row",

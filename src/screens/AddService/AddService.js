@@ -1,8 +1,7 @@
-import { Platform, SafeAreaView } from "react-native";
-import React, { useContext, useEffect, useLayoutEffect, useState } from "react";
+import { Platform, SafeAreaView, StyleSheet, TouchableOpacity, View, Text } from "react-native";
+import React, { useContext, useLayoutEffect, useState } from "react";
 import { ProgressBar } from "react-native-paper";
-import { MAIN_COLOR, SERVER_URL, X_API_KEY } from "../../constant";
-import Constants from "expo-constants";
+import { GRAY_ICON_COLOR, MAIN_COLOR } from "../../constant";
 import Step1 from "./Step1";
 import Step2 from "./Step2";
 import MainContext from "../../contexts/MainContext";
@@ -11,11 +10,34 @@ import Executor from "./Step3/Executor";
 import Supplier from "./Step3/Supplier";
 import Transportation from "./Step3/Transportation";
 import Machinery from "./Step3/Machinery";
-import axios from "axios";
+import GradientButton from "../../components/GradientButton";
+import CustomSnackbar from "../../components/CustomSnackbar";
+import { useNavigation } from "@react-navigation/native";
+import CustomDialog from "../../components/CustomDialog";
 
 const AddService = (props) => {
 	const state = useContext(MainContext);
+	const navigation = useNavigation();
 	const totalStep = 3;
+
+	const [visibleSnack, setVisibleSnack] = useState(false);
+	const [snackBarMsg, setSnackBarMsg] = useState("");
+
+	const [visibleDialog, setVisibleDialog] = useState(false); //Dialog харуулах
+	const [dialogType, setDialogType] = useState("success"); //Dialog харуулах төрөл
+	const [dialogText, setDialogText] = useState(""); //Dialog -н текст
+
+	const [tempPrice, setTempPrice] = useState(null);
+	const [tempUnitAmount, setTempUnitAmount] = useState(null);
+	const [tempPackageAmount, setTempPackageAmount] = useState(null);
+	//Snacbkbar харуулах
+	const onToggleSnackBar = (msg) => {
+		setVisibleSnack(!visibleSnack);
+		setSnackBarMsg(msg);
+	};
+
+	//Snacbkbar хаах
+	const onDismissSnackBar = () => setVisibleSnack(false);
 
 	useLayoutEffect(() => {
 		// TabBar Hide хийх
@@ -36,7 +58,152 @@ const AddService = (props) => {
 			});
 		// TabBar Hide хийх
 	}, [props.navigation]);
-
+	const createAdverstment = () => {
+		state
+			.createAd()
+			.then((res) => {
+				if (res.data.statusCode == 200) {
+					setDialogText("Таны зар амжилттай нийтлэгдлээ.");
+					setVisibleDialog(true);
+				}
+			})
+			.catch((err) => {
+				// console.log("err", err);
+			});
+	};
+	const checkValid = () => {
+		if (state.currentStep == 1) {
+			if (state.serviceData?.userType == null) {
+				onToggleSnackBar("Хэрэглэгчийн төрөл сонгоно уу.");
+			} else if (state.serviceData?.mainDirectionId == null) {
+				onToggleSnackBar("Үйл ажиллагааны үндсэн чиглэл сонгоно уу.");
+			} else if (state.serviceData?.directionId == null) {
+				onToggleSnackBar("Үйл ажилллагааны чиглэл сонгоно уу.");
+			} else if (state.serviceData?.subDirectionId == null) {
+				onToggleSnackBar("Үйл ажиллагааны нэр сонгоно уу.");
+			} else {
+				state.setCurrentStep(2);
+			}
+		} else if (state.currentStep == 2) {
+			if (state.serviceData?.title == null) {
+				onToggleSnackBar("Зарын гарчиг оруулна уу.");
+			} else if ((state.serviceData?.userType === "SUBSCRIBER" && tempPrice == null) || tempPrice == "") {
+				onToggleSnackBar("Үнэ оруулна уу.");
+			} else if (state.serviceData?.provinceId == null) {
+				onToggleSnackBar("Аймаг, хот сонгоно уу.");
+			} else if (state.serviceData?.districtId == null) {
+				onToggleSnackBar("Сум, дүүрэг сонгоно уу.");
+			} else if (state.serviceData?.khorooId == null) {
+				onToggleSnackBar("Баг, хороо сонгоно уу.");
+			} else if (state.serviceData?.address == null) {
+				onToggleSnackBar("Байршил оруулна уу.");
+			} else {
+				state.setCurrentStep(3);
+			}
+		} else if (state.currentStep == 3) {
+			if (state.serviceData?.userType === "SUBSCRIBER") {
+				if (state.serviceData?.measurement == null) {
+					onToggleSnackBar("Хэмжих нэгж оруулна уу.");
+				} else if (state.serviceData?.counter == null) {
+					onToggleSnackBar("Ажлын тоо хэмжээ оруулна уу.");
+				} else if (state.serviceData?.imageIds?.length == 0) {
+					onToggleSnackBar("Зураг оруулна уу.");
+				} else if (state.serviceData?.desciption == null) {
+					onToggleSnackBar("Тайлбар оруулна уу.");
+				} else if (state.serviceData?.email == null) {
+					onToggleSnackBar("И-мэйл оруулна уу.");
+				} else if (state.serviceData?.phone == null) {
+					onToggleSnackBar("Утас оруулна уу.");
+				} else {
+					createAdverstment();
+				}
+			} else if (state.serviceData?.userType === "EXECUTOR") {
+				if (state.serviceData?.workerCount == null) {
+					onToggleSnackBar("Ажилчдын тоо оруулна уу.");
+				} else if (state.serviceData?.counter == null) {
+					onToggleSnackBar("Ажлын тоо хэмжээ оруулна уу.");
+				} else if (tempPrice == null || tempPrice == "") {
+					onToggleSnackBar("Үнэ оруулна уу.");
+				} else if (state.serviceData?.imageIds?.length == 0) {
+					onToggleSnackBar("Зураг оруулна уу.");
+				} else if (state.serviceData?.desciption == null) {
+					onToggleSnackBar("Тайлбар ба ажлын туршлага оруулна уу.");
+				} else if (state.serviceData?.email == null) {
+					onToggleSnackBar("И-мэйл оруулна уу.");
+				} else if (state.serviceData?.phone == null) {
+					onToggleSnackBar("Утас оруулна уу.");
+				} else {
+					createAdverstment();
+				}
+			} else if (state.serviceData?.userType === "SUPPLIER") {
+				if (state.serviceData?.productName == null) {
+					onToggleSnackBar("Бүтээгдэхүүний нэр оруулна уу.");
+				} else if (tempUnitAmount == null || tempUnitAmount == "") {
+					onToggleSnackBar("Нэгжийн үнэ оруулна уу.");
+				} else if (tempPackageAmount == null || tempPackageAmount == "") {
+					onToggleSnackBar("Багцын үнэ оруулна уу.");
+				} else if (state.serviceData?.imageIds?.length == 0) {
+					onToggleSnackBar("Зураг оруулна уу.");
+				} else if (state.serviceData?.desciption == null) {
+					onToggleSnackBar("Бүтээгдэхүүний дэлгэрэнгүй мэдээлэл оруулна уу.");
+				} else if (state.serviceData?.email == null) {
+					onToggleSnackBar("И-мэйл оруулна уу.");
+				} else if (state.serviceData?.phone == null) {
+					onToggleSnackBar("Утас оруулна уу.");
+				} else {
+					createAdverstment();
+				}
+			} else if (state.serviceData?.userType === "TRANSPORTATION") {
+				if (state.serviceData?.machineryTypeId == null) {
+					onToggleSnackBar("Машин механизмийн төрөл сонгоно уу.");
+				} else if (state.serviceData?.markId == null) {
+					onToggleSnackBar("Марк сонгоно уу.");
+				} else if (state.serviceData?.powerId == null) {
+					onToggleSnackBar("Хүчин чадал сонгоно уу.");
+				} else if (tempUnitAmount == null || tempUnitAmount == "") {
+					onToggleSnackBar("Нэгж үнэлгээ.цаг оруулна уу.");
+				} else if (tempPackageAmount == null || tempPackageAmount == "") {
+					onToggleSnackBar("Багц үнэлгээ.өдөр оруулна уу.");
+				} else if (state.serviceData?.imageIds?.length == 0) {
+					onToggleSnackBar("Зураг оруулна уу.");
+				} else if (state.serviceData?.desciption == null) {
+					onToggleSnackBar("Тайлбар оруулна уу.");
+				} else if (state.serviceData?.email == null) {
+					onToggleSnackBar("И-мэйл оруулна уу.");
+				} else if (state.serviceData?.phone == null) {
+					onToggleSnackBar("Утас оруулна уу.");
+				} else {
+					createAdverstment();
+				}
+			} else if (state.serviceData?.userType === "MACHINERY") {
+				if (state.serviceData?.machineryTypeId == null) {
+					onToggleSnackBar("Машин механизмийн төрөл сонгоно уу.");
+				} else if (state.serviceData?.markId == null) {
+					onToggleSnackBar("Марк сонгоно уу.");
+				} else if (state.serviceData?.markId == null) {
+					onToggleSnackBar("Загвар сонгоно уу.");
+				} else if (state.serviceData?.modelId == null) {
+					onToggleSnackBar("Хүчин чадал сонгоно уу.");
+				} else if (tempUnitAmount == null || tempUnitAmount == "") {
+					onToggleSnackBar("Нэгж үнэлгээ.цаг оруулна уу.");
+				} else if (tempPackageAmount == null || tempPackageAmount == "") {
+					onToggleSnackBar("Багц үнэлгээ.өдөр оруулна уу.");
+				} else if (state.serviceData?.fromAddress == null) {
+					onToggleSnackBar("Хаанаас гэдгээ оруулна уу.");
+				} else if (state.serviceData?.toAddress == null) {
+					onToggleSnackBar("Хаашаа гэдгээ оруулна уу.");
+				} else if (state.serviceData?.desciption == null) {
+					onToggleSnackBar("Тайлбар оруулна уу.");
+				} else if (state.serviceData?.email == null) {
+					onToggleSnackBar("И-мэйл оруулна уу.");
+				} else if (state.serviceData?.phone == null) {
+					onToggleSnackBar("Утас оруулна уу.");
+				} else {
+					createAdverstment();
+				}
+			}
+		}
+	};
 	return (
 		<SafeAreaView
 			style={{
@@ -44,26 +211,109 @@ const AddService = (props) => {
 				backgroundColor: "#fff"
 			}}
 		>
+			<CustomSnackbar visible={visibleSnack} dismiss={onDismissSnackBar} text={snackBarMsg} topPos={-10} />
 			<ProgressBar
 				progress={state.currentStep / totalStep}
 				color={MAIN_COLOR}
 				style={{ marginVertical: 20, marginHorizontal: 20 }}
 			/>
 			{state.currentStep == 1 && <Step1 totalStep={totalStep} />}
-			{state.currentStep == 2 && <Step2 totalStep={totalStep} />}
+			{state.currentStep == 2 && <Step2 totalStep={totalStep} tempPrice={tempPrice} setTempPrice={setTempPrice} />}
 			{state.currentStep == 3 && state.serviceData?.userType == "SUBSCRIBER" ? (
 				<Subscriber totalStep={totalStep} />
 			) : null}
-			{state.currentStep == 3 && state.serviceData?.userType == "EXECUTOR" ? <Executor totalStep={totalStep} /> : null}
-			{state.currentStep == 3 && state.serviceData?.userType == "SUPPLIER" ? <Supplier totalStep={totalStep} /> : null}
+			{state.currentStep == 3 && state.serviceData?.userType == "EXECUTOR" ? (
+				<Executor totalStep={totalStep} tempPrice={tempPrice} setTempPrice={setTempPrice} />
+			) : null}
+			{state.currentStep == 3 && state.serviceData?.userType == "SUPPLIER" ? (
+				<Supplier
+					totalStep={totalStep}
+					tempUnitAmount={tempUnitAmount}
+					setTempUnitAmount={setTempUnitAmount}
+					tempPackageAmount={tempPackageAmount}
+					setTempPackageAmount={setTempPackageAmount}
+				/>
+			) : null}
 			{state.currentStep == 3 && state.serviceData?.userType == "TRANSPORTATION" ? (
-				<Transportation totalStep={totalStep} />
+				<Transportation
+					totalStep={totalStep}
+					tempUnitAmount={tempUnitAmount}
+					setTempUnitAmount={setTempUnitAmount}
+					tempPackageAmount={tempPackageAmount}
+					setTempPackageAmount={setTempPackageAmount}
+				/>
 			) : null}
 			{state.currentStep == 3 && state.serviceData?.userType == "MACHINERY" ? (
-				<Machinery totalStep={totalStep} />
+				<Machinery
+					totalStep={totalStep}
+					tempUnitAmount={tempUnitAmount}
+					setTempUnitAmount={setTempUnitAmount}
+					tempPackageAmount={tempPackageAmount}
+					setTempPackageAmount={setTempPackageAmount}
+				/>
 			) : null}
+			<View style={styles.btmButtonContainer}>
+				<TouchableOpacity
+					style={styles.backBtn}
+					onPress={() => {
+						// navigation.goBack();
+						if (state.currentStep == 1) {
+							navigation.goBack();
+						} else {
+							state.setCurrentStep(state.currentStep - 1);
+						}
+					}}
+				>
+					<Text style={styles.backBtnText}>Буцах</Text>
+				</TouchableOpacity>
+				<View style={{ width: "48%" }}>
+					<GradientButton
+						text={`Хадгалах (${state.currentStep}/${totalStep})`}
+						action={() => {
+							checkValid();
+						}}
+					/>
+				</View>
+			</View>
+			<CustomDialog
+				visible={visibleDialog}
+				confirmFunction={() => {
+					setVisibleDialog(false);
+					state.setCurrentStep(1);
+					state.clearServiceData();
+					navigation.navigate("AddServiceFirst");
+					// dialogType == "success" && props.navigation.goBack();
+				}}
+				declineFunction={() => {}}
+				text={dialogText}
+				confirmBtnText="Хаах"
+				DeclineBtnText=""
+				type={dialogType}
+			/>
 		</SafeAreaView>
 	);
 };
 
 export default AddService;
+
+const styles = StyleSheet.create({
+	btmButtonContainer: {
+		flexDirection: "row",
+		justifyContent: "space-between",
+		marginTop: 10,
+		marginHorizontal: 20
+	},
+	backBtn: {
+		width: "48%",
+		justifyContent: "center",
+		alignItems: "center",
+		borderRadius: 12,
+		borderWidth: 1.5,
+		borderColor: GRAY_ICON_COLOR
+	},
+	backBtnText: {
+		fontSize: 16,
+		fontWeight: "bold",
+		color: GRAY_ICON_COLOR
+	}
+});

@@ -12,9 +12,6 @@ import {
 } from "react-native";
 import React, { useContext, useState, useEffect } from "react";
 import { GRAY_ICON_COLOR, MAIN_COLOR, MAIN_COLOR_GRAY, IMG_URL } from "../../../constant";
-import Constants from "expo-constants";
-import CustomSnackbar from "../../../components/CustomSnackbar";
-import BottomSheet from "../../../components/BottomSheet";
 import { CheckBox, Icon } from "@rneui/base";
 import GradientButton from "../../../components/GradientButton";
 import LoanInput from "../../../components/LoanInput";
@@ -22,89 +19,14 @@ import MainContext from "../../../contexts/MainContext";
 import * as ImagePicker from "expo-image-picker";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { ImageZoom } from "@likashefqet/react-native-image-zoom";
-import { useNavigation } from "@react-navigation/native";
-import CustomDialog from "../../../components/CustomDialog";
 
 const Machinery = (props) => {
 	const state = useContext(MainContext);
-	const navigation = useNavigation();
 
 	const [images, setImages] = useState([]);
 
-	const [data, setData] = useState(""); //BottomSheet рүү дамжуулах Дата
-	const [uselessParam, setUselessParam] = useState(false); //BottomSheet -г дуудаж байгааг мэдэх гэж ашиглаж байгамоо
-	const [fieldName, setFieldName] = useState(""); //Context -н аль утгыг OBJECT -с update хийхийг хадгалах
-	const [displayName, setDisplayName] = useState(""); //LOOKUP -д харагдах утга (display value)
-	const [actionKey, setActionKey] = useState(""); //Сонгогдсон OBJECT -с ямар key -р утга авах (Жнь: {object}.id)
-
 	const [visible1, setVisible1] = useState(false);
 	const [zoomImgURL, setZoomImgURL] = useState(null);
-
-	const [visibleDialog, setVisibleDialog] = useState(false); //Dialog харуулах
-	const [dialogType, setDialogType] = useState("success"); //Dialog харуулах төрөл
-	const [dialogText, setDialogText] = useState(""); //Dialog -н текст
-
-	const [visibleSnack, setVisibleSnack] = useState(false);
-	const [snackBarMsg, setSnackBarMsg] = useState("");
-
-	const [tempUnitAmount, setTempUnitAmount] = useState(null);
-	const [tempPackageAmount, setTempPackageAmount] = useState(null);
-
-	//Snacbkbar харуулах
-	const onToggleSnackBar = (msg) => {
-		setVisibleSnack(!visibleSnack);
-		setSnackBarMsg(msg);
-	};
-
-	//Snacbkbar хаах
-	const onDismissSnackBar = () => setVisibleSnack(false);
-
-	const setLookupData = (data, field, display, action_key) => {
-		// console.log("refRBSheet", refRBSheet);
-		setData(data); //Lookup -д харагдах дата
-		setFieldName(field); //Context -н object -н update хийх key
-		setDisplayName(display); //Lookup -д харагдах датаны текст талбар
-		setUselessParam(!uselessParam);
-		setActionKey(action_key);
-	};
-
-	const createFnc = () => {
-		if (state.serviceData?.machineryTypeId == null) {
-			onToggleSnackBar("Машин механизмийн төрөл сонгоно уу.");
-		} else if (state.serviceData?.markId == null) {
-			onToggleSnackBar("Марк сонгоно уу.");
-		} else if (state.serviceData?.markId == null) {
-			onToggleSnackBar("Загвар сонгоно уу.");
-		} else if (state.serviceData?.modelId == null) {
-			onToggleSnackBar("Хүчин чадал сонгоно уу.");
-		} else if (tempUnitAmount == null) {
-			onToggleSnackBar("Нэгж үнэлгээ.цаг оруулна уу.");
-		} else if (tempPackageAmount == null) {
-			onToggleSnackBar("Багц үнэлгээ.өдөр оруулна уу.");
-		} else if (state.serviceData?.fromAddress == null) {
-			onToggleSnackBar("Хаанаас гэдгээ оруулна уу.");
-		} else if (state.serviceData?.toAddress == null) {
-			onToggleSnackBar("Хаашаа гэдгээ оруулна уу.");
-		} else if (state.serviceData?.desciption == null) {
-			onToggleSnackBar("Тайлбар оруулна уу.");
-		} else if (state.serviceData?.email == null) {
-			onToggleSnackBar("И-мэйл оруулна уу.");
-		} else if (state.serviceData?.phone == null) {
-			onToggleSnackBar("Утас оруулна уу.");
-		} else {
-			state
-				.createAd()
-				.then((res) => {
-					if (res.data.statusCode == 200) {
-						setDialogText("Таны зар амжилттай нийтлэгдлээ.");
-						setVisibleDialog(true);
-					}
-				})
-				.catch((err) => {
-					// console.log("err", err);
-				});
-		}
-	};
 
 	const uploadImageAsBinary = async (imgId) => {
 		const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -134,14 +56,14 @@ const Machinery = (props) => {
 	}, [images]);
 
 	useEffect(() => {
-		if (tempUnitAmount != null || tempPackageAmount != null) {
+		if (props.tempUnitAmount != null || props.tempPackageAmount != null) {
 			state.setServiceData((prevState) => ({
 				...prevState,
-				unitAmount: parseInt(tempUnitAmount?.replaceAll(",", "")),
-				packageAmount: parseInt(tempPackageAmount?.replaceAll(",", ""))
+				unitAmount: parseInt(props.tempUnitAmount?.replaceAll(",", "")),
+				packageAmount: parseInt(props.tempPackageAmount?.replaceAll(",", ""))
 			}));
 		}
-	}, [tempUnitAmount, tempPackageAmount]);
+	}, [props.tempUnitAmount, props.tempPackageAmount]);
 
 	return (
 		<KeyboardAvoidingView
@@ -155,12 +77,6 @@ const Machinery = (props) => {
 					backgroundColor: "#fff"
 				}}
 			>
-				<CustomSnackbar
-					visible={visibleSnack}
-					dismiss={onDismissSnackBar}
-					text={snackBarMsg}
-					topPos={-Constants.statusBarHeight}
-				/>
 				<View style={{ flex: 1 }}>
 					<ScrollView contentContainerStyle={styles.scrollContainer} bounces={false}>
 						<Text>Machinery</Text>
@@ -223,9 +139,9 @@ const Machinery = (props) => {
 						<LoanInput
 							label="Нэгж үнэлгээ.цаг"
 							keyboardType="number-pad"
-							value={tempUnitAmount}
+							value={props.tempUnitAmount}
 							onChangeText={(e) => {
-								setTempUnitAmount(state.addCommas(state.removeNonNumeric(e)));
+								props.setTempUnitAmount(state.addCommas(state.removeNonNumeric(e)));
 								// state.setServiceData((prevState) => ({
 								// 	...prevState,
 								// 	unitAmount: state.addCommas(state.removeNonNumeric(e))
@@ -235,9 +151,9 @@ const Machinery = (props) => {
 						<LoanInput
 							label="Багц үнэлгээ.өдөр"
 							keyboardType="number-pad"
-							value={tempPackageAmount}
+							value={props.tempPackageAmount}
 							onChangeText={(e) => {
-								setTempPackageAmount(state.addCommas(state.removeNonNumeric(e)));
+								props.setTempPackageAmount(state.addCommas(state.removeNonNumeric(e)));
 								// state.setServiceData((prevState) => ({
 								// 	...prevState,
 								// 	unitAmount: state.addCommas(state.removeNonNumeric(e))
@@ -325,6 +241,7 @@ const Machinery = (props) => {
 								}))
 							}
 							keyboardType="number-pad"
+							maxLength={8}
 						/>
 						<CheckBox
 							containerStyle={{
@@ -374,44 +291,8 @@ const Machinery = (props) => {
 							checkedColor={MAIN_COLOR}
 							uncheckedColor={MAIN_COLOR}
 						/>
-						<View style={styles.btmButtonContainer}>
-							<TouchableOpacity
-								style={styles.backBtn}
-								onPress={() => {
-									state.setCurrentStep(2);
-								}}
-							>
-								<Text style={styles.backBtnText}>Буцах</Text>
-							</TouchableOpacity>
-							<View style={{ width: "48%" }}>
-								<GradientButton
-									text={`Хадгалах (${state.currentStep}/${props.totalStep})`}
-									action={() => {
-										createFnc();
-									}}
-								/>
-							</View>
-						</View>
 					</ScrollView>
 				</View>
-
-				<BottomSheet
-					bodyText={data}
-					dragDown={true}
-					backClick={true}
-					type="lookup"
-					fieldName={fieldName}
-					displayName={displayName}
-					lookUpType="profile"
-					handle={uselessParam}
-					action={(e) => {
-						state.setServiceData((prevState) => ({
-							...prevState,
-							[fieldName]: e
-						}));
-					}}
-					actionKey={actionKey}
-				/>
 				<Modal
 					animationType="slide"
 					transparent={true}
@@ -445,21 +326,6 @@ const Machinery = (props) => {
 						</View>
 					</View>
 				</Modal>
-				<CustomDialog
-					visible={visibleDialog}
-					confirmFunction={() => {
-						setVisibleDialog(false);
-						state.setCurrentStep(1);
-						state.clearServiceData();
-						navigation.navigate("AddServiceFirst");
-						// dialogType == "success" && props.navigation.goBack();
-					}}
-					declineFunction={() => {}}
-					text={dialogText}
-					confirmBtnText="Хаах"
-					DeclineBtnText=""
-					type={dialogType}
-				/>
 			</SafeAreaView>
 		</KeyboardAvoidingView>
 	);
@@ -534,23 +400,5 @@ const styles = StyleSheet.create({
 		fontWeight: "500",
 		color: GRAY_ICON_COLOR,
 		width: "90%"
-	},
-	btmButtonContainer: {
-		flexDirection: "row",
-		justifyContent: "space-between",
-		marginTop: 10
-	},
-	backBtn: {
-		width: "48%",
-		justifyContent: "center",
-		alignItems: "center",
-		borderRadius: 12,
-		borderWidth: 1.5,
-		borderColor: GRAY_ICON_COLOR
-	},
-	backBtnText: {
-		fontSize: 16,
-		fontWeight: "bold",
-		color: GRAY_ICON_COLOR
 	}
 });

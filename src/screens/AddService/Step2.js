@@ -10,11 +10,8 @@ import {
 } from "react-native";
 import React, { useContext, useEffect, useState } from "react";
 import { GRAY_ICON_COLOR, MAIN_COLOR_GRAY, SERVER_URL, X_API_KEY } from "../../constant";
-import Constants from "expo-constants";
-import CustomSnackbar from "../../components/CustomSnackbar";
 import BottomSheet from "../../components/BottomSheet";
 import { Icon } from "@rneui/base";
-import GradientButton from "../../components/GradientButton";
 import LoanInput from "../../components/LoanInput";
 import MainContext from "../../contexts/MainContext";
 import axios from "axios";
@@ -31,20 +28,6 @@ const Step2 = (props) => {
 	const [fieldName, setFieldName] = useState(""); //Context -н аль утгыг OBJECT -с update хийхийг хадгалах
 	const [displayName, setDisplayName] = useState(""); //LOOKUP -д харагдах утга (display value)
 	const [actionKey, setActionKey] = useState(""); //Сонгогдсон OBJECT -с ямар key -р утга авах (Жнь: {object}.id)
-
-	const [visibleSnack, setVisibleSnack] = useState(false);
-	const [snackBarMsg, setSnackBarMsg] = useState("");
-
-	const [tempPrice, setTempPrice] = useState(null);
-
-	//Snacbkbar харуулах
-	const onToggleSnackBar = (msg) => {
-		setVisibleSnack(!visibleSnack);
-		setSnackBarMsg(msg);
-	};
-
-	//Snacbkbar хаах
-	const onDismissSnackBar = () => setVisibleSnack(false);
 
 	const setLookupData = (data, field, display, action_key) => {
 		// console.log("refRBSheet", refRBSheet);
@@ -101,33 +84,14 @@ const Step2 = (props) => {
 	}, [state.serviceData?.districtId]);
 	//generalData.loanAmount?.replace(/,/g, "")
 
-	const goNext = () => {
-		if (state.serviceData?.title == null) {
-			onToggleSnackBar("Зарын гарчиг оруулна уу.");
-		} else if (state.serviceData?.userType.type === "SUBSCRIBER" && tempPrice == null) {
-			onToggleSnackBar("Үнэ оруулна уу.");
-		} else if (state.serviceData?.provinceId == null) {
-			onToggleSnackBar("Аймаг, хот сонгоно уу.");
-		} else if (state.serviceData?.districtId == null) {
-			onToggleSnackBar("Сум, дүүрэг сонгоно уу.");
-		} else if (state.serviceData?.khorooId == null) {
-			onToggleSnackBar("Баг, хороо сонгоно уу.");
-		} else if (state.serviceData?.address == null) {
-			onToggleSnackBar("Байршил оруулна уу.");
-		} else {
-			state.setCurrentStep(3);
-		}
-		// state.setCurrentStep(3);
-	};
-
 	useEffect(() => {
-		if (tempPrice != null) {
+		if (props.tempPrice != null) {
 			state.setServiceData((prevState) => ({
 				...prevState,
-				price: parseInt(tempPrice?.replaceAll(",", ""))
+				price: parseInt(props.tempPrice?.replaceAll(",", ""))
 			}));
 		}
-	}, [tempPrice]);
+	}, [props.tempPrice]);
 	return (
 		<KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={{ flex: 1 }}>
 			<SafeAreaView
@@ -136,12 +100,6 @@ const Step2 = (props) => {
 					backgroundColor: "#fff"
 				}}
 			>
-				<CustomSnackbar
-					visible={visibleSnack}
-					dismiss={onDismissSnackBar}
-					text={snackBarMsg}
-					topPos={-Constants.statusBarHeight}
-				/>
 				<View style={{ flex: 1 }}>
 					<ScrollView contentContainerStyle={styles.scrollContainer} bounces={false}>
 						<LoanInput
@@ -154,13 +112,13 @@ const Step2 = (props) => {
 								}))
 							}
 						/>
-						{state.serviceData?.userType.type === "SUBSCRIBER" ? (
+						{state.serviceData?.userType === "SUBSCRIBER" ? (
 							<LoanInput
 								label="Үнэ"
 								keyboardType="number-pad"
-								value={tempPrice}
+								value={props.tempPrice}
 								onChangeText={(e) => {
-									setTempPrice(state.addCommas(state.removeNonNumeric(e)));
+									props.setTempPrice(state.addCommas(state.removeNonNumeric(e)));
 									// state.setServiceData((prevState) => ({
 									// 	...prevState,
 									// 	price: state.addCommas(state.removeNonNumeric(e))
@@ -243,24 +201,6 @@ const Step2 = (props) => {
 							numberOfLines={3}
 							multiline
 						/>
-						<View style={styles.btmButtonContainer}>
-							<TouchableOpacity
-								style={styles.backBtn}
-								onPress={() => {
-									state.setCurrentStep(1);
-								}}
-							>
-								<Text style={styles.backBtnText}>Буцах</Text>
-							</TouchableOpacity>
-							<View style={{ width: "48%" }}>
-								<GradientButton
-									text={`Хадгалах (${state.currentStep}/${props.totalStep})`}
-									action={() => {
-										goNext();
-									}}
-								/>
-							</View>
-						</View>
 					</ScrollView>
 				</View>
 
@@ -278,6 +218,19 @@ const Step2 = (props) => {
 							...prevState,
 							[fieldName]: e
 						}));
+
+						if (fieldName == "provinceId") {
+							state.setServiceData((prevState) => ({
+								...prevState,
+								districtId: null,
+								khorooId: null
+							}));
+						} else if (fieldName == "districtId") {
+							state.setServiceData((prevState) => ({
+								...prevState,
+								khorooId: null
+							}));
+						}
 					}}
 					actionKey={actionKey}
 				/>
@@ -317,23 +270,5 @@ const styles = StyleSheet.create({
 		fontWeight: "500",
 		color: GRAY_ICON_COLOR,
 		width: "90%"
-	},
-	btmButtonContainer: {
-		flexDirection: "row",
-		justifyContent: "space-between",
-		marginTop: 10
-	},
-	backBtn: {
-		width: "48%",
-		justifyContent: "center",
-		alignItems: "center",
-		borderRadius: 12,
-		borderWidth: 1.5,
-		borderColor: GRAY_ICON_COLOR
-	},
-	backBtnText: {
-		fontSize: 16,
-		fontWeight: "bold",
-		color: GRAY_ICON_COLOR
 	}
 });
