@@ -41,7 +41,6 @@ const AddServiceSpecial = (props) => {
 		<SafeAreaView
 			style={{
 				flex: 1,
-				paddingTop: Constants.statusBarHeight,
 				backgroundColor: "#fff"
 			}}
 		>

@@ -12,7 +12,6 @@ import {
 } from "react-native";
 import React, { useContext, useEffect, useState } from "react";
 import { GRAY_ICON_COLOR, IMG_URL, MAIN_COLOR, MAIN_COLOR_GRAY } from "../../../../constant";
-import Constants from "expo-constants";
 import CustomSnackbar from "../../../../components/CustomSnackbar";
 import { CheckBox, Icon } from "@rneui/base";
 import GradientButton from "../../../../components/GradientButton";
@@ -122,7 +121,6 @@ const LaboratoryMaterial = (props) => {
 			<SafeAreaView
 				style={{
 					flex: 1,
-					paddingTop: Constants.statusBarHeight,
 					backgroundColor: "#fff"
 				}}
 			>

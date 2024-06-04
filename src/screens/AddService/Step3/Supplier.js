@@ -14,7 +14,6 @@ import React, { useContext, useEffect, useState } from "react";
 import { GRAY_ICON_COLOR, IMG_URL, MAIN_COLOR, MAIN_COLOR_GRAY } from "../../../constant";
 import Constants from "expo-constants";
 import CustomSnackbar from "../../../components/CustomSnackbar";
-import BottomSheet from "../../../components/BottomSheet";
 import { CheckBox, Icon } from "@rneui/base";
 import GradientButton from "../../../components/GradientButton";
 import LoanInput from "../../../components/LoanInput";
@@ -126,7 +125,6 @@ const Supplier = (props) => {
 			<SafeAreaView
 				style={{
 					flex: 1,
-					paddingTop: Constants.statusBarHeight,
 					backgroundColor: "#fff"
 				}}
 			>

@@ -133,7 +133,6 @@ const Step2 = (props) => {
 			<SafeAreaView
 				style={{
 					flex: 1,
-					paddingTop: Constants.statusBarHeight,
 					backgroundColor: "#fff"
 				}}
 			>
