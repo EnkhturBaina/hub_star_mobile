@@ -137,12 +137,11 @@ const Posted = (props) => {
 		return (
 			<TouchableOpacity
 				style={styles.gridItem}
-				// onPress={() => {
-
-				// props.navigation.navigate("SingleServiceScreen", {
-				// 	adv_id: item.id
-				// });
-				// }}
+				onPress={() => {
+					props.navigation.navigate("SingleServiceScreen", {
+						adv_id: item.id
+					});
+				}}
 			>
 				<Image
 					source={
@@ -212,6 +211,9 @@ const Posted = (props) => {
 				{loadingServices ? (
 					<ActivityIndicator color={MAIN_COLOR} style={{ padding: 5, paddingBottom: Platform.OS == "ios" ? 20 : 10 }} />
 				) : null}
+				<TouchableOpacity onPress={() => props.navigation.navigate("AddServiceFirst")} style={styles.addItemContainer}>
+					<Icon name="pluscircle" type="antdesign" size={50} color="#c5c5c5" />
+				</TouchableOpacity>
 			</View>
 		);
 	};
@@ -242,9 +244,6 @@ const Posted = (props) => {
 						scrollEnabled={false}
 					/>
 				)}
-				<TouchableOpacity onPress={() => props.navigation.navigate("AddServiceFirst")} style={styles.addItemContainer}>
-					<Icon name="pluscircle" type="antdesign" size={50} color="#c5c5c5" />
-				</TouchableOpacity>
 			</ScrollView>
 			<CustomDialog
 				visible={visibleDialog}
