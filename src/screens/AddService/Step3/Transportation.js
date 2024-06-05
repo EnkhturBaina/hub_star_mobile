@@ -66,10 +66,9 @@ const Transportation = (props) => {
 	};
 
 	useEffect(() => {
-		console.log("JSON", JSON.stringify(props));
 		props.machineryType?.length == 0 && props.getMachinery({ type: "MACHINERY_TYPE" });
-		// getMachinery({ type: 'MARK' });
-		// getMachinery({ type: 'POWER' });
+		props.markData?.length == 0 && props.getMachinery({ type: "MARK" });
+		props.powerData?.length == 0 && props.getMachinery({ type: "POWER" });
 	}, []);
 
 	useEffect(() => {
@@ -129,11 +128,17 @@ const Transportation = (props) => {
 							<TouchableOpacity
 								style={styles.touchableSelect}
 								onPress={() => {
-									// setLookupData(UserTabData, "markId", "name");
+									setLookupData(props.markData, "markId", "name", "id");
 								}}
 							>
 								<Text style={styles.selectedText} numberOfLines={1}>
-									{state.serviceData.markId != "" ? state.serviceData.markId?.name : "Сонгох"}
+									{state.serviceData?.markId
+										? props.markData?.map((el, index) => {
+												if (el.id === state.serviceData?.markId) {
+													return el.name;
+												}
+										  })
+										: "Сонгох"}
 								</Text>
 								<Icon name="keyboard-arrow-down" type="material-icons" size={30} color={GRAY_ICON_COLOR} />
 							</TouchableOpacity>
@@ -143,11 +148,17 @@ const Transportation = (props) => {
 							<TouchableOpacity
 								style={styles.touchableSelect}
 								onPress={() => {
-									// setLookupData(UserTabData, "powerId", "name");
+									setLookupData(props.powerData, "powerId", "name", "id");
 								}}
 							>
 								<Text style={styles.selectedText} numberOfLines={1}>
-									{state.serviceData.powerId != "" ? state.serviceData.powerId?.name : "Сонгох"}
+									{state.serviceData?.powerId
+										? props.powerData?.map((el, index) => {
+												if (el.id === state.serviceData?.powerId) {
+													return el.name;
+												}
+										  })
+										: "Сонгох"}
 								</Text>
 								<Icon name="keyboard-arrow-down" type="material-icons" size={30} color={GRAY_ICON_COLOR} />
 							</TouchableOpacity>
@@ -336,19 +347,6 @@ const Transportation = (props) => {
 							...prevState,
 							[fieldName]: e
 						}));
-
-						// if (fieldName == "mainDirectionId") {
-						// 	state.setServiceData((prevState) => ({
-						// 		...prevState,
-						// 		directionId: null,
-						// 		subDirectionId: null
-						// 	}));
-						// } else if (fieldName == "directionId") {
-						// 	state.setServiceData((prevState) => ({
-						// 		...prevState,
-						// 		subDirectionId: null
-						// 	}));
-						// }
 					}}
 					actionKey={actionKey}
 				/>
@@ -406,7 +404,6 @@ const styles = StyleSheet.create({
 	},
 	selectedText: {
 		fontWeight: "500",
-		color: GRAY_ICON_COLOR,
 		width: "90%"
 	}
 });

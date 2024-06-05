@@ -77,11 +77,11 @@ const AddService = (props) => {
 			})
 			.then((response) => {
 				// console.log("get getMachinery", JSON.stringify(response.data.response));
-				params.type == "MACHINERY_TYPE" && setMachineryType(response.response);
-				params.type == "MARK" && setMarkData(response.response);
-				params.type == "POWER" && setPowerData(response.response);
-				params.type == "MODEL" && setModelData(response.response);
-				params.type == "MATERIAL" && setMaterials(response.response);
+				params.type == "MACHINERY_TYPE" && setMachineryType(response.data?.response);
+				params.type == "MARK" && setMarkData(response.data?.response);
+				params.type == "POWER" && setPowerData(response.data?.response);
+				params.type == "MODEL" && setModelData(response.data?.response);
+				params.type == "MATERIAL" && setMaterials(response.data?.response);
 			})
 			.catch(function (error) {
 				if (error.response) {

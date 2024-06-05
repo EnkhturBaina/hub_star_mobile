@@ -428,7 +428,6 @@ const styles = StyleSheet.create({
 	},
 	selectedText: {
 		fontWeight: "500",
-		color: GRAY_ICON_COLOR,
 		width: "90%"
 	},
 	gridContainer: {
