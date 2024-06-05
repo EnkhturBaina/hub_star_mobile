@@ -201,6 +201,7 @@ const VocationalTraining = (props) => {
 								}))
 							}
 							keyboardType="number-pad"
+							maxLength={8}
 						/>
 						<CheckBox
 							containerStyle={{

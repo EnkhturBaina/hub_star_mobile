@@ -98,6 +98,93 @@ const AddServiceSpecial = (props) => {
 				state.setCurrentStep(3);
 			}
 		} else if (state.currentStep == 3) {
+			if (state.serviceData?.specialService == "PUBLIC_SELECTION") {
+				if (tempUnitAmount == null || tempUnitAmount == "") {
+					onToggleSnackBar("Төсөвт өртөг оруулна уу.");
+				} else if (state.serviceData?.imageIds?.length == 0) {
+					onToggleSnackBar("Зураг оруулна уу.");
+				} else if (state.serviceData?.desciption == null) {
+					onToggleSnackBar("Тайлбар оруулна уу.");
+				} else if (state.serviceData?.email == null) {
+					onToggleSnackBar("И-мэйл оруулна уу.");
+				} else if (state.serviceData?.phone == null) {
+					onToggleSnackBar("Утас оруулна уу.");
+				} else {
+					createAdverstment();
+				}
+			} else if (state.serviceData?.specialService == "INTERNATIONAL_TRADE") {
+				if (state.serviceData?.measurement == null) {
+					onToggleSnackBar("Хэмжих нэгж оруулна уу.");
+				} else if (tempUnitAmount == null || tempUnitAmount == "") {
+					onToggleSnackBar("Үнэ оруулна уу.");
+				} else if (state.serviceData?.imageIds?.length == 0) {
+					onToggleSnackBar("Зураг оруулна уу.");
+				} else if (state.serviceData?.desciption == null) {
+					onToggleSnackBar("Тайлбар оруулна уу.");
+				} else if (state.serviceData?.email == null) {
+					onToggleSnackBar("И-мэйл оруулна уу.");
+				} else if (state.serviceData?.phone == null) {
+					onToggleSnackBar("Утас оруулна уу.");
+				} else {
+					createAdverstment();
+				}
+			} else if (state.serviceData?.specialService == "CONSULTING_SERVICE") {
+				if (tempUnitAmount == null || tempUnitAmount == "") {
+					onToggleSnackBar("Үйлчилгээний үнэ оруулна уу.");
+				} else if (state.serviceData?.imageIds?.length == 0) {
+					onToggleSnackBar("Зураг оруулна уу.");
+				} else if (state.serviceData?.desciption == null) {
+					onToggleSnackBar("Тайлбар оруулна уу.");
+				} else if (state.serviceData?.email == null) {
+					onToggleSnackBar("И-мэйл оруулна уу.");
+				} else if (state.serviceData?.phone == null) {
+					onToggleSnackBar("Утас оруулна уу.");
+				} else {
+					createAdverstment();
+				}
+			} else if (state.serviceData?.specialService == "VOCATIONAL_TRAINING") {
+				if (tempUnitAmount == null || tempUnitAmount == "") {
+					onToggleSnackBar("Үйлчилгээний үнэ оруулна уу.");
+				} else if (state.serviceData?.imageIds?.length == 0) {
+					onToggleSnackBar("Зураг оруулна уу.");
+				} else if (state.serviceData?.desciption == null) {
+					onToggleSnackBar("Тайлбар оруулна уу.");
+				} else if (state.serviceData?.email == null) {
+					onToggleSnackBar("И-мэйл оруулна уу.");
+				} else if (state.serviceData?.phone == null) {
+					onToggleSnackBar("Утас оруулна уу.");
+				} else {
+					createAdverstment();
+				}
+			} else if (state.serviceData?.specialService == "LABORATORY_MATERIAL") {
+				if (tempUnitAmount == null || tempUnitAmount == "") {
+					onToggleSnackBar("Үйлчилгээний үнэ оруулна уу.");
+				} else if (state.serviceData?.imageIds?.length == 0) {
+					onToggleSnackBar("Зураг оруулна уу.");
+				} else if (state.serviceData?.desciption == null) {
+					onToggleSnackBar("Тайлбар оруулна уу.");
+				} else if (state.serviceData?.email == null) {
+					onToggleSnackBar("И-мэйл оруулна уу.");
+				} else if (state.serviceData?.phone == null) {
+					onToggleSnackBar("Утас оруулна уу.");
+				} else {
+					createAdverstment();
+				}
+			} else if (state.serviceData?.specialService == "MAKE_BUDGET") {
+				if (tempUnitAmount == null || tempUnitAmount == "") {
+					onToggleSnackBar("Үйлчилгээний үнэ оруулна уу.");
+				} else if (state.serviceData?.imageIds?.length == 0) {
+					onToggleSnackBar("Зураг оруулна уу.");
+				} else if (state.serviceData?.desciption == null) {
+					onToggleSnackBar("Тайлбар оруулна уу.");
+				} else if (state.serviceData?.email == null) {
+					onToggleSnackBar("И-мэйл оруулна уу.");
+				} else if (state.serviceData?.phone == null) {
+					onToggleSnackBar("Утас оруулна уу.");
+				} else {
+					createAdverstment();
+				}
+			}
 		}
 	};
 	return (
@@ -116,22 +203,38 @@ const AddServiceSpecial = (props) => {
 			{state.currentStep == 1 && <Step1Special totalStep={totalStep} />}
 			{state.currentStep == 2 && <Step2Special totalStep={totalStep} />}
 			{state.currentStep == 3 && state.serviceData?.specialService == "PUBLIC_SELECTION" ? (
-				<PublicSelection totalStep={totalStep} />
+				<PublicSelection totalStep={totalStep} tempUnitAmount={tempUnitAmount} setTempUnitAmount={setTempUnitAmount} />
 			) : null}
 			{state.currentStep == 3 && state.serviceData?.specialService == "INTERNATIONAL_TRADE" ? (
-				<InternationalTrade totalStep={totalStep} />
+				<InternationalTrade
+					totalStep={totalStep}
+					tempUnitAmount={tempUnitAmount}
+					setTempUnitAmount={setTempUnitAmount}
+				/>
 			) : null}
 			{state.currentStep == 3 && state.serviceData?.specialService == "CONSULTING_SERVICE" ? (
-				<ConsultingService totalStep={totalStep} />
+				<ConsultingService
+					totalStep={totalStep}
+					tempUnitAmount={tempUnitAmount}
+					setTempUnitAmount={setTempUnitAmount}
+				/>
 			) : null}
 			{state.currentStep == 3 && state.serviceData?.specialService == "VOCATIONAL_TRAINING" ? (
-				<VocationalTraining totalStep={totalStep} />
+				<VocationalTraining
+					totalStep={totalStep}
+					tempUnitAmount={tempUnitAmount}
+					setTempUnitAmount={setTempUnitAmount}
+				/>
 			) : null}
 			{state.currentStep == 3 && state.serviceData?.specialService == "LABORATORY_MATERIAL" ? (
-				<LaboratoryMaterial totalStep={totalStep} />
+				<LaboratoryMaterial
+					totalStep={totalStep}
+					tempUnitAmount={tempUnitAmount}
+					setTempUnitAmount={setTempUnitAmount}
+				/>
 			) : null}
 			{state.currentStep == 3 && state.serviceData?.specialService == "MAKE_BUDGET" ? (
-				<MakeBudget totalStep={totalStep} />
+				<MakeBudget totalStep={totalStep} tempUnitAmount={tempUnitAmount} setTempUnitAmount={setTempUnitAmount} />
 			) : null}
 			<View style={styles.btmButtonContainer}>
 				<TouchableOpacity

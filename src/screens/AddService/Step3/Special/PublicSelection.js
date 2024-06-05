@@ -11,8 +11,7 @@ import {
 	Image
 } from "react-native";
 import React, { useContext, useEffect, useState } from "react";
-import { GRAY_ICON_COLOR, IMG_URL, MAIN_COLOR, MAIN_COLOR_GRAY } from "../../../../constant";
-import CustomSnackbar from "../../../../components/CustomSnackbar";
+import { IMG_URL, MAIN_COLOR, MAIN_COLOR_GRAY } from "../../../../constant";
 import { CheckBox, Icon } from "@rneui/base";
 import GradientButton from "../../../../components/GradientButton";
 import LoanInput from "../../../../components/LoanInput";
@@ -20,60 +19,15 @@ import MainContext from "../../../../contexts/MainContext";
 import * as ImagePicker from "expo-image-picker";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { ImageZoom } from "@likashefqet/react-native-image-zoom";
-import CustomDialog from "../../../../components/CustomDialog";
-import { useNavigation } from "@react-navigation/native";
 
 const PublicSelection = (props) => {
 	const state = useContext(MainContext);
-	const navigation = useNavigation();
 
-	const [visibleSnack, setVisibleSnack] = useState(false);
-	const [snackBarMsg, setSnackBarMsg] = useState("");
 	const [images, setImages] = useState([]);
 
 	const [visible1, setVisible1] = useState(false);
 	const [zoomImgURL, setZoomImgURL] = useState(null);
 
-	const [visibleDialog, setVisibleDialog] = useState(false); //Dialog харуулах
-	const [dialogType, setDialogType] = useState("success"); //Dialog харуулах төрөл
-	const [dialogText, setDialogText] = useState(""); //Dialog -н текст
-
-	const [tempUnitAmount, setTempUnitAmount] = useState(null);
-
-	//Snacbkbar харуулах
-	const onToggleSnackBar = (msg) => {
-		setVisibleSnack(!visibleSnack);
-		setSnackBarMsg(msg);
-	};
-
-	//Snacbkbar хаах
-	const onDismissSnackBar = () => setVisibleSnack(false);
-
-	const createFnc = () => {
-		if (tempUnitAmount == null) {
-			onToggleSnackBar("Төсөвт өртөг оруулна уу.");
-		} else if (state.serviceData?.imageIds?.length == 0) {
-			onToggleSnackBar("Зураг оруулна уу.");
-		} else if (state.serviceData?.desciption == null) {
-			onToggleSnackBar("Тайлбар оруулна уу.");
-		} else if (state.serviceData?.email == null) {
-			onToggleSnackBar("И-мэйл оруулна уу.");
-		} else if (state.serviceData?.phone == null) {
-			onToggleSnackBar("Утас оруулна уу.");
-		} else {
-			state
-				.createAd()
-				.then((res) => {
-					if (res.data.statusCode == 200) {
-						setDialogText("Таны зар амжилттай нийтлэгдлээ.");
-						setVisibleDialog(true);
-					}
-				})
-				.catch((err) => {
-					// console.log("err", err);
-				});
-		}
-	};
 	const uploadImageAsBinary = async (imgId) => {
 		const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
 
@@ -103,13 +57,13 @@ const PublicSelection = (props) => {
 	}, [images]);
 
 	useEffect(() => {
-		if (tempUnitAmount != null) {
+		if (props.tempUnitAmount != null) {
 			state.setServiceData((prevState) => ({
 				...prevState,
-				unitAmount: parseInt(tempUnitAmount?.replaceAll(",", ""))
+				unitAmount: parseInt(props.tempUnitAmount?.replaceAll(",", ""))
 			}));
 		}
-	}, [tempUnitAmount]);
+	}, [props.tempUnitAmount]);
 
 	return (
 		<KeyboardAvoidingView
@@ -123,15 +77,14 @@ const PublicSelection = (props) => {
 					backgroundColor: "#fff"
 				}}
 			>
-				<CustomSnackbar visible={visibleSnack} dismiss={onDismissSnackBar} text={snackBarMsg} topPos={1} />
 				<View style={{ flex: 1 }}>
 					<ScrollView contentContainerStyle={styles.scrollContainer} bounces={false}>
 						<LoanInput
 							label="Төсөвт өртөг"
 							keyboardType="number-pad"
-							value={tempUnitAmount}
+							value={props.tempUnitAmount}
 							onChangeText={(e) => {
-								setTempUnitAmount(state.addCommas(state.removeNonNumeric(e)));
+								props.setTempUnitAmount(state.addCommas(state.removeNonNumeric(e)));
 								// state.setServiceData((prevState) => ({
 								// 	...prevState,
 								// 	unitAmount: state.addCommas(state.removeNonNumeric(e))
@@ -199,6 +152,7 @@ const PublicSelection = (props) => {
 								}))
 							}
 							keyboardType="number-pad"
+							maxLength={8}
 						/>
 						<CheckBox
 							containerStyle={{
@@ -248,24 +202,6 @@ const PublicSelection = (props) => {
 							checkedColor={MAIN_COLOR}
 							uncheckedColor={MAIN_COLOR}
 						/>
-						<View style={styles.btmButtonContainer}>
-							<TouchableOpacity
-								style={styles.backBtn}
-								onPress={() => {
-									state.setCurrentStep(2);
-								}}
-							>
-								<Text style={styles.backBtnText}>Буцах</Text>
-							</TouchableOpacity>
-							<View style={{ width: "48%" }}>
-								<GradientButton
-									text={`Хадгалах (${state.currentStep}/${props.totalStep})`}
-									action={() => {
-										createFnc();
-									}}
-								/>
-							</View>
-						</View>
 					</ScrollView>
 				</View>
 				<Modal
@@ -301,21 +237,6 @@ const PublicSelection = (props) => {
 						</View>
 					</View>
 				</Modal>
-				<CustomDialog
-					visible={visibleDialog}
-					confirmFunction={() => {
-						setVisibleDialog(false);
-						state.setCurrentStep(1);
-						state.clearServiceData();
-						navigation.navigate("AddServiceFirst");
-						// dialogType == "success" && props.navigation.goBack();
-					}}
-					declineFunction={() => {}}
-					text={dialogText}
-					confirmBtnText="Хаах"
-					DeclineBtnText=""
-					type={dialogType}
-				/>
 			</SafeAreaView>
 		</KeyboardAvoidingView>
 	);
@@ -333,24 +254,6 @@ const styles = StyleSheet.create({
 	label: {
 		fontWeight: "bold",
 		padding: 5
-	},
-	btmButtonContainer: {
-		flexDirection: "row",
-		justifyContent: "space-between",
-		marginTop: 10
-	},
-	backBtn: {
-		width: "48%",
-		justifyContent: "center",
-		alignItems: "center",
-		borderRadius: 12,
-		borderWidth: 1.5,
-		borderColor: GRAY_ICON_COLOR
-	},
-	backBtnText: {
-		fontSize: 16,
-		fontWeight: "bold",
-		color: GRAY_ICON_COLOR
 	},
 	gridContainer: {
 		flexDirection: "row",
