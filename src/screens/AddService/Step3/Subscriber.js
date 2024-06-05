@@ -1,58 +1,13 @@
-import {
-	StyleSheet,
-	Text,
-	View,
-	SafeAreaView,
-	KeyboardAvoidingView,
-	ScrollView,
-	Platform,
-	TouchableOpacity,
-	Modal,
-	Image
-} from "react-native";
-import React, { useContext, useEffect, useState } from "react";
-import { GRAY_ICON_COLOR, IMG_URL, MAIN_COLOR, MAIN_COLOR_GRAY } from "../../../constant";
-import { CheckBox, Icon } from "@rneui/base";
-import GradientButton from "../../../components/GradientButton";
+import { StyleSheet, Text, View, SafeAreaView, KeyboardAvoidingView, ScrollView, Platform } from "react-native";
+import React, { useContext } from "react";
+import { MAIN_COLOR, MAIN_COLOR_GRAY } from "../../../constant";
+import { CheckBox } from "@rneui/base";
 import LoanInput from "../../../components/LoanInput";
 import MainContext from "../../../contexts/MainContext";
-import * as ImagePicker from "expo-image-picker";
-import { GestureHandlerRootView } from "react-native-gesture-handler";
-import { ImageZoom } from "@likashefqet/react-native-image-zoom";
+import ImageModal from "../../../components/ImageModal";
 
 const Subscriber = (props) => {
 	const state = useContext(MainContext);
-
-	const [images, setImages] = useState([]);
-	const [visible1, setVisible1] = useState(false);
-	const [zoomImgURL, setZoomImgURL] = useState(null);
-
-	const uploadImageAsBinary = async (imgId) => {
-		const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-
-		if (status !== "granted") {
-			// console.log("Permission to access media library denied");
-			return;
-		}
-		const result = await ImagePicker.launchImageLibraryAsync();
-		if (!result.canceled) {
-			const data = await state.fileUpload(result?.assets[0]?.uri);
-			// console.log("data", data);
-			if (data) {
-				//Зураг солих бол өмнөх оруулсан зурагны ID устгах
-				const newImages = images.filter((img) => img !== imgId);
-				setImages(newImages);
-
-				setImages((prevState) => [...prevState, data?.response?.id]);
-			}
-		}
-	};
-	useEffect(() => {
-		state.setServiceData((prevState) => ({
-			...prevState,
-			imageIds: images
-		}));
-	}, [images]);
 
 	return (
 		<KeyboardAvoidingView
@@ -91,33 +46,7 @@ const Subscriber = (props) => {
 							}
 						/>
 						<Text style={styles.label}>Зураг оруулах</Text>
-						<View style={styles.gridContainer}>
-							{state.serviceData?.imageIds?.map((el, index) => {
-								return (
-									<View key={index} style={styles.gridItem}>
-										<TouchableOpacity
-											onPress={() => {
-												setZoomImgURL(el);
-												setVisible1(true);
-											}}
-											style={{ width: "80%", justifyContent: "center", padding: 5 }}
-										>
-											<Image source={{ uri: IMG_URL + el }} style={{ height: "100%", width: "100%" }} />
-										</TouchableOpacity>
-									</View>
-								);
-							})}
-							<TouchableOpacity
-								activeOpacity={0.7}
-								onPress={() => {
-									uploadImageAsBinary();
-								}}
-								style={styles.gridItem}
-							>
-								<Icon name="pluscircle" type="antdesign" size={30} color="#c5c5c5" />
-								<Text style={{ fontSize: 18, color: "#919395" }}>Зураг нэмэх</Text>
-							</TouchableOpacity>
-						</View>
+						<ImageModal />
 						<LoanInput
 							label="Тайлбар"
 							value={state.serviceData?.desciption}
@@ -203,39 +132,6 @@ const Subscriber = (props) => {
 						/>
 					</ScrollView>
 				</View>
-				<Modal
-					animationType="slide"
-					transparent={true}
-					onRequestClose={() => {
-						setVisible1(!visible1);
-					}}
-					visible={visible1}
-					style={{
-						backgroundColor: "rgba(52, 52, 52, 0.9)"
-					}}
-				>
-					<View style={{ flex: 1, backgroundColor: "rgba(52, 52, 52, 0.9)", paddingBottom: 20 }}>
-						<GestureHandlerRootView>
-							<ImageZoom source={{ uri: IMG_URL + zoomImgURL }} style={{ flex: 1, height: 200, width: "100%" }} />
-						</GestureHandlerRootView>
-						<View style={{ marginTop: 10, flexDirection: "row", justifyContent: "space-evenly", alignItems: "center" }}>
-							<View style={{ width: "44%" }}>
-								<GradientButton
-									text="Солих"
-									action={() => {
-										setVisible1(false);
-										uploadImageAsBinary(zoomImgURL);
-									}}
-									height={40}
-									radius={6}
-								/>
-							</View>
-							<View style={{ width: "44%" }}>
-								<GradientButton text="Хаах" action={() => setVisible1(false)} height={40} radius={6} />
-							</View>
-						</View>
-					</View>
-				</Modal>
 			</SafeAreaView>
 		</KeyboardAvoidingView>
 	);
