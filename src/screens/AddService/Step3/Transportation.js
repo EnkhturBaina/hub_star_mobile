@@ -19,9 +19,26 @@ import MainContext from "../../../contexts/MainContext";
 import * as ImagePicker from "expo-image-picker";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { ImageZoom } from "@likashefqet/react-native-image-zoom";
+import BottomSheet from "../../../components/BottomSheet";
 
 const Transportation = (props) => {
 	const state = useContext(MainContext);
+
+	const [data, setData] = useState(""); //BottomSheet рүү дамжуулах Дата
+	const [uselessParam, setUselessParam] = useState(false); //BottomSheet -г дуудаж байгааг мэдэх гэж ашиглаж байгамоо
+	const [fieldName, setFieldName] = useState(""); //Context -н аль утгыг OBJECT -с update хийхийг хадгалах
+	const [displayName, setDisplayName] = useState(""); //LOOKUP -д харагдах утга (display value)
+	const [actionKey, setActionKey] = useState(""); //Сонгогдсон OBJECT -с ямар key -р утга авах (Жнь: {object}.id)
+
+	const setLookupData = (data, field, display, action_key) => {
+		// console.log("refRBSheet", refRBSheet);
+		setData(data); //Lookup -д харагдах дата
+		setFieldName(field); //Context -н object -н update хийх key
+		setDisplayName(display); //Lookup -д харагдах датаны текст талбар
+		setUselessParam(!uselessParam);
+		setActionKey(action_key);
+	};
+
 	const [images, setImages] = useState([]);
 
 	const [visible1, setVisible1] = useState(false);
@@ -47,6 +64,14 @@ const Transportation = (props) => {
 			}
 		}
 	};
+
+	useEffect(() => {
+		console.log("JSON", JSON.stringify(props));
+		props.machineryType?.length == 0 && props.getMachinery({ type: "MACHINERY_TYPE" });
+		// getMachinery({ type: 'MARK' });
+		// getMachinery({ type: 'POWER' });
+	}, []);
+
 	useEffect(() => {
 		state.setServiceData((prevState) => ({
 			...prevState,
@@ -84,11 +109,17 @@ const Transportation = (props) => {
 							<TouchableOpacity
 								style={styles.touchableSelect}
 								onPress={() => {
-									// setLookupData(UserTabData, "machineryTypeId", "name");
+									setLookupData(props.machineryType, "machineryTypeId", "name", "id");
 								}}
 							>
 								<Text style={styles.selectedText} numberOfLines={1}>
-									{state.serviceData.machineryTypeId != "" ? state.serviceData.machineryTypeId?.name : "Сонгох"}
+									{state.serviceData?.machineryTypeId
+										? props.machineryType?.map((el, index) => {
+												if (el.id === state.serviceData?.machineryTypeId) {
+													return el.name;
+												}
+										  })
+										: "Сонгох"}
 								</Text>
 								<Icon name="keyboard-arrow-down" type="material-icons" size={30} color={GRAY_ICON_COLOR} />
 							</TouchableOpacity>
@@ -291,6 +322,36 @@ const Transportation = (props) => {
 						</View>
 					</View>
 				</Modal>
+				<BottomSheet
+					bodyText={data}
+					dragDown={true}
+					backClick={true}
+					type="lookup"
+					fieldName={fieldName}
+					displayName={displayName}
+					lookUpType="profile"
+					handle={uselessParam}
+					action={(e) => {
+						state.setServiceData((prevState) => ({
+							...prevState,
+							[fieldName]: e
+						}));
+
+						// if (fieldName == "mainDirectionId") {
+						// 	state.setServiceData((prevState) => ({
+						// 		...prevState,
+						// 		directionId: null,
+						// 		subDirectionId: null
+						// 	}));
+						// } else if (fieldName == "directionId") {
+						// 	state.setServiceData((prevState) => ({
+						// 		...prevState,
+						// 		subDirectionId: null
+						// 	}));
+						// }
+					}}
+					actionKey={actionKey}
+				/>
 			</SafeAreaView>
 		</KeyboardAvoidingView>
 	);

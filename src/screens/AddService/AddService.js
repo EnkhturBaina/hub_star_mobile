@@ -1,7 +1,7 @@
 import { Platform, SafeAreaView, StyleSheet, TouchableOpacity, View, Text } from "react-native";
 import React, { useContext, useLayoutEffect, useState } from "react";
 import { ProgressBar } from "react-native-paper";
-import { GRAY_ICON_COLOR, MAIN_COLOR } from "../../constant";
+import { GRAY_ICON_COLOR, MAIN_COLOR, SERVER_URL, X_API_KEY } from "../../constant";
 import Step1 from "./Step1";
 import Step2 from "./Step2";
 import MainContext from "../../contexts/MainContext";
@@ -14,11 +14,18 @@ import GradientButton from "../../components/GradientButton";
 import CustomSnackbar from "../../components/CustomSnackbar";
 import { useNavigation } from "@react-navigation/native";
 import CustomDialog from "../../components/CustomDialog";
+import axios from "axios";
 
 const AddService = (props) => {
 	const state = useContext(MainContext);
 	const navigation = useNavigation();
 	const totalStep = 3;
+
+	const [machineryType, setMachineryType] = useState([]);
+	const [markData, setMarkData] = useState([]);
+	const [powerData, setPowerData] = useState([]);
+	const [modelData, setModelData] = useState([]);
+	const [materials, setMaterials] = useState([]);
 
 	const [visibleSnack, setVisibleSnack] = useState(false);
 	const [snackBarMsg, setSnackBarMsg] = useState("");
@@ -58,6 +65,34 @@ const AddService = (props) => {
 			});
 		// TabBar Hide хийх
 	}, [props.navigation]);
+
+	const getMachinery = async (params) => {
+		console.log("RUN getMachinery");
+		await axios
+			.get(`${SERVER_URL}reference/machinery`, {
+				params,
+				headers: {
+					"X-API-KEY": X_API_KEY
+				}
+			})
+			.then((response) => {
+				// console.log("get getMachinery", JSON.stringify(response.data.response));
+				params.type == "MACHINERY_TYPE" && setMachineryType(response.response);
+				params.type == "MARK" && setMarkData(response.response);
+				params.type == "POWER" && setPowerData(response.response);
+				params.type == "MODEL" && setModelData(response.response);
+				params.type == "MATERIAL" && setMaterials(response.response);
+			})
+			.catch(function (error) {
+				if (error.response) {
+					// console.log("error getIntro Data status", error.response.status);
+					// console.log("error getIntro Data data", error.response.data);
+				}
+				if (error.response.status == "401") {
+					state.Handle_401();
+				}
+			});
+	};
 	const createAdverstment = () => {
 		state
 			.createAd()
@@ -241,6 +276,10 @@ const AddService = (props) => {
 					setTempUnitAmount={setTempUnitAmount}
 					tempPackageAmount={tempPackageAmount}
 					setTempPackageAmount={setTempPackageAmount}
+					getMachinery={getMachinery}
+					machineryType={machineryType}
+					powerData={powerData}
+					markData={markData}
 				/>
 			) : null}
 			{state.currentStep == 3 && state.serviceData?.userType == "MACHINERY" ? (
@@ -250,6 +289,11 @@ const AddService = (props) => {
 					setTempUnitAmount={setTempUnitAmount}
 					tempPackageAmount={tempPackageAmount}
 					setTempPackageAmount={setTempPackageAmount}
+					getMachinery={getMachinery}
+					machineryType={machineryType}
+					powerData={powerData}
+					markData={markData}
+					modelData={modelData}
 				/>
 			) : null}
 			<View style={styles.btmButtonContainer}>
