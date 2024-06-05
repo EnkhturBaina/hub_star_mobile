@@ -200,6 +200,7 @@ const ConsultingService = (props) => {
 								}))
 							}
 							keyboardType="number-pad"
+							maxLength={8}
 						/>
 						<CheckBox
 							containerStyle={{
