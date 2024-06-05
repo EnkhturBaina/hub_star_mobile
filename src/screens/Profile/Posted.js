@@ -138,7 +138,7 @@ const Posted = (props) => {
 			<TouchableOpacity
 				style={styles.gridItem}
 				onPress={() => {
-					props.navigation.navigate("SingleServiceScreen", {
+					props.navigation.navigate("PROFILE_SingleServiceScreen", {
 						adv_id: item.id
 					});
 				}}

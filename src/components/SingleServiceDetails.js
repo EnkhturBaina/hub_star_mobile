@@ -4,13 +4,14 @@ import MainContext from "../contexts/MainContext";
 import "dayjs/locale/es";
 import dayjs from "dayjs";
 import GradientButton from "./GradientButton";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import { StarRatingDisplay } from "react-native-star-rating-widget";
 import { MAIN_COLOR } from "../constant";
 
 const SingleServiceDetails = (props) => {
 	const state = useContext(MainContext);
 	const navigation = useNavigation();
+	const route = useRoute();
 	return (
 		<View
 			style={{
@@ -55,9 +56,14 @@ const SingleServiceDetails = (props) => {
 			<GradientButton
 				text="Профайл үзэх"
 				action={() => {
-					navigation.navigate("SingleServiceViewProfileScreen", {
-						createdBy: props.adviceData.createdBy
-					});
+					navigation.navigate(
+						route.name == "SingleServiceScreen"
+							? "SingleServiceViewProfileScreen"
+							: "PROFILE_SingleServiceViewProfileScreen",
+						{
+							createdBy: props.adviceData.createdBy
+						}
+					);
 				}}
 				height={40}
 				radius={6}

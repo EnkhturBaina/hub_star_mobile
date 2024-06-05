@@ -986,6 +986,46 @@ const ProfileStackNavigator = (props) => {
 					)
 				}}
 			/>
+			<Stack.Screen
+				name="PROFILE_SingleServiceScreen"
+				component={SingleServiceScreen}
+				options={{
+					title: "",
+					headerTitleStyle: {
+						fontWeight: "800"
+					},
+					headerLeft: () => (
+						<TouchableOpacity
+							style={styles.headerLeftContainer}
+							onPress={() => {
+								navigation.navigate("ProfileScreen");
+							}}
+						>
+							<Icon type="material-icons" name="keyboard-arrow-left" size={35} />
+						</TouchableOpacity>
+					)
+				}}
+			/>
+			<Stack.Screen
+				name="PROFILE_SingleServiceViewProfileScreen"
+				component={SingleServiceViewProfileScreen}
+				options={{
+					title: "",
+					headerTitleStyle: {
+						fontWeight: "800"
+					},
+					headerLeft: () => (
+						<TouchableOpacity
+							style={styles.headerLeftContainer}
+							onPress={() => {
+								navigation.navigate("PROFILE_SingleServiceScreen");
+							}}
+						>
+							<Icon type="material-icons" name="keyboard-arrow-left" size={35} />
+						</TouchableOpacity>
+					)
+				}}
+			/>
 		</Stack.Navigator>
 	);
 };

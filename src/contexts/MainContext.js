@@ -407,13 +407,12 @@ export const MainStore = (props) => {
 	};
 
 	const Handle_401 = () => {
-		console.log("401");
 		setErrorMsg("Токены хүчинтэй хугацаа дууссан байна. Дахин нэвтэрнэ үү");
 		setIsLoggedIn(false);
 	};
 
 	const fileUpload = async (fileUri) => {
-		console.log("fileUri", fileUri);
+		// console.log("fileUri", fileUri);
 		try {
 			const response = await FileSystem.uploadAsync(`${SERVER_URL}local-files/fileUpload`, fileUri, {
 				fieldName: "file",
@@ -421,7 +420,7 @@ export const MainStore = (props) => {
 				uploadType: FileSystem.FileSystemUploadType.MULTIPART
 			});
 			// console.log("response=>", response?.status);
-			console.log("response=>", response?.body);
+			// console.log("response=>", response?.body);
 			if (response?.status == 200) {
 				const data = JSON.parse(response?.body);
 				return data;

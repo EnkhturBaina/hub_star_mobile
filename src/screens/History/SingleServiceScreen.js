@@ -10,7 +10,7 @@ import {
 	ActivityIndicator,
 	Modal
 } from "react-native";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useLayoutEffect, useState } from "react";
 import { IMG_URL, SERVER_URL, X_API_KEY } from "../../constant";
 import axios from "axios";
 import { Icon } from "@rneui/base";
@@ -36,6 +36,26 @@ const SingleServiceScreen = (props) => {
 
 	const [visibleSnack, setVisibleSnack] = useState(false);
 	const [snackBarMsg, setSnackBarMsg] = useState("");
+
+	useLayoutEffect(() => {
+		// TabBar Hide хийх
+		props.navigation?.getParent()?.setOptions({
+			tabBarStyle: {
+				display: "none"
+			}
+		});
+		return () =>
+			props.navigation?.getParent()?.setOptions({
+				tabBarStyle: {
+					position: "absolute",
+					borderTopLeftRadius: 20,
+					borderTopRightRadius: 20,
+					height: Platform.OS == "ios" ? 105 : 80,
+					padding: 10
+				}
+			});
+		// TabBar Hide хийх
+	}, [props.navigation]);
 
 	//Snacbkbar харуулах
 	const onToggleSnackBar = (msg) => {
