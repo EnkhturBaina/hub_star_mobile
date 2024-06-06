@@ -46,7 +46,7 @@ const ConfirmPassword = (props) => {
 					}
 				)
 				.then(async (response) => {
-					console.log("confirm OTP", response.data);
+					// console.log("confirm OTP", response.data);
 					if (response.data?.statusCode == 200) {
 						// props.navigation.navigate("BioScreen");
 						props.navigation.navigate("ChangePassword", {

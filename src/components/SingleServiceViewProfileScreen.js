@@ -33,7 +33,7 @@ const SingleServiceViewProfileScreen = (props) => {
 				}
 			})
 			.then((response) => {
-				console.log("get OtherProfile", JSON.stringify(response.data.response));
+				// console.log("get OtherProfile", JSON.stringify(response.data.response));
 				setOtherProfileData(response.data.response);
 			})
 			.catch((error) => {

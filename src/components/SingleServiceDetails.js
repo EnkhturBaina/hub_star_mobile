@@ -12,7 +12,6 @@ const SingleServiceDetails = (props) => {
 	const state = useContext(MainContext);
 	const navigation = useNavigation();
 	const route = useRoute();
-	console.log("route.name", route.name);
 	return (
 		<View
 			style={{

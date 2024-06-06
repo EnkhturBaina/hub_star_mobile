@@ -23,7 +23,6 @@ const Invite = () => {
 	}, []);
 
 	const fetchMore = async () => {
-		console.log("offset", offset);
 		(async () => {
 			const { status } = await Contacts.requestPermissionsAsync();
 			if (status === "granted") {

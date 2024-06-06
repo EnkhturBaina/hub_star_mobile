@@ -266,8 +266,6 @@ export const MainStore = (props) => {
 
 	// AsyncStorage.clear();
 	const logout = async () => {
-		console.log("token", token);
-		console.log("X_API_KEY", X_API_KEY);
 		setIsLoading(true);
 		try {
 			axios
@@ -283,7 +281,7 @@ export const MainStore = (props) => {
 					}
 				)
 				.then(async (response) => {
-					console.log("logout", response.data);
+					// console.log("logout", response.data);
 					await AsyncStorage.removeItem("user");
 					setToken(null);
 					setEmail(null);

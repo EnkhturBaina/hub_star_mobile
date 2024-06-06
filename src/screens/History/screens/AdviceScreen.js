@@ -56,7 +56,6 @@ const AdviceScreen = (props) => {
 	}, []);
 
 	const handleNavigationStateChanged = (navState) => {
-		// console.log("NAVVVVVV", navState);
 		const { url } = navState;
 	};
 

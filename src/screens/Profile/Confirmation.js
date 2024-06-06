@@ -79,7 +79,6 @@ const Confirmation = (props) => {
 		}
 	];
 	const setLookupData = (data, field, display, action_key) => {
-		// console.log("refRBSheet", refRBSheet);
 		setData(data); //Lookup -д харагдах дата
 		setFieldName(field); //Context -н object -н update хийх key
 		setDisplayName(display); //Lookup -д харагдах датаны текст талбар
@@ -106,7 +105,7 @@ const Confirmation = (props) => {
 				}
 			})
 			.then((response) => {
-				// console.log("AAA", JSON.stringify(response.data.response));
+				// console.log("get ProfileData", JSON.stringify(response.data.response));
 				setProfileData(response.data.response?.user);
 			})
 			.catch((error) => {

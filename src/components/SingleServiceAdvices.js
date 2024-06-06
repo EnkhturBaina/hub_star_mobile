@@ -57,7 +57,6 @@ const SingleServiceAdvices = (props) => {
 	}, []);
 
 	const handleNavigationStateChanged = (navState) => {
-		// console.log("NAVVVVVV", navState);
 		const { url } = navState;
 	};
 	return (
