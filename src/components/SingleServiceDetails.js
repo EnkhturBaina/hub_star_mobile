@@ -12,6 +12,7 @@ const SingleServiceDetails = (props) => {
 	const state = useContext(MainContext);
 	const navigation = useNavigation();
 	const route = useRoute();
+	console.log("route.name", route.name);
 	return (
 		<View
 			style={{
@@ -57,9 +58,9 @@ const SingleServiceDetails = (props) => {
 				text="Профайл үзэх"
 				action={() => {
 					navigation.navigate(
-						route.name == "SingleServiceScreen"
-							? "SingleServiceViewProfileScreen"
-							: "PROFILE_SingleServiceViewProfileScreen",
+						route.name == "PROFILE_SingleServiceScreen"
+							? "PROFILE_SingleServiceViewProfileScreen"
+							: "SingleServiceViewProfileScreen",
 						{
 							createdBy: props.adviceData.createdBy
 						}

@@ -95,15 +95,15 @@ const SingleServiceViewProfileScreen = (props) => {
 							}}
 						>
 							<Text style={{ fontWeight: "bold", fontSize: 20 }}>
-								{state.lastName && state.firstName ? (
+								{otherProfileData?.lastName && otherProfileData?.firstName ? (
 									<Text style={{ fontWeight: "500" }}>
-										{state.lastName?.substr(0, 1)}. {state.firstName}
+										{otherProfileData?.lastName?.substr(0, 1)}. {otherProfileData?.firstName}
 									</Text>
 								) : (
 									<Text style={styles.generalText}>Хэрэглэгч</Text>
 								)}
 							</Text>
-							<Text style={{ color: GRAY_ICON_COLOR }}>“МЕТА СТАРТ” ХХК Захирал</Text>
+							<Text style={{ color: GRAY_ICON_COLOR }}>{otherProfileData?.organizationName ?? "-"}</Text>
 						</View>
 					</View>
 					<View style={{ flex: 1, marginTop: 50 }}>

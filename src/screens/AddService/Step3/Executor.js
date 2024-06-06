@@ -17,7 +17,8 @@ const Executor = (props) => {
 			}));
 		}
 
-		if (state.serviceData?.price) {
+		//үйлчилгээ засах үед үнэ SET хийх
+		if (state.serviceData?.price && props.tempPrice == null) {
 			props.setTempPrice(state.addCommas(state.removeNonNumeric(state.serviceData?.price)));
 		}
 	}, [props.tempPrice]);

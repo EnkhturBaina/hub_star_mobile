@@ -16,6 +16,10 @@ const LaboratoryMaterial = (props) => {
 				unitAmount: parseInt(props.tempUnitAmount?.replaceAll(",", ""))
 			}));
 		}
+		//үйлчилгээ засах үед үнэ SET хийх
+		if (state.serviceData?.unitAmount && props.tempUnitAmount == null) {
+			props.setTempUnitAmount(state.addCommas(state.removeNonNumeric(state.serviceData?.unitAmount)));
+		}
 	}, [props.tempUnitAmount]);
 
 	return (

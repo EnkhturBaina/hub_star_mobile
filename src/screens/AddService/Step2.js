@@ -91,6 +91,11 @@ const Step2 = (props) => {
 				price: parseInt(props.tempPrice?.replaceAll(",", ""))
 			}));
 		}
+
+		//үйлчилгээ засах үед үнэ SET хийх
+		if (state.serviceData?.price && props.tempPrice == null) {
+			props.setTempPrice(state.addCommas(state.removeNonNumeric(state.serviceData?.price)));
+		}
 	}, [props.tempPrice]);
 	return (
 		<KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={{ flex: 1 }}>

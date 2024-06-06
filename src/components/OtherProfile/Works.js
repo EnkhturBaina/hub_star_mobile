@@ -16,6 +16,7 @@ const Works = (props) => {
 	const [doingServiceData, setDoingServiceData] = useState([]);
 
 	const getDoingServices = async () => {
+		console.log("props.user_id", props.user_id);
 		setLoadingServices(true);
 		await axios
 			.get(`${SERVER_URL}advertisement`, {
@@ -23,7 +24,7 @@ const Works = (props) => {
 					order: "DESC",
 					page: 1,
 					limit: 10,
-					userBy: state.userId,
+					userBy: props.user_id,
 					process: "DOING"
 				},
 				headers: {

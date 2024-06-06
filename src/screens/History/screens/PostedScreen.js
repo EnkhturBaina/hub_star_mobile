@@ -175,10 +175,15 @@ const PostedScreen = (props) => {
 							closeMenu();
 							state.setCurrentStep(1);
 							state.setServiceData(item);
+
 							if (item.specialService != null) {
-								props.navigation.navigate("AddServiceSpecial");
+								props.navigation.navigate("UPDATE_AddServiceSpecial", {
+									images: item.images
+								});
 							} else if (item.userType != null) {
-								props.navigation.navigate("AddService");
+								props.navigation.navigate("UPDATE_AddService", {
+									images: item.images
+								});
 							}
 						}}
 						leadingIcon="square-edit-outline"
@@ -204,7 +209,14 @@ const PostedScreen = (props) => {
 				{loadingServices ? (
 					<ActivityIndicator color={MAIN_COLOR} style={{ padding: 5, paddingBottom: Platform.OS == "ios" ? 20 : 10 }} />
 				) : null}
-				<TouchableOpacity onPress={() => props.navigation.navigate("AddServiceFirst")} style={styles.addItemContainer}>
+				<TouchableOpacity
+					onPress={() =>
+						props.navigation.navigate("UPDATE_AddServiceFirst", {
+							isFromPosted: 1
+						})
+					}
+					style={styles.addItemContainer}
+				>
 					<Icon name="pluscircle" type="antdesign" size={50} color="#c5c5c5" />
 				</TouchableOpacity>
 			</View>

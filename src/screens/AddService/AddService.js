@@ -1,5 +1,5 @@
 import { Platform, SafeAreaView, StyleSheet, TouchableOpacity, View, Text } from "react-native";
-import React, { useContext, useLayoutEffect, useState } from "react";
+import React, { useContext, useEffect, useLayoutEffect, useState } from "react";
 import { ProgressBar } from "react-native-paper";
 import { GRAY_ICON_COLOR, MAIN_COLOR, SERVER_URL, X_API_KEY } from "../../constant";
 import Step1 from "./Step1";
@@ -45,6 +45,16 @@ const AddService = (props) => {
 
 	//Snacbkbar хаах
 	const onDismissSnackBar = () => setVisibleSnack(false);
+
+	useEffect(() => {
+		// Үйлчилгээ засах үед зурагнууд SET хийх
+		if (props.route?.params?.images) {
+			state.setServiceData((prevState) => ({
+				...prevState,
+				imageIds: props.route?.params?.images?.map((item) => item.id)
+			}));
+		}
+	}, []);
 
 	useLayoutEffect(() => {
 		// TabBar Hide хийх
@@ -325,7 +335,7 @@ const AddService = (props) => {
 					setVisibleDialog(false);
 					state.setCurrentStep(1);
 					state.clearServiceData();
-					navigation.navigate("AddServiceFirst");
+					navigation.navigate("HomeScreen");
 					// dialogType == "success" && props.navigation.goBack();
 				}}
 				declineFunction={() => {}}

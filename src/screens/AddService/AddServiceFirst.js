@@ -6,39 +6,15 @@ import { Icon } from "@rneui/base";
 
 const AddServiceFirst = (props) => {
 	const state = useContext(MainContext);
-	const [isAddService, setIsAddService] = useState(false);
-	const [isSpecial, setIsSpecial] = useState(false);
-
-	useLayoutEffect(() => {
-		// TabBar Hide хийх
-		props.navigation?.getParent()?.setOptions({
-			tabBarStyle: {
-				display: "none"
-			}
-		});
-		return () =>
-			props.navigation?.getParent()?.setOptions({
-				tabBarStyle: {
-					position: "absolute",
-					borderTopLeftRadius: 20,
-					borderTopRightRadius: 20,
-					height: Platform.OS == "ios" ? 105 : 80,
-					padding: 10
-				}
-			});
-		// TabBar Hide хийх
-	}, [props.navigation]);
 
 	const handleChoose = (val) => {
 		state.clearServiceData();
 		state.setCurrentStep(1);
-		setIsAddService(true);
-		setIsSpecial(val);
-
-		props.navigation.navigate(val ? "AddServiceSpecial" : "AddService", {
-			isSpecial: val,
-			setIsAddService: setIsAddService
-		});
+		if (props.route.params?.isFromPosted) {
+			props.navigation.navigate(val ? "UPDATE_AddServiceSpecial" : "UPDATE_AddService");
+		} else {
+			props.navigation.navigate(val ? "AddServiceSpecial" : "AddService");
+		}
 	};
 
 	return (

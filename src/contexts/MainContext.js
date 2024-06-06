@@ -503,31 +503,61 @@ export const MainStore = (props) => {
 
 	const createAd = async () => {
 		console.log("serviceData", JSON.stringify(serviceData));
-		const adResponse = await axios
-			.post(
-				`${SERVER_URL}advertisement`,
-				{
-					...serviceData
-				},
-				{
-					headers: {
-						"x-api-key": X_API_KEY,
-						Authorization: `Bearer ${token}`
+		if (serviceData?.id) {
+			console.log("EDIT");
+			const adResponse = await axios
+				.patch(
+					`${SERVER_URL}advertisement/${serviceData.id}`,
+					{
+						...serviceData
+					},
+					{
+						headers: {
+							"x-api-key": X_API_KEY,
+							Authorization: `Bearer ${token}`
+						}
 					}
-				}
-			)
-			.then((response) => {
-				// console.log("CREATE AD =====>", response.data.response);
-				return response;
-			})
-			.catch((error) => {
-				console.log("error response data =>>", error.response.data);
-				if (error.response.status == "401") {
-					Handle_401();
-				}
-				// console.error("Error fetching get NewsDTL:", error.response.status);
-			});
-		return adResponse;
+				)
+				.then((response) => {
+					// console.log("EDIT AD =====>", response.data.response);
+					return response;
+				})
+				.catch((error) => {
+					console.log("error response data =>>", error.response.data);
+					if (error.response.status == "401") {
+						Handle_401();
+					}
+					// console.error("Error fetching get NewsDTL:", error.response.status);
+				});
+			return adResponse;
+		} else {
+			console.log("CREATE");
+			const adResponse = await axios
+				.post(
+					`${SERVER_URL}advertisement`,
+					{
+						...serviceData
+					},
+					{
+						headers: {
+							"x-api-key": X_API_KEY,
+							Authorization: `Bearer ${token}`
+						}
+					}
+				)
+				.then((response) => {
+					// console.log("CREATE AD =====>", response.data.response);
+					return response;
+				})
+				.catch((error) => {
+					console.log("error response data =>>", error.response.data);
+					if (error.response.status == "401") {
+						Handle_401();
+					}
+					// console.error("Error fetching get NewsDTL:", error.response.status);
+				});
+			return adResponse;
+		}
 	};
 	const getHomeScreenAds = async () => {
 		await axios

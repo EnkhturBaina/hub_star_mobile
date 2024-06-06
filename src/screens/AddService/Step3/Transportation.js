@@ -48,6 +48,13 @@ const Transportation = (props) => {
 				packageAmount: parseInt(props.tempPackageAmount?.replaceAll(",", ""))
 			}));
 		}
+		//үйлчилгээ засах үед үнэ SET хийх
+		if (state.serviceData?.unitAmount && props.tempUnitAmount == null) {
+			props.setTempUnitAmount(state.addCommas(state.removeNonNumeric(state.serviceData?.unitAmount)));
+		}
+		if (state.serviceData?.packageAmount && props.tempPackageAmount == null) {
+			props.setTempPackageAmount(state.addCommas(state.removeNonNumeric(state.serviceData?.packageAmount)));
+		}
 	}, [props.tempUnitAmount, props.tempPackageAmount]);
 
 	return (

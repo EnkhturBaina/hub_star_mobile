@@ -44,7 +44,11 @@ const ImageModal = (props) => {
 			}
 		}
 	};
+
 	useEffect(() => {
+		if (images.length == 0) {
+			setImages(state.serviceData?.imageIds);
+		}
 		state.setServiceData((prevState) => ({
 			...prevState,
 			imageIds: images

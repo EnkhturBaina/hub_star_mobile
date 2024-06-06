@@ -611,6 +611,66 @@ const HomeScreenStackNavigator = (props) => {
 					)
 				}}
 			/>
+			<Stack.Screen
+				name="UPDATE_AddServiceFirst"
+				component={AddServiceFirst}
+				options={{
+					title: "Үйлчилгээ нэмэх",
+					headerTitleStyle: {
+						fontWeight: "800"
+					},
+					headerLeft: () => (
+						<TouchableOpacity
+							style={styles.headerLeftContainer}
+							onPress={() => {
+								navigation.goBack();
+							}}
+						>
+							<Icon type="material-icons" name="keyboard-arrow-left" size={35} />
+						</TouchableOpacity>
+					)
+				}}
+			/>
+			<Stack.Screen
+				name="UPDATE_AddService"
+				component={AddService}
+				options={{
+					title: "Энгийн үйлчилгээ нэмэх",
+					headerTitleStyle: {
+						fontWeight: "800"
+					},
+					headerLeft: () => (
+						<TouchableOpacity
+							style={styles.headerLeftContainer}
+							onPress={() => {
+								navigation.goBack();
+							}}
+						>
+							<Icon type="material-icons" name="keyboard-arrow-left" size={35} />
+						</TouchableOpacity>
+					)
+				}}
+			/>
+			<Stack.Screen
+				name="UPDATE_AddServiceSpecial"
+				component={AddServiceSpecial}
+				options={{
+					title: "Онцгой үйлчилгээ нэмэх",
+					headerTitleStyle: {
+						fontWeight: "800"
+					},
+					headerLeft: () => (
+						<TouchableOpacity
+							style={styles.headerLeftContainer}
+							onPress={() => {
+								navigation.goBack();
+							}}
+						>
+							<Icon type="material-icons" name="keyboard-arrow-left" size={35} />
+						</TouchableOpacity>
+					)
+				}}
+			/>
 		</Stack.Navigator>
 	);
 };

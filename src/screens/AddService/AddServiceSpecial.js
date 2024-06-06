@@ -38,6 +38,16 @@ const AddServiceSpecial = (props) => {
 	//Snacbkbar хаах
 	const onDismissSnackBar = () => setVisibleSnack(false);
 
+	useEffect(() => {
+		// Үйлчилгээ засах үед зурагнууд SET хийх
+		if (props.route?.params?.images) {
+			state.setServiceData((prevState) => ({
+				...prevState,
+				imageIds: props.route?.params?.images?.map((item) => item.id)
+			}));
+		}
+	}, []);
+
 	useLayoutEffect(() => {
 		// TabBar Hide хийх
 		props.navigation?.getParent()?.setOptions({
@@ -265,7 +275,7 @@ const AddServiceSpecial = (props) => {
 					setVisibleDialog(false);
 					state.setCurrentStep(1);
 					state.clearServiceData();
-					navigation.navigate("AddServiceFirst");
+					navigation.navigate("HomeScreen");
 					// dialogType == "success" && props.navigation.goBack();
 				}}
 				declineFunction={() => {}}
