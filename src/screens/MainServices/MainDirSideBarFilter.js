@@ -3,7 +3,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { Divider } from "react-native-paper";
 import MainContext from "../../contexts/MainContext";
 import { MAIN_COLOR, SERVER_URL, X_API_KEY } from "../../constant";
-import { Icon, CheckBox } from "@rneui/base";
+import { Icon, CheckBox, ListItem } from "@rneui/base";
 import axios from "axios";
 import SideFIlterSkeleton from "../../components/Skeletons/SideFIlterSkeleton";
 import Empty from "../../components/Empty";
@@ -11,6 +11,7 @@ import Empty from "../../components/Empty";
 const MainDirSideBarFilter = (props) => {
 	const state = useContext(MainContext);
 	const [checked, setChecked] = useState({});
+	const [expanded, setExpanded] = useState({});
 
 	const [loadingSideFilter, setLoadingSideFilter] = useState(false);
 	const [sideFilterData, setSideFilterData] = useState([]);
@@ -120,34 +121,61 @@ const MainDirSideBarFilter = (props) => {
 					<Empty text="Үр дүн олдсонгүй." />
 				) : (
 					sideFilterData?.map((el, index) => {
+						const checkOpen = expanded[index];
 						return (
-							<View key={index} style={styles.eachDir}>
-								<View style={styles.filterRowData}>
-									<Text style={styles.filterRowDataTitle}>{el.name}</Text>
-								</View>
-								<View
-									style={{
-										paddingTop: 10
+							<ListItem.Accordion
+								noIcon={el?.subDirections != "" ? false : true}
+								key={index}
+								content={
+									<ListItem.Content>
+										<ListItem.Title
+											style={{
+												color: checkOpen ? MAIN_COLOR : "#6f7275",
+												fontWeight: "500",
+												marginBottom: 5
+											}}
+										>
+											{el.name}
+										</ListItem.Title>
+									</ListItem.Content>
+								}
+								isExpanded={checkOpen}
+								onPress={() => {
+									el?.subDirections != "" &&
+										setExpanded((prevState) => ({
+											// ...prevState,
+											[index]: !prevState[index]
+										}));
+								}}
+								containerStyle={{
+									paddingVertical: 8,
+									paddingHorizontal: 3
+								}}
+							>
+								<ListItem
+									containerStyle={{
+										flexDirection: "column",
+										alignItems: "flex-start",
+										padding: 0
 									}}
 								>
-									{el.subDirections?.map((child, index2) => {
-										const checkedItem = checked[child.id];
-
+									{el?.subDirections?.map((sub, indexSub) => {
+										const checkedItem = checked[sub.id];
 										return (
 											<CheckBox
 												containerStyle={styles.checkboxContainerStyle}
 												textStyle={styles.checkboxTextStyle}
 												title={
 													<View style={styles.checkboxTextContainer}>
-														<Text style={{ width: "80%" }}>{child.name}</Text>
-														<Text style={{ width: "8%" }}>{child.advertisements?.length}</Text>
+														<Text style={{ width: "80%" }}>{sub.name}</Text>
+														<Text style={{ width: "8%" }}>{sub.advertisements?.length}</Text>
 													</View>
 												}
 												checked={checkedItem}
 												onPress={() => {
 													setChecked((prevState) => ({
 														...prevState,
-														[child.id]: !prevState[child.id]
+														[sub.id]: !prevState[sub.id]
 													}));
 												}}
 												iconType="material-community"
@@ -155,12 +183,12 @@ const MainDirSideBarFilter = (props) => {
 												uncheckedIcon="checkbox-blank-outline"
 												checkedColor={MAIN_COLOR}
 												uncheckedColor="#798585"
-												key={child.id}
+												key={sub.id}
 											/>
 										);
 									})}
-								</View>
-							</View>
+								</ListItem>
+							</ListItem.Accordion>
 						);
 					})
 				)}
@@ -191,7 +219,6 @@ const styles = StyleSheet.create({
 		marginBottom: 10
 	},
 	checkboxTextContainer: {
-		flex: 1,
 		flexDirection: "row",
 		justifyContent: "space-between",
 		alignItems: "center",
