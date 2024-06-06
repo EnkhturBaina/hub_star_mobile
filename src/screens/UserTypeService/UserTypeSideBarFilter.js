@@ -3,7 +3,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { Divider } from "react-native-paper";
 import MainContext from "../../contexts/MainContext";
 import { IMG_URL, MAIN_COLOR, SERVER_URL, X_API_KEY } from "../../constant";
-import { Icon, ListItem } from "@rneui/base";
+import { Icon, ListItem, CheckBox } from "@rneui/base";
 import axios from "axios";
 import SideFIlterSkeleton from "../../components/Skeletons/SideFIlterSkeleton";
 import Empty from "../../components/Empty";
@@ -28,10 +28,7 @@ const UserTypeSideBarFilter = (props) => {
 				}
 			})
 			.then((response) => {
-				// console.log(
-				//   "get SideFilterData response",
-				//   JSON.stringify(response.data.response)
-				// );
+				// console.log("get SideFilterData response", JSON.stringify(response.data.response));
 				setSideFilterData(response.data.response);
 			})
 			.catch((error) => {
@@ -175,7 +172,7 @@ const UserTypeSideBarFilter = (props) => {
 												onPress={() => {
 													child?.subDirections != "" &&
 														setExpanded((prevState) => ({
-															...prevState,
+															// ...prevState,
 															[index + "-" + index2]: !prevState[index + "-" + index2]
 														}));
 												}}
@@ -187,19 +184,36 @@ const UserTypeSideBarFilter = (props) => {
 												<ListItem
 													containerStyle={{
 														flexDirection: "column",
-														alignItems: "flex-start"
+														alignItems: "flex-start",
+														padding: 0
 													}}
 												>
 													{child?.subDirections?.map((sub, indexSub) => {
+														const checkedItem = checked[sub.id];
 														return (
-															<View
-																key={indexSub}
-																style={{
-																	marginBottom: 20
+															<CheckBox
+																containerStyle={styles.checkboxContainerStyle}
+																textStyle={styles.checkboxTextStyle}
+																title={
+																	<View style={styles.checkboxTextContainer}>
+																		<Text style={{ width: "80%" }}>{sub.name}</Text>
+																		<Text style={{ width: "8%" }}>{sub.advertisements?.length}</Text>
+																	</View>
+																}
+																checked={checkedItem}
+																onPress={() => {
+																	setChecked((prevState) => ({
+																		...prevState,
+																		[sub.id]: !prevState[sub.id]
+																	}));
 																}}
-															>
-																<Text>{sub.name}</Text>
-															</View>
+																iconType="material-community"
+																checkedIcon="checkbox-outline"
+																uncheckedIcon="checkbox-blank-outline"
+																checkedColor={MAIN_COLOR}
+																uncheckedColor="#798585"
+																key={sub.id}
+															/>
 														);
 													})}
 												</ListItem>
@@ -230,5 +244,22 @@ const styles = StyleSheet.create({
 		borderBottomColor: "#ebebeb",
 		marginBottom: 10,
 		paddingBottom: 10
+	},
+	checkboxContainerStyle: {
+		padding: 0,
+		margin: 0,
+		marginLeft: 0,
+		marginBottom: 10
+	},
+	checkboxTextContainer: {
+		flexDirection: "row",
+		justifyContent: "space-between",
+		alignItems: "center",
+		marginLeft: 5
+	},
+	checkboxTextStyle: {
+		color: "#798585",
+		fontWeight: "500",
+		marginLeft: 5
 	}
 });
