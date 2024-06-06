@@ -16,6 +16,10 @@ const Executor = (props) => {
 				price: parseInt(props.tempPrice?.replaceAll(",", ""))
 			}));
 		}
+
+		if (state.serviceData?.price) {
+			props.setTempPrice(state.addCommas(state.removeNonNumeric(state.serviceData?.price)));
+		}
 	}, [props.tempPrice]);
 
 	return (
@@ -32,10 +36,10 @@ const Executor = (props) => {
 			>
 				<View style={{ flex: 1 }}>
 					<ScrollView contentContainerStyle={styles.scrollContainer} bounces={false}>
-						<Text>Executor</Text>
+						<Text>Executor - {state.serviceData?.imageIds}</Text>
 						<LoanInput
 							label="Ажилчдын тоо"
-							value={state.serviceData?.workerCount}
+							value={state.serviceData?.workerCount?.toString()}
 							keyboardType="number-pad"
 							onChangeText={(e) =>
 								state.setServiceData((prevState) => ({
@@ -46,7 +50,7 @@ const Executor = (props) => {
 						/>
 						<LoanInput
 							label="Ажлын тоо хэмжээ"
-							value={state.serviceData?.counter}
+							value={state.serviceData?.counter?.toString()}
 							keyboardType="number-pad"
 							onChangeText={(e) =>
 								state.setServiceData((prevState) => ({

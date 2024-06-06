@@ -170,7 +170,20 @@ const PostedScreen = (props) => {
 						/>
 					}
 				>
-					<Menu.Item onPress={() => {}} leadingIcon="square-edit-outline" title="Засах" />
+					<Menu.Item
+						onPress={() => {
+							closeMenu();
+							state.setCurrentStep(1);
+							state.setServiceData(item);
+							if (item.specialService != null) {
+								props.navigation.navigate("AddServiceSpecial");
+							} else if (item.userType != null) {
+								props.navigation.navigate("AddService");
+							}
+						}}
+						leadingIcon="square-edit-outline"
+						title="Засах"
+					/>
 					<Menu.Item
 						onPress={() => {
 							setSelectedAd(item.id);
