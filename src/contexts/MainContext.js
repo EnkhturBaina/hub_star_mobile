@@ -12,6 +12,7 @@ const MainContext = React.createContext();
 
 export const MainStore = (props) => {
 	const navigation = useNavigation();
+	const [locale, setLocale] = useState("mn");
 	const [isCheckingUpdate, setIsCheckingUpdate] = useState(false);
 	const [updateAvailable, setUpdateAvailable] = useState(false);
 
@@ -328,8 +329,12 @@ export const MainStore = (props) => {
 	};
 
 	const getMainDirection = async () => {
+		console.log("LOCALE", locale);
 		await axios
 			.get(`${SERVER_URL}reference/main-direction`, {
+				params: {
+					// lang: locale
+				},
 				headers: {
 					"X-API-KEY": X_API_KEY
 				}
@@ -387,11 +392,11 @@ export const MainStore = (props) => {
 	const getTypeName = (userType, specialService, isSlash) => {
 		var typeData = null;
 		if (userType !== null) {
-			typeData = UserTabData.filter((el) => el.type === userType).map(function (obj) {
+			typeData = UserTabData.filter((el) => el.type === userType)?.map(function (obj) {
 				return obj.title;
 			});
 		} else if (specialService !== null) {
-			typeData = SpecialServiceData.filter((el) => el.type === specialService).map(function (obj) {
+			typeData = SpecialServiceData.filter((el) => el.type === specialService)?.map(function (obj) {
 				return obj.title;
 			});
 		}
@@ -651,7 +656,9 @@ export const MainStore = (props) => {
 				createAd,
 				advertisement,
 				isCheckingUpdate,
-				updateAvailable
+				updateAvailable,
+				locale,
+				setLocale
 			}}
 		>
 			{props.children}

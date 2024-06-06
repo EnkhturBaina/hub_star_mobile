@@ -54,7 +54,7 @@ const Advices = () => {
 					{advices?.length == 0 && loadingAdvices ? (
 						<AdvicesSkeleton />
 					) : (
-						advices.map((el, index) => {
+						advices?.map((el, index) => {
 							return (
 								<TouchableOpacity
 									key={index}

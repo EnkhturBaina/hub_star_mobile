@@ -60,7 +60,7 @@ const CategoryScreen = memo(() => {
 	}
 
 	function changeKey(array, oldKey, newKey) {
-		return array.map((item) => {
+		return array?.map((item) => {
 			const newItem = { ...item };
 			if (newItem.hasOwnProperty(oldKey)) {
 				newItem[newKey] = newItem[oldKey];

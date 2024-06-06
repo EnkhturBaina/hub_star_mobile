@@ -73,7 +73,7 @@ const SingleServiceAdvices = (props) => {
 					) : adviceData?.length == 0 && !loadingServices ? (
 						<Text>Холбоотой зөвлөмжүүд олдсонгүй</Text>
 					) : (
-						adviceData.map((el, index) => {
+						adviceData?.map((el, index) => {
 							return (
 								<TouchableOpacity
 									onPress={() => {
