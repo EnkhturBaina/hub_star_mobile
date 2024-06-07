@@ -14,39 +14,40 @@ import {
 import { MAIN_COLOR } from "../constant";
 import MainContext from "../contexts/MainContext";
 import SplashScreen from "../screens/SplashScreen";
+import { i18n } from "../refs/i18";
 
 const TABS = [
 	{
 		name: "HomeTab",
-		title: "Нүүр",
+		title: "home",
 		icon: require("../../assets/figma-icons/home.png"),
 		iconActive: require("../../assets/figma-icons/home-white.png"),
 		component: HomeScreenStackNavigator
 	},
 	{
 		name: "CatTab",
-		title: "Ангилал",
+		title: "category",
 		icon: require("../../assets/figma-icons/cat.png"),
 		iconActive: require("../../assets/figma-icons/cat-white.png"),
 		component: CategoryStackNavigator
 	},
 	{
 		name: "AddTab",
-		title: "Нэмэх",
+		title: "add",
 		icon: require("../../assets/figma-icons/add.png"),
 		iconActive: require("../../assets/figma-icons/add-white.png"),
 		component: AddServiceStackNavigator
 	},
 	{
 		name: "ChatTab",
-		title: "Чат",
+		title: "chat",
 		icon: require("../../assets/figma-icons/chatMenu.png"),
 		iconActive: require("../../assets/figma-icons/chatMenu-white.png"),
 		component: ChatStackNavigator
 	},
 	{
 		name: "ProfileTab",
-		title: "Профайл",
+		title: "profile",
 		icon: require("../../assets/figma-icons/profile.png"),
 		iconActive: require("../../assets/figma-icons/profile-white.png"),
 		component: ProfileStackNavigator
@@ -125,7 +126,7 @@ const BottomBar = (props) => {
 												marginTop: 5
 											}}
 										>
-											{tab.title}
+											{i18n.t(tab.title)}
 										</Text>
 									</View>
 								),

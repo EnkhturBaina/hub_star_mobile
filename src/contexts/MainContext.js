@@ -7,12 +7,12 @@ import UserTabData from "../refs/UserTabData";
 import SpecialServiceData from "../refs/SpecialServiceData";
 import * as FileSystem from "expo-file-system";
 import * as Updates from "expo-updates";
+import { i18n } from "../refs/i18";
 
 const MainContext = React.createContext();
 
 export const MainStore = (props) => {
 	const navigation = useNavigation();
-	const [locale, setLocale] = useState("mn");
 	const [isCheckingUpdate, setIsCheckingUpdate] = useState(false);
 	const [updateAvailable, setUpdateAvailable] = useState(false);
 
@@ -329,11 +329,10 @@ export const MainStore = (props) => {
 	};
 
 	const getMainDirection = async () => {
-		console.log("LOCALE", locale);
 		await axios
 			.get(`${SERVER_URL}reference/main-direction`, {
 				params: {
-					// lang: locale
+					lang: i18n.locale
 				},
 				headers: {
 					"X-API-KEY": X_API_KEY
@@ -656,9 +655,7 @@ export const MainStore = (props) => {
 				createAd,
 				advertisement,
 				isCheckingUpdate,
-				updateAvailable,
-				locale,
-				setLocale
+				updateAvailable
 			}}
 		>
 			{props.children}
