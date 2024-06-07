@@ -4,6 +4,7 @@ import UserTabData from "../../refs/UserTabData";
 import MainContext from "../../contexts/MainContext";
 import { MAIN_BORDER_RADIUS } from "../../constant";
 import { useNavigation } from "@react-navigation/native";
+import { i18n } from "../../refs/i18";
 
 const UserTypes = (props) => {
 	const state = useContext(MainContext);
@@ -32,7 +33,7 @@ const UserTypes = (props) => {
 							}}
 						>
 							<Image style={styles.typeLogo} source={el.image} />
-							<Text style={styles.typeText}>{el.title}</Text>
+							<Text style={styles.typeText}>{i18n.t(el.title)}</Text>
 						</TouchableOpacity>
 					);
 				})}

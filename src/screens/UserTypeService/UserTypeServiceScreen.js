@@ -13,6 +13,7 @@ import axios from "axios";
 import Empty from "../../components/Empty";
 import UserTypeServicesSkeleton from "../../components/Skeletons/UserTypeServicesSkeleton";
 import UserTypeSideBarFilter from "./UserTypeSideBarFilter";
+import { i18n } from "../../refs/i18";
 
 const UserTypeServiceScreen = (props) => {
 	const state = useContext(MainContext);
@@ -191,7 +192,7 @@ const UserTypeServiceScreen = (props) => {
 											}
 										]}
 									>
-										{el.title}
+										{i18n.t(el.title)}
 									</Text>
 								</TouchableOpacity>
 							);

@@ -3,5 +3,10 @@
 	"category": "Ангилал",
 	"add": "Нэмэх",
 	"chat": "Чат",
-	"profile": "Профайл"
+	"profile": "Профайл",
+	"subscriber": "Захиалагч",
+	"executor": "Гүйцэтгэгч",
+	"supplier": "Ханган нийлүүлэгч",
+	"machinery": "Машин механизм",
+	"transportation": "Тээвэр"
 }

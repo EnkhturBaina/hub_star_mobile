@@ -3,5 +3,10 @@
 	"category": "Category",
 	"add": "Add",
 	"chat": "Chat",
-	"profile": "Profile"
+	"profile": "Profile",
+	"subscriber": "Subscriber",
+	"executor": "Contractor",
+	"supplier": "Supplier",
+	"machinery": "Machinery Meachnisms and Equipment",
+	"transportation": "Transportation"
 }

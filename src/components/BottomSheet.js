@@ -2,6 +2,7 @@ import { ScrollView, StyleSheet, Text, TouchableOpacity, View, Platform } from "
 import React, { useContext, useEffect, useState, useRef } from "react";
 import RBSheet from "react-native-raw-bottom-sheet";
 import { MAIN_COLOR } from "../constant";
+import { i18n } from "../refs/i18";
 
 const BottomSheet = ({
 	bodyText, //sheet -н text
@@ -11,7 +12,8 @@ const BottomSheet = ({
 	handle,
 	action, // parent Fn
 	lookUpType,
-	actionKey
+	actionKey,
+	isLang
 }) => {
 	const itemHeight = 40;
 	const sheetRef = useRef(); //Bottomsheet
@@ -72,13 +74,17 @@ const BottomSheet = ({
 								bodyText?.map((el, index) => {
 									return (
 										<TouchableOpacity key={index} onPress={() => functionCombined(el)}>
-											<Text style={styles.bottomSheetBodyLookup}>{el[displayName]}</Text>
+											<Text style={styles.bottomSheetBodyLookup}>
+												{isLang ? i18n.t(el[displayName]) : el[displayName]}
+											</Text>
 										</TouchableOpacity>
 									);
 								})
 							) : bodyText?.length == 1 ? (
 								<TouchableOpacity onPress={() => functionCombined(bodyText[0])}>
-									<Text style={styles.bottomSheetBodyLookup}>{bodyText[0]?.[displayName]}</Text>
+									<Text style={styles.bottomSheetBodyLookup}>
+										{isLang ? i18n.t(bodyText[0]?.[displayName]) : bodyText[0]?.[displayName]}
+									</Text>
 								</TouchableOpacity>
 							) : (
 								<TouchableOpacity onPress={() => {}} style={{ height: 40 }} disabled>

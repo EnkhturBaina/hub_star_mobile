@@ -24,12 +24,15 @@ import BottomSheet from "../../components/BottomSheet";
 import * as ImagePicker from "expo-image-picker";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { ImageZoom } from "@likashefqet/react-native-image-zoom";
+import { i18n } from "../../refs/i18";
 
 const Confirmation = (props) => {
 	const state = useContext(MainContext);
 
 	const tabBarHeight = useBottomTabBarHeight();
 	const [tempState, setTempState] = useState("");
+
+	const [isLang, setIsLang] = useState(false);
 
 	const [visibleDialog, setVisibleDialog] = useState(false); //Dialog харуулах
 	const [dialogType, setDialogType] = useState("warning"); //Dialog харуулах төрөл
@@ -78,12 +81,13 @@ const Confirmation = (props) => {
 			path: "organizationLogoId"
 		}
 	];
-	const setLookupData = (data, field, display, action_key) => {
+	const setLookupData = (data, field, display, action_key, is_lang) => {
 		setData(data); //Lookup -д харагдах дата
 		setFieldName(field); //Context -н object -н update хийх key
 		setDisplayName(display); //Lookup -д харагдах датаны текст талбар
 		setUselessParam(!uselessParam);
 		setActionKey(action_key);
+		setIsLang(is_lang);
 	};
 
 	//Snacbkbar харуулах
@@ -219,14 +223,14 @@ const Confirmation = (props) => {
 								<TouchableOpacity
 									style={styles.touchableSelect}
 									onPress={() => {
-										setLookupData(UserTabData, "userType", "title", "type");
+										setLookupData(UserTabData, "userType", "title", "type", true);
 									}}
 								>
 									<Text style={styles.selectedText} numberOfLines={1}>
 										{profileData.userType
 											? UserTabData?.map((el, index) => {
 													if (el.type === profileData.userType) {
-														return el.title;
+														return i18n.t(el.title);
 													}
 											  })
 											: "Сонгох"}
@@ -239,7 +243,7 @@ const Confirmation = (props) => {
 								<TouchableOpacity
 									style={styles.touchableSelect}
 									onPress={() => {
-										setLookupData(state.mainDirection, "mainDirectionId", "name", "id");
+										setLookupData(state.mainDirection, "mainDirectionId", "name", "id", false);
 									}}
 								>
 									<Text style={styles.selectedText} numberOfLines={1}>
@@ -373,6 +377,7 @@ const Confirmation = (props) => {
 					}));
 				}}
 				actionKey={actionKey}
+				isLang={isLang}
 			/>
 			<Modal
 				animationType="slide"

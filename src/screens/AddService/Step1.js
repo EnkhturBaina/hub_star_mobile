@@ -6,6 +6,7 @@ import { Icon } from "@rneui/base";
 import MainContext from "../../contexts/MainContext";
 import UserTabData from "../../refs/UserTabData";
 import axios from "axios";
+import { i18n } from "../../refs/i18";
 
 const Step1 = (props) => {
 	const state = useContext(MainContext);
@@ -108,7 +109,7 @@ const Step1 = (props) => {
 								{state.serviceData?.userType
 									? UserTabData?.map((el, index) => {
 											if (el.type === state.serviceData?.userType) {
-												return el.title;
+												return i18n.t(el.title);
 											}
 									  })
 									: "Сонгох"}

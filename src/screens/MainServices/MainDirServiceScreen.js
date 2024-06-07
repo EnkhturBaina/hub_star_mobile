@@ -13,6 +13,7 @@ import axios from "axios";
 import Empty from "../../components/Empty";
 import UserTypeServicesSkeleton from "../../components/Skeletons/UserTypeServicesSkeleton";
 import MainDirSideBarFilter from "./MainDirSideBarFilter";
+import { i18n } from "../../refs/i18";
 
 const MainDirServiceScreen = (props) => {
 	const state = useContext(MainContext);
@@ -213,7 +214,7 @@ const MainDirServiceScreen = (props) => {
 											}
 										]}
 									>
-										{el.title}
+										{i18n.t(el.title)}
 									</Text>
 								</TouchableOpacity>
 							);

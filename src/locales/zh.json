@@ -3,5 +3,10 @@
 	"category": "Ангилал1",
 	"add": "нэмэх1",
 	"chat": "Чат1",
-	"profile": "Профайл1"
+	"profile": "Профайл1",
+	"subscriber": "订阅者",
+	"executor": "承包商",
+	"supplier": "供应商",
+	"machinery": "电子机械机构及设备",
+	"transportation": "交通"
 }

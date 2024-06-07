@@ -10,6 +10,7 @@ import SideMenu from "react-native-side-menu-updated";
 import SideBarFilter from "./SideBarFilter";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import UserTabData from "../refs/UserTabData";
+import { i18n } from "../refs/i18";
 
 const ServiceListScreenByType = (props) => {
 	const state = useContext(MainContext);
@@ -104,7 +105,7 @@ const ServiceListScreenByType = (props) => {
 											}
 										]}
 									>
-										{el.title}
+										{i18n.t(el.title)}
 									</Text>
 								</TouchableOpacity>
 							);
