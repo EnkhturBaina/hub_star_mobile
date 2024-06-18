@@ -14,17 +14,19 @@ const Step1Special = (props) => {
 	const [fieldName, setFieldName] = useState(""); //Context -н аль утгыг OBJECT -с update хийхийг хадгалах
 	const [displayName, setDisplayName] = useState(""); //LOOKUP -д харагдах утга (display value)
 	const [actionKey, setActionKey] = useState(""); //Сонгогдсон OBJECT -с ямар key -р утга авах (Жнь: {object}.id)
+	const [isLang, setIsLang] = useState(false);
 
 	const [directions, setDirections] = useState([]);
 	const [subDirections, setSubDirections] = useState([]);
 
-	const setLookupData = (data, field, display, action_key) => {
+	const setLookupData = (data, field, display, action_key, is_lang) => {
 		// console.log("refRBSheet", refRBSheet);
 		setData(data); //Lookup -д харагдах дата
 		setFieldName(field); //Context -н object -н update хийх key
 		setDisplayName(display); //Lookup -д харагдах датаны текст талбар
 		setUselessParam(!uselessParam);
 		setActionKey(action_key);
+		setIsLang(is_lang);
 	};
 
 	useEffect(() => {
@@ -101,7 +103,7 @@ const Step1Special = (props) => {
 						<TouchableOpacity
 							style={styles.touchableSelect}
 							onPress={() => {
-								setLookupData(SpecialServiceData, "specialService", "title", "type");
+								setLookupData(SpecialServiceData, "specialService", "title", "type", true);
 							}}
 						>
 							<Text style={styles.selectedText} numberOfLines={1}>
@@ -190,6 +192,7 @@ const Step1Special = (props) => {
 					}
 				}}
 				actionKey={actionKey}
+				isLang={isLang}
 			/>
 		</SafeAreaView>
 	);

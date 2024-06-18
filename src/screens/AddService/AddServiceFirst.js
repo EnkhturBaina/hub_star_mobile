@@ -3,6 +3,7 @@ import React, { useContext, useLayoutEffect, useState } from "react";
 import MainContext from "../../contexts/MainContext";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { Icon } from "@rneui/base";
+import { i18n } from "../../refs/i18";
 
 const AddServiceFirst = (props) => {
 	const state = useContext(MainContext);
@@ -29,12 +30,12 @@ const AddServiceFirst = (props) => {
 			<View style={{ flexDirection: "column", flex: 1 }}>
 				<TouchableOpacity activeOpacity={0.7} onPress={() => handleChoose(true)} style={styles.addItemContainer}>
 					<Icon name="pluscircle" type="antdesign" size={70} color="#c5c5c5" />
-					<Text style={{ fontSize: 18, color: "#919395" }}>Онцгой үйлчилгээ</Text>
+					<Text style={{ fontSize: 18, color: "#919395" }}>{i18n.t("addSpecialService")}</Text>
 				</TouchableOpacity>
 				<TouchableOpacity activeOpacity={0.7} onPress={() => handleChoose(false)} style={styles.addItemContainer}>
 					<Icon name="pluscircle" type="antdesign" size={70} color="#c5c5c5" />
 
-					<Text style={{ fontSize: 18, color: "#919395" }}>Энгийн үйлчилгээ</Text>
+					<Text style={{ fontSize: 18, color: "#919395" }}>{i18n.t("addSimpleService")}</Text>
 				</TouchableOpacity>
 			</View>
 		</SafeAreaProvider>
