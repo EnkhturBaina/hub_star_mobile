@@ -5,6 +5,7 @@ import MainContext from "../../contexts/MainContext";
 import axios from "axios";
 import AdvicesSkeleton from "../../components/Skeletons/AdvicesSkeleton";
 import { useNavigation } from "@react-navigation/native";
+import { i18n } from "../../refs/i18";
 
 const HomeAdsScreen = () => {
 	const state = useContext(MainContext);
@@ -12,7 +13,7 @@ const HomeAdsScreen = () => {
 
 	return (
 		<View>
-			<Text style={styles.specialServiceText}>Энгийн үйлчилгээ</Text>
+			<Text style={styles.specialServiceText}>{i18n.t("simpleServices")}</Text>
 			<View style={{ marginTop: 10 }}>
 				<ScrollView
 					horizontal={true}

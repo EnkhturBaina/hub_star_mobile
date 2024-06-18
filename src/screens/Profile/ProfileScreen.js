@@ -30,6 +30,7 @@ import GradientButton from "../../components/GradientButton";
 import axios from "axios";
 import { menuList } from "./ProfileMenuList";
 import * as ImagePicker from "expo-image-picker";
+import { i18n } from "../../refs/i18";
 
 const ProfileScreen = (props) => {
 	const state = useContext(MainContext);
@@ -201,7 +202,7 @@ const ProfileScreen = (props) => {
 						return (
 							<TouchableOpacity key={index} style={styles.gridMenus} onPress={() => props.navigation.navigate(el.nav)}>
 								<Image style={{ width: 24, height: 24 }} source={el.icon} />
-								<Text style={styles.menuText}>{el.name}</Text>
+								<Text style={styles.menuText}>{i18n.t(el.name)}</Text>
 							</TouchableOpacity>
 						);
 					})}
@@ -214,7 +215,7 @@ const ProfileScreen = (props) => {
 						}}
 					>
 						<Icon name="deleteuser" type="antdesign" size={25} color="red" />
-						<Text style={styles.lastText}>Бүртгэл устгах</Text>
+						<Text style={styles.lastText}>{i18n.t("deleteAccount")}</Text>
 					</TouchableOpacity>
 					<TouchableOpacity
 						style={styles.gridMenus}
@@ -223,7 +224,7 @@ const ProfileScreen = (props) => {
 						}}
 					>
 						<Image style={{ width: 24, height: 24 }} source={require("../../../assets/figma-icons/logout.png")} />
-						<Text style={styles.lastText}>Системээс гарах</Text>
+						<Text style={styles.lastText}>{i18n.t("logout")}</Text>
 					</TouchableOpacity>
 				</View>
 			</ScrollView>

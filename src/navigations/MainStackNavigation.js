@@ -50,6 +50,7 @@ import AddServiceSpecial from "../screens/AddService/AddServiceSpecial";
 import SingleHomeAdScreen from "../screens/HomeScreenComponents/SingleHomeAdScreen";
 import SingleServiceViewProfileScreen from "../components/SingleServiceViewProfileScreen";
 import Posted from "../screens/Profile/Posted";
+import { i18n } from "../refs/i18";
 
 const Stack = createStackNavigator();
 const width = Dimensions.get("screen").width;
@@ -102,7 +103,7 @@ const LoginStackNavigator = (props) => {
 				name="RegisterScreen"
 				component={RegisterScreen}
 				options={{
-					title: "Бүртгүүлэх",
+					title: i18n.t("register"),
 					headerTitleStyle: {
 						fontWeight: "800"
 					},
@@ -122,7 +123,7 @@ const LoginStackNavigator = (props) => {
 				name="ConfirmScreen"
 				component={ConfirmScreen}
 				options={{
-					title: "Бүртгүүлэх",
+					title: i18n.t("register"),
 					headerTitleStyle: {
 						fontWeight: "800"
 					},
@@ -142,7 +143,7 @@ const LoginStackNavigator = (props) => {
 				name="OTPScreen"
 				component={OTPScreen}
 				options={{
-					title: "Бүртгүүлэх",
+					title: i18n.t("register"),
 					headerTitleStyle: {
 						fontWeight: "800"
 					},
@@ -162,7 +163,7 @@ const LoginStackNavigator = (props) => {
 				name="BioScreen"
 				component={BioScreen}
 				options={{
-					title: "Бүртгүүлэх",
+					title: i18n.t("register"),
 					headerTitleStyle: {
 						fontWeight: "800"
 					},
@@ -182,7 +183,7 @@ const LoginStackNavigator = (props) => {
 				name="ResetPassword"
 				component={ResetPassword}
 				options={{
-					title: "Нууц үг мартсан",
+					title: i18n.t("forgotPassword"),
 					headerTitleStyle: {
 						fontWeight: "800"
 					},
@@ -202,7 +203,7 @@ const LoginStackNavigator = (props) => {
 				name="ConfirmPassword"
 				component={ConfirmPassword}
 				options={{
-					title: "Баталгаажуулалт",
+					title: i18n.t("confirmation"),
 					headerTitleStyle: {
 						fontWeight: "800"
 					},
@@ -222,7 +223,7 @@ const LoginStackNavigator = (props) => {
 				name="ChangePassword"
 				component={ChangePassword}
 				options={{
-					title: "Нууц үг мартсан",
+					title: i18n.t("forgotPassword"),
 					headerTitleStyle: {
 						fontWeight: "800"
 					},
@@ -269,7 +270,7 @@ const HomeScreenStackNavigator = (props) => {
 				name="ServiceListScreen"
 				component={ServiceListScreen}
 				options={{
-					title: "Үйлчилгээ",
+					title: i18n.t("service"),
 					headerTitleStyle: {
 						fontWeight: "800"
 					},
@@ -289,7 +290,7 @@ const HomeScreenStackNavigator = (props) => {
 				name="ServiceListScreenByType"
 				component={ServiceListScreenByType}
 				options={{
-					title: "Үйлчилгээ",
+					title: i18n.t("service"),
 					headerTitleStyle: {
 						fontWeight: "800"
 					},
@@ -329,7 +330,7 @@ const HomeScreenStackNavigator = (props) => {
 				name="NotificationScreen"
 				component={NotificationScreen}
 				options={{
-					title: "Мэдэгдэл",
+					title: i18n.t("notification"),
 					headerTitleStyle: {
 						fontWeight: "800"
 					},
@@ -349,7 +350,7 @@ const HomeScreenStackNavigator = (props) => {
 				name="NotificationDTLScreen"
 				component={NotificationDTLScreen}
 				options={{
-					title: "Мэдэгдэл",
+					title: i18n.t("notification"),
 					headerTitleStyle: {
 						fontWeight: "800"
 					},
@@ -369,7 +370,7 @@ const HomeScreenStackNavigator = (props) => {
 				name="HistoryMainScreen"
 				component={HistoryMainScreen}
 				options={{
-					title: "Үйлчилгээнүүд",
+					title: i18n.t("services"),
 					headerTitleStyle: {
 						fontWeight: "800"
 					},
@@ -430,7 +431,7 @@ const HomeScreenStackNavigator = (props) => {
 				component={SpecialServiceScreen}
 				options={{
 					gestureEnabled: false,
-					title: "Онцгой үйлчилгээ",
+					title: i18n.t("specialService"),
 					headerTitleStyle: {
 						fontWeight: "800"
 					},
@@ -451,7 +452,7 @@ const HomeScreenStackNavigator = (props) => {
 				component={UserTypeServiceScreen}
 				options={{
 					gestureEnabled: false,
-					title: "Энгийн үйлчилгээ",
+					title: i18n.t("simpleServices"),
 					headerTitleStyle: {
 						fontWeight: "800"
 					},
@@ -492,7 +493,7 @@ const HomeScreenStackNavigator = (props) => {
 				component={MainAdviceScreen}
 				options={{
 					gestureEnabled: false,
-					title: "Зөвлөмжүүд",
+					title: i18n.t("advices"),
 					headerTitleStyle: {
 						fontWeight: "800"
 					},
@@ -555,7 +556,7 @@ const HomeScreenStackNavigator = (props) => {
 				component={MainDirServiceScreen}
 				options={{
 					gestureEnabled: false,
-					title: "Энгийн үйлчилгээ",
+					title: i18n.t("simpleServices"),
 					headerTitleStyle: {
 						fontWeight: "800"
 					},
@@ -615,7 +616,7 @@ const HomeScreenStackNavigator = (props) => {
 				name="UPDATE_AddServiceFirst"
 				component={AddServiceFirst}
 				options={{
-					title: "Үйлчилгээ нэмэх",
+					title: i18n.t("addService"),
 					headerTitleStyle: {
 						fontWeight: "800"
 					},
@@ -635,7 +636,7 @@ const HomeScreenStackNavigator = (props) => {
 				name="UPDATE_AddService"
 				component={AddService}
 				options={{
-					title: "Энгийн үйлчилгээ нэмэх",
+					title: i18n.t("addSimpleService"),
 					headerTitleStyle: {
 						fontWeight: "800"
 					},
@@ -655,7 +656,7 @@ const HomeScreenStackNavigator = (props) => {
 				name="UPDATE_AddServiceSpecial"
 				component={AddServiceSpecial}
 				options={{
-					title: "Онцгой үйлчилгээ нэмэх",
+					title: i18n.t("addSpecialService"),
 					headerTitleStyle: {
 						fontWeight: "800"
 					},
@@ -759,7 +760,7 @@ const AddServiceStackNavigator = (props) => {
 				name="AddServiceFirst"
 				component={AddServiceFirst}
 				options={{
-					title: "Үйлчилгээ нэмэх",
+					title: i18n.t("addService"),
 					headerTitleStyle: {
 						fontWeight: "800"
 					},
@@ -779,7 +780,7 @@ const AddServiceStackNavigator = (props) => {
 				name="AddService"
 				component={AddService}
 				options={{
-					title: "Энгийн үйлчилгээ нэмэх",
+					title: i18n.t("addSimpleService"),
 					headerTitleStyle: {
 						fontWeight: "800"
 					},
@@ -799,7 +800,7 @@ const AddServiceStackNavigator = (props) => {
 				name="AddServiceSpecial"
 				component={AddServiceSpecial}
 				options={{
-					title: "Онцгой үйлчилгээ нэмэх",
+					title: i18n.t("addSpecialService"),
 					headerTitleStyle: {
 						fontWeight: "800"
 					},
@@ -870,7 +871,7 @@ const ProfileStackNavigator = (props) => {
 				name="EditProfile"
 				component={EditProfile}
 				options={{
-					title: "Профайл засах",
+					title: i18n.t("editProfile"),
 					headerTitleStyle: {
 						fontWeight: "800"
 					},
@@ -890,7 +891,7 @@ const ProfileStackNavigator = (props) => {
 				name="Notification"
 				component={Notification}
 				options={{
-					title: "Мэдэгдэл",
+					title: i18n.t("notification"),
 					headerTitleStyle: {
 						fontWeight: "800"
 					},
@@ -910,7 +911,7 @@ const ProfileStackNavigator = (props) => {
 				name="Account"
 				component={Account}
 				options={{
-					title: "Дансны мэдээлэл",
+					title: i18n.t("accountInformation"),
 					headerTitleStyle: {
 						fontWeight: "800"
 					},
@@ -930,7 +931,7 @@ const ProfileStackNavigator = (props) => {
 				name="Confirmation"
 				component={Confirmation}
 				options={{
-					title: "Баталгаажуулалт",
+					title: i18n.t("confirmation"),
 					headerTitleStyle: {
 						fontWeight: "800"
 					},
@@ -950,7 +951,7 @@ const ProfileStackNavigator = (props) => {
 				name="Security"
 				component={Security}
 				options={{
-					title: "Нууцлал",
+					title: i18n.t("privacy"),
 					headerTitleStyle: {
 						fontWeight: "800"
 					},
@@ -970,7 +971,7 @@ const ProfileStackNavigator = (props) => {
 				name="Language"
 				component={Language}
 				options={{
-					title: "Хэл солих",
+					title: i18n.t("language"),
 					headerTitleStyle: {
 						fontWeight: "800"
 					},
@@ -990,7 +991,7 @@ const ProfileStackNavigator = (props) => {
 				name="QAs"
 				component={QAs}
 				options={{
-					title: "Түгээмэл асуулт",
+					title: i18n.t("qa"),
 					headerTitleStyle: {
 						fontWeight: "800"
 					},
@@ -1010,7 +1011,7 @@ const ProfileStackNavigator = (props) => {
 				name="Invite"
 				component={Invite}
 				options={{
-					title: "Найзаа урих",
+					title: i18n.t("invite"),
 					headerTitleStyle: {
 						fontWeight: "800"
 					},
@@ -1030,7 +1031,7 @@ const ProfileStackNavigator = (props) => {
 				name="Posted"
 				component={Posted}
 				options={{
-					title: "Байршуулсан үйлчилгээ",
+					title: i18n.t("postedService"),
 					headerTitleStyle: {
 						fontWeight: "800"
 					},

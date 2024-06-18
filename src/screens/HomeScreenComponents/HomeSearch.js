@@ -16,6 +16,7 @@ import MainContext from "../../contexts/MainContext";
 import { useNavigation } from "@react-navigation/native";
 import { AutocompleteDropdown } from "react-native-autocomplete-dropdown";
 import axios from "axios";
+import { i18n } from "../../refs/i18";
 
 const width = Dimensions.get("window").width;
 const height = Dimensions.get("window").height;
@@ -129,7 +130,7 @@ const HomeSearch = () => {
 				)}
 				suggestionsListMaxHeight={300}
 				textInputProps={{
-					placeholder: "Хайх"
+					placeholder: i18n.t("search")
 				}}
 				flatListProps={{
 					removeClippedSubviews: true,

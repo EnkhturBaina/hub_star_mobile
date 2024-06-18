@@ -5,6 +5,7 @@ import MainContext from "../../contexts/MainContext";
 import axios from "axios";
 import AdvicesSkeleton from "../../components/Skeletons/AdvicesSkeleton";
 import { useNavigation } from "@react-navigation/native";
+import { i18n } from "../../refs/i18";
 
 const Advices = () => {
 	const state = useContext(MainContext);
@@ -44,7 +45,7 @@ const Advices = () => {
 
 	return (
 		<View>
-			<Text style={styles.specialServiceText}>Зөвлөмжүүд</Text>
+			<Text style={styles.specialServiceText}>{i18n.t("advices")}</Text>
 			<View style={{ marginVertical: 10 }}>
 				<ScrollView
 					horizontal={true}

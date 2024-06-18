@@ -4,13 +4,16 @@ import SpecialServiceData from "../../refs/SpecialServiceData";
 import MainContext from "../../contexts/MainContext";
 import { useNavigation } from "@react-navigation/native";
 import { MAIN_BORDER_RADIUS } from "../../constant";
+import { i18n } from "../../refs/i18";
 
 const SpecialService = () => {
 	const state = useContext(MainContext);
 	const navigation = useNavigation();
 	return (
 		<View>
-			<Text style={{ fontWeight: 500, fontSize: 16, marginLeft: 20, marginBottom: 10 }}>Онцгой үйлчилгээ</Text>
+			<Text style={{ fontWeight: 500, fontSize: 16, marginLeft: 20, marginBottom: 10 }}>
+				{i18n.t("specialService")}
+			</Text>
 			<View style={styles.gridContainer}>
 				{SpecialServiceData?.map((el, index) => {
 					return (
@@ -30,7 +33,7 @@ const SpecialService = () => {
 							key={index}
 						>
 							<Image style={styles.typeLogo} source={el.icon} />
-							<Text style={styles.featureText}>{el.title}</Text>
+							<Text style={styles.featureText}>{i18n.t(el.title)}</Text>
 						</TouchableOpacity>
 					);
 				})}
