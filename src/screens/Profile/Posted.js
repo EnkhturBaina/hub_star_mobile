@@ -54,7 +54,7 @@ const Posted = (props) => {
 
 	const [visibleDialog, setVisibleDialog] = useState(false); //Dialog харуулах
 	const [dialogType, setDialogType] = useState("success"); //Dialog харуулах төрөл
-	const [dialogText, setDialogText] = useState("Үйлчилгээг устгахдаа итгэлтэй байна уу?"); //Dialog -н текст
+	const [dialogText, setDialogText] = useState(i18n.t("confirmDeleteAd")); //Dialog -н текст
 
 	const [selectedAd, setSelectedAd] = useState(null);
 
@@ -273,7 +273,7 @@ const Posted = (props) => {
 					setVisibleDialog(false);
 				}}
 				text={dialogText}
-				confirmBtnText="Устгах"
+				confirmBtnText={i18n.t("delete")}
 				DeclineBtnText={i18n.t("close")}
 				type={dialogType}
 			/>

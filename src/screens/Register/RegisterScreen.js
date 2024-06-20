@@ -28,6 +28,7 @@ import google_logo from "../../../assets/google.png";
 import CustomSnackbar from "../../components/CustomSnackbar";
 import RBSheet from "react-native-raw-bottom-sheet";
 import axios from "axios";
+import { i18n } from "../../refs/i18";
 
 const RegisterScreen = (props) => {
 	const [errorMsg, setErrorMsg] = useState("");
@@ -136,7 +137,7 @@ const RegisterScreen = (props) => {
 						{/* <Avatar.Accessory size={28} onPress={() => {}} color="#fff" style={{ backgroundColor: MAIN_COLOR }} /> */}
 					</Avatar>
 				</TouchableOpacity>
-				<Text className="font-bold text-2xl mb-4 text-center">Нэвтрэх хэсэг</Text>
+				<Text className="font-bold text-2xl mb-4 text-center">{i18n.t("registerScreenTitle")}</Text>
 				{errorMsg ? (
 					<Text className="font-bold text-base mb-4 text-center" style={{ color: "red" }}>
 						{errorMsg}
@@ -148,7 +149,7 @@ const RegisterScreen = (props) => {
 					<TextInput
 						style={styles.generalInput}
 						value={email}
-						placeholder="Имэйл"
+						placeholder={i18n.t("email")}
 						keyboardType="email-address"
 						returnKeyType="done"
 						onChangeText={setEmail}
@@ -159,7 +160,7 @@ const RegisterScreen = (props) => {
 					<TextInput
 						style={styles.generalInput}
 						value={lastName}
-						placeholder="Овог"
+						placeholder={i18n.t("lastName")}
 						returnKeyType="done"
 						onChangeText={setLastName}
 					/>
@@ -169,7 +170,7 @@ const RegisterScreen = (props) => {
 					<TextInput
 						style={styles.generalInput}
 						value={firstName}
-						placeholder="Нэр"
+						placeholder={i18n.t("firstName")}
 						returnKeyType="done"
 						onChangeText={setFirstName}
 					/>
@@ -177,7 +178,7 @@ const RegisterScreen = (props) => {
 				<View style={styles.sectionStyle}>
 					<Icon name="key" type="ionicon" size={20} color={GRAY_ICON_COLOR} style={styles.inputIcon} />
 					<TextInput
-						placeholder="Нууц үг"
+						placeholder={i18n.t("password")}
 						value={password}
 						onChangeText={setPassword}
 						secureTextEntry={hidePassword}
@@ -200,7 +201,7 @@ const RegisterScreen = (props) => {
 							fontWeight: "normal",
 							marginLeft: 5
 						}}
-						title="Үйлчилгээний нөхцөл зөвшөөрөх"
+						title={i18n.t("confirmTerm")}
 						iconType="material-community"
 						checkedIcon="checkbox-outline"
 						uncheckedIcon="checkbox-blank-outline"
@@ -212,7 +213,7 @@ const RegisterScreen = (props) => {
 				</View>
 				<View className="mt-2">
 					<GradientButton
-						text="Бүртгүүлэх"
+						text={i18n.t("register")}
 						action={() => register()}
 						disabled={isWaiting ? true : false}
 						isWaiting={isWaiting}
@@ -220,9 +221,9 @@ const RegisterScreen = (props) => {
 				</View>
 
 				<View className="flex flex-row items-center self-center">
-					<Text className="font-medium text-base my-2">Та бүртгэл үүсэгсэн үү?</Text>
+					<Text className="font-medium text-base my-2">{i18n.t("createAccount")}</Text>
 					<TouchableOpacity onPress={() => props.navigation.navigate("LoginScreen")}>
-						<Text className="text-blue-500 ml-2">Нэвтрэх</Text>
+						<Text className="text-blue-500 ml-2">{i18n.t("login")}</Text>
 					</TouchableOpacity>
 				</View>
 				{/* <View
@@ -321,7 +322,7 @@ const RegisterScreen = (props) => {
 									setTermCheck(true);
 									refRBSheet.current.close();
 								}}
-								title="Зөвшөөрөх"
+								title={i18n.t("confirm")}
 								color={MAIN_COLOR}
 								radius={12}
 							/>

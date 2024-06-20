@@ -133,17 +133,19 @@ const Confirmation = (props) => {
 		} else if (!profileData.mainDirectionId) {
 			onToggleSnackBar(`${i18n.t("mainDir")} ${i18n.t("pleaseChoose")}`);
 		} else if (!profileData.organizationName) {
-			onToggleSnackBar("Байгууллагын нэр оруулна уу.");
+			onToggleSnackBar(`${i18n.t("orgName")} ${i18n.t("pleaseEnter")}`);
 		} else if (!profileData.organizationRegno) {
-			onToggleSnackBar("Байгууллагын регистрийн дугаар оруулна уу.");
+			onToggleSnackBar(`${i18n.t("orgRegister")} ${i18n.t("pleaseEnter")}`);
 		}
 		//  else if (!profileData.webUrl) {
 		// 	onToggleSnackBar("Веб хуудас оруулна уу.");
 		// }
 		else if (tempState) {
-			onToggleSnackBar("Байгууллагын танилцуулга ба ажлын туршлага оруулна уу.");
+			onToggleSnackBar(`${i18n.t("orgExperience")} ${i18n.t("pleaseEnter")}`);
 		} else if (!profileData.experience) {
-			onToggleSnackBar("Хаяг оруулна уу.");
+			onToggleSnackBar(`${i18n.t("orgExperience")} ${i18n.t("pleaseEnter")}`);
+		} else if (!profileData.address) {
+			onToggleSnackBar(`${i18n.t("address")} ${i18n.t("pleaseEnter")}`);
 		} else {
 			axios
 				.patch(
@@ -262,7 +264,7 @@ const Confirmation = (props) => {
 									<Icon name="keyboard-arrow-down" type="material-icons" size={30} color={GRAY_ICON_COLOR} />
 								</TouchableOpacity>
 							</View>
-							<Text style={styles.label}>Зураг оруулах</Text>
+							<Text style={styles.label}>{i18n.t("uploadImage")}</Text>
 							<View style={styles.gridContainer}>
 								{IMAGE_DATA.map((el, index) => {
 									return (
@@ -299,7 +301,7 @@ const Confirmation = (props) => {
 								})}
 							</View>
 							<LoanInput
-								label="Байгууллагын нэр"
+								label={i18n.t("orgName")}
 								value={profileData?.organizationName}
 								onChangeText={(e) =>
 									setProfileData((prevState) => ({
@@ -309,7 +311,7 @@ const Confirmation = (props) => {
 								}
 							/>
 							<LoanInput
-								label="Байгууллагын регистрийн дугаар"
+								label={i18n.t("orgRegister")}
 								value={profileData?.organizationRegno}
 								onChangeText={(e) =>
 									setProfileData((prevState) => ({
@@ -319,7 +321,7 @@ const Confirmation = (props) => {
 								}
 							/>
 							<LoanInput
-								label="Веб хуудас"
+								label={i18n.t("webUrl")}
 								value={profileData?.webUrl}
 								onChangeText={(e) =>
 									setProfileData((prevState) => ({
@@ -329,13 +331,13 @@ const Confirmation = (props) => {
 								}
 							/>
 							<LoanInput
-								label="Байгууллагын үйл ажилгааний чиглэл"
+								label={i18n.t("orgIndustry")}
 								value={tempState}
 								keyboardType="number-pad"
 								onChangeText={(e) => setTempState(e)}
 							/>
 							<LoanInput
-								label="Байгууллагын танилцуулга ба ажлын туршлага"
+								label={i18n.t("orgExperience")}
 								value={profileData?.experience}
 								onChangeText={(e) =>
 									setProfileData((prevState) => ({

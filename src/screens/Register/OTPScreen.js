@@ -101,7 +101,7 @@ const OTPScreen = (props) => {
 			{errorMsg ? <Text className="font-bold text-center text-red-500">{errorMsg}</Text> : null}
 			<View className="mt-5">
 				<GradientButton
-					text="Баталгаажуулах"
+					text={i18n.t("confirmate")}
 					action={() => confirmOTP()}
 					// disabled={isDisabled}
 					disabled={isWaiting || isDisabled ? true : false}
@@ -118,7 +118,7 @@ const OTPScreen = (props) => {
 					setVisibleDialog(false);
 				}}
 				text={dialogText}
-				confirmBtnText="Окей"
+				confirmBtnText={i18n.t("okey")}
 				DeclineBtnText=""
 				type={dialogType}
 			/>

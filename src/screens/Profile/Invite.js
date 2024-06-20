@@ -8,6 +8,7 @@ import { Avatar } from "@rneui/base";
 import { Searchbar } from "react-native-paper";
 import { MAIN_BORDER_RADIUS, MAIN_COLOR } from "../../constant";
 import { ActivityIndicator } from "react-native";
+import { i18n } from "../../refs/i18";
 
 const Invite = () => {
 	const [contactData, setContactData] = useState([]);
@@ -85,7 +86,7 @@ const Invite = () => {
 				</View>
 				<View style={{ width: 100 }}>
 					<GradientButton
-						text="Урих"
+						text={i18n.t("inv")}
 						action={() => {
 							"phoneNumbers" in item && item.phoneNumbers[0]
 								? Linking.openURL(`sms:${item.phoneNumbers[0]?.digits}&body=HubStar application татаарай`)
