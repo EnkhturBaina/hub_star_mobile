@@ -62,19 +62,19 @@ const RegisterScreen = (props) => {
 	const register = async () => {
 		let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
 		if (email == "") {
-			onToggleSnackBar("И-мэйл хаягаа оруулна уу");
+			onToggleSnackBar(`${i18n.t("pleaseEnterEmail")} ${i18n.t("pleaseEnter")}`);
 		} else if (reg.test(email) === false) {
-			onToggleSnackBar("И-мэйл хаягаа зөв оруулна уу");
+			onToggleSnackBar(`${i18n.t("pleaseEnterEmailCorrect")} ${i18n.t("pleaseEnter")}`);
 		} else if (lastName == "") {
-			onToggleSnackBar("Овогоо оруулна уу");
+			onToggleSnackBar(`${i18n.t("lastName")} ${i18n.t("pleaseEnter")}`);
 		} else if (firstName == "") {
-			onToggleSnackBar("Нэрээ оруулна уу");
+			onToggleSnackBar(`${i18n.t("firstName")} ${i18n.t("pleaseEnter")}`);
 		} else if (password == "") {
-			onToggleSnackBar("Нууц үг оруулна уу");
+			onToggleSnackBar(i18n.t("pleaseEnterPassword"));
 		} else if (password.length < 8) {
-			onToggleSnackBar("Нууц үг багадаа 8 тэмдэгт байна");
+			onToggleSnackBar(i18n.t("regexPassword8"));
 		} else if (!termCheck) {
-			onToggleSnackBar("Үйлчилгээний нөхцөл зөвшөөрнө үү.");
+			onToggleSnackBar(i18n.t("pleaseConfirmTerm"));
 		} else {
 			setIsWaiting(true);
 			try {

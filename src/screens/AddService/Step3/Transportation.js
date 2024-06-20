@@ -15,6 +15,7 @@ import LoanInput from "../../../components/LoanInput";
 import MainContext from "../../../contexts/MainContext";
 import BottomSheet from "../../../components/BottomSheet";
 import ImageModal from "../../../components/ImageModal";
+import { i18n } from "../../../refs/i18";
 
 const Transportation = (props) => {
 	const state = useContext(MainContext);
@@ -77,7 +78,7 @@ const Transportation = (props) => {
 					>
 						<Text>Transportation</Text>
 						<View style={styles.touchableSelectContainer}>
-							<Text style={styles.label}>Машин механизмийн төрөл</Text>
+							<Text style={styles.label}>{i18n.t("machineryType")}</Text>
 							<TouchableOpacity
 								style={styles.touchableSelect}
 								onPress={() => {
@@ -91,13 +92,13 @@ const Transportation = (props) => {
 													return el.name;
 												}
 										  })
-										: "Сонгох"}
+										: i18n.t("choose")}
 								</Text>
 								<Icon name="keyboard-arrow-down" type="material-icons" size={30} color={GRAY_ICON_COLOR} />
 							</TouchableOpacity>
 						</View>
 						<View style={styles.touchableSelectContainer}>
-							<Text style={styles.label}>Марк</Text>
+							<Text style={styles.label}>{i18n.t("mark")}</Text>
 							<TouchableOpacity
 								style={styles.touchableSelect}
 								onPress={() => {
@@ -111,13 +112,13 @@ const Transportation = (props) => {
 													return el.name;
 												}
 										  })
-										: "Сонгох"}
+										: i18n.t("choose")}
 								</Text>
 								<Icon name="keyboard-arrow-down" type="material-icons" size={30} color={GRAY_ICON_COLOR} />
 							</TouchableOpacity>
 						</View>
 						<View style={styles.touchableSelectContainer}>
-							<Text style={styles.label}>Хүчин чадал</Text>
+							<Text style={styles.label}>{i18n.t("power")}</Text>
 							<TouchableOpacity
 								style={styles.touchableSelect}
 								onPress={() => {
@@ -131,13 +132,13 @@ const Transportation = (props) => {
 													return el.name;
 												}
 										  })
-										: "Сонгох"}
+										: i18n.t("choose")}
 								</Text>
 								<Icon name="keyboard-arrow-down" type="material-icons" size={30} color={GRAY_ICON_COLOR} />
 							</TouchableOpacity>
 						</View>
 						<LoanInput
-							label="Нэгж үнэлгээ.цаг"
+							label={i18n.t("unitAmountHour")}
 							keyboardType="number-pad"
 							value={props.tempUnitAmount}
 							onChangeText={(e) => {
@@ -149,7 +150,7 @@ const Transportation = (props) => {
 							}}
 						/>
 						<LoanInput
-							label="Багц үнэлгээ.өдөр"
+							label={i18n.t("packageAmountDay")}
 							keyboardType="number-pad"
 							value={props.tempPackageAmount}
 							onChangeText={(e) => {
@@ -160,10 +161,10 @@ const Transportation = (props) => {
 								// }))
 							}}
 						/>
-						<Text style={styles.label}>Зураг оруулах</Text>
+						<Text style={styles.label}>{i18n.t("uploadImage")}</Text>
 						<ImageModal />
 						<LoanInput
-							label="Тайлбар"
+							label={i18n.t("desciption")}
 							value={state.serviceData?.desciption}
 							onChangeText={(e) =>
 								state.setServiceData((prevState) => ({
@@ -175,7 +176,7 @@ const Transportation = (props) => {
 							multiline
 						/>
 						<LoanInput
-							label="И-мэйл"
+							label={i18n.t("email")}
 							value={state.serviceData?.email}
 							onChangeText={(e) =>
 								state.setServiceData((prevState) => ({
@@ -186,7 +187,7 @@ const Transportation = (props) => {
 							keyboardType="email-address"
 						/>
 						<LoanInput
-							label="Утас"
+							label={i18n.t("phoneNumber")}
 							value={state.serviceData?.phone}
 							onChangeText={(e) =>
 								state.setServiceData((prevState) => ({
@@ -207,7 +208,7 @@ const Transportation = (props) => {
 								fontWeight: "bold",
 								marginLeft: 5
 							}}
-							title="Мессэнжер нээх"
+							title={i18n.t("openMessenger")}
 							checked={state.serviceData?.isMessenger}
 							onPress={() => {
 								state.setServiceData((prevState) => ({
@@ -231,7 +232,7 @@ const Transportation = (props) => {
 								fontWeight: "bold",
 								marginLeft: 5
 							}}
-							title="Үйлчилгээний нөхцөл зөвшөөрөх"
+							title={i18n.t("confirmTerm")}
 							checked={state.serviceData?.isTermOfService}
 							onPress={() => {
 								state.setServiceData((prevState) => ({

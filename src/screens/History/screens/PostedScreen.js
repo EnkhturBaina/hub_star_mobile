@@ -34,7 +34,6 @@ const PostedScreen = (props) => {
 
 	const [visibleDialog, setVisibleDialog] = useState(false); //Dialog харуулах
 	const [dialogType, setDialogType] = useState("success"); //Dialog харуулах төрөл
-	const [dialogText, setDialogText] = useState("Үйлчилгээг устгахдаа итгэлтэй байна уу?"); //Dialog -н текст
 
 	const [selectedAd, setSelectedAd] = useState(null);
 
@@ -187,7 +186,7 @@ const PostedScreen = (props) => {
 							}
 						}}
 						leadingIcon="square-edit-outline"
-						title="Засах"
+						title={i18n.t("edit")}
 					/>
 					<Menu.Item
 						onPress={() => {
@@ -196,7 +195,7 @@ const PostedScreen = (props) => {
 							setVisibleDialog(true);
 						}}
 						leadingIcon="delete"
-						title="Устгах"
+						title={i18n.t("delete")}
 					/>
 				</Menu>
 			</TouchableOpacity>
@@ -259,8 +258,8 @@ const PostedScreen = (props) => {
 				declineFunction={() => {
 					setVisibleDialog(false);
 				}}
-				text={dialogText}
-				confirmBtnText="Устгах"
+				text={i18n.t("confirmDeleteAd")}
+				confirmBtnText={i18n.t("delete")}
 				DeclineBtnText={i18n.t("close")}
 				type={dialogType}
 			/>

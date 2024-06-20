@@ -15,6 +15,7 @@ import { Icon } from "@rneui/base";
 import LoanInput from "../../components/LoanInput";
 import MainContext from "../../contexts/MainContext";
 import axios from "axios";
+import { i18n } from "../../refs/i18";
 
 const Step2Special = (props) => {
 	const state = useContext(MainContext);
@@ -99,7 +100,7 @@ const Step2Special = (props) => {
 						automaticallyAdjustKeyboardInsets={true}
 					>
 						<LoanInput
-							label="Зарын гарчиг"
+							label={i18n.t("adTitle")}
 							value={state.serviceData?.title}
 							onChangeText={(e) =>
 								state.setServiceData((prevState) => ({
@@ -109,7 +110,7 @@ const Step2Special = (props) => {
 							}
 						/>
 						<View style={styles.touchableSelectContainer}>
-							<Text style={styles.label}>Аймаг, хот</Text>
+							<Text style={styles.label}>{i18n.t("adProvince")}</Text>
 							<TouchableOpacity
 								style={styles.touchableSelect}
 								onPress={() => {
@@ -123,13 +124,13 @@ const Step2Special = (props) => {
 													return el.name;
 												}
 										  })
-										: "Сонгох"}
+										: i18n.t("choose")}
 								</Text>
 								<Icon name="keyboard-arrow-down" type="material-icons" size={30} color={GRAY_ICON_COLOR} />
 							</TouchableOpacity>
 						</View>
 						<View style={styles.touchableSelectContainer}>
-							<Text style={styles.label}>Сум, дүүрэг</Text>
+							<Text style={styles.label}>{i18n.t("adDistrict")}</Text>
 							<TouchableOpacity
 								style={styles.touchableSelect}
 								onPress={() => {
@@ -144,13 +145,13 @@ const Step2Special = (props) => {
 													return el.name;
 												}
 										  })
-										: "Сонгох"}
+										: i18n.t("choose")}
 								</Text>
 								<Icon name="keyboard-arrow-down" type="material-icons" size={30} color={GRAY_ICON_COLOR} />
 							</TouchableOpacity>
 						</View>
 						<View style={styles.touchableSelectContainer}>
-							<Text style={styles.label}>Баг, хороо</Text>
+							<Text style={styles.label}>{i18n.t("adKhoroo")}</Text>
 							<TouchableOpacity
 								style={styles.touchableSelect}
 								onPress={() => {
@@ -165,13 +166,13 @@ const Step2Special = (props) => {
 													return el.name;
 												}
 										  })
-										: "Сонгох"}
+										: i18n.t("choose")}
 								</Text>
 								<Icon name="keyboard-arrow-down" type="material-icons" size={30} color={GRAY_ICON_COLOR} />
 							</TouchableOpacity>
 						</View>
 						<LoanInput
-							label="Байршил"
+							label={i18n.t("adAddress")}
 							value={state.serviceData?.address}
 							onChangeText={(e) =>
 								state.setServiceData((prevState) => ({

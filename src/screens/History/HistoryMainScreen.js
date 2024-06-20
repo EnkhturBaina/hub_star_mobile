@@ -9,6 +9,7 @@ import DoingScreen from "./screens/DoingScreen";
 import SavedScreen from "./screens/SavedScreen";
 import HistoryScreen from "./screens/HistoryScreen";
 import AdviceScreen from "./screens/AdviceScreen";
+import { i18n } from "../../refs/i18";
 
 const Tab = createMaterialTopTabNavigator();
 const HistoryMainScreen = (props) => {
@@ -66,11 +67,11 @@ const HistoryMainScreen = (props) => {
 					tabBarScrollEnabled: true
 				}}
 			>
-				<Tab.Screen name="Байршуулсан үйлчилгээ" component={PostedScreen} />
-				<Tab.Screen name="Хийгдэж буй ажил" component={DoingScreen} />
-				<Tab.Screen name="Хадгалсан үйлчилгээнүүд" component={SavedScreen} />
-				<Tab.Screen name="Үйлчилгээний түүх" component={HistoryScreen} />
-				<Tab.Screen name="Зөвлөмжүүд" component={AdviceScreen} />
+				<Tab.Screen name={i18n.t("postedService")} component={PostedScreen} />
+				<Tab.Screen name={i18n.t("worksAds")} component={DoingScreen} />
+				<Tab.Screen name={i18n.t("savedAds")} component={SavedScreen} />
+				<Tab.Screen name={i18n.t("historyAds")} component={HistoryScreen} />
+				<Tab.Screen name={i18n.t("advices")} component={AdviceScreen} />
 			</Tab.Navigator>
 		</SafeAreaProvider>
 	);

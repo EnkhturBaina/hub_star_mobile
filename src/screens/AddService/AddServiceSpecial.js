@@ -111,87 +111,87 @@ const AddServiceSpecial = (props) => {
 		} else if (state.currentStep == 3) {
 			if (state.serviceData?.specialService == "PUBLIC_SELECTION") {
 				if (tempUnitAmount == null || tempUnitAmount == "") {
-					onToggleSnackBar("Төсөвт өртөг оруулна уу.");
+					onToggleSnackBar(`${i18n.t("adOrtog")} ${i18n.t("pleaseEnter")}`);
 				} else if (state.serviceData?.imageIds?.length == 0) {
-					onToggleSnackBar("Зураг оруулна уу.");
+					onToggleSnackBar(`${i18n.t("image")} ${i18n.t("pleaseEnter")}`);
 				} else if (state.serviceData?.desciption == null) {
-					onToggleSnackBar("Тайлбар оруулна уу.");
+					onToggleSnackBar(`${i18n.t("desciption")} ${i18n.t("pleaseEnter")}`);
 				} else if (state.serviceData?.email == null) {
-					onToggleSnackBar("И-мэйл оруулна уу.");
+					onToggleSnackBar(`${i18n.t("email")} ${i18n.t("pleaseEnter")}`);
 				} else if (state.serviceData?.phone == null) {
-					onToggleSnackBar("Утас оруулна уу.");
+					onToggleSnackBar(`${i18n.t("phoneNumber")} ${i18n.t("pleaseEnter")}`);
 				} else {
 					createAdverstment();
 				}
 			} else if (state.serviceData?.specialService == "INTERNATIONAL_TRADE") {
 				if (state.serviceData?.measurement == null) {
-					onToggleSnackBar("Хэмжих нэгж оруулна уу.");
+					onToggleSnackBar(`${i18n.t("measurement")} ${i18n.t("pleaseEnter")}`);
 				} else if (tempUnitAmount == null || tempUnitAmount == "") {
-					onToggleSnackBar("Үнэ оруулна уу.");
+					onToggleSnackBar(`${i18n.t("price")} ${i18n.t("pleaseEnter")}`);
 				} else if (state.serviceData?.imageIds?.length == 0) {
-					onToggleSnackBar("Зураг оруулна уу.");
+					onToggleSnackBar(`${i18n.t("image")} ${i18n.t("pleaseEnter")}`);
 				} else if (state.serviceData?.desciption == null) {
-					onToggleSnackBar("Тайлбар оруулна уу.");
+					onToggleSnackBar(`${i18n.t("desciption")} ${i18n.t("pleaseEnter")}`);
 				} else if (state.serviceData?.email == null) {
-					onToggleSnackBar("И-мэйл оруулна уу.");
+					onToggleSnackBar(`${i18n.t("email")} ${i18n.t("pleaseEnter")}`);
 				} else if (state.serviceData?.phone == null) {
-					onToggleSnackBar("Утас оруулна уу.");
+					onToggleSnackBar(`${i18n.t("phoneNumber")} ${i18n.t("pleaseEnter")}`);
 				} else {
 					createAdverstment();
 				}
 			} else if (state.serviceData?.specialService == "CONSULTING_SERVICE") {
 				if (tempUnitAmount == null || tempUnitAmount == "") {
-					onToggleSnackBar("Үйлчилгээний үнэ оруулна уу.");
+					onToggleSnackBar(`${i18n.t("adServicePrice")} ${i18n.t("pleaseEnter")}`);
 				} else if (state.serviceData?.imageIds?.length == 0) {
-					onToggleSnackBar("Зураг оруулна уу.");
+					onToggleSnackBar(`${i18n.t("image")} ${i18n.t("pleaseEnter")}`);
 				} else if (state.serviceData?.desciption == null) {
-					onToggleSnackBar("Тайлбар оруулна уу.");
+					onToggleSnackBar(`${i18n.t("desciption")} ${i18n.t("pleaseEnter")}`);
 				} else if (state.serviceData?.email == null) {
-					onToggleSnackBar("И-мэйл оруулна уу.");
+					onToggleSnackBar(`${i18n.t("email")} ${i18n.t("pleaseEnter")}`);
 				} else if (state.serviceData?.phone == null) {
-					onToggleSnackBar("Утас оруулна уу.");
+					onToggleSnackBar(`${i18n.t("phoneNumber")} ${i18n.t("pleaseEnter")}`);
 				} else {
 					createAdverstment();
 				}
 			} else if (state.serviceData?.specialService == "VOCATIONAL_TRAINING") {
 				if (tempUnitAmount == null || tempUnitAmount == "") {
-					onToggleSnackBar("Үйлчилгээний үнэ оруулна уу.");
+					onToggleSnackBar(`${i18n.t("adServicePrice")} ${i18n.t("pleaseEnter")}`);
 				} else if (state.serviceData?.imageIds?.length == 0) {
-					onToggleSnackBar("Зураг оруулна уу.");
+					onToggleSnackBar(`${i18n.t("image")} ${i18n.t("pleaseEnter")}`);
 				} else if (state.serviceData?.desciption == null) {
-					onToggleSnackBar("Тайлбар оруулна уу.");
+					onToggleSnackBar(`${i18n.t("desciption")} ${i18n.t("pleaseEnter")}`);
 				} else if (state.serviceData?.email == null) {
-					onToggleSnackBar("И-мэйл оруулна уу.");
+					onToggleSnackBar(`${i18n.t("email")} ${i18n.t("pleaseEnter")}`);
 				} else if (state.serviceData?.phone == null) {
-					onToggleSnackBar("Утас оруулна уу.");
+					onToggleSnackBar(`${i18n.t("phoneNumber")} ${i18n.t("pleaseEnter")}`);
 				} else {
 					createAdverstment();
 				}
 			} else if (state.serviceData?.specialService == "LABORATORY_MATERIAL") {
 				if (tempUnitAmount == null || tempUnitAmount == "") {
-					onToggleSnackBar("Үйлчилгээний үнэ оруулна уу.");
+					onToggleSnackBar(`${i18n.t("adServicePrice")} ${i18n.t("pleaseEnter")}`);
 				} else if (state.serviceData?.imageIds?.length == 0) {
-					onToggleSnackBar("Зураг оруулна уу.");
+					onToggleSnackBar(`${i18n.t("image")} ${i18n.t("pleaseEnter")}`);
 				} else if (state.serviceData?.desciption == null) {
-					onToggleSnackBar("Тайлбар оруулна уу.");
+					onToggleSnackBar(`${i18n.t("desciption")} ${i18n.t("pleaseEnter")}`);
 				} else if (state.serviceData?.email == null) {
-					onToggleSnackBar("И-мэйл оруулна уу.");
+					onToggleSnackBar(`${i18n.t("email")} ${i18n.t("pleaseEnter")}`);
 				} else if (state.serviceData?.phone == null) {
-					onToggleSnackBar("Утас оруулна уу.");
+					onToggleSnackBar(`${i18n.t("phoneNumber")} ${i18n.t("pleaseEnter")}`);
 				} else {
 					createAdverstment();
 				}
 			} else if (state.serviceData?.specialService == "MAKE_BUDGET") {
 				if (tempUnitAmount == null || tempUnitAmount == "") {
-					onToggleSnackBar("Үйлчилгээний үнэ оруулна уу.");
+					onToggleSnackBar(`${i18n.t("adServicePrice")} ${i18n.t("pleaseEnter")}`);
 				} else if (state.serviceData?.imageIds?.length == 0) {
-					onToggleSnackBar("Зураг оруулна уу.");
+					onToggleSnackBar(`${i18n.t("image")} ${i18n.t("pleaseEnter")}`);
 				} else if (state.serviceData?.desciption == null) {
-					onToggleSnackBar("Тайлбар оруулна уу.");
+					onToggleSnackBar(`${i18n.t("desciption")} ${i18n.t("pleaseEnter")}`);
 				} else if (state.serviceData?.email == null) {
-					onToggleSnackBar("И-мэйл оруулна уу.");
+					onToggleSnackBar(`${i18n.t("email")} ${i18n.t("pleaseEnter")}`);
 				} else if (state.serviceData?.phone == null) {
-					onToggleSnackBar("Утас оруулна уу.");
+					onToggleSnackBar(`${i18n.t("phoneNumber")} ${i18n.t("pleaseEnter")}`);
 				} else {
 					createAdverstment();
 				}
@@ -259,7 +259,7 @@ const AddServiceSpecial = (props) => {
 						}
 					}}
 				>
-					<Text style={styles.backBtnText}>Буцах</Text>
+					<Text style={styles.backBtnText}>{i18n.t("back")}</Text>
 				</TouchableOpacity>
 				<View style={{ width: "48%" }}>
 					<GradientButton

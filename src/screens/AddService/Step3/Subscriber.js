@@ -29,7 +29,7 @@ const Subscriber = (props) => {
 					>
 						<Text>Subscriber</Text>
 						<LoanInput
-							label="Хэмжих нэгж"
+							label={i18n.t("measurement")}
 							value={state.serviceData?.measurement}
 							onChangeText={(e) =>
 								state.setServiceData((prevState) => ({
@@ -39,7 +39,7 @@ const Subscriber = (props) => {
 							}
 						/>
 						<LoanInput
-							label="Ажлын тоо хэмжээ"
+							label={i18n.t("counter")}
 							value={state.serviceData?.counter}
 							keyboardType="number-pad"
 							onChangeText={(e) =>
@@ -49,10 +49,10 @@ const Subscriber = (props) => {
 								}))
 							}
 						/>
-						<Text style={styles.label}>Зураг оруулах</Text>
+						<Text style={styles.label}>{i18n.t("uploadImage")}</Text>
 						<ImageModal />
 						<LoanInput
-							label="Тайлбар"
+							label={i18n.t("desciption")}
 							value={state.serviceData?.desciption}
 							onChangeText={(e) =>
 								state.setServiceData((prevState) => ({
@@ -64,7 +64,7 @@ const Subscriber = (props) => {
 							multiline
 						/>
 						<LoanInput
-							label="И-мэйл"
+							label={i18n.t("email")}
 							value={state.serviceData?.email}
 							onChangeText={(e) =>
 								state.setServiceData((prevState) => ({
@@ -75,7 +75,7 @@ const Subscriber = (props) => {
 							keyboardType="email-address"
 						/>
 						<LoanInput
-							label="Утас"
+							label={i18n.t("phoneNumber")}
 							value={state.serviceData?.phone}
 							onChangeText={(e) =>
 								state.setServiceData((prevState) => ({
@@ -96,7 +96,7 @@ const Subscriber = (props) => {
 								fontWeight: "bold",
 								marginLeft: 5
 							}}
-							title="Мессэнжер нээх"
+							label={i18n.t("openMessenger")}
 							checked={state.serviceData?.isMessenger}
 							onPress={() => {
 								state.setServiceData((prevState) => ({
@@ -120,7 +120,7 @@ const Subscriber = (props) => {
 								fontWeight: "bold",
 								marginLeft: 5
 							}}
-							title="Үйлчилгээний нөхцөл зөвшөөрөх"
+							label={i18n.t("confirmTerm")}
 							checked={state.serviceData?.isTermOfService}
 							onPress={() => {
 								state.setServiceData((prevState) => ({

@@ -5,6 +5,7 @@ import { CheckBox } from "@rneui/base";
 import LoanInput from "../../../components/LoanInput";
 import MainContext from "../../../contexts/MainContext";
 import ImageModal from "../../../components/ImageModal";
+import { i18n } from "../../../refs/i18";
 
 const Supplier = (props) => {
 	const state = useContext(MainContext);
@@ -46,7 +47,7 @@ const Supplier = (props) => {
 					>
 						<Text>Supplier</Text>
 						<LoanInput
-							label="Бүтээгдэхүүний нэр"
+							label={i18n.t("")}
 							value={state.serviceData?.productName}
 							onChangeText={(e) =>
 								state.setServiceData((prevState) => ({
@@ -56,7 +57,7 @@ const Supplier = (props) => {
 							}
 						/>
 						<LoanInput
-							label="Нэгжийн үнэ"
+							label={i18n.t("unitAmount")}
 							keyboardType="number-pad"
 							value={props.tempUnitAmount}
 							onChangeText={(e) => {
@@ -68,7 +69,7 @@ const Supplier = (props) => {
 							}}
 						/>
 						<LoanInput
-							label="Багцын үнэ"
+							label={i18n.t("packageAmount")}
 							keyboardType="number-pad"
 							value={props.tempPackageAmount}
 							onChangeText={(e) => {
@@ -79,10 +80,10 @@ const Supplier = (props) => {
 								// }))
 							}}
 						/>
-						<Text style={styles.label}>Зураг оруулах</Text>
+						<Text style={styles.label}>{i18n.t("uploadImage")}</Text>
 						<ImageModal />
 						<LoanInput
-							label="Бүтээгдэхүүний дэлгэрэнгүй мэдээлэл"
+							label={i18n.t("productDescription")}
 							value={state.serviceData?.desciption}
 							onChangeText={(e) =>
 								state.setServiceData((prevState) => ({
@@ -94,7 +95,7 @@ const Supplier = (props) => {
 							multiline
 						/>
 						<LoanInput
-							label="И-мэйл"
+							label={i18n.t("email")}
 							value={state.serviceData?.email}
 							onChangeText={(e) =>
 								state.setServiceData((prevState) => ({
@@ -105,7 +106,7 @@ const Supplier = (props) => {
 							keyboardType="email-address"
 						/>
 						<LoanInput
-							label="Утас"
+							label={i18n.t("phoneNumber")}
 							value={state.serviceData?.phone}
 							onChangeText={(e) =>
 								state.setServiceData((prevState) => ({
@@ -126,7 +127,7 @@ const Supplier = (props) => {
 								fontWeight: "bold",
 								marginLeft: 5
 							}}
-							title="Мессэнжер нээх"
+							label={i18n.t("openMessenger")}
 							checked={state.serviceData?.isMessenger}
 							onPress={() => {
 								state.setServiceData((prevState) => ({
@@ -150,7 +151,7 @@ const Supplier = (props) => {
 								fontWeight: "bold",
 								marginLeft: 5
 							}}
-							title="Үйлчилгээний нөхцөл зөвшөөрөх"
+							label={i18n.t("confirmTerm")}
 							checked={state.serviceData?.isTermOfService}
 							onPress={() => {
 								state.setServiceData((prevState) => ({

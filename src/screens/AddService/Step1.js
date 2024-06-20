@@ -114,7 +114,7 @@ const Step1 = (props) => {
 												return i18n.t(el.title);
 											}
 									  })
-									: "Сонгох"}
+									: i18n.t("choose")}
 							</Text>
 							<Icon name="keyboard-arrow-down" type="material-icons" size={30} color={GRAY_ICON_COLOR} />
 						</TouchableOpacity>
@@ -134,7 +134,7 @@ const Step1 = (props) => {
 												return el.name;
 											}
 									  })
-									: "Сонгох"}
+									: i18n.t("choose")}
 							</Text>
 							<Icon name="keyboard-arrow-down" type="material-icons" size={30} color={GRAY_ICON_COLOR} />
 						</TouchableOpacity>
@@ -155,7 +155,7 @@ const Step1 = (props) => {
 												return el.name;
 											}
 									  })
-									: "Сонгох"}
+									: i18n.t("choose")}
 							</Text>
 							<Icon name="keyboard-arrow-down" type="material-icons" size={30} color={GRAY_ICON_COLOR} />
 						</TouchableOpacity>
@@ -176,7 +176,7 @@ const Step1 = (props) => {
 												return el.name;
 											}
 									  })
-									: "Сонгох"}
+									: i18n.t("choose")}
 							</Text>
 							<Icon name="keyboard-arrow-down" type="material-icons" size={30} color={GRAY_ICON_COLOR} />
 						</TouchableOpacity>

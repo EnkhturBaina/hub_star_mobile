@@ -239,7 +239,7 @@ const Confirmation = (props) => {
 														return i18n.t(el.title);
 													}
 											  })
-											: "Сонгох"}
+											: i18n.t("choose")}
 									</Text>
 									<Icon name="keyboard-arrow-down" type="material-icons" size={30} color={GRAY_ICON_COLOR} />
 								</TouchableOpacity>
@@ -259,7 +259,7 @@ const Confirmation = (props) => {
 														return el.name;
 													}
 											  })
-											: "Сонгох"}
+											: i18n.t("choose")}
 									</Text>
 									<Icon name="keyboard-arrow-down" type="material-icons" size={30} color={GRAY_ICON_COLOR} />
 								</TouchableOpacity>

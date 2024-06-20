@@ -207,7 +207,7 @@ const CategoryScreen = memo(() => {
 									)}
 									suggestionsListMaxHeight={300}
 									textInputProps={{
-										placeholder: "Хайх"
+										placeholder: i18n.t("search")
 									}}
 									flatListProps={{
 										removeClippedSubviews: true,

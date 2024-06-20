@@ -132,118 +132,118 @@ const AddService = (props) => {
 			}
 		} else if (state.currentStep == 2) {
 			if (state.serviceData?.title == null) {
-				onToggleSnackBar("Зарын гарчиг оруулна уу.");
+				onToggleSnackBar(`${i18n.t("adTitle")} ${i18n.t("pleaseEnter")}`);
 			} else if ((state.serviceData?.userType === "SUBSCRIBER" && tempPrice == null) || tempPrice == "") {
-				onToggleSnackBar("Үнэ оруулна уу.");
+				onToggleSnackBar(`${i18n.t("price")} ${i18n.t("pleaseEnter")}`);
 			} else if (state.serviceData?.provinceId == null) {
-				onToggleSnackBar("Аймаг, хот сонгоно уу.");
+				onToggleSnackBar(`${i18n.t("adProvince")} ${i18n.t("pleaseChoose")}`);
 			} else if (state.serviceData?.districtId == null) {
-				onToggleSnackBar("Сум, дүүрэг сонгоно уу.");
+				onToggleSnackBar(`${i18n.t("adDistrict")} ${i18n.t("pleaseChoose")}`);
 			} else if (state.serviceData?.khorooId == null) {
-				onToggleSnackBar("Баг, хороо сонгоно уу.");
+				onToggleSnackBar(`${i18n.t("adKhoroo")} ${i18n.t("pleaseChoose")}`);
 			} else if (state.serviceData?.address == null) {
-				onToggleSnackBar("Байршил оруулна уу.");
+				onToggleSnackBar(`${i18n.t("adAddress")} ${i18n.t("pleaseEnter")}`);
 			} else {
 				state.setCurrentStep(3);
 			}
 		} else if (state.currentStep == 3) {
 			if (state.serviceData?.userType === "SUBSCRIBER") {
 				if (state.serviceData?.measurement == null) {
-					onToggleSnackBar("Хэмжих нэгж оруулна уу.");
+					onToggleSnackBar(`${i18n.t("measurement")} ${i18n.t("pleaseEnter")}`);
 				} else if (state.serviceData?.counter == null) {
-					onToggleSnackBar("Ажлын тоо хэмжээ оруулна уу.");
+					onToggleSnackBar(`${i18n.t("counter")} ${i18n.t("pleaseEnter")}`);
 				} else if (state.serviceData?.imageIds?.length == 0) {
-					onToggleSnackBar("Зураг оруулна уу.");
+					onToggleSnackBar(`${i18n.t("image")} ${i18n.t("pleaseEnter")}`);
 				} else if (state.serviceData?.desciption == null) {
-					onToggleSnackBar("Тайлбар оруулна уу.");
+					onToggleSnackBar(`${i18n.t("desciption")} ${i18n.t("pleaseEnter")}`);
 				} else if (state.serviceData?.email == null) {
-					onToggleSnackBar("И-мэйл оруулна уу.");
+					onToggleSnackBar(`${i18n.t("email")} ${i18n.t("pleaseEnter")}`);
 				} else if (state.serviceData?.phone == null) {
-					onToggleSnackBar("Утас оруулна уу.");
+					onToggleSnackBar(`${i18n.t("phoneNumber")} ${i18n.t("pleaseEnter")}`);
 				} else {
 					createAdverstment();
 				}
 			} else if (state.serviceData?.userType === "EXECUTOR") {
 				if (state.serviceData?.workerCount == null) {
-					onToggleSnackBar("Ажилчдын тоо оруулна уу.");
+					onToggleSnackBar(`${i18n.t("workerCount")} ${i18n.t("pleaseEnter")}`);
 				} else if (state.serviceData?.counter == null) {
-					onToggleSnackBar("Ажлын тоо хэмжээ оруулна уу.");
+					onToggleSnackBar(`${i18n.t("counter")} ${i18n.t("pleaseEnter")}`);
 				} else if (tempPrice == null || tempPrice == "") {
-					onToggleSnackBar("Үнэ оруулна уу.");
+					onToggleSnackBar(`${i18n.t("price")} ${i18n.t("pleaseEnter")}`);
 				} else if (state.serviceData?.imageIds?.length == 0) {
-					onToggleSnackBar("Зураг оруулна уу.");
+					onToggleSnackBar(`${i18n.t("image")} ${i18n.t("pleaseEnter")}`);
 				} else if (state.serviceData?.desciption == null) {
-					onToggleSnackBar("Тайлбар ба ажлын туршлага оруулна уу.");
+					onToggleSnackBar(`${i18n.t("desciptionAndExperience")} ${i18n.t("pleaseEnter")}`);
 				} else if (state.serviceData?.email == null) {
-					onToggleSnackBar("И-мэйл оруулна уу.");
+					onToggleSnackBar(`${i18n.t("email")} ${i18n.t("pleaseEnter")}`);
 				} else if (state.serviceData?.phone == null) {
-					onToggleSnackBar("Утас оруулна уу.");
+					onToggleSnackBar(`${i18n.t("phoneNumber")} ${i18n.t("pleaseEnter")}`);
 				} else {
 					createAdverstment();
 				}
 			} else if (state.serviceData?.userType === "SUPPLIER") {
 				if (state.serviceData?.productName == null) {
-					onToggleSnackBar("Бүтээгдэхүүний нэр оруулна уу.");
+					onToggleSnackBar(`${i18n.t("productName")} ${i18n.t("pleaseEnter")}`);
 				} else if (tempUnitAmount == null || tempUnitAmount == "") {
-					onToggleSnackBar("Нэгжийн үнэ оруулна уу.");
+					onToggleSnackBar(`${i18n.t("unitAmount")} ${i18n.t("pleaseEnter")}`);
 				} else if (tempPackageAmount == null || tempPackageAmount == "") {
-					onToggleSnackBar("Багцын үнэ оруулна уу.");
+					onToggleSnackBar(`${i18n.t("packageAmount")} ${i18n.t("pleaseEnter")}`);
 				} else if (state.serviceData?.imageIds?.length == 0) {
-					onToggleSnackBar("Зураг оруулна уу.");
+					onToggleSnackBar(`${i18n.t("image")} ${i18n.t("pleaseEnter")}`);
 				} else if (state.serviceData?.desciption == null) {
-					onToggleSnackBar("Бүтээгдэхүүний дэлгэрэнгүй мэдээлэл оруулна уу.");
+					onToggleSnackBar(`${i18n.t("productDescription")} ${i18n.t("pleaseEnter")}`);
 				} else if (state.serviceData?.email == null) {
-					onToggleSnackBar("И-мэйл оруулна уу.");
+					onToggleSnackBar(`${i18n.t("email")} ${i18n.t("pleaseEnter")}`);
 				} else if (state.serviceData?.phone == null) {
-					onToggleSnackBar("Утас оруулна уу.");
+					onToggleSnackBar(`${i18n.t("phoneNumber")} ${i18n.t("pleaseEnter")}`);
 				} else {
 					createAdverstment();
 				}
 			} else if (state.serviceData?.userType === "TRANSPORTATION") {
 				if (state.serviceData?.machineryTypeId == null) {
-					onToggleSnackBar("Машин механизмийн төрөл сонгоно уу.");
+					onToggleSnackBar(`${i18n.t("machineryType")} ${i18n.t("pleaseChoose")}`);
 				} else if (state.serviceData?.markId == null) {
-					onToggleSnackBar("Марк сонгоно уу.");
+					onToggleSnackBar(`${i18n.t("mark")} ${i18n.t("pleaseChoose")}`);
 				} else if (state.serviceData?.powerId == null) {
-					onToggleSnackBar("Хүчин чадал сонгоно уу.");
+					onToggleSnackBar(`${i18n.t("power")} ${i18n.t("pleaseChoose")}`);
 				} else if (tempUnitAmount == null || tempUnitAmount == "") {
-					onToggleSnackBar("Нэгж үнэлгээ.цаг оруулна уу.");
+					onToggleSnackBar(`${i18n.t("unitAmountHour")} ${i18n.t("pleaseEnter")}`);
 				} else if (tempPackageAmount == null || tempPackageAmount == "") {
-					onToggleSnackBar("Багц үнэлгээ.өдөр оруулна уу.");
+					onToggleSnackBar(`${i18n.t("packageAmountDay")} ${i18n.t("pleaseEnter")}`);
 				} else if (state.serviceData?.imageIds?.length == 0) {
-					onToggleSnackBar("Зураг оруулна уу.");
+					onToggleSnackBar(`${i18n.t("image")} ${i18n.t("pleaseEnter")}`);
 				} else if (state.serviceData?.desciption == null) {
-					onToggleSnackBar("Тайлбар оруулна уу.");
+					onToggleSnackBar(`${i18n.t("desciption")} ${i18n.t("pleaseEnter")}`);
 				} else if (state.serviceData?.email == null) {
-					onToggleSnackBar("И-мэйл оруулна уу.");
+					onToggleSnackBar(`${i18n.t("email")} ${i18n.t("pleaseEnter")}`);
 				} else if (state.serviceData?.phone == null) {
-					onToggleSnackBar("Утас оруулна уу.");
+					onToggleSnackBar(`${i18n.t("phoneNumber")} ${i18n.t("pleaseEnter")}`);
 				} else {
 					createAdverstment();
 				}
 			} else if (state.serviceData?.userType === "MACHINERY") {
 				if (state.serviceData?.machineryTypeId == null) {
-					onToggleSnackBar("Машин механизмийн төрөл сонгоно уу.");
+					onToggleSnackBar(`${i18n.t("machineryType")} ${i18n.t("pleaseChoose")}`);
 				} else if (state.serviceData?.markId == null) {
-					onToggleSnackBar("Марк сонгоно уу.");
-				} else if (state.serviceData?.markId == null) {
-					onToggleSnackBar("Загвар сонгоно уу.");
+					onToggleSnackBar(`${i18n.t("mark")} ${i18n.t("pleaseChoose")}`);
 				} else if (state.serviceData?.modelId == null) {
-					onToggleSnackBar("Хүчин чадал сонгоно уу.");
+					onToggleSnackBar(`${i18n.t("model")} ${i18n.t("pleaseChoose")}`);
+				} else if (state.serviceData?.powerData == null) {
+					onToggleSnackBar(`${i18n.t("power")} ${i18n.t("pleaseChoose")}`);
 				} else if (tempUnitAmount == null || tempUnitAmount == "") {
-					onToggleSnackBar("Нэгж үнэлгээ.цаг оруулна уу.");
+					onToggleSnackBar(`${i18n.t("unitAmountHour")} ${i18n.t("pleaseEnter")}`);
 				} else if (tempPackageAmount == null || tempPackageAmount == "") {
-					onToggleSnackBar("Багц үнэлгээ.өдөр оруулна уу.");
+					onToggleSnackBar(`${i18n.t("packageAmountDay")} ${i18n.t("pleaseEnter")}`);
 				} else if (state.serviceData?.fromAddress == null) {
-					onToggleSnackBar("Хаанаас гэдгээ оруулна уу.");
+					onToggleSnackBar(`${i18n.t("fromAddress")} ${i18n.t("pleaseEnter")}`);
 				} else if (state.serviceData?.toAddress == null) {
-					onToggleSnackBar("Хаашаа гэдгээ оруулна уу.");
+					onToggleSnackBar(`${i18n.t("toAddress")} ${i18n.t("pleaseEnter")}`);
 				} else if (state.serviceData?.desciption == null) {
-					onToggleSnackBar("Тайлбар оруулна уу.");
+					onToggleSnackBar(`${i18n.t("desciption")} ${i18n.t("pleaseEnter")}`);
 				} else if (state.serviceData?.email == null) {
-					onToggleSnackBar("И-мэйл оруулна уу.");
+					onToggleSnackBar(`${i18n.t("email")} ${i18n.t("pleaseEnter")}`);
 				} else if (state.serviceData?.phone == null) {
-					onToggleSnackBar("Утас оруулна уу.");
+					onToggleSnackBar(`${i18n.t("phoneNumber")} ${i18n.t("pleaseEnter")}`);
 				} else {
 					createAdverstment();
 				}

@@ -74,11 +74,11 @@ const LoginScreen = (props) => {
 
 	const login = () => {
 		if (email == "") {
-			onToggleSnackBar("И-мэйл хаягаа оруулна уу");
+			onToggleSnackBar(i18n.t("pleaseEnterEmail"));
 		} else if (reg.test(email) === false) {
-			onToggleSnackBar("И-мэйл хаягаа зөв оруулна уу");
+			onToggleSnackBar(i18n.t("pleaseEnterEmailCorrect"));
 		} else if (password == "") {
-			onToggleSnackBar("Нууц үгээ оруулна уу?");
+			onToggleSnackBar(i18n.t("pleaseEnterPassword"));
 		} else {
 			state.login(email, password, rememberEmail);
 		}
