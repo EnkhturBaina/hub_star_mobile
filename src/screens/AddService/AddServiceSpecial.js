@@ -91,9 +91,10 @@ const AddServiceSpecial = (props) => {
 			} else if (state.serviceData?.subDirectionId == null) {
 				onToggleSnackBar("Үйл ажиллагааны нэр сонгоно уу.");
 			} else {
-				state.setCurrentStep(2);
+				state.setCurrentStep(state.currentStep + 1);
 			}
 		} else if (state.currentStep == 2) {
+			console.log("X");
 			if (state.serviceData?.title == null) {
 				onToggleSnackBar("Зарын гарчиг оруулна уу.");
 			} else if (state.serviceData?.provinceId == null) {
@@ -105,7 +106,7 @@ const AddServiceSpecial = (props) => {
 			} else if (state.serviceData?.address == null) {
 				onToggleSnackBar("Байршил оруулна уу.");
 			} else {
-				state.setCurrentStep(3);
+				state.setCurrentStep(state.currentStep + 1);
 			}
 		} else if (state.currentStep == 3) {
 			if (state.serviceData?.specialService == "PUBLIC_SELECTION") {

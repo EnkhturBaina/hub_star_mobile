@@ -114,7 +114,7 @@ const ChangePassword = (props) => {
 				flex: 1
 			}}
 		>
-			<ScrollView bounces={false} contentContainerStyle={styles.mainContainer}>
+			<ScrollView bounces={false} contentContainerStyle={styles.mainContainer} automaticallyAdjustKeyboardInsets={true}>
 				{errorMsg ? <Text className="font-bold text-center text-red-500">{errorMsg}</Text> : null}
 				<Image source={change} resizeMode="contain" style={{ width: "100%", height: 200 }} />
 				<Text style={styles.topText}>Шинэ нууц үгээ оруулна уу?</Text>

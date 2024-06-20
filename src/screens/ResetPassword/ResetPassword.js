@@ -61,6 +61,7 @@ const ResetPassword = (props) => {
 				paddingVertical: 10,
 				justifyContent: "space-around"
 			}}
+			automaticallyAdjustKeyboardInsets={true}
 		>
 			<Image source={forgot} resizeMode="contain" style={{ width: "100%", height: 200 }} />
 			<Text style={styles.mainText}>Бүртгэлтэй утасны дугаар болон И-мэйлээр нууц үгээ сэргээх боломжтой</Text>

@@ -87,7 +87,7 @@ const LoginScreen = (props) => {
 
 	return (
 		<KeyboardAvoidingView
-			behavior={Platform.OS == "ios" ? "padding" : ""}
+			behavior={Platform.OS == "ios" ? "padding" : "height"}
 			style={{
 				flex: 1,
 				flexDirection: "column",
@@ -107,7 +107,12 @@ const LoginScreen = (props) => {
 			>
 				<Icon name="arrow-left" type="feather" size={30} style={{ paddingTop: 60, paddingLeft: 20 }} />
 			</TouchableOpacity>
-			<ScrollView contentContainerStyle={styles.container} bounces={false} showsVerticalScrollIndicator={false}>
+			<ScrollView
+				contentContainerStyle={styles.container}
+				bounces={false}
+				showsVerticalScrollIndicator={false}
+				automaticallyAdjustKeyboardInsets={true}
+			>
 				<Image
 					style={{
 						resizeMode: "contain",

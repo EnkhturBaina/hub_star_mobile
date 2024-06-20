@@ -217,7 +217,11 @@ const Confirmation = (props) => {
 					<EditProfileSkeleton />
 				) : (
 					<View style={{ flex: 1 }}>
-						<ScrollView contentContainerStyle={styles.scrollContainer} bounces={false}>
+						<ScrollView
+							contentContainerStyle={styles.scrollContainer}
+							bounces={false}
+							automaticallyAdjustKeyboardInsets={true}
+						>
 							<View style={styles.touchableSelectContainer}>
 								<Text style={styles.label}>Хэрэглэгчийн төрөл</Text>
 								<TouchableOpacity

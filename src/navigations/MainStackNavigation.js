@@ -1059,7 +1059,7 @@ const ProfileStackNavigator = (props) => {
 						<TouchableOpacity
 							style={styles.headerLeftContainer}
 							onPress={() => {
-								navigation.navigate("ProfileScreen");
+								navigation.navigate("Posted");
 							}}
 						>
 							<Icon type="material-icons" name="keyboard-arrow-left" size={35} />

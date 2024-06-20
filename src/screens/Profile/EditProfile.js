@@ -142,7 +142,11 @@ const EditProfile = (props) => {
 					<EditProfileSkeleton />
 				) : (
 					<View style={{ flex: 1 }}>
-						<ScrollView contentContainerStyle={styles.scrollContainer} bounces={false}>
+						<ScrollView
+							contentContainerStyle={styles.scrollContainer}
+							bounces={false}
+							automaticallyAdjustKeyboardInsets={true}
+						>
 							<LoanInput
 								label="Овог"
 								value={profileData?.lastName}

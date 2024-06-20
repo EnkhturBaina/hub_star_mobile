@@ -175,7 +175,6 @@ const PostedScreen = (props) => {
 							closeMenu();
 							state.setCurrentStep(1);
 							state.setServiceData(item);
-
 							if (item.specialService != null) {
 								props.navigation.navigate("UPDATE_AddServiceSpecial", {
 									images: item.images

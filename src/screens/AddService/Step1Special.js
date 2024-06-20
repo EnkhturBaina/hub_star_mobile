@@ -6,6 +6,7 @@ import { Icon } from "@rneui/base";
 import MainContext from "../../contexts/MainContext";
 import SpecialServiceData from "../../refs/SpecialServiceData";
 import axios from "axios";
+import { i18n } from "../../refs/i18";
 
 const Step1Special = (props) => {
 	const state = useContext(MainContext);
@@ -110,7 +111,7 @@ const Step1Special = (props) => {
 								{state.serviceData?.specialService
 									? SpecialServiceData?.map((el, index) => {
 											if (el.type === state.serviceData?.specialService) {
-												return el.title;
+												return i18n.t(el.title);
 											}
 									  })
 									: "Сонгох"}
