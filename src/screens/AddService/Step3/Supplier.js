@@ -39,7 +39,11 @@ const Supplier = (props) => {
 				}}
 			>
 				<View style={{ flex: 1 }}>
-					<ScrollView contentContainerStyle={styles.scrollContainer} bounces={false}>
+					<ScrollView
+						contentContainerStyle={styles.scrollContainer}
+						bounces={false}
+						automaticallyAdjustKeyboardInsets={true}
+					>
 						<Text>Supplier</Text>
 						<LoanInput
 							label="Бүтээгдэхүүний нэр"

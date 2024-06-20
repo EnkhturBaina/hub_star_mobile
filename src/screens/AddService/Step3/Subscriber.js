@@ -22,7 +22,11 @@ const Subscriber = (props) => {
 				}}
 			>
 				<View style={{ flex: 1 }}>
-					<ScrollView contentContainerStyle={styles.scrollContainer} bounces={false}>
+					<ScrollView
+						contentContainerStyle={styles.scrollContainer}
+						bounces={false}
+						automaticallyAdjustKeyboardInsets={true}
+					>
 						<Text>Subscriber</Text>
 						<LoanInput
 							label="Хэмжих нэгж"

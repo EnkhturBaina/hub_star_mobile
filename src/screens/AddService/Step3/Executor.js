@@ -36,7 +36,11 @@ const Executor = (props) => {
 				}}
 			>
 				<View style={{ flex: 1 }}>
-					<ScrollView contentContainerStyle={styles.scrollContainer} bounces={false}>
+					<ScrollView
+						contentContainerStyle={styles.scrollContainer}
+						bounces={false}
+						automaticallyAdjustKeyboardInsets={true}
+					>
 						<Text>Executor - {state.serviceData?.imageIds}</Text>
 						<LoanInput
 							label="Ажилчдын тоо"

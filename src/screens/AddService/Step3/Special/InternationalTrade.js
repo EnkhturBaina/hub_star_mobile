@@ -35,7 +35,11 @@ const InternationalTrade = (props) => {
 				}}
 			>
 				<View style={{ flex: 1 }}>
-					<ScrollView contentContainerStyle={styles.scrollContainer} bounces={false}>
+					<ScrollView
+						contentContainerStyle={styles.scrollContainer}
+						bounces={false}
+						automaticallyAdjustKeyboardInsets={true}
+					>
 						<LoanInput
 							label="Хэмжих нэгж"
 							value={state.serviceData?.measurement}

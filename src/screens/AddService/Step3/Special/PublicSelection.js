@@ -35,7 +35,11 @@ const PublicSelection = (props) => {
 				}}
 			>
 				<View style={{ flex: 1 }}>
-					<ScrollView contentContainerStyle={styles.scrollContainer} bounces={false}>
+					<ScrollView
+						contentContainerStyle={styles.scrollContainer}
+						bounces={false}
+						automaticallyAdjustKeyboardInsets={true}
+					>
 						<LoanInput
 							label="Төсөвт өртөг"
 							keyboardType="number-pad"

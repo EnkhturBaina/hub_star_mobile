@@ -77,7 +77,11 @@ const Machinery = (props) => {
 				}}
 			>
 				<View style={{ flex: 1 }}>
-					<ScrollView contentContainerStyle={styles.scrollContainer} bounces={false}>
+					<ScrollView
+						contentContainerStyle={styles.scrollContainer}
+						bounces={false}
+						automaticallyAdjustKeyboardInsets={true}
+					>
 						<Text>Machinery</Text>
 						<View style={styles.touchableSelectContainer}>
 							<Text style={styles.label}>Машин механизмийн төрөл</Text>

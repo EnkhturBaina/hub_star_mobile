@@ -35,7 +35,11 @@ const VocationalTraining = (props) => {
 				}}
 			>
 				<View style={{ flex: 1 }}>
-					<ScrollView contentContainerStyle={styles.scrollContainer} bounces={false}>
+					<ScrollView
+						contentContainerStyle={styles.scrollContainer}
+						bounces={false}
+						automaticallyAdjustKeyboardInsets={true}
+					>
 						<LoanInput
 							label="Үйлчилгээний үнэ"
 							keyboardType="number-pad"
