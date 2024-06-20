@@ -4,6 +4,7 @@ import forgot from "../../../assets/password/forgot.png";
 import { MAIN_COLOR, SERVER_URL, X_API_KEY } from "../../constant";
 import { Button, Icon } from "@rneui/base";
 import axios from "axios";
+import { i18n } from "../../refs/i18";
 
 const ResetPassword = (props) => {
 	const [selectedType, setSelectedType] = useState("");
@@ -64,7 +65,7 @@ const ResetPassword = (props) => {
 			automaticallyAdjustKeyboardInsets={true}
 		>
 			<Image source={forgot} resizeMode="contain" style={{ width: "100%", height: 200 }} />
-			<Text style={styles.mainText}>Бүртгэлтэй утасны дугаар болон И-мэйлээр нууц үгээ сэргээх боломжтой</Text>
+			<Text style={styles.mainText}>{i18n.t("resetPasswordTitle")}</Text>
 
 			{errorMsg ? <Text className="font-bold text-center text-red-500">{errorMsg}</Text> : null}
 			<View>
@@ -77,7 +78,7 @@ const ResetPassword = (props) => {
 					<View style={styles.statContainer}>
 						<Icon name="message-square" type="feather" size={25} color={MAIN_COLOR} style={styles.statIcon} />
 						<View style={styles.cardTextContainer}>
-							<Text style={{}}>СМС илгээх:</Text>
+							<Text style={{}}>{i18n.t("sendSMS")}:</Text>
 							<Text style={{}}>(+976) **** ****</Text>
 						</View>
 					</View>
@@ -90,7 +91,7 @@ const ResetPassword = (props) => {
 					<View style={styles.statContainer}>
 						<Icon name="mail" type="feather" size={25} color={MAIN_COLOR} style={styles.statIcon} />
 						<View style={styles.cardTextContainer}>
-							<Text style={{}}>И-мэйл:</Text>
+							<Text style={{}}>{i18n.t("email")}:</Text>
 							<Text style={{}}>{props.route?.params?.email}</Text>
 						</View>
 					</View>
@@ -108,7 +109,7 @@ const ResetPassword = (props) => {
 									fontWeight: "bold"
 								}}
 							>
-								Үргэлжүүлэх
+								{i18n.t("continue")}
 							</Text>
 							{loadingAction ? <ActivityIndicator style={{ marginLeft: 5 }} color="#fff" /> : null}
 						</>

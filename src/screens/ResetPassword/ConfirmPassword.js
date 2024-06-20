@@ -6,6 +6,7 @@ import { Button } from "@rneui/base";
 import { useHeaderHeight } from "@react-navigation/elements";
 import confirm from "../../../assets/password/confirm.png";
 import axios from "axios";
+import { i18n } from "../../refs/i18";
 
 const CELL_COUNT = 6;
 
@@ -80,8 +81,8 @@ const ConfirmPassword = (props) => {
 				automaticallyAdjustKeyboardInsets={true}
 			>
 				<Text style={{ fontWeight: "500" }}>
-					Бид таны <Text style={{ fontWeight: "bold" }}>{props.route?.params?.email_prop}</Text> луу баталгаажуулах код
-					илгээлээ.
+					{i18n.t("sendConfirmOTP1")} <Text style={{ fontWeight: "bold" }}>{props.route?.params?.email_prop}</Text>{" "}
+					{i18n.t("sendConfirmOTP2")}
 				</Text>
 				{errorMsg ? <Text className="font-bold text-center text-red-500">{errorMsg}</Text> : null}
 
@@ -118,7 +119,7 @@ const ConfirmPassword = (props) => {
 				</TouchableOpacity> */}
 				<Button
 					containerStyle={{ marginTop: 10 }}
-					title="Баталгаажуулах"
+					title={i18n.t("confirmate")}
 					color={MAIN_COLOR}
 					radius={12}
 					onPress={() => {

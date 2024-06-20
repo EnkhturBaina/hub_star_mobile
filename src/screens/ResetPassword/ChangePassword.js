@@ -118,11 +118,11 @@ const ChangePassword = (props) => {
 			<ScrollView bounces={false} contentContainerStyle={styles.mainContainer} automaticallyAdjustKeyboardInsets={true}>
 				{errorMsg ? <Text className="font-bold text-center text-red-500">{errorMsg}</Text> : null}
 				<Image source={change} resizeMode="contain" style={{ width: "100%", height: 200 }} />
-				<Text style={styles.topText}>Шинэ нууц үгээ оруулна уу?</Text>
+				<Text style={styles.topText}>{i18n.t("pleaseEnterNewPassword")}</Text>
 				<View style={styles.sectionStyle}>
 					<Icon name="key" type="ionicon" size={20} color={MAIN_COLOR_GRAY} style={styles.inputIcon} />
 					<TextInput
-						placeholder="Нууц үг"
+						placeholder={i18n.t("password")}
 						value={newPassword}
 						onChangeText={(e) => {
 							handlePassword(e);
@@ -143,21 +143,21 @@ const ChangePassword = (props) => {
 						}
 					]}
 				>
-					• 8 болон түүнээс дээш тэмдэг
+					• {i18n.t("regexLength8")}
 				</Text>
 				<Text style={[styles.passwordValidText, { color: passwordUpperValid ? MAIN_COLOR : "red" }]}>
-					• Багадаа 1 том үсэг
+					• {i18n.t("regext1UpperChar")}
 				</Text>
 				<Text style={[styles.passwordValidText, { color: passwordCharValid ? MAIN_COLOR : "red" }]}>
-					• 1 тусгай тэмдэгт эсвэл 1 тоо (!@#$%^&*_)
+					• {i18n.t("regext1Spec")}
 				</Text>
 				<Text style={[styles.passwordValidText, { color: matchPassword ? MAIN_COLOR : "red" }]}>
-					• Нууц үг таарахгүй байна.
+					• {i18n.t("regexNotMatch")}
 				</Text>
 				<View style={styles.sectionStyle}>
 					<Icon name="key" type="ionicon" size={20} color={MAIN_COLOR_GRAY} style={styles.inputIcon} />
 					<TextInput
-						placeholder="Нууц үг давтах"
+						placeholder={i18n.t("repeatPassword")}
 						value={repeatPassword}
 						onChangeText={(e) => {
 							handleRepeatPassword(e);
@@ -172,7 +172,7 @@ const ChangePassword = (props) => {
 				</View>
 				<Button
 					containerStyle={styles.btnContainer}
-					title="Баталгаажуулах"
+					title={i18n.t("confirmate")}
 					color={MAIN_COLOR}
 					radius={12}
 					onPress={() => {

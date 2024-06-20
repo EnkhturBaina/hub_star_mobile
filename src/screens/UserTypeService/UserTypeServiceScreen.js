@@ -129,7 +129,7 @@ const UserTypeServiceScreen = (props) => {
 				{loadingServices ? (
 					<ActivityIndicator color={MAIN_COLOR} style={{ padding: 5 }} />
 				) : isListEnd && !loadingServices ? (
-					<Text style={{ width: "100%", textAlign: "center" }}>Бүх үйлчилгээг харууллаа.</Text>
+					<Text style={{ width: "100%", textAlign: "center" }}>{i18n.t("shownAllServices")}</Text>
 				) : null}
 			</View>
 		);
@@ -229,7 +229,7 @@ const UserTypeServiceScreen = (props) => {
 						maxHeight={300}
 						labelField="label"
 						valueField="value"
-						placeholder={!isFocus ? "Эрэмбэлэлт" : "..."}
+						placeholder={!isFocus ? i18n.t("order") : "..."}
 						value={value}
 						onFocus={() => setIsFocus(true)}
 						onBlur={() => setIsFocus(false)}
