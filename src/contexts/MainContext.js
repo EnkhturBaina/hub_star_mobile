@@ -255,9 +255,9 @@ export const MainStore = (props) => {
 				setIsLoggedIn(false);
 				// console.log("error2", error.response.data);
 				if (error.response.data.statusCode == 400) {
-					setErrorMsg("Нэвтрэх нэр эсвэл нууц үг буруу байна.");
+					setErrorMsg(i18n.t("wrongLogin"));
 				} else {
-					setErrorMsg("Уучлаарай. Сервертэй холбогдоход алдаа гарлаа.");
+					setErrorMsg(i18n.t("errorServer"));
 				}
 			})
 			.finally(() => {
@@ -409,7 +409,7 @@ export const MainStore = (props) => {
 	};
 
 	const Handle_401 = () => {
-		setErrorMsg("Токены хүчинтэй хугацаа дууссан байна. Дахин нэвтэрнэ үү");
+		setErrorMsg(i18n.t("errotToken"));
 		setIsLoggedIn(false);
 	};
 
@@ -504,9 +504,8 @@ export const MainStore = (props) => {
 	};
 
 	const createAd = async () => {
-		console.log("serviceData", JSON.stringify(serviceData));
+		// console.log("serviceData", JSON.stringify(serviceData));
 		if (serviceData?.id) {
-			console.log("EDIT");
 			const adResponse = await axios
 				.patch(
 					`${SERVER_URL}advertisement/${serviceData.id}`,
@@ -533,7 +532,6 @@ export const MainStore = (props) => {
 				});
 			return adResponse;
 		} else {
-			console.log("CREATE");
 			const adResponse = await axios
 				.post(
 					`${SERVER_URL}advertisement`,
