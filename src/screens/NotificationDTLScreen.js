@@ -123,7 +123,7 @@ const NotificationDTLScreen = (props) => {
 							authorId: props.route?.params?.notif_data.createdBy,
 							advertisementId: adviceData.id,
 							process: "CREATED",
-							description: "Таны захиалгыг хүлээн авлаа. Баяр хүргэе."
+							description: i18n.t("notificationOrderSuccess")
 						})
 						.then((value) => {
 							onToggleSnackBar(i18n.t("successChangeStatusAd"));
@@ -273,12 +273,12 @@ const NotificationDTLScreen = (props) => {
 									color: "#aeaeae"
 								}}
 							>
-								Татгалзах
+								{i18n.t("reject")}
 							</Text>
 						</TouchableOpacity>
 						<View style={{ width: "48%" }}>
 							<GradientButton
-								text="Зөвшөөрөх"
+								text={i18n.t("confirm")}
 								action={() => {
 									handleApprove();
 								}}

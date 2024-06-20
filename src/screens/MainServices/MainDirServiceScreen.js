@@ -269,7 +269,7 @@ const MainDirServiceScreen = (props) => {
 					{mainDirServiceData?.length == 0 && loadingServices ? (
 						<UserTypeServicesSkeleton />
 					) : mainDirServiceData?.length == 0 && !loadingServices ? (
-						<Empty text="Үйлчилгээ олдсонгүй." />
+						<Empty text={i18n.t("serviceEmpty")} />
 					) : (
 						<FlatList
 							data={mainDirServiceData}

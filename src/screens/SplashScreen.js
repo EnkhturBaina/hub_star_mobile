@@ -4,6 +4,7 @@ import splash_logo from "../../assets/splash_logo.png";
 import LottieView from "lottie-react-native";
 import MainContext from "../contexts/MainContext";
 import Constants from "expo-constants";
+import { i18n } from "../refs/i18";
 
 if (__DEV__) {
 	const ignoreWarns = [
@@ -67,7 +68,7 @@ const SplashScreen = () => {
 			/>
 			{state.isCheckingUpdate ? null : (
 				<>
-					<Text>{state.updateAvailable ? "Шинэчлэл хийж байна." : "Шинэчлэл шалгаж байна."}</Text>
+					<Text>{state.updateAvailable ? i18n.t("doingUpdate") : i18n.t("checkUpdate")}</Text>
 				</>
 			)}
 			<Text>v{Constants.expoConfig.version}</Text>

@@ -112,7 +112,7 @@ const HomeSearch = () => {
 				onChangeText={(e) => {
 					getSideFilterData(e);
 				}}
-				emptyResultText="Үр дүн олдсонгүй."
+				emptyResultText={i18n.t("noResultsFound")}
 				renderItem={(item, text) => (
 					<TouchableOpacity
 						onPress={() => {

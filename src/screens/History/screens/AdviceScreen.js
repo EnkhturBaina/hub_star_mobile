@@ -8,6 +8,7 @@ import ListServiceSkeleton from "../../../components/Skeletons/ListServiceSkelet
 import Empty from "../../../components/Empty";
 import RBSheet from "react-native-raw-bottom-sheet";
 import { WebView } from "react-native-webview";
+import { i18n } from "../../../refs/i18";
 
 const width = Dimensions.get("window").width;
 const height = Dimensions.get("window").height;
@@ -72,7 +73,7 @@ const AdviceScreen = (props) => {
 				{adviceData?.length == 0 && loadingServices ? (
 					<ListServiceSkeleton />
 				) : adviceData?.length == 0 && !loadingServices ? (
-					<Empty text="Хийгдэж буй ажил олдсонгүй." />
+					<Empty text={i18n.t("worksEmpty")} />
 				) : (
 					adviceData?.map((el, index) => {
 						return (

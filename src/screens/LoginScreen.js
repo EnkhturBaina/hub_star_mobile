@@ -23,6 +23,7 @@ import fb_logo from "../../assets/fb.png";
 import google_logo from "../../assets/google.png";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as LocalAuthentication from "expo-local-authentication";
+import { i18n } from "../refs/i18";
 
 const LoginScreen = (props) => {
 	const state = useContext(MainContext);
@@ -123,7 +124,7 @@ const LoginScreen = (props) => {
 					}}
 					source={splash_logo}
 				/>
-				<Text className="font-bold text-2xl mb-4">Нэвтрэх хэсэг</Text>
+				<Text className="font-bold text-2xl mb-4">{i18n.t("loginScreen")}</Text>
 				{state.errorMsg ? (
 					<Text className="font-bold mb-4 text-red-500 text-center text-base">{state.errorMsg}</Text>
 				) : null}
@@ -133,7 +134,7 @@ const LoginScreen = (props) => {
 						<TextInput
 							style={styles.generalInput}
 							value={email}
-							placeholder="Имэйл"
+							placeholder={i18n.t("email")}
 							keyboardType="email-address"
 							returnKeyType="done"
 							onChangeText={setEmail}
@@ -142,7 +143,7 @@ const LoginScreen = (props) => {
 					<View style={styles.sectionStyle}>
 						<Icon name="lock" type="font-awesome" size={20} style={styles.inputIcon} color={GRAY_ICON_COLOR} />
 						<TextInput
-							placeholder="Нууц үг"
+							placeholder={i18n.t("password")}
 							value={password}
 							onChangeText={setPassword}
 							style={styles.generalInput}
@@ -167,7 +168,7 @@ const LoginScreen = (props) => {
 							fontWeight: "normal",
 							marginLeft: 5
 						}}
-						title="Сануулах"
+						title={i18n.t("remember")}
 						checked={rememberEmail}
 						onPress={() => setRememberEmail(!rememberEmail)}
 						iconType="material-community"
@@ -179,9 +180,9 @@ const LoginScreen = (props) => {
 					<TouchableOpacity
 						onPress={() => {
 							if (email == "") {
-								onToggleSnackBar("И-мэйл хаягаа оруулна уу");
+								onToggleSnackBar(i18n.t("pleaseEnterEmail"));
 							} else if (reg.test(email) === false) {
-								onToggleSnackBar("И-мэйл хаягаа зөв оруулна уу");
+								onToggleSnackBar(i18n.t("pleaseEnterEmailCorrect"));
 							} else {
 								props.navigation.navigate("ResetPassword", {
 									email: email
@@ -189,11 +190,11 @@ const LoginScreen = (props) => {
 							}
 						}}
 					>
-						<Text className="text-blue-500">Нууц үг мартсан</Text>
+						<Text className="text-blue-500">{i18n.t("forgotPassword")}</Text>
 					</TouchableOpacity>
 				</View>
 				<View className="w-full mt-2">
-					<GradientButton text="Нэвтрэх" action={login} />
+					<GradientButton text={i18n.t("login")} action={login} />
 				</View>
 				{/* <View
           style={{
@@ -244,9 +245,9 @@ const LoginScreen = (props) => {
           </View>
         </View> */}
 				<View className="flex flex-row items-center">
-					<Text className="font-medium text-base my-2">Та бүртгэл үүсэгсэн үү?</Text>
+					<Text className="font-medium text-base my-2">{i18n.t("createAccount")}?</Text>
 					<TouchableOpacity onPress={() => props.navigation.navigate("RegisterScreen")}>
-						<Text className="text-blue-500 ml-2">Бүртгүүлэх</Text>
+						<Text className="text-blue-500 ml-2">{i18n.t("register")}</Text>
 					</TouchableOpacity>
 				</View>
 			</ScrollView>

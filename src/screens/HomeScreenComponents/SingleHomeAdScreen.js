@@ -205,7 +205,7 @@ const SingleHomeAdScreen = (props) => {
 								/>
 								<View style={{ width: "85%" }}>
 									<GradientButton
-										text="Үйлчилгээг захиалах"
+										text={i18n.t("orderAd")}
 										action={() => {
 											state
 												.handleNotification({
@@ -213,7 +213,7 @@ const SingleHomeAdScreen = (props) => {
 													authorId: adviceData.createdBy,
 													advertisementId: adviceData.id,
 													process: "DOING",
-													description: "Таньд ирсэн захиалга."
+													description: i18n.t("yourOrder")
 												})
 												.then((value) => {
 													onToggleSnackBar(value);

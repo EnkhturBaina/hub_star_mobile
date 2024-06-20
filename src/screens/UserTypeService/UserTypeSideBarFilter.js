@@ -7,6 +7,7 @@ import { Icon, ListItem, CheckBox } from "@rneui/base";
 import axios from "axios";
 import SideFIlterSkeleton from "../../components/Skeletons/SideFIlterSkeleton";
 import Empty from "../../components/Empty";
+import { i18n } from "../../refs/i18";
 
 const UserTypeSideBarFilter = (props) => {
 	const state = useContext(MainContext);
@@ -102,7 +103,7 @@ const UserTypeSideBarFilter = (props) => {
 			>
 				<View style={{ flexDirection: "row", alignItems: "center" }}>
 					<Icon name="options" type="ionicon" size={23} />
-					<Text style={{ fontWeight: "500", fontSize: 16, marginLeft: 10 }}>Шүүлтүүр</Text>
+					<Text style={{ fontWeight: "500", fontSize: 16, marginLeft: 10 }}>{i18n.t("filter")}</Text>
 				</View>
 				<Icon name="chevron-left" type="feather" size={23} onPress={() => props.setIsOpen(false)} />
 			</View>
@@ -116,7 +117,7 @@ const UserTypeSideBarFilter = (props) => {
 				{sideFilterData?.length == 0 && loadingSideFilter ? (
 					<SideFIlterSkeleton />
 				) : sideFilterData?.length == 0 && !loadingSideFilter ? (
-					<Empty text="Үр дүн олдсонгүй." />
+					<Empty text={i18n.t("noResultsFound")} />
 				) : (
 					sideFilterData?.map((el, index) => {
 						return (

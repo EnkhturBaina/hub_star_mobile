@@ -7,6 +7,7 @@ import NotificationSkeleton from "../components/Skeletons/NotificationSkeleton";
 import "dayjs/locale/es";
 import dayjs from "dayjs";
 import MainContext from "../contexts/MainContext";
+import { i18n } from "../refs/i18";
 
 const NotificationScreen = (props) => {
 	const state = useContext(MainContext);
@@ -33,7 +34,7 @@ const NotificationScreen = (props) => {
 	return (
 		<ScrollView contentContainerStyle={styles.scrollContainer} showsVerticalScrollIndicator={false} bounces={false}>
 			{state.notifications?.length == 0 && !loadinNotifications ? (
-				<Empty text="Мэдэгдэлл хоосон байна." />
+				<Empty text={i18n.t("emptyNotification")} />
 			) : (
 				state.notifications?.map((dtl, index2) => {
 					return (

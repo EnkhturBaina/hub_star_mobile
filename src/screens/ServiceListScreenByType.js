@@ -65,7 +65,7 @@ const ServiceListScreenByType = (props) => {
 						maxHeight={300}
 						labelField="label"
 						valueField="value"
-						placeholder={!isFocus ? "Эрэмбэлэлт" : "..."}
+						placeholder={!isFocus ? i18n.t("order") : "..."}
 						value={value}
 						onFocus={() => setIsFocus(true)}
 						onBlur={() => setIsFocus(false)}

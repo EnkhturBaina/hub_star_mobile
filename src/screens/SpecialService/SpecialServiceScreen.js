@@ -12,6 +12,7 @@ import axios from "axios";
 import { IMG_URL, MAIN_COLOR, ORDER_DATA, SERVER_URL, X_API_KEY } from "../../constant";
 import SpecialServiceListSekeleton from "../../components/Skeletons/SpecialServiceListSekeleton";
 import Empty from "../../components/Empty";
+import { i18n } from "../../refs/i18";
 
 const SpecialServiceScreen = (props) => {
 	const state = useContext(MainContext);
@@ -215,7 +216,7 @@ const SpecialServiceScreen = (props) => {
 					{specialServiceData?.length == 0 && loadingServices ? (
 						<SpecialServiceListSekeleton />
 					) : specialServiceData?.length == 0 && !loadingServices ? (
-						<Empty text="Онцгой үйлчилгээ олдсонгүй." />
+						<Empty text={i18n.t("specialServiceEmpty")} />
 					) : (
 						<FlatList
 							data={specialServiceData}

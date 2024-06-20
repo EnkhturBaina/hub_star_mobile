@@ -234,7 +234,7 @@ const PostedScreen = (props) => {
 				{postedServiceData?.length == 0 && loadingServices ? (
 					<ListServiceSkeleton />
 				) : postedServiceData?.length == 0 && !loadingServices ? (
-					<Empty text="Байршуулсан үйлчилгээ олдсонгүй." />
+					<Empty text={i18n.t("postedServiceEmpty")} />
 				) : (
 					<FlatList
 						data={postedServiceData}

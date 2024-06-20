@@ -6,6 +6,7 @@ import { IMG_URL, SERVER_URL, X_API_KEY } from "../../../constant";
 import axios from "axios";
 import ListServiceSkeleton from "../../../components/Skeletons/ListServiceSkeleton";
 import Empty from "../../../components/Empty";
+import { i18n } from "../../../refs/i18";
 
 const SavedScreen = (props) => {
 	const state = useContext(MainContext);
@@ -54,7 +55,7 @@ const SavedScreen = (props) => {
 				{savedServiceData && savedServiceData?.saveAdvertisements == null && loadingServices ? (
 					<ListServiceSkeleton />
 				) : savedServiceData && savedServiceData?.saveAdvertisements == null && !loadingServices ? (
-					<Empty text="Хадгалсан үйлчилгээ олдсонгүй." />
+					<Empty text={i18n.t("savedServiceEmpty")} />
 				) : (
 					savedServiceData?.saveAdvertisements?.map((el, index) => {
 						return (

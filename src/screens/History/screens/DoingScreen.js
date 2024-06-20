@@ -17,6 +17,7 @@ import { IMG_URL, MAIN_COLOR, SERVER_URL, X_API_KEY } from "../../../constant";
 import axios from "axios";
 import ListServiceSkeleton from "../../../components/Skeletons/ListServiceSkeleton";
 import Empty from "../../../components/Empty";
+import { i18n } from "../../../refs/i18";
 
 const DoingScreen = (props) => {
 	const state = useContext(MainContext);
@@ -136,7 +137,7 @@ const DoingScreen = (props) => {
 				{doingServiceData?.length == 0 && loadingServices ? (
 					<ListServiceSkeleton />
 				) : doingServiceData?.length == 0 && !loadingServices ? (
-					<Empty text="Хийгдэж буй ажил олдсонгүй." />
+					<Empty text={i18n.t("worksEmpty")} />
 				) : (
 					<FlatList
 						data={doingServiceData}

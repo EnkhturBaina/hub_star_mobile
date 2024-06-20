@@ -6,6 +6,7 @@ import { IMG_URL, SERVER_URL, X_API_KEY } from "../../../constant";
 import axios from "axios";
 import ListServiceSkeleton from "../../../components/Skeletons/ListServiceSkeleton";
 import Empty from "../../../components/Empty";
+import { i18n } from "../../../refs/i18";
 
 const HistoryScreen = (props) => {
 	const state = useContext(MainContext);
@@ -61,7 +62,7 @@ const HistoryScreen = (props) => {
 				{historyServiceData?.length == 0 && loadingServices ? (
 					<ListServiceSkeleton />
 				) : historyServiceData?.length == 0 && !loadingServices ? (
-					<Empty text="Үйлчилгээний түүх олдсонгүй." />
+					<Empty text={i18n.t("historyEmpty")} />
 				) : (
 					historyServiceData?.map((el, index) => {
 						return (

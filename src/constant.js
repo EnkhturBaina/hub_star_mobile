@@ -24,46 +24,6 @@ export const IMG_URL = "http://192.82.92.170:8080/local-files/";
 export const X_API_KEY = "1ab2c3d4e5f61ab2c3d4e5";
 
 export const ORDER_DATA = [
-  { label: "Огноогоор (Z-A)", value: "DESC" },
-  { label: "Огноогоор (A-Z)", value: "ASC" },
-];
-export const CUSTOM_INDEX_EMPLOYEE = [
-  "А",
-  "Б",
-  "В",
-  "Г",
-  "Д",
-  "Ё",
-  "Ж",
-  "З",
-  "И",
-  "К",
-  "Л",
-  "М",
-  "Н",
-  "О",
-  "Ө",
-  "П",
-  "Р",
-  "С",
-  "Т",
-  "У",
-  "Ү",
-  "Х",
-  "Ц",
-  "Ч",
-  "Ш",
-  "Э",
-  "Ю",
-  "Я",
-];
-
-export const WEEKDAYS = [
-  { id: 1, eng: "Sunday", mn: "Ням", mnVal: 7 },
-  { id: 2, eng: "Monday", mn: "Даваа", mnVal: 1 },
-  { id: 3, eng: "Tuesday", mn: "Мягмар", mnVal: 2 },
-  { id: 4, eng: "Wednesday", mn: "Лхагва", mnVal: 3 },
-  { id: 5, eng: "Thursday", mn: "Пүрэв", mnVal: 4 },
-  { id: 6, eng: "Friday", mn: "Баасан", mnVal: 5 },
-  { id: 7, eng: "Saturday", mn: "Бямба", mnVal: 6 },
+	{ label: "Огноогоор (Z-A)", value: "DESC" },
+	{ label: "Огноогоор (A-Z)", value: "ASC" }
 ];
