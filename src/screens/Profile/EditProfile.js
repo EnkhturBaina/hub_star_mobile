@@ -10,6 +10,7 @@ import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 import GradientButton from "../../components/GradientButton";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import EditProfileSkeleton from "../../components/Skeletons/EditProfileSkeleton";
+import { i18n } from "../../refs/i18";
 
 const EditProfile = (props) => {
 	const state = useContext(MainContext);
@@ -64,15 +65,15 @@ const EditProfile = (props) => {
 
 	const saveProfileData = async () => {
 		if (!profileData.lastName) {
-			onToggleSnackBar("Овог оруулна уу.");
+			onToggleSnackBar(`${i18n.t("lastName")} ${i18n.t("pleaseEnter")}`);
 		} else if (!profileData.firstName) {
-			onToggleSnackBar("Нэр оруулна уу.");
+			onToggleSnackBar(`${i18n.t("firstName")} ${i18n.t("pleaseEnter")}`);
 		} else if (!profileData.jobPosition) {
-			onToggleSnackBar("Албан тушаал оруулна уу.");
+			onToggleSnackBar(`${i18n.t("jobPosition")} ${i18n.t("pleaseEnter")}`);
 		} else if (!profileData.phone) {
-			onToggleSnackBar("Утасны дугаар оруулна уу.");
+			onToggleSnackBar(`${i18n.t("phoneNumber")} ${i18n.t("pleaseEnter")}`);
 		} else if (!profileData.address) {
-			onToggleSnackBar("Хаяг оруулна уу.");
+			onToggleSnackBar(`${i18n.t("address")} ${i18n.t("pleaseEnter")}`);
 		} else {
 			axios
 				.patch(
@@ -116,7 +117,7 @@ const EditProfile = (props) => {
 							lastName: response.data?.response?.lastName,
 							phone: response.data?.response?.phone
 						}));
-						setDialogText("Амжилттай.");
+						setDialogText(i18n.t("success"));
 						setVisibleDialog(true);
 					}
 				})
@@ -148,7 +149,7 @@ const EditProfile = (props) => {
 							automaticallyAdjustKeyboardInsets={true}
 						>
 							<LoanInput
-								label="Овог"
+								label={i18n.t("lastName")}
 								value={profileData?.lastName}
 								onChangeText={(e) =>
 									setProfileData((prevState) => ({
@@ -158,7 +159,7 @@ const EditProfile = (props) => {
 								}
 							/>
 							<LoanInput
-								label="Нэр"
+								label={i18n.t("firstName")}
 								value={profileData?.firstName}
 								onChangeText={(e) =>
 									setProfileData((prevState) => ({
@@ -168,7 +169,7 @@ const EditProfile = (props) => {
 								}
 							/>
 							<LoanInput
-								label="Албан тушаал"
+								label={i18n.t("jobPosition")}
 								value={profileData?.jobPosition}
 								onChangeText={(e) =>
 									setProfileData((prevState) => ({
@@ -178,7 +179,7 @@ const EditProfile = (props) => {
 								}
 							/>
 							<LoanInput
-								label="Утасны дугаар"
+								label={i18n.t("phoneNumber")}
 								value={profileData?.phone}
 								keyboardType="number-pad"
 								maxLength={8}
@@ -190,7 +191,7 @@ const EditProfile = (props) => {
 								}
 							/>
 							<LoanInput
-								label="Хаяг"
+								label={i18n.t("address")}
 								value={profileData?.address}
 								onChangeText={(e) =>
 									setProfileData((prevState) => ({
@@ -202,7 +203,7 @@ const EditProfile = (props) => {
 								textAlignVertical="top"
 							/>
 							<View className="w-full mt-2">
-								<GradientButton text="Хадгалах" action={saveProfileData} />
+								<GradientButton text={i18n.t("save")} action={saveProfileData} />
 							</View>
 						</ScrollView>
 					</View>
@@ -216,7 +217,7 @@ const EditProfile = (props) => {
 				}}
 				declineFunction={() => {}}
 				text={dialogText}
-				confirmBtnText="Хаах"
+				confirmBtnText={i18n.t("close")}
 				DeclineBtnText=""
 				type={dialogType}
 			/>

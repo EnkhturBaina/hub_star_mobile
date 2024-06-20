@@ -61,7 +61,7 @@ const HomeAdsScreen = () => {
 												{el.title}
 											</Text>
 											<Text style={{ color: "#aeaeae", fontWeight: "500" }} numberOfLines={1}>
-												{state.getTypeName(el.userType, el.specialService, (isSlash = false))}
+												{state.getTypeName(el.userType, el.specialService, (isSlash = false), true)}
 											</Text>
 										</View>
 									</TouchableOpacity>

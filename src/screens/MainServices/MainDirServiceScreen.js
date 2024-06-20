@@ -136,7 +136,7 @@ const MainDirServiceScreen = (props) => {
 						{item.title}
 					</Text>
 					<Text style={{ color: "#aeaeae", fontWeight: "500" }} numberOfLines={1}>
-						{state.getTypeName(item.userType, item.specialService, (isSlash = false))}
+						{state.getTypeName(item.userType, item.specialService, (isSlash = false), true)}
 					</Text>
 				</View>
 			</TouchableOpacity>

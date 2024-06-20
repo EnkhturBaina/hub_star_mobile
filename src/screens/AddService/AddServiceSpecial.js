@@ -15,6 +15,7 @@ import GradientButton from "../../components/GradientButton";
 import CustomSnackbar from "../../components/CustomSnackbar";
 import { useNavigation } from "@react-navigation/native";
 import CustomDialog from "../../components/CustomDialog";
+import { i18n } from "../../refs/i18";
 
 const AddServiceSpecial = (props) => {
 	const state = useContext(MainContext);
@@ -73,7 +74,7 @@ const AddServiceSpecial = (props) => {
 			.createAd()
 			.then((res) => {
 				if (res.data.statusCode == 200) {
-					setDialogText("Таны зар амжилттай нийтлэгдлээ.");
+					setDialogText(i18n.t("successAdCreate"));
 					setVisibleDialog(true);
 				}
 			})
@@ -85,26 +86,25 @@ const AddServiceSpecial = (props) => {
 	const checkValid = () => {
 		if (state.currentStep == 1) {
 			if (state.serviceData?.specialService == null) {
-				onToggleSnackBar("Онцгой үйлчилгээ сонгоно уу.");
+				onToggleSnackBar(`${i18n.t("specialService")} ${i18n.t("pleaseChoose")}`);
 			} else if (state.serviceData?.directionId == null) {
-				onToggleSnackBar("Үйл ажилллагааны чиглэл сонгоно уу.");
+				onToggleSnackBar(`${i18n.t("dir")} ${i18n.t("pleaseChoose")}`);
 			} else if (state.serviceData?.subDirectionId == null) {
-				onToggleSnackBar("Үйл ажиллагааны нэр сонгоно уу.");
+				onToggleSnackBar(`${i18n.t("subDir")} ${i18n.t("pleaseChoose")}`);
 			} else {
 				state.setCurrentStep(state.currentStep + 1);
 			}
 		} else if (state.currentStep == 2) {
-			console.log("X");
 			if (state.serviceData?.title == null) {
-				onToggleSnackBar("Зарын гарчиг оруулна уу.");
+				onToggleSnackBar(`${i18n.t("adTitle")} ${i18n.t("pleaseEnter")}`);
 			} else if (state.serviceData?.provinceId == null) {
-				onToggleSnackBar("Аймаг, хот сонгоно уу.");
+				onToggleSnackBar(`${i18n.t("adProvince")} ${i18n.t("pleaseChoose")}`);
 			} else if (state.serviceData?.districtId == null) {
-				onToggleSnackBar("Сум, дүүрэг сонгоно уу.");
+				onToggleSnackBar(`${i18n.t("adDistrict")} ${i18n.t("pleaseChoose")}`);
 			} else if (state.serviceData?.khorooId == null) {
-				onToggleSnackBar("Баг, хороо сонгоно уу.");
+				onToggleSnackBar(`${i18n.t("adKhoroo")} ${i18n.t("pleaseChoose")}`);
 			} else if (state.serviceData?.address == null) {
-				onToggleSnackBar("Байршил оруулна уу.");
+				onToggleSnackBar(`${i18n.t("adAddress")} ${i18n.t("pleaseEnter")}`);
 			} else {
 				state.setCurrentStep(state.currentStep + 1);
 			}
@@ -263,7 +263,7 @@ const AddServiceSpecial = (props) => {
 				</TouchableOpacity>
 				<View style={{ width: "48%" }}>
 					<GradientButton
-						text={`Хадгалах (${state.currentStep}/${totalStep})`}
+						text={`${i18n.t("save")} (${state.currentStep}/${totalStep})`}
 						action={() => {
 							checkValid();
 						}}
@@ -281,7 +281,7 @@ const AddServiceSpecial = (props) => {
 				}}
 				declineFunction={() => {}}
 				text={dialogText}
-				confirmBtnText="Хаах"
+				confirmBtnText={i18n.t("close")}
 				DeclineBtnText=""
 				type={dialogType}
 			/>

@@ -54,7 +54,7 @@ const ProfileScreen = (props) => {
 				}
 			})
 			.then((response) => {
-				// console.log("AAA", response.data.response?.user);
+				console.log("AAA", JSON.stringify(response.data.response?.user));
 				setProfileData(response.data.response?.user);
 			})
 			.catch((error) => {
@@ -186,10 +186,10 @@ const ProfileScreen = (props) => {
 									{state.lastName?.substr(0, 1)}. {state.firstName}
 								</Text>
 							) : (
-								<Text style={styles.generalText}>Хэрэглэгч</Text>
+								<Text style={styles.generalText}>{i18n.t("user")}</Text>
 							)}
 						</Text>
-						<Text style={{ color: GRAY_ICON_COLOR }}>“МЕТА СТАРТ” ХХК Захирал</Text>
+						<Text style={{ color: GRAY_ICON_COLOR }}>{profileData?.organizationName}</Text>
 					</View>
 				</View>
 				<View
@@ -294,7 +294,7 @@ const ProfileScreen = (props) => {
 							}}
 						/>
 						<Button
-							title="Хаах"
+							title={i18n.t("close")}
 							onPress={() => {
 								setVisibleDialog(false);
 							}}
@@ -339,7 +339,7 @@ const ProfileScreen = (props) => {
 							textAlign: "center"
 						}}
 					>
-						Системээс гарах
+						{i18n.t("logout")}
 					</Text>
 					<Divider style={{ marginVertical: 20 }} />
 					<Text
@@ -349,7 +349,7 @@ const ProfileScreen = (props) => {
 							textAlign: "center"
 						}}
 					>
-						Та системээс гарах гэж байна.
+						{i18n.t("logoutAlert")}
 					</Text>
 					<View
 						style={{
@@ -383,12 +383,12 @@ const ProfileScreen = (props) => {
 									color: "#aeaeae"
 								}}
 							>
-								Буцах
+								{i18n.t("back")}
 							</Text>
 						</TouchableOpacity>
 						<View style={{ width: "48%" }}>
 							<GradientButton
-								text="Гарах"
+								text={i18n.t("out")}
 								action={() => {
 									state.logout();
 								}}

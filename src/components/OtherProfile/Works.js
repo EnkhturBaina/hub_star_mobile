@@ -103,7 +103,7 @@ const Works = (props) => {
 										{el.title}
 									</Text>
 									<Text style={{ color: "#aeaeae", fontWeight: "500" }}>
-										{state.getTypeName(el.userType, el.specialService, (isSlash = false))}
+										{state.getTypeName(el.userType, el.specialService, (isSlash = false), true)}
 									</Text>
 								</View>
 							</TouchableOpacity>

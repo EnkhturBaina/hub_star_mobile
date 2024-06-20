@@ -36,7 +36,7 @@ const Language = (props) => {
 			</View>
 			<View className="w-full mt-2 px-5">
 				<GradientButton
-					text="Хадгалах"
+					text={i18n.t("save")}
 					action={async () => {
 						try {
 							changeLanguage(lang);

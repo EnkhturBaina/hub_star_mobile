@@ -108,7 +108,7 @@ const DoingScreen = (props) => {
 						{item.title}
 					</Text>
 					<Text style={{ color: "#aeaeae", fontWeight: "500" }}>
-						{state.getTypeName(item.userType, item.specialService, (isSlash = false))}
+						{state.getTypeName(item.userType, item.specialService, (isSlash = false), true)}
 					</Text>
 				</View>
 			</TouchableOpacity>

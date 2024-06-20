@@ -6,6 +6,7 @@ import GradientButton from "../../components/GradientButton";
 import axios from "axios";
 import { useRoute } from "@react-navigation/native";
 import CustomDialog from "../../components/CustomDialog";
+import { i18n } from "../../refs/i18";
 
 const CELL_COUNT = 6;
 
@@ -58,7 +59,7 @@ const OTPScreen = (props) => {
 					if (response.data?.statusCode == 200) {
 						// props.navigation.navigate("BioScreen");
 						setVisibleDialog(true);
-						setDialogText("Таны бүртгэл амжилттай баталгаажлаа.");
+						setDialogText(i18n.t("confirmationSuccess"));
 					}
 				})
 				.catch(function (error) {
@@ -77,7 +78,7 @@ const OTPScreen = (props) => {
 
 	return (
 		<View style={{ backgroundColor: MAIN_BG_GRAY, flex: 1, paddingHorizontal: 20 }}>
-			<Text className="font-bold mb-5">Та И-мэйл ээ шалгана уу</Text>
+			<Text className="font-bold mb-5">{i18n.t("pleaseCheckEmail")}</Text>
 			<CodeField
 				ref={ref}
 				{...propss}

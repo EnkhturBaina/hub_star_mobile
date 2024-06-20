@@ -20,6 +20,7 @@ import ListServiceSkeleton from "../../../components/Skeletons/ListServiceSkelet
 import Empty from "../../../components/Empty";
 import { Menu, PaperProvider } from "react-native-paper";
 import CustomDialog from "../../../components/CustomDialog";
+import { i18n } from "../../../refs/i18";
 
 const PostedScreen = (props) => {
 	const state = useContext(MainContext);
@@ -151,7 +152,7 @@ const PostedScreen = (props) => {
 						{item.title}
 					</Text>
 					<Text style={{ color: "#aeaeae", fontWeight: "500" }}>
-						{state.getTypeName(item.userType, item.specialService, (isSlash = false))}
+						{state.getTypeName(item.userType, item.specialService, (isSlash = false), true)}
 					</Text>
 				</View>
 				<Menu
@@ -260,7 +261,7 @@ const PostedScreen = (props) => {
 				}}
 				text={dialogText}
 				confirmBtnText="Устгах"
-				DeclineBtnText="Хаах"
+				DeclineBtnText={i18n.t("close")}
 				type={dialogType}
 			/>
 		</SafeAreaProvider>

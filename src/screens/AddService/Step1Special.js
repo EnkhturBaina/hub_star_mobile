@@ -100,7 +100,7 @@ const Step1Special = (props) => {
 			<View style={{ flex: 1 }}>
 				<ScrollView contentContainerStyle={styles.scrollContainer} bounces={false}>
 					<View style={styles.touchableSelectContainer}>
-						<Text style={styles.label}>Онцгой үйлчилгээ</Text>
+						<Text style={styles.label}>{i18n.t("specialService")}</Text>
 						<TouchableOpacity
 							style={styles.touchableSelect}
 							onPress={() => {
@@ -120,7 +120,7 @@ const Step1Special = (props) => {
 						</TouchableOpacity>
 					</View>
 					<View style={styles.touchableSelectContainer}>
-						<Text style={styles.label}>Үйл ажилллагааны чиглэл</Text>
+						<Text style={styles.label}>{i18n.t("dir")}</Text>
 						<TouchableOpacity
 							style={styles.touchableSelect}
 							onPress={() => {
@@ -141,7 +141,7 @@ const Step1Special = (props) => {
 						</TouchableOpacity>
 					</View>
 					<View style={styles.touchableSelectContainer}>
-						<Text style={styles.label}>Үйл ажиллагааны нэр</Text>
+						<Text style={styles.label}>{i18n.t("subDir")}</Text>
 						<TouchableOpacity
 							style={styles.touchableSelect}
 							onPress={() => {

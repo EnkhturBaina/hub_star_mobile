@@ -5,6 +5,7 @@ import { MAIN_COLOR_GRAY, SERVER_URL, X_API_KEY } from "../../constant";
 import MainContext from "../../contexts/MainContext";
 import axios from "axios";
 import Constants from "expo-constants";
+import { i18n } from "../../refs/i18";
 
 const ChatScreen = memo(() => {
 	const state = useContext(MainContext);
@@ -18,7 +19,7 @@ const ChatScreen = memo(() => {
 			}}
 		>
 			<StatusBar translucent barStyle={Platform.OS == "ios" ? "dark-content" : "default"} />
-			<Empty text="Тун удахгүй" />
+			<Empty text={i18n.t("comingSoon")} />
 		</SafeAreaView>
 	);
 });

@@ -27,6 +27,7 @@ import MainContext from "../../contexts/MainContext";
 import { useIsFocused, useNavigation } from "@react-navigation/native";
 import { AutocompleteDropdown, AutocompleteDropdownContextProvider } from "react-native-autocomplete-dropdown";
 import axios from "axios";
+import { i18n } from "../../refs/i18";
 
 const CategoryScreen = memo(() => {
 	const navigation = useNavigation();
@@ -126,9 +127,11 @@ const CategoryScreen = memo(() => {
 										{state.lastName?.substr(0, 1)}. {state.firstName}
 									</Text>
 								) : (
-									<Text style={styles.generalText}>Хэрэглэгч</Text>
+									<Text style={styles.generalText}>{i18n.t("user")}</Text>
 								)}
-								<Text style={{}}>ID дугаар: {state.userId}</Text>
+								<Text style={{}}>
+									{i18n.t("idNumber")}: {state.userId}
+								</Text>
 							</View>
 						</TouchableOpacity>
 						<View style={styles.headerIcons}>
@@ -186,7 +189,7 @@ const CategoryScreen = memo(() => {
 									onChangeText={(e) => {
 										getSideFilterData(e);
 									}}
-									emptyResultText="Үр дүн олдсонгүй."
+									emptyResultText={i18n.t("noResultsFound")}
 									renderItem={(item, text) => (
 										<TouchableOpacity
 											onPress={() => {

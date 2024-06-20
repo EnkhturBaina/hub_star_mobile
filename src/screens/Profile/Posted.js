@@ -20,6 +20,7 @@ import ListServiceSkeleton from "../../components/Skeletons/ListServiceSkeleton"
 import Empty from "../../components/Empty";
 import { Menu, PaperProvider } from "react-native-paper";
 import CustomDialog from "../../components/CustomDialog";
+import { i18n } from "../../refs/i18";
 
 const Posted = (props) => {
 	const state = useContext(MainContext);
@@ -171,7 +172,7 @@ const Posted = (props) => {
 						{item.title}
 					</Text>
 					<Text style={{ color: "#aeaeae", fontWeight: "500" }}>
-						{state.getTypeName(item.userType, item.specialService, (isSlash = false))}
+						{state.getTypeName(item.userType, item.specialService, (isSlash = false), true)}
 					</Text>
 				</View>
 				<Menu
@@ -206,7 +207,7 @@ const Posted = (props) => {
 							}
 						}}
 						leadingIcon="square-edit-outline"
-						title="Засах"
+						title={i18n.t("edit")}
 					/>
 					<Menu.Item
 						onPress={() => {
@@ -215,7 +216,7 @@ const Posted = (props) => {
 							setVisibleDialog(true);
 						}}
 						leadingIcon="delete"
-						title="Устгах"
+						title={i18n.t("delete")}
 					/>
 				</Menu>
 			</TouchableOpacity>
@@ -273,7 +274,7 @@ const Posted = (props) => {
 				}}
 				text={dialogText}
 				confirmBtnText="Устгах"
-				DeclineBtnText="Хаах"
+				DeclineBtnText={i18n.t("close")}
 				type={dialogType}
 			/>
 		</SafeAreaProvider>

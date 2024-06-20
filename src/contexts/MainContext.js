@@ -388,15 +388,15 @@ export const MainStore = (props) => {
 		return num?.toString()?.replace(/[^0-9]/g, "");
 	};
 
-	const getTypeName = (userType, specialService, isSlash) => {
+	const getTypeName = (userType, specialService, isSlash, isLang) => {
 		var typeData = null;
 		if (userType !== null) {
 			typeData = UserTabData.filter((el) => el.type === userType)?.map(function (obj) {
-				return obj.title;
+				return isLang ? i18n.t(obj.title) : obj.title;
 			});
 		} else if (specialService !== null) {
 			typeData = SpecialServiceData.filter((el) => el.type === specialService)?.map(function (obj) {
-				return obj.title;
+				return isLang ? i18n.t(obj.title) : obj.title;
 			});
 		}
 		if (isSlash) {
@@ -447,7 +447,7 @@ export const MainStore = (props) => {
 				}
 			)
 			.then((response) => {
-				return "Үйлчилгээ амжилттай хадгаллаа";
+				return i18n.t("successSaveAd");
 			})
 			.catch((error) => {
 				console.log("error", error);
@@ -468,7 +468,7 @@ export const MainStore = (props) => {
 				}
 			})
 			.then((response) => {
-				return "Үйлчилгээ амжилттай захиаллаа";
+				return i18n.t("successOrderAd");
 			})
 			.catch((error) => {
 				console.log("error", error);

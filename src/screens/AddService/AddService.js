@@ -15,6 +15,7 @@ import CustomSnackbar from "../../components/CustomSnackbar";
 import { useNavigation } from "@react-navigation/native";
 import CustomDialog from "../../components/CustomDialog";
 import axios from "axios";
+import { i18n } from "../../refs/i18";
 
 const AddService = (props) => {
 	const state = useContext(MainContext);
@@ -108,7 +109,7 @@ const AddService = (props) => {
 			.createAd()
 			.then((res) => {
 				if (res.data.statusCode == 200) {
-					setDialogText("Таны зар амжилттай нийтлэгдлээ.");
+					setDialogText(i18n.t("successAdCreate"));
 					setVisibleDialog(true);
 				}
 			})
@@ -119,13 +120,13 @@ const AddService = (props) => {
 	const checkValid = () => {
 		if (state.currentStep == 1) {
 			if (state.serviceData?.userType == null) {
-				onToggleSnackBar("Хэрэглэгчийн төрөл сонгоно уу.");
+				onToggleSnackBar(`${i18n.t("userType")} ${i18n.t("pleaseChoose")}`);
 			} else if (state.serviceData?.mainDirectionId == null) {
-				onToggleSnackBar("Үйл ажиллагааны үндсэн чиглэл сонгоно уу.");
+				onToggleSnackBar(`${i18n.t("mainDir")} ${i18n.t("pleaseChoose")}`);
 			} else if (state.serviceData?.directionId == null) {
-				onToggleSnackBar("Үйл ажилллагааны чиглэл сонгоно уу.");
+				onToggleSnackBar(`${i18n.t("dir")} ${i18n.t("pleaseChoose")}`);
 			} else if (state.serviceData?.subDirectionId == null) {
-				onToggleSnackBar("Үйл ажиллагааны нэр сонгоно уу.");
+				onToggleSnackBar(`${i18n.t("subDir")} ${i18n.t("pleaseChoose")}`);
 			} else {
 				state.setCurrentStep(2);
 			}
@@ -322,7 +323,7 @@ const AddService = (props) => {
 				</TouchableOpacity>
 				<View style={{ width: "48%" }}>
 					<GradientButton
-						text={`Хадгалах (${state.currentStep}/${totalStep})`}
+						text={`${i18n.t("save")} (${state.currentStep}/${totalStep})`}
 						action={() => {
 							checkValid();
 						}}
@@ -340,7 +341,7 @@ const AddService = (props) => {
 				}}
 				declineFunction={() => {}}
 				text={dialogText}
-				confirmBtnText="Хаах"
+				confirmBtnText={i18n.t("close")}
 				DeclineBtnText=""
 				type={dialogType}
 			/>

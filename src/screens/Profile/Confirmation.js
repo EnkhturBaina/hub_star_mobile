@@ -129,9 +129,9 @@ const Confirmation = (props) => {
 
 	const saveProfileData = async () => {
 		if (!profileData.userType) {
-			onToggleSnackBar("Хэрэглэгчийн төрөл сонгоно уу.");
+			onToggleSnackBar(`${i18n.t("userType")} ${i18n.t("pleaseChoose")}`);
 		} else if (!profileData.mainDirectionId) {
-			onToggleSnackBar("Үйл ажиллагааны үндсэн чиглэл сонгоно уу.");
+			onToggleSnackBar(`${i18n.t("mainDir")} ${i18n.t("pleaseChoose")}`);
 		} else if (!profileData.organizationName) {
 			onToggleSnackBar("Байгууллагын нэр оруулна уу.");
 		} else if (!profileData.organizationRegno) {
@@ -170,7 +170,7 @@ const Confirmation = (props) => {
 				.then(async (response) => {
 					if (response.data) {
 						// console.log("response.data", response.data);
-						setDialogText("Амжилттай.");
+						setDialogText(i18n.t("success"));
 						setVisibleDialog(true);
 					}
 				})
@@ -223,7 +223,7 @@ const Confirmation = (props) => {
 							automaticallyAdjustKeyboardInsets={true}
 						>
 							<View style={styles.touchableSelectContainer}>
-								<Text style={styles.label}>Хэрэглэгчийн төрөл</Text>
+								<Text style={styles.label}>{i18n.t("userType")}</Text>
 								<TouchableOpacity
 									style={styles.touchableSelect}
 									onPress={() => {
@@ -243,7 +243,7 @@ const Confirmation = (props) => {
 								</TouchableOpacity>
 							</View>
 							<View style={styles.touchableSelectContainer}>
-								<Text style={styles.label}>Үйл ажиллагааны үндсэн чиглэл</Text>
+								<Text style={styles.label}>{i18n.t("mainDir")}</Text>
 								<TouchableOpacity
 									style={styles.touchableSelect}
 									onPress={() => {
@@ -347,7 +347,7 @@ const Confirmation = (props) => {
 								textAlignVertical="top"
 							/>
 							<View className="w-full mt-2">
-								<GradientButton text="Хадгалах" action={saveProfileData} />
+								<GradientButton text={i18n.t("save")} action={saveProfileData} />
 							</View>
 						</ScrollView>
 					</View>
@@ -361,7 +361,7 @@ const Confirmation = (props) => {
 				}}
 				declineFunction={() => {}}
 				text={dialogText}
-				confirmBtnText="Хаах"
+				confirmBtnText={i18n.t("close")}
 				DeclineBtnText=""
 				type={dialogType}
 			/>
@@ -399,7 +399,7 @@ const Confirmation = (props) => {
 						<ImageZoom source={{ uri: zoomImgURL }} style={{ flex: 1, height: 200, width: "100%" }} />
 					</GestureHandlerRootView>
 					<View style={{ width: 200, alignSelf: "center", marginTop: 10 }}>
-						<GradientButton text="Хаах" action={() => setVisible1(false)} height={40} radius={6} />
+						<GradientButton text={i18n.t("close")} action={() => setVisible1(false)} height={40} radius={6} />
 					</View>
 				</View>
 			</Modal>

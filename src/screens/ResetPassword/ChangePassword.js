@@ -16,6 +16,7 @@ import { Button, Icon } from "@rneui/base";
 import { useHeaderHeight } from "@react-navigation/elements";
 import axios from "axios";
 import CustomDialog from "../../components/CustomDialog";
+import { i18n } from "../../refs/i18";
 
 const ChangePassword = (props) => {
 	const headerHeight = useHeaderHeight();
@@ -92,7 +93,7 @@ const ChangePassword = (props) => {
 					if (response.data?.statusCode == 200) {
 						setErrorMsg("");
 						setVisibleDialog(true);
-						setDialogText("Нууц үг амжилттай сэргээгдлээ.");
+						setDialogText(i18n.t("successPasswordReset"));
 					}
 				})
 				.catch(function (error) {
@@ -191,7 +192,7 @@ const ChangePassword = (props) => {
 					}}
 					declineFunction={() => {}}
 					text={dialogText}
-					confirmBtnText="Хаах"
+					confirmBtnText={i18n.t("close")}
 					DeclineBtnText=""
 					type="success"
 				/>

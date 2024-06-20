@@ -24,6 +24,7 @@ import CustomSnackbar from "../components/CustomSnackbar";
 import SingleServiceTypes from "../components/SingleServiceTypes";
 import SingleServiceDetails from "../components/SingleServiceDetails";
 import SingleServiceAdvices from "../components/SingleServiceAdvices";
+import { i18n } from "../refs/i18";
 
 const NotificationDTLScreen = (props) => {
 	const state = useContext(MainContext);
@@ -125,7 +126,7 @@ const NotificationDTLScreen = (props) => {
 							description: "Таны захиалгыг хүлээн авлаа. Баяр хүргэе."
 						})
 						.then((value) => {
-							onToggleSnackBar("Үйлчилгээний төлөв амжилттай солигдлоо");
+							onToggleSnackBar(i18n.t("successChangeStatusAd"));
 						});
 				}
 			})
@@ -227,7 +228,7 @@ const NotificationDTLScreen = (props) => {
 						>
 							<Text style={{ fontWeight: "bold", fontSize: 22, marginTop: 10 }}>{adviceData?.title}</Text>
 							<Text style={styles.breadContainer}>
-								{state.getTypeName(adviceData?.userType, adviceData?.specialService, (isSlash = true))}
+								{state.getTypeName(adviceData?.userType, adviceData?.specialService, (isSlash = true), true)}
 								{adviceData?.mainDirection != null ? `${adviceData?.mainDirection?.name} / ` : null}
 								{adviceData?.direction != null ? `${adviceData?.direction?.name} / ` : null}
 								{adviceData?.subDirection != null ? `${adviceData?.subDirection?.name}` : null}
@@ -303,7 +304,7 @@ const NotificationDTLScreen = (props) => {
 							<ImageZoom source={{ uri: zoomImgURL }} style={{ flex: 1, height: 200, width: "100%" }} />
 						</GestureHandlerRootView>
 						<View style={{ width: 200, alignSelf: "center", marginTop: 10 }}>
-							<GradientButton text="Хаах" action={() => setVisible1(false)} height={40} radius={6} />
+							<GradientButton text={i18n.t("close")} action={() => setVisible1(false)} height={40} radius={6} />
 						</View>
 					</View>
 				</Modal>
