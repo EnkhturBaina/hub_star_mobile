@@ -4,6 +4,7 @@ import { Chip } from "react-native-paper";
 import axios from "axios";
 import { SERVER_URL, X_API_KEY } from "../constant";
 import MainContext from "../contexts/MainContext";
+import { i18n } from "../refs/i18";
 
 const SingleServiceTypes = (props) => {
 	const state = useContext(MainContext);
@@ -50,7 +51,7 @@ const SingleServiceTypes = (props) => {
 				gap: 10
 			}}
 		>
-			<Text style={{ fontWeight: "bold", fontSize: 16 }}>Төрөл</Text>
+			<Text style={{ fontWeight: "bold", fontSize: 16 }}>{i18n.t("type")}</Text>
 			<View style={{ flex: 1, flexDirection: "row", flexWrap: "wrap", alignItems: "flex-start" }}>
 				{subDirections?.map((el, index) => {
 					return (

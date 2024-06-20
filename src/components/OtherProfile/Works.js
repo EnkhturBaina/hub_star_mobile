@@ -7,6 +7,7 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import ListServiceSkeleton from "../Skeletons/ListServiceSkeleton";
 import Empty from "../Empty";
 import { useNavigation } from "@react-navigation/native";
+import { i18n } from "../../refs/i18";
 
 const Works = (props) => {
 	const state = useContext(MainContext);
@@ -62,7 +63,7 @@ const Works = (props) => {
 				{doingServiceData?.length == 0 && loadingServices ? (
 					<ListServiceSkeleton />
 				) : doingServiceData?.length == 0 && !loadingServices ? (
-					<Empty text="Хийгдэж буй ажил олдсонгүй." />
+					<Empty text={i18n.t("worksEmpty")} />
 				) : (
 					doingServiceData?.map((el, index) => {
 						return (

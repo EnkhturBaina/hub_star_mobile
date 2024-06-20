@@ -1,5 +1,6 @@
 import { StyleSheet, Text, View } from "react-native";
 import React, { useState } from "react";
+import { i18n } from "../../refs/i18";
 
 const Contact = (props) => {
 	const [rating, setRating] = useState(0);
@@ -20,17 +21,17 @@ const Contact = (props) => {
 				gap: 10
 			}}
 		>
-			<Text style={{ fontWeight: "bold" }}>Үнэлгээ</Text>
+			<Text style={{ fontWeight: "bold" }}>{i18n.t("rating")}</Text>
 			<Text>2</Text>
-			<Text style={{ fontWeight: "bold" }}>Утасны дугаар</Text>
+			<Text style={{ fontWeight: "bold" }}>{i18n.t("phoneNumber")}</Text>
 			<Text>{props.data?.phone ?? "-"}</Text>
-			<Text style={{ fontWeight: "bold" }}>Зар байршуулсан</Text>
+			<Text style={{ fontWeight: "bold" }}>{i18n.t("organizationName")}</Text>
 			<Text>{props.data?.organizationName ?? "-"}</Text>
-			<Text style={{ fontWeight: "bold" }}>Веб хуудас</Text>
+			<Text style={{ fontWeight: "bold" }}>{i18n.t("webUrl")}</Text>
 			<Text>{props.data?.webUrl ?? "-"}</Text>
-			<Text style={{ fontWeight: "bold" }}>Имэйл</Text>
+			<Text style={{ fontWeight: "bold" }}>{i18n.t("email")}</Text>
 			<Text>{props.data?.email ?? "-"}</Text>
-			<Text style={{ fontWeight: "bold" }}>Байршил</Text>
+			<Text style={{ fontWeight: "bold" }}>{i18n.t("address")}</Text>
 			<Text>{props.data?.address ?? "-"}</Text>
 		</View>
 	);

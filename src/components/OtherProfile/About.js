@@ -1,5 +1,6 @@
 import { StyleSheet, Text, View } from "react-native";
 import React from "react";
+import { i18n } from "../../refs/i18";
 
 const About = (props) => {
 	return (
@@ -12,19 +13,19 @@ const About = (props) => {
 				gap: 10
 			}}
 		>
-			<Text style={{ fontWeight: "bold" }}>Овог</Text>
+			<Text style={{ fontWeight: "bold" }}>{i18n.t("lastName")}</Text>
 			<Text>{props.data?.lastName ?? "-"}</Text>
-			<Text style={{ fontWeight: "bold" }}>Нэр</Text>
+			<Text style={{ fontWeight: "bold" }}>{i18n.t("firstName")}</Text>
 			<Text>{props.data?.firstName ?? "-"}</Text>
-			<Text style={{ fontWeight: "bold" }}>Албан тушаал</Text>
+			<Text style={{ fontWeight: "bold" }}>{i18n.t("jobPosition")}</Text>
 			<Text>{props.data?.jobPosition ?? "-"}</Text>
-			<Text style={{ fontWeight: "bold" }}>Утасны дугаар</Text>
+			<Text style={{ fontWeight: "bold" }}>{i18n.t("phoneNumber")}</Text>
 			<Text>{props.data?.phone ?? "-"}</Text>
-			<Text style={{ fontWeight: "bold" }}>И-мэйл хаяг</Text>
+			<Text style={{ fontWeight: "bold" }}>{i18n.t("email")}</Text>
 			<Text>{props.data?.email ?? "-"}</Text>
-			<Text style={{ fontWeight: "bold" }}>Хаяг</Text>
+			<Text style={{ fontWeight: "bold" }}>{i18n.t("address")}</Text>
 			<Text>{props.data?.address ?? "-"}</Text>
-			<Text style={{ fontWeight: "bold" }}>Тухай</Text>
+			<Text style={{ fontWeight: "bold" }}>{i18n.t("experience")}</Text>
 			<Text>{props.data?.experience ?? "-"}</Text>
 		</View>
 	);

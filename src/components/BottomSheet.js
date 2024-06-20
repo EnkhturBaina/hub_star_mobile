@@ -88,7 +88,7 @@ const BottomSheet = ({
 								</TouchableOpacity>
 							) : (
 								<TouchableOpacity onPress={() => {}} style={{ height: 40 }} disabled>
-									<Text style={styles.bottomSheetBodyLookup}>Үр дүн олдсонгүй.</Text>
+									<Text style={styles.bottomSheetBodyLookup}>{i18n.t("noResultsFound")}</Text>
 								</TouchableOpacity>
 							)}
 						</ScrollView>

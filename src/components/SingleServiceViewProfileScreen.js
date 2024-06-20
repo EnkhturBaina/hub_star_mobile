@@ -10,6 +10,7 @@ import About from "./OtherProfile/About";
 import Works from "./OtherProfile/Works";
 import Contact from "./OtherProfile/Contact";
 import OtherProfileSkeleton from "./Skeletons/OtherProfileSkeleton";
+import { i18n } from "../refs/i18";
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -100,7 +101,7 @@ const SingleServiceViewProfileScreen = (props) => {
 										{otherProfileData?.lastName?.substr(0, 1)}. {otherProfileData?.firstName}
 									</Text>
 								) : (
-									<Text style={styles.generalText}>Хэрэглэгч</Text>
+									<Text style={styles.generalText}>{i18n.t("user")}</Text>
 								)}
 							</Text>
 							<Text style={{ color: GRAY_ICON_COLOR }}>{otherProfileData?.organizationName ?? "-"}</Text>
@@ -127,9 +128,9 @@ const SingleServiceViewProfileScreen = (props) => {
 								tabBarScrollEnabled: false
 							}}
 						>
-							<Tab.Screen name="Танилцуулга" children={() => <About data={otherProfileData} />} />
-							<Tab.Screen name="Хийсэн ажиллууд" children={() => <Works user_id={otherProfileData?.id} />} />
-							<Tab.Screen name="Холбогдох" children={() => <Contact data={otherProfileData} />} />
+							<Tab.Screen name={i18n.t("introduction")} children={() => <About data={otherProfileData} />} />
+							<Tab.Screen name={i18n.t("doneTasks")} children={() => <Works user_id={otherProfileData?.id} />} />
+							<Tab.Screen name={i18n.t("needContact")} children={() => <Contact data={otherProfileData} />} />
 						</Tab.Navigator>
 					</View>
 				</>

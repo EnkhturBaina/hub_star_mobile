@@ -8,6 +8,7 @@ import { IMG_URL, MAIN_COLOR_GRAY } from "../constant";
 import MainContext from "../contexts/MainContext";
 import * as ImagePicker from "expo-image-picker";
 import { Icon } from "@rneui/base";
+import { i18n } from "../refs/i18";
 
 const ImageModal = (props) => {
 	const state = useContext(MainContext);
@@ -93,7 +94,7 @@ const ImageModal = (props) => {
 					style={styles.gridItem}
 				>
 					<Icon name="pluscircle" type="antdesign" size={30} color="#c5c5c5" />
-					<Text style={{ fontSize: 18, color: "#919395" }}>Зураг нэмэх</Text>
+					<Text style={{ fontSize: 18, color: "#919395" }}>{i18n.t("addImage")}</Text>
 				</TouchableOpacity>
 			</View>
 			<Modal
@@ -112,7 +113,7 @@ const ImageModal = (props) => {
 						<View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
 							<ActivityIndicator size="large" />
 							<Text style={{ color: "#fff", marginTop: 5, fontWeight: "500" }}>
-								Зураг оруулж байна. Түр хүлээнэ үү...
+								{i18n.t("uploadingImagePleaseWait")}
 							</Text>
 						</View>
 					) : (
@@ -144,7 +145,7 @@ const ImageModal = (props) => {
 							>
 								<View style={{ width: "44%" }}>
 									<GradientButton
-										text="Солих"
+										text={i18n.t("change")}
 										action={() => {
 											setVisible1(false);
 											uploadImageAsBinary(zoomImgURL);
@@ -154,7 +155,7 @@ const ImageModal = (props) => {
 									/>
 								</View>
 								<View style={{ width: "44%" }}>
-									<GradientButton text="Устгах" action={() => onDelete(zoomImgURL)} height={40} radius={6} />
+									<GradientButton text={i18n.t("delete")} action={() => onDelete(zoomImgURL)} height={40} radius={6} />
 								</View>
 							</View>
 						</>

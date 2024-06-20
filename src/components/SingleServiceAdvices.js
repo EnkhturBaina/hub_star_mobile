@@ -10,6 +10,7 @@ import axios from "axios";
 import AdvicesSkeleton from "./Skeletons/AdvicesSkeleton";
 import RBSheet from "react-native-raw-bottom-sheet";
 import { WebView } from "react-native-webview";
+import { i18n } from "../refs/i18";
 
 const width = Dimensions.get("window").width;
 const height = Dimensions.get("window").height;
@@ -61,7 +62,7 @@ const SingleServiceAdvices = (props) => {
 	};
 	return (
 		<View style={{ paddingBottom: 10 }}>
-			<Text style={styles.specialServiceText}>Таны авсан үйлчилгээтэй холбоотой зөвлөмжүүд</Text>
+			<Text style={styles.specialServiceText}>{i18n.t("recommendAdvices")}</Text>
 			<View style={{ marginTop: 10 }}>
 				<ScrollView
 					horizontal={true}
@@ -71,7 +72,7 @@ const SingleServiceAdvices = (props) => {
 					{adviceData?.length == 0 && loadingServices ? (
 						<AdvicesSkeleton />
 					) : adviceData?.length == 0 && !loadingServices ? (
-						<Text>Холбоотой зөвлөмжүүд олдсонгүй</Text>
+						<Text>{i18n.t("notFoundRecommendAdvices")}</Text>
 					) : (
 						adviceData?.map((el, index) => {
 							return (
