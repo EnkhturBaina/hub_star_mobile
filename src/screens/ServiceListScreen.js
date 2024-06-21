@@ -7,7 +7,6 @@ import { Icon } from "@rneui/base";
 import { Dropdown } from "react-native-element-dropdown";
 import SideMenu from "react-native-side-menu-updated";
 import SideBarFilter from "./SideBarFilter";
-import { ORDER_DATA } from "../constant";
 import { i18n } from "../refs/i18";
 
 const ServiceListScreen = (props) => {
@@ -57,7 +56,7 @@ const ServiceListScreen = (props) => {
 						placeholderStyle={styles.placeholderStyle}
 						selectedTextStyle={styles.selectedTextStyle}
 						inputSearchStyle={styles.inputSearchStyle}
-						data={ORDER_DATA}
+						data={state.ORDER_DATA}
 						maxHeight={300}
 						labelField="label"
 						valueField="value"

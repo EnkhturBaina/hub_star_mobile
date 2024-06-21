@@ -9,7 +9,7 @@ import SideMenu from "react-native-side-menu-updated";
 import SideBarFilter from "../SideBarFilter";
 import MainContext from "../../contexts/MainContext";
 import axios from "axios";
-import { IMG_URL, MAIN_COLOR, ORDER_DATA, SERVER_URL, X_API_KEY } from "../../constant";
+import { IMG_URL, MAIN_COLOR, SERVER_URL, X_API_KEY } from "../../constant";
 import SpecialServiceListSekeleton from "../../components/Skeletons/SpecialServiceListSekeleton";
 import Empty from "../../components/Empty";
 import { i18n } from "../../refs/i18";
@@ -194,7 +194,7 @@ const SpecialServiceScreen = (props) => {
 						placeholderStyle={styles.placeholderStyle}
 						selectedTextStyle={styles.selectedTextStyle}
 						inputSearchStyle={styles.inputSearchStyle}
-						data={ORDER_DATA}
+						data={state.ORDER_DATA}
 						maxHeight={300}
 						labelField="label"
 						valueField="value"

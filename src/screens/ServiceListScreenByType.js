@@ -5,7 +5,7 @@ import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 import { Icon } from "@rneui/base";
 import { Dropdown } from "react-native-element-dropdown";
 import MainContext from "../contexts/MainContext";
-import { MAIN_BORDER_RADIUS, MAIN_COLOR, ORDER_DATA, SERVER_URL } from "../constant";
+import { MAIN_BORDER_RADIUS, MAIN_COLOR } from "../constant";
 import SideMenu from "react-native-side-menu-updated";
 import SideBarFilter from "./SideBarFilter";
 import { SafeAreaProvider } from "react-native-safe-area-context";
@@ -61,7 +61,7 @@ const ServiceListScreenByType = (props) => {
 						placeholderStyle={styles.placeholderStyle}
 						selectedTextStyle={styles.selectedTextStyle}
 						inputSearchStyle={styles.inputSearchStyle}
-						data={ORDER_DATA}
+						data={state.ORDER_DATA}
 						maxHeight={300}
 						labelField="label"
 						valueField="value"

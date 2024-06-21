@@ -26,6 +26,11 @@ export const MainStore = (props) => {
 	const [userMainDirID, setUserMainDirID] = useState(null);
 	const [advertisement, setAdvertisement] = useState([]);
 
+	const ORDER_DATA = [
+		{ label: i18n.t("orderZA"), value: "DESC" },
+		{ label: i18n.t("orderAZ"), value: "ASC" }
+	];
+
 	const [mainDirection, setMainDirection] = useState([]);
 	const [direction, setDirection] = useState([]);
 
@@ -660,7 +665,8 @@ export const MainStore = (props) => {
 				createAd,
 				advertisement,
 				isCheckingUpdate,
-				updateAvailable
+				updateAvailable,
+				ORDER_DATA
 			}}
 		>
 			{props.children}

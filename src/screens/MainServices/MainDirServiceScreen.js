@@ -5,7 +5,7 @@ import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 import { Icon } from "@rneui/base";
 import { Dropdown } from "react-native-element-dropdown";
 import MainContext from "../../contexts/MainContext";
-import { IMG_URL, MAIN_BORDER_RADIUS, MAIN_COLOR, ORDER_DATA, SERVER_URL, X_API_KEY } from "../../constant";
+import { IMG_URL, MAIN_BORDER_RADIUS, MAIN_COLOR, SERVER_URL, X_API_KEY } from "../../constant";
 import SideMenu from "react-native-side-menu-updated";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import UserTabData from "../../refs/UserTabData";
@@ -247,7 +247,7 @@ const MainDirServiceScreen = (props) => {
 						placeholderStyle={styles.placeholderStyle}
 						selectedTextStyle={styles.selectedTextStyle}
 						inputSearchStyle={styles.inputSearchStyle}
-						data={ORDER_DATA}
+						data={state.ORDER_DATA}
 						maxHeight={300}
 						labelField="label"
 						valueField="value"

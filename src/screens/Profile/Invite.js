@@ -108,7 +108,7 @@ const Invite = () => {
 			}}
 		>
 			<Searchbar
-				placeholder="Хайх"
+				placeholder={i18n.t("search")}
 				onChangeText={(e) => {
 					onChangeSearch(e);
 				}}

@@ -183,5 +183,18 @@
 	"to": "Хаашаа",
 	"from": "Хаанаас",
 	"desciptionAndExperience": "Тайлбар ба ажлын туршлага",
-	"checkInternet": "Интернэт холболт шалгана уу?"
+	"checkInternet": "Интернэт холболт шалгана уу?",
+	"frontPassportImageId": "Үнэмлэхний урд талын зураг",
+	"selfieImageId": "Селфи зураг",
+	"behindPassportImageId": "Үнэмлэхний ард талын зураг",
+	"organizationLogoId": "Лого",
+	"notifAudio": "Дуу, чимээ",
+	"notifVibration": "Чичиргээ",
+	"notifSpec": "Тусгай мэдэгдэл",
+	"notifVoucher": "Урамшуулал ба хөнгөлөлт",
+	"notifPayment": "Төлбөр",
+	"notifUpdate": "Апп шинэчлэх",
+	"notifService": "Үйлчилгээний мэдэгдэл",
+	"orderZA": "Огноогоор (Z-A)",
+	"orderAZ": "Огноогоор (A-Z)"
 }

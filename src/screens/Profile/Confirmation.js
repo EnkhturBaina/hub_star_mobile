@@ -65,19 +65,19 @@ const Confirmation = (props) => {
 
 	const IMAGE_DATA = [
 		{
-			title: "Үнэмлэхний урд талын зураг",
+			title: i18n.t("frontPassportImageId"),
 			path: "frontPassportImageId"
 		},
 		{
-			title: "Селфи зураг",
+			title: i18n.t("selfieImageId"),
 			path: "selfieImageId"
 		},
 		{
-			title: "Үнэмлэхний ард талын зураг",
+			title: i18n.t("behindPassportImageId"),
 			path: "behindPassportImageId"
 		},
 		{
-			title: "Лого",
+			title: i18n.t("organizationLogoId"),
 			path: "organizationLogoId"
 		}
 	];

@@ -22,8 +22,3 @@ export const IMG_URL = "http://192.82.92.170:8080/local-files/";
 // export const SERVER_URL = "http://192.168.5.120:8080/";
 // export const IMG_URL = "http://192.168.5.120:8080/local-files/";
 export const X_API_KEY = "1ab2c3d4e5f61ab2c3d4e5";
-
-export const ORDER_DATA = [
-	{ label: "Огноогоор (Z-A)", value: "DESC" },
-	{ label: "Огноогоор (A-Z)", value: "ASC" }
-];
