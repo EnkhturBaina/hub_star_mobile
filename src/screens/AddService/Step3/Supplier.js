@@ -47,7 +47,7 @@ const Supplier = (props) => {
 					>
 						<Text>Supplier</Text>
 						<LoanInput
-							label={i18n.t("")}
+							label={i18n.t("productName")}
 							value={state.serviceData?.productName}
 							onChangeText={(e) =>
 								state.setServiceData((prevState) => ({
