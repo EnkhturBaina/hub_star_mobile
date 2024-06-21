@@ -1,18 +1,17 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
-import { useNavigation } from "@react-navigation/native";
 import { X_API_KEY, SERVER_URL } from "../constant";
 import UserTabData from "../refs/UserTabData";
 import SpecialServiceData from "../refs/SpecialServiceData";
 import * as FileSystem from "expo-file-system";
 import * as Updates from "expo-updates";
 import { i18n } from "../refs/i18";
+import NetInfo from "@react-native-community/netinfo";
 
 const MainContext = React.createContext();
 
 export const MainStore = (props) => {
-	const navigation = useNavigation();
 	const [isCheckingUpdate, setIsCheckingUpdate] = useState(false);
 	const [updateAvailable, setUpdateAvailable] = useState(false);
 
@@ -25,7 +24,7 @@ export const MainStore = (props) => {
 	const [errorMsg, setErrorMsg] = useState("");
 	const [userData, setUserData] = useState(null);
 	const [userMainDirID, setUserMainDirID] = useState(null);
-	const [advertisement, setAdvertisement] = useState(null);
+	const [advertisement, setAdvertisement] = useState([]);
 
 	const [mainDirection, setMainDirection] = useState([]);
 	const [direction, setDirection] = useState([]);
@@ -143,8 +142,16 @@ export const MainStore = (props) => {
 	});
 	useEffect(() => {
 		setIsLoading(true);
-		checkUserData();
-		checkForUpdates();
+		NetInfo.fetch().then((stateConn) => {
+			console.log("Connection type", stateConn);
+			if (!stateConn.isConnected) {
+				setErrorMsg(i18n.t("checkInternet"));
+				logout();
+			} else {
+				checkUserData();
+				checkForUpdates();
+			}
+		});
 	}, []);
 
 	const checkForUpdates = async () => {

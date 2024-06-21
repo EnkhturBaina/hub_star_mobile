@@ -179,7 +179,9 @@
 	"fromAddress": "Хаанаас гэдгээ",
 	"toAddress": "Хаашаа гэдгээ",
 	"openMessenger": "Мессэнжер нээх",
+	"isAfternoon": "Өдрөөр хийх ажил",
 	"to": "Хаашаа",
 	"from": "Хаанаас",
-	"desciptionAndExperience": "Тайлбар ба ажлын туршлага"
+	"desciptionAndExperience": "Тайлбар ба ажлын туршлага",
+	"checkInternet": "Интернэт холболт шалгана уу?"
 }

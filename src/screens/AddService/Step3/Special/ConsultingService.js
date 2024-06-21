@@ -5,6 +5,7 @@ import { CheckBox, Icon } from "@rneui/base";
 import LoanInput from "../../../../components/LoanInput";
 import MainContext from "../../../../contexts/MainContext";
 import ImageModal from "../../../../components/ImageModal";
+import { i18n } from "../../../../refs/i18";
 
 const ConsultingService = (props) => {
 	const state = useContext(MainContext);
@@ -41,7 +42,7 @@ const ConsultingService = (props) => {
 						automaticallyAdjustKeyboardInsets={true}
 					>
 						<LoanInput
-							label="Үйлчилгээний үнэ"
+							label={i18n.t("adServicePrice")}
 							keyboardType="number-pad"
 							value={props.tempUnitAmount}
 							onChangeText={(e) => {
@@ -52,10 +53,10 @@ const ConsultingService = (props) => {
 								// }))
 							}}
 						/>
-						<Text style={styles.label}>Зураг оруулах</Text>
+						<Text style={styles.label}>{i18n.t("uploadImage")}</Text>
 						<ImageModal />
 						<LoanInput
-							label="Тайлбар"
+							label={i18n.t("desciption")}
 							value={state.serviceData?.desciption}
 							onChangeText={(e) =>
 								state.setServiceData((prevState) => ({
@@ -67,7 +68,7 @@ const ConsultingService = (props) => {
 							multiline
 						/>
 						<LoanInput
-							label="И-мэйл"
+							label={i18n.t("email")}
 							value={state.serviceData?.email}
 							onChangeText={(e) =>
 								state.setServiceData((prevState) => ({
@@ -78,7 +79,7 @@ const ConsultingService = (props) => {
 							keyboardType="email-address"
 						/>
 						<LoanInput
-							label="Утас"
+							label={i18n.t("phoneNumber")}
 							value={state.serviceData?.phone}
 							onChangeText={(e) =>
 								state.setServiceData((prevState) => ({
@@ -99,7 +100,7 @@ const ConsultingService = (props) => {
 								fontWeight: "bold",
 								marginLeft: 5
 							}}
-							title="Мессэнжер нээх"
+							title={i18n.t("openMessenger")}
 							checked={state.serviceData?.isMessenger}
 							onPress={() => {
 								state.setServiceData((prevState) => ({
@@ -123,7 +124,7 @@ const ConsultingService = (props) => {
 								fontWeight: "bold",
 								marginLeft: 5
 							}}
-							title="Үйлчилгээний нөхцөл зөвшөөрөх"
+							title={i18n.t("confirmTerm")}
 							checked={state.serviceData?.isTermOfService}
 							onPress={() => {
 								state.setServiceData((prevState) => ({

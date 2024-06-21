@@ -13,6 +13,9 @@
 		},
 		"assetBundlePatterns": ["**/*"],
 		"ios": {
+			"entitlements": {
+				"com.apple.developer.networking.wifi-info": true
+			},
 			"supportsTablet": true,
 			"bundleIdentifier": "com.hubstar.app",
 			"buildNumber": "1.0.21",

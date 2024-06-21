@@ -127,7 +127,7 @@ const Supplier = (props) => {
 								fontWeight: "bold",
 								marginLeft: 5
 							}}
-							label={i18n.t("openMessenger")}
+							title={i18n.t("openMessenger")}
 							checked={state.serviceData?.isMessenger}
 							onPress={() => {
 								state.setServiceData((prevState) => ({
@@ -151,7 +151,7 @@ const Supplier = (props) => {
 								fontWeight: "bold",
 								marginLeft: 5
 							}}
-							label={i18n.t("confirmTerm")}
+							title={i18n.t("confirmTerm")}
 							checked={state.serviceData?.isTermOfService}
 							onPress={() => {
 								state.setServiceData((prevState) => ({
