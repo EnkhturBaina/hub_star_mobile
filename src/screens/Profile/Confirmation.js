@@ -330,12 +330,7 @@ const Confirmation = (props) => {
 									}))
 								}
 							/>
-							<LoanInput
-								label={i18n.t("orgIndustry")}
-								value={tempState}
-								keyboardType="number-pad"
-								onChangeText={(e) => setTempState(e)}
-							/>
+							<LoanInput label={i18n.t("orgIndustry")} value={tempState} onChangeText={(e) => setTempState(e)} />
 							<LoanInput
 								label={i18n.t("orgExperience")}
 								value={profileData?.experience}

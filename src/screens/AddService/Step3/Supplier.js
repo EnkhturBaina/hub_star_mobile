@@ -6,6 +6,7 @@ import LoanInput from "../../../components/LoanInput";
 import MainContext from "../../../contexts/MainContext";
 import ImageModal from "../../../components/ImageModal";
 import { i18n } from "../../../refs/i18";
+import TermCheckbox from "../../../components/TermCheckbox";
 
 const Supplier = (props) => {
 	const state = useContext(MainContext);
@@ -150,30 +151,7 @@ const Supplier = (props) => {
 							checkedColor={MAIN_COLOR}
 							uncheckedColor={MAIN_COLOR}
 						/>
-						<CheckBox
-							containerStyle={{
-								padding: 0,
-								marginLeft: 0,
-								marginTop: 10
-							}}
-							textStyle={{
-								fontWeight: "bold",
-								marginLeft: 5
-							}}
-							title={i18n.t("confirmTerm")}
-							checked={state.serviceData?.isTermOfService}
-							onPress={() => {
-								state.setServiceData((prevState) => ({
-									...prevState,
-									isTermOfService: !state.serviceData?.isTermOfService
-								}));
-							}}
-							iconType="material-community"
-							checkedIcon="checkbox-outline"
-							uncheckedIcon="checkbox-blank-outline"
-							checkedColor={MAIN_COLOR}
-							uncheckedColor={MAIN_COLOR}
-						/>
+						<TermCheckbox />
 					</ScrollView>
 				</View>
 			</SafeAreaView>
