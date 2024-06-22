@@ -311,9 +311,10 @@ const CategoryScreen = memo(() => {
 																<TouchableOpacity
 																	key={indexSub}
 																	style={{
-																		height: 40,
 																		width: "100%",
-																		justifyContent: "center"
+																		justifyContent: "center",
+																		marginTop: 10,
+																		marginBottom: 15
 																	}}
 																	onPress={() => {
 																		navigation.navigate("CAT_MainDirServiceScreen", {

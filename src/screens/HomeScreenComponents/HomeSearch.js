@@ -242,9 +242,10 @@ const HomeSearch = () => {
 																<TouchableOpacity
 																	key={indexSub}
 																	style={{
-																		height: 40,
 																		width: "100%",
-																		justifyContent: "center"
+																		justifyContent: "center",
+																		marginTop: 10,
+																		marginBottom: 15
 																	}}
 																	onPress={() => {
 																		sheetRef.current.close();
