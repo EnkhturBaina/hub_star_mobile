@@ -101,7 +101,6 @@ const styles = StyleSheet.create({
 		backgroundColor: "#fff"
 	},
 	cardContainer: {
-		flex: 1,
 		flexDirection: "row",
 		alignItems: "center",
 		borderRadius: 12,

@@ -51,6 +51,9 @@ import SingleHomeAdScreen from "../screens/HomeScreenComponents/SingleHomeAdScre
 import SingleServiceViewProfileScreen from "../components/SingleServiceViewProfileScreen";
 import Posted from "../screens/Profile/Posted";
 import { i18n } from "../refs/i18";
+import Saved from "../screens/Profile/Saved";
+import History from "../screens/Profile/History";
+import Doing from "../screens/Profile/Doing";
 
 const Stack = createStackNavigator();
 const width = Dimensions.get("screen").width;
@@ -1048,6 +1051,66 @@ const ProfileStackNavigator = (props) => {
 				}}
 			/>
 			<Stack.Screen
+				name="Doing"
+				component={Doing}
+				options={{
+					title: i18n.t("worksAds"),
+					headerTitleStyle: {
+						fontWeight: "800"
+					},
+					headerLeft: () => (
+						<TouchableOpacity
+							style={styles.headerLeftContainer}
+							onPress={() => {
+								navigation.navigate("ProfileScreen");
+							}}
+						>
+							<Icon type="material-icons" name="keyboard-arrow-left" size={35} />
+						</TouchableOpacity>
+					)
+				}}
+			/>
+			<Stack.Screen
+				name="Saved"
+				component={Saved}
+				options={{
+					title: i18n.t("savedAds"),
+					headerTitleStyle: {
+						fontWeight: "800"
+					},
+					headerLeft: () => (
+						<TouchableOpacity
+							style={styles.headerLeftContainer}
+							onPress={() => {
+								navigation.navigate("ProfileScreen");
+							}}
+						>
+							<Icon type="material-icons" name="keyboard-arrow-left" size={35} />
+						</TouchableOpacity>
+					)
+				}}
+			/>
+			<Stack.Screen
+				name="History"
+				component={History}
+				options={{
+					title: i18n.t("historyAds"),
+					headerTitleStyle: {
+						fontWeight: "800"
+					},
+					headerLeft: () => (
+						<TouchableOpacity
+							style={styles.headerLeftContainer}
+							onPress={() => {
+								navigation.navigate("ProfileScreen");
+							}}
+						>
+							<Icon type="material-icons" name="keyboard-arrow-left" size={35} />
+						</TouchableOpacity>
+					)
+				}}
+			/>
+			<Stack.Screen
 				name="PROFILE_SingleServiceScreen"
 				component={SingleServiceScreen}
 				options={{
@@ -1059,7 +1122,7 @@ const ProfileStackNavigator = (props) => {
 						<TouchableOpacity
 							style={styles.headerLeftContainer}
 							onPress={() => {
-								navigation.navigate("Posted");
+								navigation.navigate("ProfileScreen");
 							}}
 						>
 							<Icon type="material-icons" name="keyboard-arrow-left" size={35} />
