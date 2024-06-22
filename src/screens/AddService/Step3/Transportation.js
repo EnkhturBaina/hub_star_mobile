@@ -76,7 +76,16 @@ const Transportation = (props) => {
 						bounces={false}
 						automaticallyAdjustKeyboardInsets={true}
 					>
-						<Text>Transportation</Text>
+						<Text
+							style={{
+								fontWeight: "bold",
+								marginLeft: 5,
+								fontSize: 16,
+								alignSelf: "flex-end"
+							}}
+						>
+							{i18n.t("transportation")}
+						</Text>
 						<View style={styles.touchableSelectContainer}>
 							<Text style={styles.label}>{i18n.t("machineryType")}</Text>
 							<TouchableOpacity

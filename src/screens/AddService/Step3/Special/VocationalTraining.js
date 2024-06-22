@@ -41,6 +41,16 @@ const VocationalTraining = (props) => {
 						bounces={false}
 						automaticallyAdjustKeyboardInsets={true}
 					>
+						<Text
+							style={{
+								fontWeight: "bold",
+								marginLeft: 5,
+								fontSize: 16,
+								alignSelf: "flex-end"
+							}}
+						>
+							{i18n.t("vocationalTraining")}
+						</Text>
 						<LoanInput
 							label={i18n.t("adServicePrice")}
 							keyboardType="number-pad"

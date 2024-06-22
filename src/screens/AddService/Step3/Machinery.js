@@ -83,7 +83,16 @@ const Machinery = (props) => {
 						bounces={false}
 						automaticallyAdjustKeyboardInsets={true}
 					>
-						<Text>Machinery</Text>
+						<Text
+							style={{
+								fontWeight: "bold",
+								marginLeft: 5,
+								fontSize: 16,
+								alignSelf: "flex-end"
+							}}
+						>
+							{i18n.t("machinery")}
+						</Text>
 						<View style={styles.touchableSelectContainer}>
 							<Text style={styles.label}>{i18n.t("machineryType")}</Text>
 							<TouchableOpacity

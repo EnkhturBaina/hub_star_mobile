@@ -42,7 +42,16 @@ const Executor = (props) => {
 						bounces={false}
 						automaticallyAdjustKeyboardInsets={true}
 					>
-						<Text>Executor</Text>
+						<Text
+							style={{
+								fontWeight: "bold",
+								marginLeft: 5,
+								fontSize: 16,
+								alignSelf: "flex-end"
+							}}
+						>
+							{i18n.t("executor")}
+						</Text>
 						<LoanInput
 							label={i18n.t("workerCount")}
 							value={state.serviceData?.workerCount?.toString()}

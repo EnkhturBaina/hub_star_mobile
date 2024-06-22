@@ -45,7 +45,16 @@ const Supplier = (props) => {
 						bounces={false}
 						automaticallyAdjustKeyboardInsets={true}
 					>
-						<Text>Supplier</Text>
+						<Text
+							style={{
+								fontWeight: "bold",
+								marginLeft: 5,
+								fontSize: 16,
+								alignSelf: "flex-end"
+							}}
+						>
+							{i18n.t("supplier")}
+						</Text>
 						<LoanInput
 							label={i18n.t("productName")}
 							value={state.serviceData?.productName}

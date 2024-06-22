@@ -196,5 +196,6 @@
 	"notifUpdate": "应用更新",
 	"notifService": "服务通知",
 	"orderZA": "按日期降序 (Z-A)",
-	"orderAZ": "按日期升序 (A-Z)"
+	"orderAZ": "按日期升序 (A-Z)",
+	"seeAll": "看全部"
 }

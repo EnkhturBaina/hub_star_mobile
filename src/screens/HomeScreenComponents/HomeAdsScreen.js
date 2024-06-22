@@ -13,7 +13,20 @@ const HomeAdsScreen = () => {
 
 	return (
 		<View>
-			<Text style={styles.specialServiceText}>{i18n.t("simpleServices")}</Text>
+			<View style={{ flexDirection: "row", justifyContent: "space-between", marginRight: 20 }}>
+				<Text style={styles.specialServiceText}>{i18n.t("simpleServices")}</Text>
+				<TouchableOpacity
+					onPress={() => {
+						state.setUserTypeParam((prevState) => ({
+							...prevState,
+							page: 1
+						}));
+						navigation.navigate("UserTypeServiceScreen");
+					}}
+				>
+					<Text style={styles.specialServiceText}>{i18n.t("seeAll")}</Text>
+				</TouchableOpacity>
+			</View>
 			<View style={{ marginTop: 10 }}>
 				<ScrollView
 					horizontal={true}

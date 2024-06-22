@@ -196,5 +196,6 @@
 	"notifUpdate": "App update",
 	"notifService": "Service notification",
 	"orderZA": "By date (Z-A)",
-	"orderAZ": "By date (A-Z)"
+	"orderAZ": "By date (A-Z)",
+	"seeAll": "See all"
 }
