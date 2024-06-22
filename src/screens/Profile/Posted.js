@@ -196,6 +196,7 @@ const Posted = (props) => {
 							closeMenu();
 							state.setCurrentStep(1);
 							state.setServiceData(item);
+							state.setIsEditAd(true);
 							if (item.specialService != null) {
 								props.navigation.navigate("UPDATE_AddServiceSpecial", {
 									images: item.images

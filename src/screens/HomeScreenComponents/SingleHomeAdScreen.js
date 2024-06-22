@@ -226,7 +226,7 @@ const SingleHomeAdScreen = (props) => {
 							</View>
 							<Text>{adviceData?.desciption}</Text>
 						</View>
-						<SingleServiceTypes directionId={adviceData?.directionId} />
+						{/* <SingleServiceTypes directionId={adviceData?.directionId} /> */}
 						<SingleServiceAdvices mainDirectionId={adviceData?.mainDirectionId} directionId={adviceData?.directionId} />
 						<SingleServiceDetails adviceData={adviceData} />
 					</ScrollView>

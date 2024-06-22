@@ -49,7 +49,7 @@ const AddService = (props) => {
 
 	useEffect(() => {
 		// Үйлчилгээ засах үед зурагнууд SET хийх
-		if (props.route?.params?.images) {
+		if (state.isEditAd && props.route?.params?.images) {
 			state.setServiceData((prevState) => ({
 				...prevState,
 				imageIds: props.route?.params?.images?.map((item) => item.id)

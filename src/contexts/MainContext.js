@@ -46,6 +46,7 @@ export const MainStore = (props) => {
 	const [subDirectionData, setSubDirectionData] = useState([]);
 	const [notifications, setNotifications] = useState([]);
 
+	const [isEditAd, setIsEditAd] = useState(false);
 	const [currentStep, setCurrentStep] = useState(1);
 	const [serviceData, setServiceData] = useState({
 		customerType: null,
@@ -666,7 +667,9 @@ export const MainStore = (props) => {
 				advertisement,
 				isCheckingUpdate,
 				updateAvailable,
-				ORDER_DATA
+				ORDER_DATA,
+				isEditAd,
+				setIsEditAd
 			}}
 		>
 			{props.children}

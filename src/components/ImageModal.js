@@ -47,9 +47,12 @@ const ImageModal = (props) => {
 	};
 
 	useEffect(() => {
-		if (images.length == 0) {
+		if (images.length === 0 && state.isEditAd) {
 			setImages(state.serviceData?.imageIds);
 		}
+	}, []);
+
+	useEffect(() => {
 		state.setServiceData((prevState) => ({
 			...prevState,
 			imageIds: images
