@@ -5,6 +5,7 @@ import { CheckBox } from "@rneui/base";
 import LoanInput from "../../../components/LoanInput";
 import MainContext from "../../../contexts/MainContext";
 import ImageModal from "../../../components/ImageModal";
+import { i18n } from "../../../refs/i18";
 
 const Subscriber = (props) => {
 	const state = useContext(MainContext);
