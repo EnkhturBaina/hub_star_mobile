@@ -198,5 +198,9 @@
 	"orderZA": "By date (Z-A)",
 	"orderAZ": "By date (A-Z)",
 	"seeAll": "See all",
-	"settings": "Settings"
+	"settings": "Settings",
+	"irgen": "Individual",
+	"aan": "Legal entities",
+	"frontPassportImageIdORG": "Front side of the certificate image",
+	"behindPassportImageIdORG": "Back side of the certificate image"
 }

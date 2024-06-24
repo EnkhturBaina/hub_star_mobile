@@ -198,5 +198,9 @@
 	"orderZA": "按日期降序 (Z-A)",
 	"orderAZ": "按日期升序 (A-Z)",
 	"seeAll": "看全部",
-	"settings": "設定"
+	"settings": "設定",
+	"irgen": "個人",
+	"aan": "法人實體",
+	"frontPassportImageIdORG": "证书正面图像",
+	"behindPassportImageIdORG": "证书背面图像"
 }

@@ -30,6 +30,7 @@ const Confirmation = (props) => {
 	const state = useContext(MainContext);
 
 	const tabBarHeight = useBottomTabBarHeight();
+	const [confirmType, setConfirmType] = useState(null);
 	const [tempState, setTempState] = useState("");
 
 	const [isLang, setIsLang] = useState(false);
@@ -63,18 +64,25 @@ const Confirmation = (props) => {
 	const [displayName, setDisplayName] = useState(""); //LOOKUP -д харагдах утга (display value)
 	const [actionKey, setActionKey] = useState(""); //Сонгогдсон OBJECT -с ямар key -р утга авах (Жнь: {object}.id)
 
-	const IMAGE_DATA = [
+	const IMAGE_DATA_1 = [
 		{
 			title: i18n.t("frontPassportImageId"),
 			path: "frontPassportImageId"
 		},
 		{
-			title: i18n.t("selfieImageId"),
-			path: "selfieImageId"
-		},
-		{
 			title: i18n.t("behindPassportImageId"),
 			path: "behindPassportImageId"
+		}
+	];
+
+	const IMAGE_DATA_2 = [
+		{
+			title: i18n.t("frontPassportImageIdORG"),
+			path: "frontPassportImageId"
+		},
+		{
+			title: i18n.t("behindPassportImageIdORG"),
+			path: "selfieImageId"
 		},
 		{
 			title: i18n.t("organizationLogoId"),
@@ -126,6 +134,21 @@ const Confirmation = (props) => {
 	useEffect(() => {
 		getProfileData();
 	}, []);
+	useEffect(() => {
+		if (confirmType != null) {
+			if (confirmType == "1") {
+				setProfileData((prevState) => ({
+					...prevState,
+					isCitizen: 1
+				}));
+			} else {
+				setProfileData((prevState) => ({
+					...prevState,
+					isCitizen: 0
+				}));
+			}
+		}
+	}, [confirmType]);
 
 	const saveProfileData = async () => {
 		if (!profileData.userType) {
@@ -215,8 +238,17 @@ const Confirmation = (props) => {
 		>
 			<CustomSnackbar visible={visibleSnack} dismiss={onDismissSnackBar} text={snackBarMsg} topPos={1} />
 			<KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={{ flex: 1 }}>
-				{loadingProfileData ? (
-					<EditProfileSkeleton />
+				{confirmType == null ? (
+					<View style={{ flexDirection: "column", flex: 1 }}>
+						<TouchableOpacity activeOpacity={0.7} onPress={() => setConfirmType("1")} style={styles.addItemContainer}>
+							<Icon name="user" type="antdesign" size={70} color="#c5c5c5" />
+							<Text style={{ fontSize: 18, color: "#919395" }}>{i18n.t("irgen")}</Text>
+						</TouchableOpacity>
+						<TouchableOpacity activeOpacity={0.7} onPress={() => setConfirmType("2")} style={styles.addItemContainer}>
+							<Icon name="home" type="antdesign" size={70} color="#c5c5c5" />
+							<Text style={{ fontSize: 18, color: "#919395" }}>{i18n.t("aan")}</Text>
+						</TouchableOpacity>
+					</View>
 				) : (
 					<View style={{ flex: 1 }}>
 						<ScrollView
@@ -265,84 +297,128 @@ const Confirmation = (props) => {
 								</TouchableOpacity>
 							</View>
 							<Text style={styles.label}>{i18n.t("uploadImage")}</Text>
-							<View style={styles.gridContainer}>
-								{IMAGE_DATA.map((el, index) => {
-									return (
-										<View key={index} style={styles.gridItem}>
-											<TouchableOpacity
-												onPress={() => {
-													if (!profileData?.[el.path]) {
-														onToggleSnackBar(`${el.title} оруулаагүй байна.`);
-													} else {
-														setZoomImgURL(IMG_URL + profileData?.[el.path]);
-														setVisible1(true);
-													}
-												}}
-												style={{ width: "90%", height: "100%", justifyContent: "center" }}
-											>
-												<Text style={styles.featureText}>{el.title}</Text>
-											</TouchableOpacity>
-											<TouchableOpacity
-												style={{
-													height: 45,
-													justifyContent: "center",
-													width: 45,
-													borderLeftWidth: 1,
-													borderLeftColor: MAIN_BG_GRAY
-												}}
-												onPress={() => {
-													uploadImageAsBinary(el.path);
-												}}
-											>
-												<Icon name="upload" type="feather" size={20} color={GRAY_ICON_COLOR} />
-											</TouchableOpacity>
-										</View>
-									);
-								})}
-							</View>
-							<LoanInput
-								label={i18n.t("orgName")}
-								value={profileData?.organizationName}
-								onChangeText={(e) =>
-									setProfileData((prevState) => ({
-										...prevState,
-										organizationName: e
-									}))
-								}
-							/>
-							<LoanInput
-								label={i18n.t("orgRegister")}
-								value={profileData?.organizationRegno}
-								onChangeText={(e) =>
-									setProfileData((prevState) => ({
-										...prevState,
-										organizationRegno: e
-									}))
-								}
-							/>
-							<LoanInput
-								label={i18n.t("webUrl")}
-								value={profileData?.webUrl}
-								onChangeText={(e) =>
-									setProfileData((prevState) => ({
-										...prevState,
-										webUrl: e
-									}))
-								}
-							/>
-							<LoanInput label={i18n.t("orgIndustry")} value={tempState} onChangeText={(e) => setTempState(e)} />
-							<LoanInput
-								label={i18n.t("orgExperience")}
-								value={profileData?.experience}
-								onChangeText={(e) =>
-									setProfileData((prevState) => ({
-										...prevState,
-										experience: e
-									}))
-								}
-								multiline={true}
-								textAlignVertical="top"
-							/>
+							{confirmType == "1" ? (
+								<>
+									<View style={styles.gridContainer}>
+										{IMAGE_DATA_1.map((el, index) => {
+											return (
+												<View key={index} style={styles.gridItem}>
+													<TouchableOpacity
+														onPress={() => {
+															if (!profileData?.[el.path]) {
+																onToggleSnackBar(`${el.title} оруулаагүй байна.`);
+															} else {
+																setZoomImgURL(IMG_URL + profileData?.[el.path]);
+																setVisible1(true);
+															}
+														}}
+														style={{ width: "90%", height: "100%", justifyContent: "center" }}
+													>
+														<Text style={styles.featureText}>{el.title}</Text>
+													</TouchableOpacity>
+													<TouchableOpacity
+														style={{
+															height: 45,
+															justifyContent: "center",
+															width: 45,
+															borderLeftWidth: 1,
+															borderLeftColor: MAIN_BG_GRAY
+														}}
+														onPress={() => {
+															uploadImageAsBinary(el.path);
+														}}
+													>
+														<Icon name="upload" type="feather" size={20} color={GRAY_ICON_COLOR} />
+													</TouchableOpacity>
+												</View>
+											);
+										})}
+									</View>
+								</>
+							) : null}
+
+							{confirmType == "2" ? (
+								<>
+									<View style={styles.gridContainer}>
+										{IMAGE_DATA_2.map((el, index) => {
+											return (
+												<View key={index} style={styles.gridItem}>
+													<TouchableOpacity
+														onPress={() => {
+															if (!profileData?.[el.path]) {
+																onToggleSnackBar(`${el.title} оруулаагүй байна.`);
+															} else {
+																setZoomImgURL(IMG_URL + profileData?.[el.path]);
+																setVisible1(true);
+															}
+														}}
+														style={{ width: "90%", height: "100%", justifyContent: "center" }}
+													>
+														<Text style={styles.featureText}>{el.title}</Text>
+													</TouchableOpacity>
+													<TouchableOpacity
+														style={{
+															height: 45,
+															justifyContent: "center",
+															width: 45,
+															borderLeftWidth: 1,
+															borderLeftColor: MAIN_BG_GRAY
+														}}
+														onPress={() => {
+															uploadImageAsBinary(el.path);
+														}}
+													>
+														<Icon name="upload" type="feather" size={20} color={GRAY_ICON_COLOR} />
+													</TouchableOpacity>
+												</View>
+											);
+										})}
+									</View>
+									<LoanInput
+										label={i18n.t("orgName")}
+										value={profileData?.organizationName}
+										onChangeText={(e) =>
+											setProfileData((prevState) => ({
+												...prevState,
+												organizationName: e
+											}))
+										}
+									/>
+									<LoanInput
+										label={i18n.t("orgRegister")}
+										value={profileData?.organizationRegno}
+										onChangeText={(e) =>
+											setProfileData((prevState) => ({
+												...prevState,
+												organizationRegno: e
+											}))
+										}
+									/>
+									<LoanInput
+										label={i18n.t("webUrl")}
+										value={profileData?.webUrl}
+										onChangeText={(e) =>
+											setProfileData((prevState) => ({
+												...prevState,
+												webUrl: e
+											}))
+										}
+									/>
+									<LoanInput label={i18n.t("orgIndustry")} value={tempState} onChangeText={(e) => setTempState(e)} />
+									<LoanInput
+										label={i18n.t("orgExperience")}
+										value={profileData?.experience}
+										onChangeText={(e) =>
+											setProfileData((prevState) => ({
+												...prevState,
+												experience: e
+											}))
+										}
+										multiline={true}
+										textAlignVertical="top"
+									/>
+								</>
+							) : null}
 							<View className="w-full mt-2">
 								<GradientButton text={i18n.t("save")} action={saveProfileData} />
 							</View>
@@ -407,6 +483,16 @@ const Confirmation = (props) => {
 export default Confirmation;
 
 const styles = StyleSheet.create({
+	addItemContainer: {
+		marginHorizontal: 20,
+		alignItems: "center",
+		height: 150,
+		backgroundColor: "#e5e5e5",
+		borderRadius: 6,
+		marginBottom: 20,
+		flexDirection: "column",
+		justifyContent: "space-evenly"
+	},
 	scrollContainer: {
 		flexGrow: 1,
 		backgroundColor: "#fff",
