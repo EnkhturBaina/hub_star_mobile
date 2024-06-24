@@ -117,7 +117,7 @@ const SpecialServiceScreen = (props) => {
 					}
 					style={{
 						width: "100%",
-						height: 150,
+						height: 110,
 						borderTopLeftRadius: 6,
 						borderTopRightRadius: 6
 					}}
@@ -129,6 +129,9 @@ const SpecialServiceScreen = (props) => {
 					</Text>
 					<Text style={{ color: "#aeaeae", fontWeight: "500" }} numberOfLines={1}>
 						{state.getTypeName(item.userType, item.specialService, (isSlash = false), true)}
+					</Text>
+					<Text style={{ color: MAIN_COLOR, fontWeight: "500" }} numberOfLines={1}>
+						{state.addCommas(state.removeNonNumeric(item.price)) ?? "-"}₮
 					</Text>
 				</View>
 			</TouchableOpacity>

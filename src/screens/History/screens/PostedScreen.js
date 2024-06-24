@@ -153,6 +153,9 @@ const PostedScreen = (props) => {
 					<Text style={{ color: "#aeaeae", fontWeight: "500" }}>
 						{state.getTypeName(item.userType, item.specialService, (isSlash = false), true)}
 					</Text>
+					<Text style={{ color: MAIN_COLOR, fontWeight: "500" }} numberOfLines={1}>
+						{state.addCommas(state.removeNonNumeric(item.price)) ?? "-"}₮
+					</Text>
 				</View>
 				<Menu
 					visible={visibleMenu === item.id}

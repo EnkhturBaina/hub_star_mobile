@@ -54,6 +54,7 @@ import { i18n } from "../refs/i18";
 import Saved from "../screens/Profile/Saved";
 import History from "../screens/Profile/History";
 import Doing from "../screens/Profile/Doing";
+import Settings from "../screens/Profile/Settings";
 
 const Stack = createStackNavigator();
 const width = Dimensions.get("screen").width;
@@ -910,6 +911,27 @@ const ProfileStackNavigator = (props) => {
 					)
 				}}
 			/>
+
+			<Stack.Screen
+				name="PROFILE_NotificationDTLScreen"
+				component={NotificationDTLScreen}
+				options={{
+					title: i18n.t("notification"),
+					headerTitleStyle: {
+						fontWeight: "800"
+					},
+					headerLeft: () => (
+						<TouchableOpacity
+							style={styles.headerLeftContainer}
+							onPress={() => {
+								navigation.navigate("Notification");
+							}}
+						>
+							<Icon type="material-icons" name="keyboard-arrow-left" size={35} />
+						</TouchableOpacity>
+					)
+				}}
+			/>
 			<Stack.Screen
 				name="Account"
 				component={Account}
@@ -1095,6 +1117,26 @@ const ProfileStackNavigator = (props) => {
 				component={History}
 				options={{
 					title: i18n.t("historyAds"),
+					headerTitleStyle: {
+						fontWeight: "800"
+					},
+					headerLeft: () => (
+						<TouchableOpacity
+							style={styles.headerLeftContainer}
+							onPress={() => {
+								navigation.navigate("ProfileScreen");
+							}}
+						>
+							<Icon type="material-icons" name="keyboard-arrow-left" size={35} />
+						</TouchableOpacity>
+					)
+				}}
+			/>
+			<Stack.Screen
+				name="Settings"
+				component={Settings}
+				options={{
+					title: i18n.t("settings"),
 					headerTitleStyle: {
 						fontWeight: "800"
 					},

@@ -125,18 +125,21 @@ const MainDirServiceScreen = (props) => {
 					}
 					style={{
 						width: "100%",
-						height: 130,
+						height: 100,
 						borderTopLeftRadius: 6,
 						borderTopRightRadius: 6
 					}}
 					resizeMode="cover"
 				/>
 				<View style={{ flexDirection: "column", padding: 10 }}>
-					<Text numberOfLines={2} style={{ fontSize: 16, fontWeight: "500", height: 40 }}>
+					<Text numberOfLines={2} style={{ fontSize: 16, fontWeight: "500" }}>
 						{item.title}
 					</Text>
 					<Text style={{ color: "#aeaeae", fontWeight: "500" }} numberOfLines={1}>
 						{state.getTypeName(item.userType, item.specialService, (isSlash = false), true)}
+					</Text>
+					<Text style={{ color: MAIN_COLOR, fontWeight: "500" }} numberOfLines={1}>
+						{state.addCommas(state.removeNonNumeric(item.price)) ?? "-"}₮
 					</Text>
 				</View>
 			</TouchableOpacity>

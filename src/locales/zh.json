@@ -197,5 +197,6 @@
 	"notifService": "服务通知",
 	"orderZA": "按日期降序 (Z-A)",
 	"orderAZ": "按日期升序 (A-Z)",
-	"seeAll": "看全部"
+	"seeAll": "看全部",
+	"settings": "設定"
 }

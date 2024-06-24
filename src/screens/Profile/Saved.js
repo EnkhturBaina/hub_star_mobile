@@ -2,7 +2,7 @@ import { StyleSheet, Text, View, StatusBar, Platform, ScrollView, Image, Touchab
 import React, { useContext, useEffect, useState } from "react";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import MainContext from "../../contexts/MainContext";
-import { IMG_URL, SERVER_URL, X_API_KEY } from "../../constant";
+import { IMG_URL, MAIN_COLOR, SERVER_URL, X_API_KEY } from "../../constant";
 import axios from "axios";
 import ListServiceSkeleton from "../../components/Skeletons/ListServiceSkeleton";
 import Empty from "../../components/Empty";
@@ -97,6 +97,9 @@ const Saved = (props) => {
 									</Text>
 									<Text style={{ color: "#aeaeae", fontWeight: "500" }}>
 										{state.getTypeName(el.userType, el.specialService, (isSlash = false), true)}
+									</Text>
+									<Text style={{ color: MAIN_COLOR, fontWeight: "500" }} numberOfLines={1}>
+										{state.addCommas(state.removeNonNumeric(el.price)) ?? "-"}₮
 									</Text>
 								</View>
 							</TouchableOpacity>

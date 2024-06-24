@@ -197,5 +197,6 @@
 	"notifService": "Service notification",
 	"orderZA": "By date (Z-A)",
 	"orderAZ": "By date (A-Z)",
-	"seeAll": "See all"
+	"seeAll": "See all",
+	"settings": "Settings"
 }

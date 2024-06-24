@@ -206,6 +206,10 @@ const ProfileScreen = (props) => {
 							</TouchableOpacity>
 						);
 					})}
+					<TouchableOpacity style={styles.gridMenus} onPress={() => props.navigation.navigate("Settings")}>
+						<Icon name="settings" type="feather" size={25} color={GRAY_ICON_COLOR} />
+						<Text style={styles.menuText}>{i18n.t("settings")}</Text>
+					</TouchableOpacity>
 					<TouchableOpacity
 						style={styles.gridMenus}
 						onPress={() => {

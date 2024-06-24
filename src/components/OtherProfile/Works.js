@@ -1,7 +1,7 @@
 import { Image, Platform, ScrollView, StyleSheet, Text, View, TouchableOpacity, StatusBar } from "react-native";
 import React, { useContext, useEffect, useState } from "react";
 import MainContext from "../../contexts/MainContext";
-import { IMG_URL, SERVER_URL, X_API_KEY } from "../../constant";
+import { IMG_URL, MAIN_COLOR, SERVER_URL, X_API_KEY } from "../../constant";
 import axios from "axios";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import ListServiceSkeleton from "../Skeletons/ListServiceSkeleton";
@@ -105,6 +105,9 @@ const Works = (props) => {
 									</Text>
 									<Text style={{ color: "#aeaeae", fontWeight: "500" }}>
 										{state.getTypeName(el.userType, el.specialService, (isSlash = false), true)}
+									</Text>
+									<Text style={{ color: MAIN_COLOR, fontWeight: "500" }} numberOfLines={1}>
+										{state.addCommas(state.removeNonNumeric(el.price)) ?? "-"}₮
 									</Text>
 								</View>
 							</TouchableOpacity>

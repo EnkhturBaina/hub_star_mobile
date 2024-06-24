@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View, ScrollView, TouchableOpacity, Image, ActivityIndicator } from "react-native";
 import React, { useContext, useEffect, useState } from "react";
-import { IMG_URL, MAIN_BORDER_RADIUS, SERVER_URL, X_API_KEY } from "../../constant";
+import { IMG_URL, MAIN_BORDER_RADIUS, MAIN_COLOR, SERVER_URL, X_API_KEY } from "../../constant";
 import MainContext from "../../contexts/MainContext";
 import axios from "axios";
 import AdvicesSkeleton from "../../components/Skeletons/AdvicesSkeleton";
@@ -75,6 +75,9 @@ const HomeAdsScreen = () => {
 											</Text>
 											<Text style={{ color: "#aeaeae", fontWeight: "500" }} numberOfLines={1}>
 												{state.getTypeName(el.userType, el.specialService, (isSlash = false), true)}
+											</Text>
+											<Text style={{ color: MAIN_COLOR, fontWeight: "500" }} numberOfLines={1}>
+												{state.addCommas(state.removeNonNumeric(el.price)) ?? "-"}₮
 											</Text>
 										</View>
 									</TouchableOpacity>
