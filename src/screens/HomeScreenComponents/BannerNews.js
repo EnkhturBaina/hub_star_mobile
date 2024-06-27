@@ -63,8 +63,8 @@ const BannerNews = () => {
 							ref={ref}
 							data={news}
 							pagingEnabled
-							autoPlay={false}
-							autoPlayInterval={5000}
+							autoPlay={true}
+							autoPlayInterval={3000}
 							style={{
 								borderRadius: 8,
 								height: height * 0.2

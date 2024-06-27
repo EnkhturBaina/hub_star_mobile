@@ -1,71 +1,99 @@
 import { StyleSheet, Text, View, Image, TouchableOpacity, StatusBar, Platform } from "react-native";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import MainContext from "../../contexts/MainContext";
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 import { SafeAreaProvider } from "react-native-safe-area-context";
-import { MAIN_BORDER_RADIUS, MAIN_COLOR } from "../../constant";
+import { MAIN_BORDER_RADIUS, MAIN_COLOR, SERVER_URL, X_API_KEY } from "../../constant";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import { Icon, ListItem } from "@rneui/base";
 import { Searchbar } from "react-native-paper";
+import axios from "axios";
+import { i18n } from "../../refs/i18";
 
 const Tab = createMaterialTopTabNavigator();
 const QAs = (props) => {
 	const state = useContext(MainContext);
 	const [searchVal, setSearchVal] = useState("");
+	const [faqData, setFaqData] = useState(null);
 	const tabBarHeight = useBottomTabBarHeight();
 	const [expanded, setExpanded] = useState({});
-
-	const handlePress = () => setExpanded(!expanded);
 
 	const onChangeSearch = (query) => {
 		// console.log("query", query);
 	};
 
+	const getFAQs = async () => {
+		await axios
+			.get(`${SERVER_URL}reference/faq`, {
+				headers: {
+					"X-API-KEY": X_API_KEY
+				}
+			})
+			.then((response) => {
+				console.log("get FAQ s response", JSON.stringify(response.data.response));
+				setFaqData(response.data.response);
+			})
+			.catch((error) => {
+				console.error("Error fetching get MainDirServices:", error);
+				if (error.response.status == "401") {
+					state.Handle_401();
+				}
+			});
+	};
+	useEffect(() => {
+		getFAQs();
+	}, []);
+
 	const FirstRoute = () => (
 		<View style={{ flex: 1, backgroundColor: "#fff", paddingVertical: 5 }}>
-			<Searchbar
-				placeholder="Хайх"
-				onChangeText={(e) => {
-					onChangeSearch(e);
-				}}
-				value={searchVal}
-				style={styles.searchBar}
-				elevation={0}
-				onSubmitEditing={(event) => {
-					// console.log("event", event.nativeEvent.text);
-				}}
-				onClearIconPress={() => {}}
-			/>
-			{/* <ListItem.Section>
-				<ListItem.Accordion
-          content={
-            <ListItem.Content>
-              <ListItem.Title
-                style={{
-                  color: checkOpen ? MAIN_COLOR : "#6f7275",
-                  fontWeight: "500",
-                  marginBottom: 5
-                }}
-              >
-                Асуулт 1
-              </ListItem.Title>
-            </ListItem.Content>
-          }
-				>
-					<ListItem description="Голомт" />
-				</ListItem.Accordion>
-
-				<ListItem.Accordion
-					title="Controlled Accordion"
-					expanded={expanded}
-					onPress={handlePress}
-					style={{ backgroundColor: "#fff" }}
-					rippleColor={"transparent"}
-					titleStyle={{ fontWeight: "500" }}
-				>
-					<ListItem.Item description="Та өөрийн цуглуулсан оноо" />
-				</ListItem.Accordion>
-			</ListItem.Section> */}
+			{faqData
+				?.filter((el) => el.title.includes(searchVal))
+				?.map((el, index) => {
+					const checkOpen = expanded[index];
+					return (
+						<ListItem.Accordion
+							key={index}
+							isExpanded={checkOpen}
+							rippleColor={"transparent"}
+							onPress={() => {
+								setExpanded((prevState) => ({
+									...prevState,
+									[index]: !prevState[index]
+								}));
+							}}
+							content={
+								<ListItem.Content>
+									<ListItem.Title
+										style={{
+											color: checkOpen ? MAIN_COLOR : "#000",
+											fontWeight: checkOpen ? "500" : "normal",
+											marginBottom: 5
+										}}
+									>
+										{el.title}
+									</ListItem.Title>
+								</ListItem.Content>
+							}
+							containerStyle={{
+								marginTop: 10,
+								paddingVertical: 8,
+								paddingHorizontal: 3,
+								marginHorizontal: 10
+							}}
+						>
+							<ListItem
+								containerStyle={{
+									flexDirection: "column",
+									alignItems: "flex-start",
+									paddingVertical: 0,
+									margin: 10
+								}}
+							>
+								<Text>{el.description}</Text>
+							</ListItem>
+						</ListItem.Accordion>
+					);
+				})}
 		</View>
 	);
 
@@ -105,6 +133,13 @@ const QAs = (props) => {
 			}}
 		>
 			<StatusBar translucent barStyle={Platform.OS == "ios" ? "dark-content" : "default"} />
+			<Searchbar
+				placeholder={i18n.t("search")}
+				onChangeText={setSearchVal}
+				value={searchVal}
+				style={styles.searchBar}
+				elevation={0}
+			/>
 			<Tab.Navigator
 				screenOptions={{
 					tabBarAndroidRipple: {

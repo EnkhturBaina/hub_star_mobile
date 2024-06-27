@@ -2,6 +2,7 @@ import { StyleSheet, Image, View, TouchableOpacity } from "react-native";
 import React, { useContext, useEffect } from "react";
 import { useIsFocused, useNavigation } from "@react-navigation/native";
 import MainContext from "../../contexts/MainContext";
+import { Icon } from "@rneui/base";
 
 const HomeHeader = () => {
 	const navigation = useNavigation();
@@ -38,7 +39,7 @@ const HomeHeader = () => {
 					onPress={() => navigation.navigate("HistoryMainScreen")}
 					style={{ height: 30, width: 30, justifyContent: "center", alignItems: "center" }}
 				>
-					<Image style={{ width: "100%", height: "100%" }} source={require("../../../assets/figma-icons/chat.png")} />
+					<Icon name="file-tray-full-outline" type="ionicon" size={30} />
 				</TouchableOpacity>
 			</View>
 		</View>
