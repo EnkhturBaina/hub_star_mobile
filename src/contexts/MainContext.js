@@ -133,7 +133,10 @@ export const MainStore = (props) => {
 		userType: null,
 		mainDirectionId: null,
 		directionIds: null,
-		subDirectionIds: null
+		subDirectionIds: null,
+		provinceId: null,
+		districtId: null,
+		khorooId: null
 	});
 
 	const [mainDirParams, setMainDirParams] = useState({

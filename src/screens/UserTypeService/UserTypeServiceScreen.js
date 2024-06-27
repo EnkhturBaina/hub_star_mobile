@@ -20,9 +20,6 @@ const UserTypeServiceScreen = (props) => {
 
 	const tabBarHeight = useBottomTabBarHeight();
 	const [value, setValue] = useState(null);
-	const [valueProvince, setValueProvince] = useState(null);
-	const [districtValue, setDistrictValue] = useState(null);
-	const [khorooValue, setKhorooValue] = useState(null);
 	const [isFocus, setIsFocus] = useState(false);
 	const [isFocusProvince, setIsFocusProvince] = useState(false);
 	const [isFocusDistrict, setIsFocusDistrict] = useState(false);
@@ -91,7 +88,7 @@ const UserTypeServiceScreen = (props) => {
 
 	const getUserTypeServices = async () => {
 		if (!loadingServices && !isListEnd) {
-			// console.log("getUserTypeServices RUN ===========>", state.userTypeParam);
+			console.log("getUserTypeServices RUN ===========>", state.userTypeParam);
 			setLoadingServices(true);
 			await axios
 				.get(`${SERVER_URL}advertisement`, {
@@ -348,11 +345,11 @@ const UserTypeServiceScreen = (props) => {
 						labelField="label"
 						valueField="value"
 						placeholder={!isFocusProvince ? i18n.t("adProvince") : "..."}
-						value={districtValue}
+						value={state.userTypeParam.provinceId}
 						onFocus={() => setIsFocusProvince(true)}
 						onBlur={() => setIsFocusProvince(false)}
 						onChange={(item) => {
-							setDistrictValue(item.value);
+							setIsListEnd(false);
 							setIsFocusProvince(false);
 							state.setUserTypeParam((prevState) => ({
 								...prevState,
@@ -370,11 +367,11 @@ const UserTypeServiceScreen = (props) => {
 						labelField="label"
 						valueField="value"
 						placeholder={!isFocusDistrict ? i18n.t("adDistrict") : "..."}
-						value={khorooValue}
+						value={state.userTypeParam.districtId}
 						onFocus={() => setIsFocusDistrict(true)}
 						onBlur={() => setIsFocusDistrict(false)}
 						onChange={(item) => {
-							setKhorooValue(item.value);
+							setIsListEnd(false);
 							setIsFocusDistrict(false);
 							state.setUserTypeParam((prevState) => ({
 								...prevState,
@@ -393,11 +390,11 @@ const UserTypeServiceScreen = (props) => {
 						labelField="label"
 						valueField="value"
 						placeholder={!isFocusKhoroo ? i18n.t("adKhoroo") : "..."}
-						value={khorooValue}
+						value={state.userTypeParam.khorooId}
 						onFocus={() => setIsFocusKhoroo(true)}
 						onBlur={() => setIsFocusKhoroo(false)}
 						onChange={(item) => {
-							setKhorooValue(item.value);
+							setIsListEnd(false);
 							setIsFocusKhoroo(false);
 							state.setUserTypeParam((prevState) => ({
 								...prevState,
