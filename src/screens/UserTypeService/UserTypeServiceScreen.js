@@ -20,11 +20,21 @@ const UserTypeServiceScreen = (props) => {
 
 	const tabBarHeight = useBottomTabBarHeight();
 	const [value, setValue] = useState(null);
+	const [valueProvince, setValueProvince] = useState(null);
+	const [districtValue, setDistrictValue] = useState(null);
+	const [khorooValue, setKhorooValue] = useState(null);
 	const [isFocus, setIsFocus] = useState(false);
+	const [isFocusProvince, setIsFocusProvince] = useState(false);
+	const [isFocusDistrict, setIsFocusDistrict] = useState(false);
+	const [isFocusKhoroo, setIsFocusKhoroo] = useState(false);
 	const [isOpen, setIsOpen] = useState(false);
 	const [loadingServices, setLoadingServices] = useState(false);
 	const [userTypeServiceData, setUserTypeServiceData] = useState([]);
 	const [isListEnd, setIsListEnd] = useState(false);
+
+	const [provinces, setProvinces] = useState([]);
+	const [districts, setDistricts] = useState([]);
+	const [khoroos, setKhoroos] = useState([]);
 
 	useLayoutEffect(() => {
 		// TabBar Hide хийх
@@ -45,6 +55,39 @@ const UserTypeServiceScreen = (props) => {
 			});
 		// TabBar Hide хийх
 	}, [props.navigation]);
+
+	const getAddress = async (params) => {
+		await axios
+			.get(`${SERVER_URL}reference/address`, {
+				params,
+				headers: {
+					"X-API-KEY": X_API_KEY
+				}
+			})
+			.then((response) => {
+				let updatedItemList = response.data.response.map((item) => {
+					return {
+						...item,
+						label: item.name,
+						value: item.id
+					};
+				});
+
+				// console.log("get Address", JSON.stringify(response.data.response));
+				params.type == "PROVINCE" && setProvinces(updatedItemList);
+				params.type == "DISTRICT" && setDistricts(updatedItemList);
+				params.type == "KHOROO" && setKhoroos(updatedItemList);
+			})
+			.catch(function (error) {
+				if (error.response) {
+					// console.log("error getIntro Data status", error.response.status);
+					// console.log("error getIntro Data data", error.response.data);
+				}
+				if (error.response.status == "401") {
+					state.Handle_401();
+				}
+			});
+	};
 
 	const getUserTypeServices = async () => {
 		if (!loadingServices && !isListEnd) {
@@ -82,9 +125,45 @@ const UserTypeServiceScreen = (props) => {
 	};
 
 	useEffect(() => {
+		getAddress({ type: "PROVINCE" });
+	}, []);
+
+	useEffect(() => {
+		state.userTypeParam?.provinceId &&
+			getAddress({
+				type: "DISTRICT",
+				parentId: state.userTypeParam?.provinceId
+			});
+		state.setUserTypeParam((prevState) => ({
+			...prevState,
+			districtId: null,
+			khorooId: null
+		}));
+	}, [state.userTypeParam?.provinceId]);
+
+	useEffect(() => {
+		state.userTypeParam?.districtId &&
+			getAddress({
+				type: "KHOROO",
+				parentId: state.userTypeParam?.districtId
+			});
+		state.setUserTypeParam((prevState) => ({
+			...prevState,
+			khorooId: null
+		}));
+	}, [state.userTypeParam?.districtId]);
+
+	useEffect(() => {
 		//Side filter -с check хийгдэх үед GET service -н PARAM -уудыг бэлдээд SERVICE -г дуудах
 		getUserTypeServices();
-	}, [state.userTypeParam.directionIds, state.userTypeParam.subDirectionIds, state.userTypeParam.userType]);
+	}, [
+		state.userTypeParam.directionIds,
+		state.userTypeParam.subDirectionIds,
+		state.userTypeParam.userType,
+		state.userTypeParam.provinceId,
+		state.userTypeParam.districtId,
+		state.userTypeParam.khorooId
+	]);
 
 	const renderItem = ({ item }) => {
 		return (
@@ -172,7 +251,8 @@ const UserTypeServiceScreen = (props) => {
 										styles.typeContainer,
 										{
 											marginLeft: index == 0 ? 20 : 10,
-											borderColor: el.type == state.selectedUserType ? MAIN_COLOR : "#fff"
+											borderColor: el.type == state.selectedUserType ? MAIN_COLOR : "#fff",
+											paddingBottom: el.type == state.selectedUserType ? 5 : 0
 										}
 									]}
 									onPress={() => {
@@ -252,9 +332,79 @@ const UserTypeServiceScreen = (props) => {
 							setIsFocus(false);
 							state.setUserTypeParam((prevState) => ({
 								...prevState,
-								order: item.value == "ASC" ? "ASC" : "DESC"
+								provinceId: item.value
 							}));
 						}}
+					/>
+				</View>
+				<View style={styles.filterContainer}>
+					<Dropdown
+						style={[styles.dropdown, isFocusProvince && { borderColor: "blue" }]}
+						placeholderStyle={styles.placeholderStyle}
+						selectedTextStyle={styles.selectedTextStyle}
+						inputSearchStyle={styles.inputSearchStyle}
+						data={provinces}
+						maxHeight={300}
+						labelField="label"
+						valueField="value"
+						placeholder={!isFocusProvince ? i18n.t("adProvince") : "..."}
+						value={districtValue}
+						onFocus={() => setIsFocusProvince(true)}
+						onBlur={() => setIsFocusProvince(false)}
+						onChange={(item) => {
+							setDistrictValue(item.value);
+							setIsFocusProvince(false);
+							state.setUserTypeParam((prevState) => ({
+								...prevState,
+								provinceId: item.value
+							}));
+						}}
+					/>
+					<Dropdown
+						style={[styles.dropdown, isFocusDistrict && { borderColor: "blue" }]}
+						placeholderStyle={styles.placeholderStyle}
+						selectedTextStyle={styles.selectedTextStyle}
+						inputSearchStyle={styles.inputSearchStyle}
+						data={districts}
+						maxHeight={300}
+						labelField="label"
+						valueField="value"
+						placeholder={!isFocusDistrict ? i18n.t("adDistrict") : "..."}
+						value={khorooValue}
+						onFocus={() => setIsFocusDistrict(true)}
+						onBlur={() => setIsFocusDistrict(false)}
+						onChange={(item) => {
+							setKhorooValue(item.value);
+							setIsFocusDistrict(false);
+							state.setUserTypeParam((prevState) => ({
+								...prevState,
+								districtId: item.value
+							}));
+						}}
+						disable={districts?.length == 0}
+					/>
+					<Dropdown
+						style={[styles.dropdown, isFocusKhoroo && { borderColor: "blue" }]}
+						placeholderStyle={styles.placeholderStyle}
+						selectedTextStyle={styles.selectedTextStyle}
+						inputSearchStyle={styles.inputSearchStyle}
+						data={khoroos}
+						maxHeight={300}
+						labelField="label"
+						valueField="value"
+						placeholder={!isFocusKhoroo ? i18n.t("adKhoroo") : "..."}
+						value={khorooValue}
+						onFocus={() => setIsFocusKhoroo(true)}
+						onBlur={() => setIsFocusKhoroo(false)}
+						onChange={(item) => {
+							setKhorooValue(item.value);
+							setIsFocusKhoroo(false);
+							state.setUserTypeParam((prevState) => ({
+								...prevState,
+								khorooId: item.value
+							}));
+						}}
+						disable={khoroos?.length == 0}
 					/>
 				</View>
 				<View style={styles.gridContainer}>
@@ -291,7 +441,8 @@ const styles = StyleSheet.create({
 		borderWidth: 0.5,
 		borderRadius: 8,
 		paddingHorizontal: 8,
-		width: "50%"
+		width: "49%",
+		marginBottom: 5
 	},
 	icon: {
 		marginRight: 5
@@ -327,7 +478,8 @@ const styles = StyleSheet.create({
 		flexWrap: "wrap",
 		alignItems: "flex-start",
 		justifyContent: "space-between",
-		marginHorizontal: 20
+		marginHorizontal: 20,
+		paddingTop: 10
 	},
 	gridItem: {
 		marginBottom: 15,
@@ -359,5 +511,12 @@ const styles = StyleSheet.create({
 	typeText: {
 		marginLeft: 5,
 		fontWeight: "500"
+	},
+	filterContainer: {
+		flexDirection: "row",
+		flexWrap: "wrap",
+		alignItems: "flex-start",
+		justifyContent: "space-between",
+		marginHorizontal: 20
 	}
 });
