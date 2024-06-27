@@ -35,7 +35,7 @@ const SingleServiceDetails = (props) => {
 				<Text> {parseInt(props.adviceData.rating) > 0 ? parseInt(props.adviceData.rating) / 2 : 0} / 10</Text>
 			</View>
 			<Text style={{ fontWeight: "bold" }}>{i18n.t("price")} </Text>
-			<Text>{state.addCommas(state.removeNonNumeric(props.adviceData?.unitAmount)) ?? "-"}₮</Text>
+			<Text>{state.addCommas(state.removeNonNumeric(props.adviceData?.price)) ?? "-"}₮</Text>
 			<Text style={{ fontWeight: "bold" }}>{i18n.t("publishedDate")} </Text>
 			<Text>{dayjs(props.adviceData?.createdAt).format("YYYY-MM-DD HH:mm:ss") ?? "-"}</Text>
 			<Text style={{ fontWeight: "bold" }}>{i18n.t("adNumber")} </Text>
