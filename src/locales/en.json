@@ -202,5 +202,7 @@
 	"irgen": "Individual",
 	"aan": "Legal entities",
 	"frontPassportImageIdORG": "Front side of the certificate image",
-	"behindPassportImageIdORG": "Back side of the certificate image"
+	"behindPassportImageIdORG": "Back side of the certificate image",
+	"materialType": "Inventory type",
+	"tonnage": "Tonnage"
 }

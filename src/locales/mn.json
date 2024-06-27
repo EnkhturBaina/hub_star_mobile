@@ -202,5 +202,7 @@
 	"irgen": "Хувь хүн",
 	"aan": "Хуулийн этгээд",
 	"frontPassportImageIdORG": "Гэрчилгээний урд талын зураг",
-	"behindPassportImageIdORG": "Гэрчилгээний ард талын зураг"
+	"behindPassportImageIdORG": "Гэрчилгээний ард талын зураг",
+	"materialType": "Бараа материалын төрөл",
+	"tonnage": "Даац"
 }

@@ -136,7 +136,8 @@ export const MainStore = (props) => {
 		subDirectionIds: null,
 		provinceId: null,
 		districtId: null,
-		khorooId: null
+		khorooId: null,
+		materialId: null
 	});
 
 	const [mainDirParams, setMainDirParams] = useState({

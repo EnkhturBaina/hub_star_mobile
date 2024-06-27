@@ -202,5 +202,7 @@
 	"irgen": "個人",
 	"aan": "法人實體",
 	"frontPassportImageIdORG": "证书正面图像",
-	"behindPassportImageIdORG": "证书背面图像"
+	"behindPassportImageIdORG": "证书背面图像",
+	"materialType": "庫存類型",
+	"tonnage": "噸位"
 }

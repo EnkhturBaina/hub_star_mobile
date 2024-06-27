@@ -1,11 +1,11 @@
 import { StyleSheet, Text, View, Image, ScrollView, TouchableOpacity, FlatList, ActivityIndicator } from "react-native";
-import React, { useContext, useEffect, useLayoutEffect, useState } from "react";
+import React, { useContext, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { StatusBar, Platform } from "react-native";
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 import { Icon } from "@rneui/base";
 import { Dropdown } from "react-native-element-dropdown";
 import MainContext from "../../contexts/MainContext";
-import { IMG_URL, MAIN_BORDER_RADIUS, MAIN_COLOR, SERVER_URL, X_API_KEY } from "../../constant";
+import { IMG_URL, MAIN_COLOR, SERVER_URL, X_API_KEY } from "../../constant";
 import SideMenu from "react-native-side-menu-updated";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import UserTabData from "../../refs/UserTabData";
@@ -17,10 +17,15 @@ import { i18n } from "../../refs/i18";
 
 const UserTypeServiceScreen = (props) => {
 	const state = useContext(MainContext);
+	const scrollViewRef = useRef();
 
+	const [scrollIndex, setScrollIndex] = useState(null);
 	const tabBarHeight = useBottomTabBarHeight();
 	const [value, setValue] = useState(null);
+	const [valueDaats, setValueDaats] = useState(null);
 	const [isFocus, setIsFocus] = useState(false);
+	const [isFocusDaats, setIsFocusDaats] = useState(false);
+	const [isFocusMaterialType, setIsFocusMaterialType] = useState(false);
 	const [isFocusProvince, setIsFocusProvince] = useState(false);
 	const [isFocusDistrict, setIsFocusDistrict] = useState(false);
 	const [isFocusKhoroo, setIsFocusKhoroo] = useState(false);
@@ -32,7 +37,13 @@ const UserTypeServiceScreen = (props) => {
 	const [provinces, setProvinces] = useState([]);
 	const [districts, setDistricts] = useState([]);
 	const [khoroos, setKhoroos] = useState([]);
+	const [materials, setMaterials] = useState([]);
 
+	const DAATS = [
+		{ label: "Хүнд даац", value: "small" },
+		{ label: "Дунд даац", value: "medium" },
+		{ label: "Бага даац", value: "large" }
+	];
 	useLayoutEffect(() => {
 		// TabBar Hide хийх
 		props.navigation?.getParent()?.setOptions({
@@ -53,6 +64,36 @@ const UserTypeServiceScreen = (props) => {
 		// TabBar Hide хийх
 	}, [props.navigation]);
 
+	const getMaterialType = async (params) => {
+		await axios
+			.get(`${SERVER_URL}reference/machinery`, {
+				params: {
+					type: "MATERIAL"
+				},
+				headers: {
+					"X-API-KEY": X_API_KEY
+				}
+			})
+			.then((response) => {
+				let updatedItemList = response.data.response.map((item) => {
+					return {
+						...item,
+						label: item.name,
+						value: item.id
+					};
+				});
+				setMaterials(updatedItemList);
+			})
+			.catch(function (error) {
+				if (error.response) {
+					// console.log("error getIntro Data status", error.response.status);
+					// console.log("error getIntro Data data", error.response.data);
+				}
+				if (error.response.status == "401") {
+					state.Handle_401();
+				}
+			});
+	};
 	const getAddress = async (params) => {
 		await axios
 			.get(`${SERVER_URL}reference/address`, {
@@ -88,7 +129,7 @@ const UserTypeServiceScreen = (props) => {
 
 	const getUserTypeServices = async () => {
 		if (!loadingServices && !isListEnd) {
-			console.log("getUserTypeServices RUN ===========>", state.userTypeParam);
+			// console.log("getUserTypeServices RUNx ===========>", state.userTypeParam);
 			setLoadingServices(true);
 			await axios
 				.get(`${SERVER_URL}advertisement`, {
@@ -122,6 +163,13 @@ const UserTypeServiceScreen = (props) => {
 	};
 
 	useEffect(() => {
+		UserTabData.map((el) => {
+			if (el.type == state.selectedUserType) {
+				console.log("X", el.index);
+				setScrollIndex(el.index);
+			}
+		});
+		getMaterialType();
 		getAddress({ type: "PROVINCE" });
 	}, []);
 
@@ -159,7 +207,8 @@ const UserTypeServiceScreen = (props) => {
 		state.userTypeParam.userType,
 		state.userTypeParam.provinceId,
 		state.userTypeParam.districtId,
-		state.userTypeParam.khorooId
+		state.userTypeParam.khorooId,
+		state.userTypeParam.materialId
 	]);
 
 	const renderItem = ({ item }) => {
@@ -239,6 +288,8 @@ const UserTypeServiceScreen = (props) => {
 						horizontal={true}
 						showsHorizontalScrollIndicator={false}
 						contentContainerStyle={{ paddingRight: 20 }}
+						ref={scrollViewRef}
+						onContentSizeChange={() => scrollViewRef.current.scrollTo({ x: scrollIndex * 100, animated: true })}
 					>
 						{UserTabData?.map((el, index) => {
 							return (
@@ -325,16 +376,69 @@ const UserTypeServiceScreen = (props) => {
 						onFocus={() => setIsFocus(true)}
 						onBlur={() => setIsFocus(false)}
 						onChange={(item) => {
+							setIsListEnd(false);
+							setUserTypeServiceData([]);
 							setValue(item.value);
 							setIsFocus(false);
 							state.setUserTypeParam((prevState) => ({
 								...prevState,
-								provinceId: item.value
+								order: item.value == "ASC" ? "ASC" : "DESC"
 							}));
 						}}
 					/>
 				</View>
 				<View style={styles.filterContainer}>
+					{state.userTypeParam.userType == "SUPPLIER" && (
+						<Dropdown
+							style={[styles.dropdown, isFocusMaterialType && { borderColor: "blue" }]}
+							placeholderStyle={styles.placeholderStyle}
+							selectedTextStyle={styles.selectedTextStyle}
+							inputSearchStyle={styles.inputSearchStyle}
+							data={materials}
+							maxHeight={300}
+							labelField="label"
+							valueField="value"
+							placeholder={!isFocusMaterialType ? i18n.t("materialType") : "..."}
+							value={state.userTypeParam.materialId}
+							onFocus={() => setIsFocusMaterialType(true)}
+							onBlur={() => setIsFocusMaterialType(false)}
+							onChange={(item) => {
+								setIsListEnd(false);
+								setUserTypeServiceData([]);
+								setIsFocusMaterialType(false);
+								state.setUserTypeParam((prevState) => ({
+									...prevState,
+									materialId: item.value
+								}));
+							}}
+						/>
+					)}
+					{state.userTypeParam.userType == "TRANSPORTATION" && (
+						<Dropdown
+							style={[styles.dropdown, isFocusDaats && { borderColor: "blue" }]}
+							placeholderStyle={styles.placeholderStyle}
+							selectedTextStyle={styles.selectedTextStyle}
+							inputSearchStyle={styles.inputSearchStyle}
+							data={DAATS}
+							maxHeight={300}
+							labelField="label"
+							valueField="value"
+							placeholder={!isFocusDaats ? i18n.t("tonnage") : "..."}
+							value={valueDaats}
+							onFocus={() => setIsFocusDaats(true)}
+							onBlur={() => setIsFocusDaats(false)}
+							onChange={(item) => {
+								setValueDaats(item.value);
+								// setIsListEnd(false);
+								// setUserTypeServiceData([]);
+								// setIsFocusProvince(false);
+								// state.setUserTypeParam((prevState) => ({
+								// 	...prevState,
+								// 	provinceId: item.value
+								// }));
+							}}
+						/>
+					)}
 					<Dropdown
 						style={[styles.dropdown, isFocusProvince && { borderColor: "blue" }]}
 						placeholderStyle={styles.placeholderStyle}
@@ -350,6 +454,7 @@ const UserTypeServiceScreen = (props) => {
 						onBlur={() => setIsFocusProvince(false)}
 						onChange={(item) => {
 							setIsListEnd(false);
+							setUserTypeServiceData([]);
 							setIsFocusProvince(false);
 							state.setUserTypeParam((prevState) => ({
 								...prevState,
@@ -372,6 +477,7 @@ const UserTypeServiceScreen = (props) => {
 						onBlur={() => setIsFocusDistrict(false)}
 						onChange={(item) => {
 							setIsListEnd(false);
+							setUserTypeServiceData([]);
 							setIsFocusDistrict(false);
 							state.setUserTypeParam((prevState) => ({
 								...prevState,
@@ -395,6 +501,7 @@ const UserTypeServiceScreen = (props) => {
 						onBlur={() => setIsFocusKhoroo(false)}
 						onChange={(item) => {
 							setIsListEnd(false);
+							setUserTypeServiceData([]);
 							setIsFocusKhoroo(false);
 							state.setUserTypeParam((prevState) => ({
 								...prevState,

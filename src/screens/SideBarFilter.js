@@ -45,7 +45,7 @@ const SideBarFilter = (props) => {
 	};
 	useEffect(() => {
 		getSideFilterData();
-	}, []);
+	}, [state.specialServiceParams.specialService]);
 
 	useEffect(() => {
 		props.listEndFnc(false);

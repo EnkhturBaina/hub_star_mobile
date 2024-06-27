@@ -1,5 +1,5 @@
-import { StyleSheet, Text, View, Image, TouchableOpacity, ActivityIndicator, FlatList } from "react-native";
-import React, { useContext, useEffect, useLayoutEffect, useState } from "react";
+import { StyleSheet, Text, View, Image, TouchableOpacity, ActivityIndicator, ScrollView, FlatList } from "react-native";
+import React, { useContext, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { StatusBar, Platform } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
@@ -13,14 +13,17 @@ import { IMG_URL, MAIN_COLOR, SERVER_URL, X_API_KEY } from "../../constant";
 import SpecialServiceListSekeleton from "../../components/Skeletons/SpecialServiceListSekeleton";
 import Empty from "../../components/Empty";
 import { i18n } from "../../refs/i18";
+import SpecialServiceData from "../../refs/SpecialServiceData";
 
 const SpecialServiceScreen = (props) => {
 	const state = useContext(MainContext);
+	const scrollViewRef = useRef();
 	const tabBarHeight = useBottomTabBarHeight();
 	const [value, setValue] = useState(null);
 	const [isFocus, setIsFocus] = useState(false);
 	const [active, setActive] = useState("");
 	const [isOpen, setIsOpen] = useState(false);
+	const [scrollIndex, setScrollIndex] = useState(null);
 
 	const [loadingServices, setLoadingServices] = useState(false);
 	const [specialServiceData, setSpecialServiceData] = useState([]);
@@ -48,7 +51,7 @@ const SpecialServiceScreen = (props) => {
 
 	const getSpecialServiceData = async () => {
 		if (!loadingServices && !isListEnd) {
-			// console.log("getSpecialServiceData RUN ===========>", state.specialServiceParams);
+			console.log("getSpecialServiceData RUN ===========>", state.specialServiceParams);
 			setLoadingServices(true);
 			await axios
 				.get(`${SERVER_URL}advertisement`, {
@@ -84,9 +87,18 @@ const SpecialServiceScreen = (props) => {
 	};
 
 	useEffect(() => {
+		SpecialServiceData.map((el) => {
+			if (el.type == state.selectedSpecialService) {
+				setScrollIndex(el.index);
+			}
+		});
 		//Side filter -с check хийгдэх үед GET service -н PARAM -уудыг бэлдээд SERVICE -г дуудах
 		getSpecialServiceData();
-	}, [state.specialServiceParams.directionIds, state.specialServiceParams.subDirectionIds]);
+	}, [
+		state.specialServiceParams.directionIds,
+		state.specialServiceParams.subDirectionIds,
+		state.specialServiceParams.specialService
+	]);
 
 	const renderItem = ({ item }) => {
 		return (
@@ -171,6 +183,64 @@ const SpecialServiceScreen = (props) => {
 				}}
 			>
 				<StatusBar translucent barStyle={Platform.OS == "ios" ? "dark-content" : "default"} />
+				<View style={{ marginBottom: 10 }}>
+					<ScrollView
+						horizontal={true}
+						showsHorizontalScrollIndicator={false}
+						contentContainerStyle={{ paddingRight: 20 }}
+						ref={scrollViewRef}
+						onContentSizeChange={() => scrollViewRef.current.scrollTo({ x: scrollIndex * 150, animated: true })}
+					>
+						{SpecialServiceData?.map((el, index) => {
+							return (
+								<TouchableOpacity
+									key={index}
+									style={[
+										styles.typeContainer,
+										{
+											marginLeft: index == 0 ? 20 : 10,
+											borderColor: el.type == state.selectedSpecialService ? MAIN_COLOR : "#fff",
+											paddingBottom: el.type == state.selectedSpecialService ? 5 : 0
+										}
+									]}
+									onPress={() => {
+										state.setSelectedSpecialService(el.type);
+										state.setSpecialServiceParams((prevState) => ({
+											...prevState,
+											page: 1,
+											specialService: el.type
+										}));
+										setIsListEnd(false);
+										setSpecialServiceData([]);
+									}}
+								>
+									<Image
+										style={[
+											styles.typeLogo,
+											{
+												width: el.type == state.selectedSpecialService ? 30 : 25,
+												height: el.type == state.selectedSpecialService ? 30 : 25
+											}
+										]}
+										resizeMode="contain"
+										source={el.icon}
+									/>
+									<Text
+										style={[
+											styles.typeText,
+											{
+												color: el.type == state.selectedSpecialService ? MAIN_COLOR : "#000",
+												fontSize: el.type == state.selectedSpecialService ? 18 : 14
+											}
+										]}
+									>
+										{i18n.t(el.title)}
+									</Text>
+								</TouchableOpacity>
+							);
+						})}
+					</ScrollView>
+				</View>
 				<View
 					style={{
 						flexDirection: "row",
@@ -299,5 +369,23 @@ const styles = StyleSheet.create({
 		backgroundColor: "#fff",
 		borderRadius: 6,
 		width: "48%"
+	},
+	typeContainer: {
+		flexDirection: "row",
+		alignItems: "center",
+		backgroundColor: "#fff",
+		marginVertical: 5,
+		alignSelf: "flex-start",
+		paddingVertical: 5,
+		borderBottomWidth: 2
+	},
+	typeLogo: {
+		resizeMode: "contain",
+		width: 25,
+		height: 25
+	},
+	typeText: {
+		marginLeft: 5,
+		fontWeight: "500"
 	}
 });
