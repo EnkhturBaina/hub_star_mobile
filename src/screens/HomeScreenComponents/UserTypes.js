@@ -16,12 +16,7 @@ const UserTypes = (props) => {
 					return (
 						<TouchableOpacity
 							key={index}
-							style={[
-								styles.typeContainer,
-								{
-									marginLeft: index == 0 ? 20 : 10
-								}
-							]}
+							style={[styles.typeContainer, {}]}
 							onPress={() => {
 								state.setSelectedUserType(el.type);
 								state.setUserTypeParam((prevState) => ({
@@ -48,19 +43,11 @@ const styles = StyleSheet.create({
 	typeContainer: {
 		flexDirection: "row",
 		alignItems: "center",
-		shadowOpacity: 0.1,
-		shadowRadius: 3,
-		shadowOffset: {
-			height: 3,
-			width: 2
-		},
-		elevation: 2,
 		backgroundColor: "#fff",
 		marginVertical: 5,
 		alignSelf: "flex-start",
 		paddingVertical: 5,
-		paddingHorizontal: 15,
-		borderRadius: MAIN_BORDER_RADIUS
+		paddingHorizontal: 15
 	},
 	typeLogo: {
 		resizeMode: "contain",

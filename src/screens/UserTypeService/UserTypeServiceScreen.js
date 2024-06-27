@@ -186,12 +186,23 @@ const UserTypeServiceScreen = (props) => {
 										setUserTypeServiceData([]);
 									}}
 								>
-									<Image style={styles.typeLogo} source={el.image} />
+									<Image
+										style={[
+											styles.typeLogo,
+											{
+												width: el.type == state.selectedUserType ? 35 : 30,
+												height: el.type == state.selectedUserType ? 35 : 30
+											}
+										]}
+										resizeMode="contain"
+										source={el.image}
+									/>
 									<Text
 										style={[
 											styles.typeText,
 											{
-												color: el.type == state.selectedUserType ? MAIN_COLOR : "#000"
+												color: el.type == state.selectedUserType ? MAIN_COLOR : "#000",
+												fontSize: el.type == state.selectedUserType ? 18 : 14
 											}
 										]}
 									>
@@ -334,20 +345,11 @@ const styles = StyleSheet.create({
 	typeContainer: {
 		flexDirection: "row",
 		alignItems: "center",
-		shadowOpacity: 0.1,
-		shadowRadius: 3,
-		shadowOffset: {
-			height: 3,
-			width: 2
-		},
-		elevation: 2,
 		backgroundColor: "#fff",
 		marginVertical: 5,
 		alignSelf: "flex-start",
 		paddingVertical: 5,
-		paddingHorizontal: 15,
-		borderRadius: MAIN_BORDER_RADIUS,
-		borderWidth: 2
+		borderBottomWidth: 2
 	},
 	typeLogo: {
 		resizeMode: "contain",
@@ -356,7 +358,6 @@ const styles = StyleSheet.create({
 	},
 	typeText: {
 		marginLeft: 5,
-		textTransform: "capitalize",
 		fontWeight: "500"
 	}
 });
