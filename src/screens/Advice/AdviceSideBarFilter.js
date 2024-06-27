@@ -16,15 +16,13 @@ const AdviceSideBarFilter = (props) => {
 	const [loadingSideFilter, setLoadingSideFilter] = useState(false);
 	const [sideFilterData, setSideFilterData] = useState([]);
 
-	const [params, setParams] = useState({
-		mainDirectionId: props.mainDirecionId
-	});
-
 	const getSideFilterData = async () => {
 		setLoadingSideFilter(true);
 		await axios
 			.get(`${SERVER_URL}reference/direction`, {
-				params: params,
+				params: {
+					mainDirectionId: state.selectedAdvice
+				},
 				headers: {
 					"X-API-KEY": X_API_KEY
 				}
@@ -48,7 +46,7 @@ const AdviceSideBarFilter = (props) => {
 	};
 	useEffect(() => {
 		getSideFilterData();
-	}, []);
+	}, [state.selectedAdvice]);
 
 	useEffect(() => {
 		var checkedItems = [];

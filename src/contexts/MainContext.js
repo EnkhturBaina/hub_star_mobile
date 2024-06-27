@@ -42,6 +42,7 @@ export const MainStore = (props) => {
 
 	const [selectedUserType, setSelectedUserType] = useState(null);
 	const [selectedSpecialService, setSelectedSpecialService] = useState(null);
+	const [selectedAdvice, setSelectedAdvice] = useState(null);
 
 	const [subDirectionData, setSubDirectionData] = useState([]);
 	const [notifications, setNotifications] = useState([]);
@@ -673,7 +674,9 @@ export const MainStore = (props) => {
 				updateAvailable,
 				ORDER_DATA,
 				isEditAd,
-				setIsEditAd
+				setIsEditAd,
+				selectedAdvice,
+				setSelectedAdvice
 			}}
 		>
 			{props.children}

@@ -330,7 +330,8 @@ const UserTypeServiceScreen = (props) => {
 											styles.typeText,
 											{
 												color: el.type == state.selectedUserType ? MAIN_COLOR : "#000",
-												fontSize: el.type == state.selectedUserType ? 18 : 14
+												fontSize: el.type == state.selectedUserType ? 18 : 14,
+												paddingBottom: el.type == state.selectedUserType ? 5 : 0
 											}
 										]}
 									>

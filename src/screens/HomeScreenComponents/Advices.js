@@ -65,11 +65,10 @@ const Advices = () => {
 											marginLeft: index == 0 ? 20 : 10
 										}
 									]}
-									onPress={() =>
-										navigation.navigate("MainAdviceScreen", {
-											advice_id: el.id
-										})
-									}
+									onPress={() => {
+										state.setSelectedAdvice(el.id);
+										navigation.navigate("MainAdviceScreen");
+									}}
 								>
 									<ActivityIndicator size="small" style={styles.adviceImg} />
 									<ImageBackground

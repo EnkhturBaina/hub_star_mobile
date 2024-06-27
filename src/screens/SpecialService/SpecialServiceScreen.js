@@ -230,7 +230,8 @@ const SpecialServiceScreen = (props) => {
 											styles.typeText,
 											{
 												color: el.type == state.selectedSpecialService ? MAIN_COLOR : "#000",
-												fontSize: el.type == state.selectedSpecialService ? 18 : 14
+												fontSize: el.type == state.selectedSpecialService ? 18 : 14,
+												paddingBottom: el.type == state.selectedSpecialService ? 5 : 0
 											}
 										]}
 									>

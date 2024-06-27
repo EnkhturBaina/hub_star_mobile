@@ -6,7 +6,7 @@ import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 import { Icon } from "@rneui/base";
 import { Dropdown } from "react-native-element-dropdown";
 import SideMenu from "react-native-side-menu-updated";
-import { IMG_URL, MAIN_BORDER_RADIUS, SERVER_URL, X_API_KEY } from "../../constant";
+import { IMG_URL, MAIN_BORDER_RADIUS, MAIN_COLOR, SERVER_URL, X_API_KEY } from "../../constant";
 import AdviceSideBarFilter from "./AdviceSideBarFilter";
 import axios from "axios";
 import Empty from "../../components/Empty";
@@ -21,6 +21,7 @@ const height = Dimensions.get("window").height;
 
 const MainAdviceScreen = (props) => {
 	const state = useContext(MainContext);
+	const scrollViewRef = useRef();
 	const sheetRef = useRef(); //*****Bottomsheet
 	const webview = useRef();
 	const tabBarHeight = useBottomTabBarHeight();
@@ -28,16 +29,20 @@ const MainAdviceScreen = (props) => {
 	const [isFocus, setIsFocus] = useState(false);
 	const [active, setActive] = useState("");
 	const [isOpen, setIsOpen] = useState(false);
+	const [scrollIndex, setScrollIndex] = useState(null);
 
 	const [loadingServices, setLoadingServices] = useState(false);
 	const [adviceData, setAdviceData] = useState([]);
 	const [selectedAdviceURL, setSelectedAdviceURL] = useState(null);
 
+	const [advices, setAdvices] = useState([]);
+	const [loadingAdvices, setLoadingAdvices] = useState(false);
+
 	const [adviceDataParams, setAdviceDataParams] = useState({
 		order: "DESC",
 		page: 1,
 		limit: 10,
-		mainDirectionId: props.route?.params?.advice_id
+		mainDirectionId: state.selectedAdvice
 	});
 
 	useLayoutEffect(() => {
@@ -60,8 +65,41 @@ const MainAdviceScreen = (props) => {
 		// TabBar Hide хийх
 	}, [props.navigation]);
 
+	const getAdviceCategory = async () => {
+		setLoadingAdvices(true);
+		await axios
+			.get(`${SERVER_URL}reference/main-direction`, {
+				params: {
+					isAdvice: 1
+				},
+				headers: {
+					"X-API-KEY": X_API_KEY
+				}
+			})
+			.then((response) => {
+				// console.log("get Advices response", response.data.response);
+				setAdvices(response.data.response);
+			})
+			.catch((error) => {
+				console.error("Error fetching Advices=>get Advices:=>", error);
+				if (error.response.status == "401") {
+					state.Handle_401();
+				}
+			})
+			.finally(() => {
+				setLoadingAdvices(false);
+			});
+	};
+
+	useEffect(() => {
+		getAdviceCategory();
+		getAdvices();
+	}, []);
+
 	const getAdvices = async () => {
+		console.log("RUN getAdvices =========>", adviceDataParams);
 		setLoadingServices(true);
+		setAdviceData([]);
 		await axios
 			.get(`${SERVER_URL}reference/advice`, {
 				params: adviceDataParams,
@@ -89,7 +127,7 @@ const MainAdviceScreen = (props) => {
 
 	useEffect(() => {
 		getAdvices();
-	}, [adviceDataParams]);
+	}, [adviceDataParams, state.selectedAdvice]);
 
 	const handleNavigationStateChanged = (navState) => {
 		// console.log("NAVVVVVV", navState);
@@ -98,14 +136,7 @@ const MainAdviceScreen = (props) => {
 
 	return (
 		<SideMenu
-			menu={
-				<AdviceSideBarFilter
-					setIsOpen={setIsOpen}
-					isOpen={isOpen}
-					mainDirecionId={props.route?.params?.advice_id}
-					setAdviceDataParams={setAdviceDataParams}
-				/>
-			}
+			menu={<AdviceSideBarFilter setIsOpen={setIsOpen} isOpen={isOpen} setAdviceDataParams={setAdviceDataParams} />}
 			isOpen={isOpen}
 			onChange={(isOpen) => setIsOpen(isOpen)}
 		>
@@ -117,6 +148,51 @@ const MainAdviceScreen = (props) => {
 				}}
 			>
 				<StatusBar translucent barStyle={Platform.OS == "ios" ? "dark-content" : "default"} />
+				<View style={{ marginBottom: 10 }}>
+					<ScrollView
+						horizontal={true}
+						showsHorizontalScrollIndicator={false}
+						contentContainerStyle={{ paddingRight: 20 }}
+						ref={scrollViewRef}
+						onContentSizeChange={() => scrollViewRef.current.scrollTo({ x: scrollIndex * 100, animated: true })}
+					>
+						{advices?.map((el, index) => {
+							return (
+								<TouchableOpacity
+									key={index}
+									style={[
+										styles.typeContainer,
+										{
+											marginLeft: index == 0 ? 20 : 10,
+											borderColor: el.id == state.selectedAdvice ? MAIN_COLOR : "#fff",
+											paddingBottom: el.id == state.selectedAdvice ? 5 : 0
+										}
+									]}
+									onPress={() => {
+										state.setSelectedAdvice(el.id);
+										setAdviceDataParams((prevState) => ({
+											...prevState,
+											mainDirectionId: el.id
+										}));
+									}}
+								>
+									<Text
+										style={[
+											styles.typeText,
+											{
+												color: el.id == state.selectedAdvice ? MAIN_COLOR : "#000",
+												fontSize: el.id == state.selectedAdvice ? 18 : 14,
+												paddingBottom: el.id == state.selectedAdvice ? 5 : 0
+											}
+										]}
+									>
+										{el.name}
+									</Text>
+								</TouchableOpacity>
+							);
+						})}
+					</ScrollView>
+				</View>
 				<View
 					style={{
 						flexDirection: "row",
@@ -277,5 +353,23 @@ const styles = StyleSheet.create({
 		color: "#919395",
 		fontWeight: "500",
 		marginTop: 10
+	},
+	typeContainer: {
+		flexDirection: "row",
+		alignItems: "center",
+		backgroundColor: "#fff",
+		marginVertical: 5,
+		alignSelf: "flex-start",
+		paddingVertical: 5,
+		borderBottomWidth: 2
+	},
+	typeLogo: {
+		resizeMode: "contain",
+		width: 30,
+		height: 30
+	},
+	typeText: {
+		marginLeft: 5,
+		fontWeight: "500"
 	}
 });
