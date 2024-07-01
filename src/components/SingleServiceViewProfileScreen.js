@@ -27,14 +27,14 @@ const SingleServiceViewProfileScreen = (props) => {
 	const getOtherProfile = async () => {
 		setLoadingOtherProfile(true);
 		await axios
-			.get(`${SERVER_URL}authentication/${props.route?.params?.createdBy}`, {
+			.get(`${SERVER_URL}authentication/profile/${props.route?.params?.createdBy}`, {
 				headers: {
 					"X-API-KEY": X_API_KEY,
 					Authorization: `Bearer ${state.token}`
 				}
 			})
 			.then((response) => {
-				// console.log("get OtherProfile", JSON.stringify(response.data.response));
+				console.log("get OtherProfile", JSON.stringify(response.data.response));
 				setOtherProfileData(response.data.response);
 			})
 			.catch((error) => {
