@@ -8,6 +8,11 @@ export const menuList = [
 		nav: "EditProfile"
 	},
 	{
+		name: "confirmation",
+		icon: require("../../../assets/figma-icons/security-safe.png"),
+		nav: "Confirmation"
+	},
+	{
 		name: "notification",
 		icon: require("../../../assets/figma-icons/setting.png"),
 		nav: "Notification"
@@ -36,11 +41,6 @@ export const menuList = [
 		name: "historyAds",
 		icon: require("../../../assets/figma-icons/messageText.png"),
 		nav: "History"
-	},
-	{
-		name: "confirmation",
-		icon: require("../../../assets/figma-icons/security-safe.png"),
-		nav: "Confirmation"
 	},
 	{
 		name: "privacy",
