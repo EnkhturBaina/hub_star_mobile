@@ -204,5 +204,7 @@
 	"frontPassportImageIdORG": "证书正面图像",
 	"behindPassportImageIdORG": "证书背面图像",
 	"materialType": "庫存類型",
-	"tonnage": "噸位"
+	"tonnage": "噸位",
+	"changeAdvStatus": "更改服務狀態",
+	"notes": "筆記"
 }

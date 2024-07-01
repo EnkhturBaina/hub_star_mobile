@@ -97,7 +97,7 @@ const MainAdviceScreen = (props) => {
 	}, []);
 
 	const getAdvices = async () => {
-		console.log("RUN getAdvices =========>", adviceDataParams);
+		// console.log("RUN getAdvices =========>", adviceDataParams);
 		setLoadingServices(true);
 		setAdviceData([]);
 		await axios
@@ -154,7 +154,7 @@ const MainAdviceScreen = (props) => {
 						showsHorizontalScrollIndicator={false}
 						contentContainerStyle={{ paddingRight: 20 }}
 						ref={scrollViewRef}
-						onContentSizeChange={() => scrollViewRef.current.scrollTo({ x: scrollIndex * 100, animated: true })}
+						onContentSizeChange={() => scrollViewRef.current.scrollTo({ x: 300, animated: true })}
 					>
 						{advices?.map((el, index) => {
 							return (
