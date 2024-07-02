@@ -198,54 +198,6 @@ const LoginScreen = (props) => {
 				<View style={{ width: "100%", marginTop: 8 }}>
 					<GradientButton text={i18n.t("login")} action={login} />
 				</View>
-				{/* <View
-          style={{
-            flexDirection: "row",
-            alignItems: "center",
-            marginVertical: 10,
-          }}
-        >
-          <Divider style={{ width: "33%" }} />
-          <Text
-            className="text-gray-300 font-medium text-xl text-center"
-            style={{ width: "33%" }}
-          >
-            Эсвэл
-          </Text>
-          <Divider style={{ width: "33%" }} />
-        </View>
-        <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "space-between",
-            width: "100%",
-          }}
-        >
-          <View style={styles.socialBtn}>
-            <Image
-              style={{
-                resizeMode: "contain",
-                width: 24,
-                height: 24,
-                marginRight: 10,
-              }}
-              source={fb_logo}
-            />
-            <Text className="font-medium text-base">Facebook</Text>
-          </View>
-          <View style={styles.socialBtn}>
-            <Image
-              style={{
-                resizeMode: "contain",
-                width: 24,
-                height: 24,
-                marginRight: 10,
-              }}
-              source={google_logo}
-            />
-            <Text className="font-medium text-base">Google</Text>
-          </View>
-        </View> */}
 				<View style={{ flexDirection: "row", alignItems: "center" }}>
 					<Text style={{ fontWeight: "500", marginVertical: 8 }}>{i18n.t("createAccount")}?</Text>
 					<TouchableOpacity onPress={() => props.navigation.navigate("RegisterScreen")}>

@@ -41,48 +41,7 @@ const LoginOrRegisterScreen = (props) => {
 					source={splash_logo}
 				/>
 				<Text style={{ fontWeight: "bold", fontSize: 22, marginBottom: 15 }}>{i18n.t("loginScreen")}</Text>
-				{/* <View className="mb-2 flex-row rounded-lg items-center py-4 bg-white w-11/12 justify-center border border-gray-300 mx-4">
-          <Image
-            style={{
-              resizeMode: "contain",
-              width: 24,
-              height: 24,
-              marginRight: 10,
-            }}
-            source={fb_logo}
-          />
-          <Text className="font-medium text-base">
-            Facebook хаягаар нэвтрэх
-          </Text>
-        </View>
-        <View className="flex-row rounded-lg items-center py-4 bg-white w-11/12 justify-center border border-gray-300 mx-4">
-          <Image
-            style={{
-              resizeMode: "contain",
-              width: 24,
-              height: 24,
-              marginRight: 10,
-            }}
-            source={google_logo}
-          />
-          <Text className="font-medium text-base">Google хаягаар нэвтрэх</Text>
-        </View>
-        <View
-          style={{
-            flexDirection: "row",
-            alignItems: "center",
-            marginVertical: 10,
-          }}
-        >
-          <Divider style={{ width: "30%" }} />
-          <Text
-            className="text-gray-300 font-medium text-xl text-center"
-            style={{ width: "30%" }}
-          >
-            Эсвэл
-          </Text>
-          <Divider style={{ width: "30%" }} />
-        </View> */}
+
 				<View style={{ width: "90%" }}>
 					<GradientButton
 						text={i18n.t("login")}
