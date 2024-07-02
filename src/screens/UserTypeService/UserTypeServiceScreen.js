@@ -14,7 +14,9 @@ import Empty from "../../components/Empty";
 import UserTypeServicesSkeleton from "../../components/Skeletons/UserTypeServicesSkeleton";
 import UserTypeSideBarFilter from "./UserTypeSideBarFilter";
 import { i18n } from "../../refs/i18";
+import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 
+const Tab = createMaterialTopTabNavigator();
 const UserTypeServiceScreen = (props) => {
 	const state = useContext(MainContext);
 	const scrollViewRef = useRef();
@@ -38,6 +40,8 @@ const UserTypeServiceScreen = (props) => {
 	const [districts, setDistricts] = useState([]);
 	const [khoroos, setKhoroos] = useState([]);
 	const [materials, setMaterials] = useState([]);
+
+	const [activeTabName, setActiveTabName] = useState("");
 
 	const DAATS = [
 		{ label: "Хүнд даац", value: "small" },
@@ -262,6 +266,10 @@ const UserTypeServiceScreen = (props) => {
 			</View>
 		);
 	};
+
+	const EmptyScreen = () => {
+		return <View style={{ backgroundColor: "red" }}></View>;
+	};
 	return (
 		<SideMenu
 			menu={
@@ -283,6 +291,82 @@ const UserTypeServiceScreen = (props) => {
 				}}
 			>
 				<StatusBar translucent barStyle={Platform.OS == "ios" ? "dark-content" : "default"} />
+				<Tab.Navigator
+					screenOptions={{
+						tabBarAndroidRipple: {
+							color: "transparent"
+						},
+						tabBarLabelStyle: {
+							width: "100%",
+							textTransform: "none"
+						},
+						tabBarItemStyle: {
+							width: "auto",
+							marginRight: 10
+						},
+						tabBarStyle: {
+							backgroundColor: "#fff"
+						},
+						tabBarIndicatorStyle: {
+							backgroundColor: MAIN_COLOR,
+							height: 3
+							// width: 50,
+						},
+						tabBarScrollEnabled: true
+					}}
+					sceneContainerStyle={{
+						height: 0,
+						padding: 0,
+						margin: 0,
+						backgroundColor: "red",
+						minHeight: 0,
+						maxHeight: 0
+					}}
+				>
+					{UserTabData.map((el, index) => {
+						return (
+							<Tab.Screen
+								name={el.type}
+								component={EmptyScreen}
+								options={{
+									tabBarItemStyle: {
+										flex: 1,
+										flexDirection: "row",
+										marginVertical: 5,
+										alignItems: "center"
+									},
+									tabBarIcon: ({ focused }) => (
+										<Image
+											style={[
+												styles.typeLogo,
+												{
+													width: el.type == state.selectedUserType ? 35 : 30,
+													height: el.type == state.selectedUserType ? 35 : 30
+												}
+											]}
+											resizeMode="contain"
+											source={el.image}
+										/>
+									),
+									tabBarLabel: ({ focused }) => (
+										<Text
+											style={[
+												styles.typeText,
+												{
+													color: el.type == state.selectedUserType ? MAIN_COLOR : "#000",
+													fontSize: el.type == state.selectedUserType ? 18 : 14,
+													paddingBottom: el.type == state.selectedUserType ? 5 : 0
+												}
+											]}
+										>
+											{i18n.t(el.title)}
+										</Text>
+									)
+								}}
+							/>
+						);
+					})}
+				</Tab.Navigator>
 				<View style={{ marginBottom: 10 }}>
 					<ScrollView
 						horizontal={true}
@@ -600,13 +684,11 @@ const styles = StyleSheet.create({
 		width: "48%"
 	},
 	typeContainer: {
+		flex: 1,
 		flexDirection: "row",
 		alignItems: "center",
 		backgroundColor: "#fff",
-		marginVertical: 5,
-		alignSelf: "flex-start",
-		paddingVertical: 5,
-		borderBottomWidth: 2
+		alignSelf: "center"
 	},
 	typeLogo: {
 		resizeMode: "contain",
@@ -615,7 +697,8 @@ const styles = StyleSheet.create({
 	},
 	typeText: {
 		marginLeft: 5,
-		fontWeight: "500"
+		fontWeight: "500",
+		marginTop: 5
 	},
 	filterContainer: {
 		flexDirection: "row",
