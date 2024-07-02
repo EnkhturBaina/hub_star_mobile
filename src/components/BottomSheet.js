@@ -1,8 +1,9 @@
 import { ScrollView, StyleSheet, Text, TouchableOpacity, View, Platform } from "react-native";
 import React, { useContext, useEffect, useState, useRef } from "react";
 import RBSheet from "react-native-raw-bottom-sheet";
-import { MAIN_COLOR } from "../constant";
+import { MAIN_BORDER_RADIUS, MAIN_COLOR } from "../constant";
 import { i18n } from "../refs/i18";
+import { Searchbar } from "react-native-paper";
 
 const BottomSheet = ({
 	bodyText, //sheet -н text
@@ -19,13 +20,15 @@ const BottomSheet = ({
 	const itemHeight = 40;
 	const sheetRef = useRef(); //Bottomsheet
 	const [heightBottomSheet, setHeightBottomSheet] = useState(0);
+	const [searchVal, setSearchVal] = useState(null);
+
 	useEffect(() => {
 		if (bodyText && bodyText?.length > 10) {
 			setHeightBottomSheet(400);
 		} else if (bodyText && bodyText?.length == 0) {
-			setHeightBottomSheet(bodyText?.length * itemHeight + 120);
+			setHeightBottomSheet(bodyText?.length * itemHeight + 150);
 		} else {
-			setHeightBottomSheet(bodyText?.length * itemHeight + 70);
+			setHeightBottomSheet(bodyText?.length * itemHeight + 100);
 		}
 	}, [handle]);
 
@@ -65,8 +68,16 @@ const BottomSheet = ({
 				}}
 			>
 				{sheetTitle ? (
-					<Text style={{ textAlign: "center", fontWeight: "bold", fontSize: 16, marginVertical: 5 }}>{sheetTitle}</Text>
+					<Text style={{ textAlign: "center", fontWeight: "bold", fontSize: 16 }}>{sheetTitle}</Text>
 				) : null}
+				<Searchbar
+					placeholder={i18n.t("search")}
+					onChangeText={setSearchVal}
+					value={searchVal}
+					style={styles.searchBar}
+					inputStyle={{ height: 40, minHeight: 0 }}
+					elevation={0}
+				/>
 				<View style={styles.bottomSheetContainer}>
 					<View style={styles.lookupcontainer}>
 						<ScrollView
@@ -75,15 +86,17 @@ const BottomSheet = ({
 							}}
 						>
 							{bodyText?.length > 1 ? (
-								bodyText?.map((el, index) => {
-									return (
-										<TouchableOpacity key={index} onPress={() => functionCombined(el)}>
-											<Text style={styles.bottomSheetBodyLookup}>
-												{isLang ? i18n.t(el[displayName]) : el[displayName]}
-											</Text>
-										</TouchableOpacity>
-									);
-								})
+								bodyText
+									?.filter((el) => el[displayName]?.toLowerCase().includes(searchVal?.toLowerCase()))
+									?.map((el, index) => {
+										return (
+											<TouchableOpacity key={index} onPress={() => functionCombined(el)}>
+												<Text style={styles.bottomSheetBodyLookup}>
+													{isLang ? i18n.t(el[displayName]) : el[displayName]}
+												</Text>
+											</TouchableOpacity>
+										);
+									})
 							) : bodyText?.length == 1 ? (
 								<TouchableOpacity onPress={() => functionCombined(bodyText[0])}>
 									<Text style={styles.bottomSheetBodyLookup}>
@@ -117,7 +130,7 @@ const styles = StyleSheet.create({
 		width: "100%",
 		height: "100%",
 		justifyContent: "flex-start",
-		paddingBottom: Platform.OS == "ios" ? 30 : 25
+		paddingBottom: Platform.OS == "ios" ? 100 : 45
 	},
 	bottomSheetBodyLookup: {
 		flex: 1,
@@ -125,5 +138,13 @@ const styles = StyleSheet.create({
 		fontSize: 18,
 		padding: 10,
 		color: MAIN_COLOR
+	},
+	searchBar: {
+		marginHorizontal: 20,
+		backgroundColor: "#f0f0f0",
+		borderRadius: MAIN_BORDER_RADIUS,
+		marginTop: 5,
+		elevation: 0,
+		height: 40
 	}
 });
