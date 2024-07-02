@@ -80,7 +80,8 @@ export const MainStore = (props) => {
 		modelId: null,
 		fromAddress: null,
 		toAddress: null,
-		imageIds: []
+		imageIds: [],
+		materialId: null
 	});
 	const clearServiceData = () => {
 		setServiceData({
@@ -114,7 +115,8 @@ export const MainStore = (props) => {
 			modelId: null,
 			fromAddress: null,
 			toAddress: null,
-			imageIds: []
+			imageIds: [],
+			materialId: null
 		});
 	};
 

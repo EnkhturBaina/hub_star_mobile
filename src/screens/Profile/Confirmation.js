@@ -63,6 +63,7 @@ const Confirmation = (props) => {
 	const [fieldName, setFieldName] = useState(""); //Context -н аль утгыг OBJECT -с update хийхийг хадгалах
 	const [displayName, setDisplayName] = useState(""); //LOOKUP -д харагдах утга (display value)
 	const [actionKey, setActionKey] = useState(""); //Сонгогдсон OBJECT -с ямар key -р утга авах (Жнь: {object}.id)
+	const [sheetTitle, setSheetTitle] = useState("");
 
 	const IMAGE_DATA_1 = [
 		{
@@ -89,13 +90,14 @@ const Confirmation = (props) => {
 			path: "organizationLogoId"
 		}
 	];
-	const setLookupData = (data, field, display, action_key, is_lang) => {
+	const setLookupData = (data, field, display, action_key, is_lang, sheet_title) => {
 		setData(data); //Lookup -д харагдах дата
 		setFieldName(field); //Context -н object -н update хийх key
 		setDisplayName(display); //Lookup -д харагдах датаны текст талбар
 		setUselessParam(!uselessParam);
 		setActionKey(action_key);
 		setIsLang(is_lang);
+		setSheetTitle(sheet_title);
 	};
 
 	//Snacbkbar харуулах
@@ -261,7 +263,7 @@ const Confirmation = (props) => {
 								<TouchableOpacity
 									style={styles.touchableSelect}
 									onPress={() => {
-										setLookupData(UserTabData, "userType", "title", "type", true);
+										setLookupData(UserTabData, "userType", "title", "type", true, i18n.t("userType"));
 									}}
 								>
 									<Text style={styles.selectedText} numberOfLines={1}>
@@ -281,7 +283,7 @@ const Confirmation = (props) => {
 								<TouchableOpacity
 									style={styles.touchableSelect}
 									onPress={() => {
-										setLookupData(state.mainDirection, "mainDirectionId", "name", "id", false);
+										setLookupData(state.mainDirection, "mainDirectionId", "name", "id", false, i18n.t("mainDir"));
 									}}
 								>
 									<Text style={styles.selectedText} numberOfLines={1}>
@@ -455,6 +457,7 @@ const Confirmation = (props) => {
 				}}
 				actionKey={actionKey}
 				isLang={isLang}
+				sheetTitle={sheetTitle}
 			/>
 			<Modal
 				animationType="slide"

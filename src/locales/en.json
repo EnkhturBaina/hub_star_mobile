@@ -206,5 +206,6 @@
 	"materialType": "Inventory type",
 	"tonnage": "Tonnage",
 	"changeAdvStatus": "Change service status",
-	"notes": "Notes"
-}
+	"notes": "Notes",
+	"materialId": "Equipment",
+	"productType": "Product type"

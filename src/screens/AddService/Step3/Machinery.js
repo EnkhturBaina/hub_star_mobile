@@ -26,14 +26,16 @@ const Machinery = (props) => {
 	const [fieldName, setFieldName] = useState(""); //Context -н аль утгыг OBJECT -с update хийхийг хадгалах
 	const [displayName, setDisplayName] = useState(""); //LOOKUP -д харагдах утга (display value)
 	const [actionKey, setActionKey] = useState(""); //Сонгогдсон OBJECT -с ямар key -р утга авах (Жнь: {object}.id)
+	const [sheetTitle, setSheetTitle] = useState("");
 
-	const setLookupData = (data, field, display, action_key) => {
+	const setLookupData = (data, field, display, action_key, sheet_title) => {
 		// console.log("refRBSheet", refRBSheet);
 		setData(data); //Lookup -д харагдах дата
 		setFieldName(field); //Context -н object -н update хийх key
 		setDisplayName(display); //Lookup -д харагдах датаны текст талбар
 		setUselessParam(!uselessParam);
 		setActionKey(action_key);
+		setSheetTitle(sheet_title);
 	};
 
 	useEffect(() => {
@@ -99,7 +101,7 @@ const Machinery = (props) => {
 							<TouchableOpacity
 								style={styles.touchableSelect}
 								onPress={() => {
-									setLookupData(props.machineryType, "machineryTypeId", "name", "id");
+									setLookupData(props.machineryType, "machineryTypeId", "name", "id", i18n.t("machineryType"));
 								}}
 							>
 								<Text style={styles.selectedText} numberOfLines={1}>
@@ -119,7 +121,7 @@ const Machinery = (props) => {
 							<TouchableOpacity
 								style={styles.touchableSelect}
 								onPress={() => {
-									setLookupData(props.markData, "markId", "name", "id");
+									setLookupData(props.markData, "markId", "name", "id", i18n.t("mark"));
 								}}
 							>
 								<Text style={styles.selectedText} numberOfLines={1}>
@@ -139,7 +141,7 @@ const Machinery = (props) => {
 							<TouchableOpacity
 								style={styles.touchableSelect}
 								onPress={() => {
-									setLookupData(props.modelData, "modelId", "name", "id");
+									setLookupData(props.modelData, "modelId", "name", "id", i18n.t("model"));
 								}}
 								disabled={props.modelData?.length == 0}
 							>
@@ -160,7 +162,7 @@ const Machinery = (props) => {
 							<TouchableOpacity
 								style={styles.touchableSelect}
 								onPress={() => {
-									setLookupData(props.powerData, "powerId", "name", "id");
+									setLookupData(props.powerData, "powerId", "name", "id", i18n.t("power"));
 								}}
 							>
 								<Text style={styles.selectedText} numberOfLines={1}>
@@ -306,6 +308,7 @@ const Machinery = (props) => {
 						}
 					}}
 					actionKey={actionKey}
+					sheetTitle={sheetTitle}
 				/>
 			</SafeAreaView>
 		</KeyboardAvoidingView>

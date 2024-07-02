@@ -182,7 +182,9 @@ const AddService = (props) => {
 					createAdverstment();
 				}
 			} else if (state.serviceData?.userType === "SUPPLIER") {
-				if (state.serviceData?.productName == null) {
+				if (state.serviceData?.materialId == null) {
+					onToggleSnackBar(`${i18n.t("productType")} ${i18n.t("pleaseChoose")}`);
+				} else if (state.serviceData?.productName == null) {
 					onToggleSnackBar(`${i18n.t("productName")} ${i18n.t("pleaseEnter")}`);
 				} else if (tempUnitAmount == null || tempUnitAmount == "") {
 					onToggleSnackBar(`${i18n.t("unitAmount")} ${i18n.t("pleaseEnter")}`);

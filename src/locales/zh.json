@@ -206,5 +206,7 @@
 	"materialType": "庫存類型",
 	"tonnage": "噸位",
 	"changeAdvStatus": "更改服務狀態",
-	"notes": "筆記"
+	"notes": "筆記",
+	"materialId": "裝置",
+	"productType": "產品類別"
 }

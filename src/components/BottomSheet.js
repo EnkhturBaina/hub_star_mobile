@@ -13,7 +13,8 @@ const BottomSheet = ({
 	action, // parent Fn
 	lookUpType,
 	actionKey,
-	isLang
+	isLang,
+	sheetTitle
 }) => {
 	const itemHeight = 40;
 	const sheetRef = useRef(); //Bottomsheet
@@ -22,9 +23,9 @@ const BottomSheet = ({
 		if (bodyText && bodyText?.length > 10) {
 			setHeightBottomSheet(400);
 		} else if (bodyText && bodyText?.length == 0) {
-			setHeightBottomSheet(bodyText?.length * itemHeight + 100);
+			setHeightBottomSheet(bodyText?.length * itemHeight + 120);
 		} else {
-			setHeightBottomSheet(bodyText?.length * itemHeight + 50);
+			setHeightBottomSheet(bodyText?.length * itemHeight + 70);
 		}
 	}, [handle]);
 
@@ -63,6 +64,9 @@ const BottomSheet = ({
 					setHeightBottomSheet(0);
 				}}
 			>
+				{sheetTitle ? (
+					<Text style={{ textAlign: "center", fontWeight: "bold", fontSize: 16, marginVertical: 5 }}>{sheetTitle}</Text>
+				) : null}
 				<View style={styles.bottomSheetContainer}>
 					<View style={styles.lookupcontainer}>
 						<ScrollView

@@ -29,14 +29,16 @@ const Step2Special = (props) => {
 	const [fieldName, setFieldName] = useState(""); //Context -н аль утгыг OBJECT -с update хийхийг хадгалах
 	const [displayName, setDisplayName] = useState(""); //LOOKUP -д харагдах утга (display value)
 	const [actionKey, setActionKey] = useState(""); //Сонгогдсон OBJECT -с ямар key -р утга авах (Жнь: {object}.id)
+	const [sheetTitle, setSheetTitle] = useState("");
 
-	const setLookupData = (data, field, display, action_key) => {
+	const setLookupData = (data, field, display, action_key, sheet_title) => {
 		// console.log("refRBSheet", refRBSheet);
 		setData(data); //Lookup -д харагдах дата
 		setFieldName(field); //Context -н object -н update хийх key
 		setDisplayName(display); //Lookup -д харагдах датаны текст талбар
 		setUselessParam(!uselessParam);
 		setActionKey(action_key);
+		setSheetTitle(sheet_title);
 	};
 
 	const getAddress = async (params) => {
@@ -114,7 +116,7 @@ const Step2Special = (props) => {
 							<TouchableOpacity
 								style={styles.touchableSelect}
 								onPress={() => {
-									setLookupData(provinces, "provinceId", "name", "id");
+									setLookupData(provinces, "provinceId", "name", "id", i18n.t("adTitle"));
 								}}
 							>
 								<Text style={styles.selectedText} numberOfLines={1}>
@@ -134,7 +136,7 @@ const Step2Special = (props) => {
 							<TouchableOpacity
 								style={styles.touchableSelect}
 								onPress={() => {
-									setLookupData(districts, "districtId", "name", "id");
+									setLookupData(districts, "districtId", "name", "id", i18n.t("adDistrict"));
 								}}
 								disabled={districts?.length == 0}
 							>
@@ -155,7 +157,7 @@ const Step2Special = (props) => {
 							<TouchableOpacity
 								style={styles.touchableSelect}
 								onPress={() => {
-									setLookupData(khoroos, "khorooId", "name", "id");
+									setLookupData(khoroos, "khorooId", "name", "id", i18n.t("adKhoroo"));
 								}}
 								disabled={khoroos?.length == 0}
 							>
@@ -214,6 +216,7 @@ const Step2Special = (props) => {
 						}
 					}}
 					actionKey={actionKey}
+					sheetTitle={sheetTitle}
 				/>
 			</SafeAreaView>
 		</KeyboardAvoidingView>
