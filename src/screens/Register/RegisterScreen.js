@@ -137,11 +137,11 @@ const RegisterScreen = (props) => {
 						{/* <Avatar.Accessory size={28} onPress={() => {}} color="#fff" style={{ backgroundColor: MAIN_COLOR }} /> */}
 					</Avatar>
 				</TouchableOpacity>
-				<Text className="font-bold text-2xl mb-4 text-center">{i18n.t("registerScreenTitle")}</Text>
+				<Text style={{ fontWeight: "bold", fontSize: 22, marginBottom: 15, textAlign: "center" }}>
+					{i18n.t("registerScreenTitle")}
+				</Text>
 				{errorMsg ? (
-					<Text className="font-bold text-base mb-4 text-center" style={{ color: "red" }}>
-						{errorMsg}
-					</Text>
+					<Text style={{ color: "red", fontWeight: "bold", marginBottom: 15, textAlign: "center" }}>{errorMsg}</Text>
 				) : null}
 
 				<View style={styles.sectionStyle}>
@@ -211,7 +211,7 @@ const RegisterScreen = (props) => {
 						uncheckedColor={MAIN_COLOR}
 					/>
 				</View>
-				<View className="mt-2">
+				<View style={{ marginTop: 8 }}>
 					<GradientButton
 						text={i18n.t("register")}
 						action={() => register()}
@@ -220,10 +220,10 @@ const RegisterScreen = (props) => {
 					/>
 				</View>
 
-				<View className="flex flex-row items-center self-center">
-					<Text className="font-medium text-base my-2">{i18n.t("createAccount")}</Text>
+				<View style={{ flexDirection: "row", alignItems: "center", alignSelf: "center" }}>
+					<Text style={{ fontWeight: "500", marginVertical: 8 }}>{i18n.t("createAccount")}</Text>
 					<TouchableOpacity onPress={() => props.navigation.navigate("LoginScreen")}>
-						<Text className="text-blue-500 ml-2">{i18n.t("login")}</Text>
+						<Text style={{ color: "color: rgb(59 130 246)", marginLeft: 8 }}>{i18n.t("login")}</Text>
 					</TouchableOpacity>
 				</View>
 				{/* <View

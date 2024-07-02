@@ -67,7 +67,7 @@ const ResetPassword = (props) => {
 			<Image source={forgot} resizeMode="contain" style={{ width: "100%", height: 200 }} />
 			<Text style={styles.mainText}>{i18n.t("resetPasswordTitle")}</Text>
 
-			{errorMsg ? <Text className="font-bold text-center text-red-500">{errorMsg}</Text> : null}
+			{errorMsg ? <Text style={{ fontWeight: "bold", textAlign: "center", color: "red" }}>{errorMsg}</Text> : null}
 			<View>
 				<TouchableOpacity
 					style={[styles.cardContainer, { borderColor: selectedType == "sms" ? MAIN_COLOR : "#fff" }]}

@@ -78,7 +78,7 @@ const OTPScreen = (props) => {
 
 	return (
 		<View style={{ backgroundColor: MAIN_BG_GRAY, flex: 1, paddingHorizontal: 20 }}>
-			<Text className="font-bold mb-5">{i18n.t("pleaseCheckEmail")}</Text>
+			<Text style={{ fontWeight: "bold", marginBottom: 20 }}>{i18n.t("pleaseCheckEmail")}</Text>
 			<CodeField
 				ref={ref}
 				{...propss}
@@ -98,8 +98,8 @@ const OTPScreen = (props) => {
 					</View>
 				)}
 			/>
-			{errorMsg ? <Text className="font-bold text-center text-red-500">{errorMsg}</Text> : null}
-			<View className="mt-5">
+			{errorMsg ? <Text style={{ fontWeight: "bold", textAlign: "center", color: "red" }}>{errorMsg}</Text> : null}
+			<View style={{ marginTop: 20 }}>
 				<GradientButton
 					text={i18n.t("confirmate")}
 					action={() => confirmOTP()}

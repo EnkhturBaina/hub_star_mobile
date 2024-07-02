@@ -84,7 +84,7 @@ const ConfirmPassword = (props) => {
 					{i18n.t("sendConfirmOTP1")} <Text style={{ fontWeight: "bold" }}>{props.route?.params?.email_prop}</Text>{" "}
 					{i18n.t("sendConfirmOTP2")}
 				</Text>
-				{errorMsg ? <Text className="font-bold text-center text-red-500">{errorMsg}</Text> : null}
+				{errorMsg ? <Text style={{ fontWeight: "bold", textAlign: "center", color: "red" }}>{errorMsg}</Text> : null}
 
 				<Image source={confirm} resizeMode="contain" style={{ width: "100%", height: 150 }} />
 				<CodeField

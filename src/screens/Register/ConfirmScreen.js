@@ -10,7 +10,7 @@ const ConfirmScreen = (props) => {
 	const [mobileNmber, setMobileNumber] = useState("");
 	return (
 		<View style={{ backgroundColor: MAIN_BG_GRAY, flex: 1, paddingHorizontal: 20 }}>
-			<Text className="font-bold mb-5">{i18n.t("registerConfirmScreenTitle")}</Text>
+			<Text style={{ fontWeight: "bold", marginBottom: 20 }}>{i18n.t("registerConfirmScreenTitle")}</Text>
 			<View style={styles.sectionStyle}>
 				<Icon name="user" type="font-awesome" size={20} style={styles.inputIcon} color={GRAY_ICON_COLOR} />
 				<TextInput
@@ -31,7 +31,7 @@ const ConfirmScreen = (props) => {
 				}}
 			>
 				<Divider style={{ width: "33%" }} />
-				<Text className="text-gray-300 font-medium text-xl text-center" style={{ width: "33%" }}>
+				<Text style={{ width: "33%,", color: GRAY_ICON_COLOR, fontWeight: "500", fontSize: 16, textAlign: "center" }}>
 					{i18n.t("or")}
 				</Text>
 				<Divider style={{ width: "33%" }} />
@@ -47,7 +47,7 @@ const ConfirmScreen = (props) => {
 					onChangeText={setEmail}
 				/>
 			</View>
-			<View className="mt-5 ">
+			<View style={{ marginTop: 20 }}>
 				<GradientButton text={i18n.t("sendCode")} action={() => props.navigation.navigate("OTPScreen")} />
 			</View>
 		</View>

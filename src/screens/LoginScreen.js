@@ -124,9 +124,11 @@ const LoginScreen = (props) => {
 					}}
 					source={splash_logo}
 				/>
-				<Text className="font-bold text-2xl mb-4">{i18n.t("loginScreen")}</Text>
+				<Text style={{ fontWeight: "bold", fontSize: 22, marginBottom: 15 }}>{i18n.t("loginScreen")}</Text>
 				{state.errorMsg ? (
-					<Text className="font-bold mb-4 text-red-500 text-center text-base">{state.errorMsg}</Text>
+					<Text style={{ fontWeight: "bold", textAlign: "center", color: "red", marginBottom: 15 }}>
+						{state.errorMsg}
+					</Text>
 				) : null}
 				<View style={styles.stackSection}>
 					<View style={styles.sectionStyle}>
@@ -190,10 +192,10 @@ const LoginScreen = (props) => {
 							}
 						}}
 					>
-						<Text className="text-blue-500">{i18n.t("forgotPassword")}</Text>
+						<Text style={{ color: "color: rgb(59 130 246)" }}>{i18n.t("forgotPassword")}</Text>
 					</TouchableOpacity>
 				</View>
-				<View className="w-full mt-2">
+				<View style={{ width: "100%", marginTop: 8 }}>
 					<GradientButton text={i18n.t("login")} action={login} />
 				</View>
 				{/* <View
@@ -244,10 +246,10 @@ const LoginScreen = (props) => {
             <Text className="font-medium text-base">Google</Text>
           </View>
         </View> */}
-				<View className="flex flex-row items-center">
-					<Text className="font-medium text-base my-2">{i18n.t("createAccount")}?</Text>
+				<View style={{ flexDirection: "row", alignItems: "center" }}>
+					<Text style={{ fontWeight: "500", marginVertical: 8 }}>{i18n.t("createAccount")}?</Text>
 					<TouchableOpacity onPress={() => props.navigation.navigate("RegisterScreen")}>
-						<Text className="text-blue-500 ml-2">{i18n.t("register")}</Text>
+						<Text style={{ color: "color: rgb(59 130 246)", marginLeft: 8 }}>{i18n.t("register")}</Text>
 					</TouchableOpacity>
 				</View>
 			</ScrollView>

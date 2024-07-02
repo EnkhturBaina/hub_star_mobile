@@ -40,7 +40,7 @@ const LoginOrRegisterScreen = (props) => {
 					}}
 					source={splash_logo}
 				/>
-				<Text className="font-bold text-2xl mb-4">{i18n.t("loginScreen")}</Text>
+				<Text style={{ fontWeight: "bold", fontSize: 22, marginBottom: 15 }}>{i18n.t("loginScreen")}</Text>
 				{/* <View className="mb-2 flex-row rounded-lg items-center py-4 bg-white w-11/12 justify-center border border-gray-300 mx-4">
           <Image
             style={{
@@ -83,7 +83,7 @@ const LoginOrRegisterScreen = (props) => {
           </Text>
           <Divider style={{ width: "30%" }} />
         </View> */}
-				<View className="w-11/12">
+				<View style={{ width: "90%" }}>
 					<GradientButton
 						text={i18n.t("login")}
 						action={() => {
@@ -91,10 +91,10 @@ const LoginOrRegisterScreen = (props) => {
 						}}
 					/>
 				</View>
-				<View className="flex flex-row items-center">
-					<Text className="font-medium text-base my-2">{i18n.t("createAccount")}?</Text>
+				<View style={{ flexDirection: "row", alignItems: "center" }}>
+					<Text style={{ fontWeight: "500", marginVertical: 10 }}>{i18n.t("createAccount")}?</Text>
 					<TouchableOpacity onPress={() => props.navigation.navigate("RegisterScreen")}>
-						<Text className="text-blue-500 ml-2">{i18n.t("register")}</Text>
+						<Text style={{ color: "color: rgb(59 130 246)", marginLeft: 8 }}>{i18n.t("register")}</Text>
 					</TouchableOpacity>
 				</View>
 			</ScrollView>

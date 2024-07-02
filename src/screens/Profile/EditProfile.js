@@ -202,7 +202,7 @@ const EditProfile = (props) => {
 								multiline={true}
 								textAlignVertical="top"
 							/>
-							<View className="w-full mt-2">
+							<View style={{ width: "100%", marginTop: 8 }}>
 								<GradientButton text={i18n.t("save")} action={saveProfileData} />
 							</View>
 						</ScrollView>

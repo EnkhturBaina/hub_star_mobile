@@ -34,7 +34,7 @@ const Language = (props) => {
 					<RadioButton.Item value="zh" mode="android" label="Chinese (ZH)" color={MAIN_COLOR} />
 				</RadioButton.Group>
 			</View>
-			<View className="w-full mt-2 px-5">
+			<View style={{ width: "100%", marginTop: 8, paddingHorizontal: 20 }}>
 				<GradientButton
 					text={i18n.t("save")}
 					action={async () => {
