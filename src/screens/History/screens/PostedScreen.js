@@ -84,6 +84,7 @@ const PostedScreen = (props) => {
 	}, []);
 
 	const removeAd = async () => {
+		console.log("removeAd", removeAd);
 		await axios
 			.delete(`${SERVER_URL}advertisement/${selectedAd}`, {
 				headers: {
@@ -92,7 +93,7 @@ const PostedScreen = (props) => {
 				}
 			})
 			.then((response) => {
-				// console.log("remove Ad =========>", response.data);
+				console.log("remove Ad =========>", response.data);
 				if (response.data.statusCode == 200) {
 					setPostedServiceData(removeById(postedServiceData, selectedAd));
 				}
@@ -106,10 +107,12 @@ const PostedScreen = (props) => {
 	};
 
 	const removeById = (array, id) => {
+		console.log("array", JSON.stringify(array));
 		const index = array.findIndex((item) => item.id === id);
 		if (index !== -1) {
 			array.splice(index, 1);
 		}
+		console.log("array2", JSON.stringify(array));
 		return array;
 	};
 
