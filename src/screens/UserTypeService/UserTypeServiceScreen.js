@@ -1,5 +1,5 @@
-import { StyleSheet, Text, View, Image, ScrollView, TouchableOpacity, FlatList, ActivityIndicator } from "react-native";
-import React, { useContext, useEffect, useLayoutEffect, useRef, useState } from "react";
+import { StyleSheet, Text, View, Image, TouchableOpacity, FlatList, ActivityIndicator } from "react-native";
+import React, { useContext, useEffect, useLayoutEffect, useState } from "react";
 import { StatusBar, Platform } from "react-native";
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 import { Icon } from "@rneui/base";
@@ -19,9 +19,7 @@ import { createMaterialTopTabNavigator } from "@react-navigation/material-top-ta
 const Tab = createMaterialTopTabNavigator();
 const UserTypeServiceScreen = (props) => {
 	const state = useContext(MainContext);
-	const scrollViewRef = useRef();
 
-	const [scrollIndex, setScrollIndex] = useState(null);
 	const tabBarHeight = useBottomTabBarHeight();
 	const [value, setValue] = useState(null);
 	const [valueDaats, setValueDaats] = useState(null);
@@ -40,8 +38,6 @@ const UserTypeServiceScreen = (props) => {
 	const [districts, setDistricts] = useState([]);
 	const [khoroos, setKhoroos] = useState([]);
 	const [materials, setMaterials] = useState([]);
-
-	const [activeTabName, setActiveTabName] = useState("");
 
 	const DAATS = [
 		{ label: "Хүнд даац", value: "small" },
@@ -69,6 +65,7 @@ const UserTypeServiceScreen = (props) => {
 	}, [props.navigation]);
 
 	const getMaterialType = async (params) => {
+		console.log("RUN getMaterialType");
 		await axios
 			.get(`${SERVER_URL}reference/machinery`, {
 				params: {
@@ -99,6 +96,7 @@ const UserTypeServiceScreen = (props) => {
 			});
 	};
 	const getAddress = async (params) => {
+		console.log("RUN getAddress");
 		await axios
 			.get(`${SERVER_URL}reference/address`, {
 				params,
@@ -132,6 +130,7 @@ const UserTypeServiceScreen = (props) => {
 	};
 
 	const getUserTypeServices = async () => {
+		console.log("RUN getUserTypeServices");
 		if (!loadingServices && !isListEnd) {
 			// console.log("getUserTypeServices RUNx ===========>", state.userTypeParam);
 			setLoadingServices(true);
@@ -167,12 +166,6 @@ const UserTypeServiceScreen = (props) => {
 	};
 
 	useEffect(() => {
-		UserTabData.map((el) => {
-			if (el.type == state.selectedUserType) {
-				console.log("X", el.index);
-				setScrollIndex(el.index);
-			}
-		});
 		getMaterialType();
 		getAddress({ type: "PROVINCE" });
 	}, []);
@@ -267,165 +260,9 @@ const UserTypeServiceScreen = (props) => {
 		);
 	};
 
-	const EmptyScreen = () => {
-		return <View style={{ backgroundColor: "red" }}></View>;
-	};
-	return (
-		<SideMenu
-			menu={
-				<UserTypeSideBarFilter
-					setIsOpen={setIsOpen}
-					isOpen={isOpen}
-					listEndFnc={setIsListEnd}
-					listData={setUserTypeServiceData}
-				/>
-			}
-			isOpen={isOpen}
-			onChange={(isOpen) => setIsOpen(isOpen)}
-		>
-			<SafeAreaProvider
-				style={{
-					flex: 1,
-					backgroundColor: "#fff",
-					paddingBottom: tabBarHeight
-				}}
-			>
-				<StatusBar translucent barStyle={Platform.OS == "ios" ? "dark-content" : "default"} />
-				{/* <Tab.Navigator
-					screenOptions={{
-						tabBarAndroidRipple: {
-							color: "transparent"
-						},
-						tabBarLabelStyle: {
-							width: "100%",
-							textTransform: "none"
-						},
-						tabBarItemStyle: {
-							width: "auto",
-							marginRight: 10
-						},
-						tabBarStyle: {
-							backgroundColor: "#fff"
-						},
-						tabBarIndicatorStyle: {
-							backgroundColor: MAIN_COLOR,
-							height: 3
-							// width: 50,
-						},
-						tabBarScrollEnabled: true
-					}}
-					sceneContainerStyle={{
-						height: 0,
-						padding: 0,
-						margin: 0,
-						backgroundColor: "red",
-						minHeight: 0,
-						maxHeight: 0
-					}}
-				>
-					{UserTabData.map((el, index) => {
-						return (
-							<Tab.Screen
-								name={el.type}
-								component={EmptyScreen}
-								options={{
-									tabBarItemStyle: {
-										flex: 1,
-										flexDirection: "row",
-										marginVertical: 5,
-										alignItems: "center"
-									},
-									tabBarIcon: ({ focused }) => (
-										<Image
-											style={[
-												styles.typeLogo,
-												{
-													width: el.type == state.selectedUserType ? 35 : 30,
-													height: el.type == state.selectedUserType ? 35 : 30
-												}
-											]}
-											resizeMode="contain"
-											source={el.image}
-										/>
-									),
-									tabBarLabel: ({ focused }) => (
-										<Text
-											style={[
-												styles.typeText,
-												{
-													color: el.type == state.selectedUserType ? MAIN_COLOR : "#000",
-													fontSize: el.type == state.selectedUserType ? 18 : 14,
-													paddingBottom: el.type == state.selectedUserType ? 5 : 0
-												}
-											]}
-										>
-											{i18n.t(el.title)}
-										</Text>
-									)
-								}}
-							/>
-						);
-					})}
-				</Tab.Navigator> */}
-				<View style={{ marginBottom: 10 }}>
-					<ScrollView
-						horizontal={true}
-						showsHorizontalScrollIndicator={false}
-						contentContainerStyle={{ paddingRight: 20 }}
-						ref={scrollViewRef}
-						onContentSizeChange={() => scrollViewRef.current.scrollTo({ x: scrollIndex * 100, animated: true })}
-					>
-						{UserTabData?.map((el, index) => {
-							return (
-								<TouchableOpacity
-									key={index}
-									style={[
-										styles.typeContainer,
-										{
-											marginLeft: index == 0 ? 20 : 10,
-											borderColor: el.type == state.selectedUserType ? MAIN_COLOR : "#fff",
-											paddingBottom: el.type == state.selectedUserType ? 5 : 0
-										}
-									]}
-									onPress={() => {
-										state.setSelectedUserType(el.type);
-										state.setUserTypeParam((prevState) => ({
-											...prevState,
-											page: 1,
-											userType: el.type
-										}));
-										setIsListEnd(false);
-										setUserTypeServiceData([]);
-									}}
-								>
-									<Image
-										style={[
-											styles.typeLogo,
-											{
-												width: el.type == state.selectedUserType ? 35 : 30,
-												height: el.type == state.selectedUserType ? 35 : 30
-											}
-										]}
-										resizeMode="contain"
-										source={el.image}
-									/>
-									<Text
-										style={[
-											styles.typeText,
-											{
-												color: el.type == state.selectedUserType ? MAIN_COLOR : "#000",
-												fontSize: el.type == state.selectedUserType ? 18 : 14,
-												paddingBottom: el.type == state.selectedUserType ? 5 : 0
-											}
-										]}
-									>
-										{i18n.t(el.title)}
-									</Text>
-								</TouchableOpacity>
-							);
-						})}
-					</ScrollView>
-				</View>
+	const TabComp = () => {
+		return (
+			<>
 				<View
 					style={{
 						flexDirection: "row",
@@ -616,6 +453,123 @@ const UserTypeServiceScreen = (props) => {
 							bounces={false}
 						/>
 					)}
+				</View>
+			</>
+		);
+	};
+	return (
+		<SideMenu
+			menu={
+				<UserTypeSideBarFilter
+					setIsOpen={setIsOpen}
+					isOpen={isOpen}
+					listEndFnc={setIsListEnd}
+					listData={setUserTypeServiceData}
+				/>
+			}
+			isOpen={isOpen}
+			onChange={(isOpen) => setIsOpen(isOpen)}
+		>
+			<SafeAreaProvider
+				style={{
+					flex: 1,
+					backgroundColor: "#fff",
+					paddingBottom: tabBarHeight
+				}}
+			>
+				<StatusBar translucent barStyle={Platform.OS == "ios" ? "dark-content" : "default"} />
+				<View style={{ flex: 1, height: 100 }}>
+					<Tab.Navigator
+						initialRouteName={state.selectedUserType}
+						screenOptions={{
+							tabBarAndroidRipple: {
+								color: "transparent"
+							},
+							tabBarLabelStyle: {
+								width: "100%",
+								textTransform: "none"
+							},
+							tabBarItemStyle: {
+								width: "auto",
+								marginRight: 10
+							},
+							tabBarStyle: {
+								backgroundColor: "#fff"
+							},
+							tabBarIndicatorStyle: {
+								backgroundColor: MAIN_COLOR,
+								height: 3
+								// width: 50,
+							},
+							tabBarScrollEnabled: true
+						}}
+						sceneContainerStyle={{
+							backgroundColor: "#fff",
+							marginTop: 10
+						}}
+						style={{
+							backgroundColor: "#fff"
+						}}
+					>
+						{UserTabData.map((el, index) => {
+							return (
+								<Tab.Screen
+									key={index}
+									name={el.type}
+									component={TabComp}
+									listeners={{
+										focus: (e) => {},
+										tabPress: (e) => {
+											var tabName = e.target.split("-")?.[0];
+											state.setSelectedUserType(tabName);
+											state.setUserTypeParam((prevState) => ({
+												...prevState,
+												page: 1,
+												userType: tabName
+											}));
+											setIsListEnd(false);
+											setUserTypeServiceData([]);
+										}
+									}}
+									options={{
+										tabBarItemStyle: {
+											flexDirection: "row",
+											marginVertical: 5,
+											alignItems: "center"
+										},
+										tabBarIcon: ({ focused }) => (
+											<Image
+												style={[
+													styles.typeLogo,
+													{
+														width: el.type == state.selectedUserType ? 31 : 28,
+														height: el.type == state.selectedUserType ? 31 : 28
+													}
+												]}
+												resizeMode="contain"
+												source={el.image}
+											/>
+										),
+										tabBarLabel: ({ focused }) => (
+											<Text
+												style={[
+													styles.typeText,
+													{
+														color: el.type == state.selectedUserType ? MAIN_COLOR : "#000",
+														fontSize: el.type == state.selectedUserType ? 16 : 14,
+														paddingBottom: el.type == state.selectedUserType ? 5 : 0
+													}
+												]}
+											>
+												{i18n.t(el.title)}
+											</Text>
+										),
+										animationEnabled: false
+									}}
+								/>
+							);
+						})}
+					</Tab.Navigator>
 				</View>
 			</SafeAreaProvider>
 		</SideMenu>
