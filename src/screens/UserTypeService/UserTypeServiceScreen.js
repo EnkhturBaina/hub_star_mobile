@@ -291,7 +291,7 @@ const UserTypeServiceScreen = (props) => {
 				}}
 			>
 				<StatusBar translucent barStyle={Platform.OS == "ios" ? "dark-content" : "default"} />
-				<Tab.Navigator
+				{/* <Tab.Navigator
 					screenOptions={{
 						tabBarAndroidRipple: {
 							color: "transparent"
@@ -366,7 +366,7 @@ const UserTypeServiceScreen = (props) => {
 							/>
 						);
 					})}
-				</Tab.Navigator>
+				</Tab.Navigator> */}
 				<View style={{ marginBottom: 10 }}>
 					<ScrollView
 						horizontal={true}

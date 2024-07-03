@@ -20,7 +20,7 @@ const BottomSheet = ({
 	const itemHeight = 40;
 	const sheetRef = useRef(); //Bottomsheet
 	const [heightBottomSheet, setHeightBottomSheet] = useState(0);
-	const [searchVal, setSearchVal] = useState(null);
+	const [searchVal, setSearchVal] = useState("");
 
 	useEffect(() => {
 		if (bodyText && bodyText?.length > 10) {
@@ -88,6 +88,10 @@ const BottomSheet = ({
 							{bodyText?.length > 1 ? (
 								bodyText
 									?.filter((el) => el[displayName]?.toLowerCase().includes(searchVal?.toLowerCase()))
+									// ?.filter((el) => {
+									// 	console.log("el[displayName]", el[displayName]);
+									// 	console.log("searchVal", searchVal);
+									// })
 									?.map((el, index) => {
 										return (
 											<TouchableOpacity key={index} onPress={() => functionCombined(el)}>
