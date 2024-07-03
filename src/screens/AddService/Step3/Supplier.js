@@ -29,8 +29,9 @@ const Supplier = (props) => {
 	const [displayName, setDisplayName] = useState(""); //LOOKUP -д харагдах утга (display value)
 	const [actionKey, setActionKey] = useState(""); //Сонгогдсон OBJECT -с ямар key -р утга авах (Жнь: {object}.id)
 	const [sheetTitle, setSheetTitle] = useState("");
+	const [showFilter, setShowFilter] = useState(false);
 
-	const setLookupData = (data, field, display, action_key, sheet_title) => {
+	const setLookupData = (data, field, display, action_key, sheet_title, show_filter) => {
 		// console.log("refRBSheet", refRBSheet);
 		setData(data); //Lookup -д харагдах дата
 		setFieldName(field); //Context -н object -н update хийх key
@@ -38,6 +39,7 @@ const Supplier = (props) => {
 		setUselessParam(!uselessParam);
 		setActionKey(action_key);
 		setSheetTitle(sheet_title);
+		setShowFilter(show_filter);
 	};
 
 	const getMaterials = async (params) => {
@@ -117,7 +119,7 @@ const Supplier = (props) => {
 							<TouchableOpacity
 								style={styles.touchableSelect}
 								onPress={() => {
-									setLookupData(materials, "materialId", "name", "id", i18n.t("productType"));
+									setLookupData(materials, "materialId", "name", "id", i18n.t("productType"), true);
 								}}
 							>
 								<Text style={styles.selectedText} numberOfLines={1}>
@@ -247,6 +249,7 @@ const Supplier = (props) => {
 					}}
 					actionKey={actionKey}
 					sheetTitle={sheetTitle}
+					showFilter={showFilter}
 				/>
 			</SafeAreaView>
 		</KeyboardAvoidingView>

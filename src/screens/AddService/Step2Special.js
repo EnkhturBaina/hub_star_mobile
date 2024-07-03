@@ -30,8 +30,9 @@ const Step2Special = (props) => {
 	const [displayName, setDisplayName] = useState(""); //LOOKUP -д харагдах утга (display value)
 	const [actionKey, setActionKey] = useState(""); //Сонгогдсон OBJECT -с ямар key -р утга авах (Жнь: {object}.id)
 	const [sheetTitle, setSheetTitle] = useState("");
+	const [showFilter, setShowFilter] = useState(false);
 
-	const setLookupData = (data, field, display, action_key, sheet_title) => {
+	const setLookupData = (data, field, display, action_key, sheet_title, show_filter) => {
 		// console.log("refRBSheet", refRBSheet);
 		setData(data); //Lookup -д харагдах дата
 		setFieldName(field); //Context -н object -н update хийх key
@@ -39,6 +40,7 @@ const Step2Special = (props) => {
 		setUselessParam(!uselessParam);
 		setActionKey(action_key);
 		setSheetTitle(sheet_title);
+		setShowFilter(show_filter);
 	};
 
 	const getAddress = async (params) => {
@@ -116,7 +118,7 @@ const Step2Special = (props) => {
 							<TouchableOpacity
 								style={styles.touchableSelect}
 								onPress={() => {
-									setLookupData(provinces, "provinceId", "name", "id", i18n.t("adTitle"));
+									setLookupData(provinces, "provinceId", "name", "id", i18n.t("adTitle"), true);
 								}}
 							>
 								<Text style={styles.selectedText} numberOfLines={1}>
@@ -136,7 +138,7 @@ const Step2Special = (props) => {
 							<TouchableOpacity
 								style={styles.touchableSelect}
 								onPress={() => {
-									setLookupData(districts, "districtId", "name", "id", i18n.t("adDistrict"));
+									setLookupData(districts, "districtId", "name", "id", i18n.t("adDistrict"), true);
 								}}
 								disabled={districts?.length == 0}
 							>
@@ -157,7 +159,7 @@ const Step2Special = (props) => {
 							<TouchableOpacity
 								style={styles.touchableSelect}
 								onPress={() => {
-									setLookupData(khoroos, "khorooId", "name", "id", i18n.t("adKhoroo"));
+									setLookupData(khoroos, "khorooId", "name", "id", i18n.t("adKhoroo"), true);
 								}}
 								disabled={khoroos?.length == 0}
 							>
@@ -217,6 +219,7 @@ const Step2Special = (props) => {
 					}}
 					actionKey={actionKey}
 					sheetTitle={sheetTitle}
+					showFilter={showFilter}
 				/>
 			</SafeAreaView>
 		</KeyboardAvoidingView>

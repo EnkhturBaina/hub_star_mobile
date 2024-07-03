@@ -17,11 +17,12 @@ const Step1 = (props) => {
 	const [actionKey, setActionKey] = useState(""); //Сонгогдсон OBJECT -с ямар key -р утга авах (Жнь: {object}.id)
 	const [isLang, setIsLang] = useState(false);
 	const [sheetTitle, setSheetTitle] = useState("");
+	const [showFilter, setShowFilter] = useState(false);
 
 	const [directions, setDirections] = useState([]);
 	const [subDirections, setSubDirections] = useState([]);
 
-	const setLookupData = (data, field, display, action_key, is_lang, sheet_title) => {
+	const setLookupData = (data, field, display, action_key, is_lang, sheet_title, show_filter) => {
 		// console.log("refRBSheet", refRBSheet);
 		setData(data); //Lookup -д харагдах дата
 		setFieldName(field); //Context -н object -н update хийх key
@@ -30,6 +31,7 @@ const Step1 = (props) => {
 		setActionKey(action_key);
 		setIsLang(is_lang);
 		setSheetTitle(sheet_title);
+		setShowFilter(show_filter);
 	};
 
 	useEffect(() => {
@@ -106,7 +108,7 @@ const Step1 = (props) => {
 						<TouchableOpacity
 							style={styles.touchableSelect}
 							onPress={() => {
-								setLookupData(UserTabData, "userType", "title", "type", true, i18n.t("userType"));
+								setLookupData(UserTabData, "userType", "title", "type", true, i18n.t("userType"), false);
 							}}
 						>
 							<Text style={styles.selectedText} numberOfLines={1}>
@@ -126,7 +128,7 @@ const Step1 = (props) => {
 						<TouchableOpacity
 							style={styles.touchableSelect}
 							onPress={() => {
-								setLookupData(state.mainDirection, "mainDirectionId", "name", "id", false, i18n.t("mainDir"));
+								setLookupData(state.mainDirection, "mainDirectionId", "name", "id", false, i18n.t("mainDir"), true);
 							}}
 						>
 							<Text style={styles.selectedText} numberOfLines={1}>
@@ -146,7 +148,7 @@ const Step1 = (props) => {
 						<TouchableOpacity
 							style={styles.touchableSelect}
 							onPress={() => {
-								setLookupData(directions, "directionId", "name", "id", false, i18n.t("dir"));
+								setLookupData(directions, "directionId", "name", "id", false, i18n.t("dir"), true);
 							}}
 							disabled={state.serviceData?.mainDirectionId == null}
 						>
@@ -167,7 +169,7 @@ const Step1 = (props) => {
 						<TouchableOpacity
 							style={styles.touchableSelect}
 							onPress={() => {
-								setLookupData(subDirections, "subDirectionId", "name", "id", false, i18n.t("subDir"));
+								setLookupData(subDirections, "subDirectionId", "name", "id", false, i18n.t("subDir"), true);
 							}}
 							disabled={state.serviceData?.directionId == null}
 						>
@@ -217,6 +219,7 @@ const Step1 = (props) => {
 				actionKey={actionKey}
 				isLang={isLang}
 				sheetTitle={sheetTitle}
+				showFilter={showFilter}
 			/>
 		</SafeAreaView>
 	);

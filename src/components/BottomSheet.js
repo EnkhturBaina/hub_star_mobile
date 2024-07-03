@@ -15,7 +15,8 @@ const BottomSheet = ({
 	lookUpType,
 	actionKey,
 	isLang,
-	sheetTitle
+	sheetTitle,
+	showFilter
 }) => {
 	const itemHeight = 40;
 	const sheetRef = useRef(); //Bottomsheet
@@ -70,14 +71,16 @@ const BottomSheet = ({
 				{sheetTitle ? (
 					<Text style={{ textAlign: "center", fontWeight: "bold", fontSize: 16 }}>{sheetTitle}</Text>
 				) : null}
-				<Searchbar
-					placeholder={i18n.t("search")}
-					onChangeText={setSearchVal}
-					value={searchVal}
-					style={styles.searchBar}
-					inputStyle={{ height: 40, minHeight: 0 }}
-					elevation={0}
-				/>
+				{showFilter ? (
+					<Searchbar
+						placeholder={i18n.t("search")}
+						onChangeText={setSearchVal}
+						value={searchVal}
+						style={styles.searchBar}
+						inputStyle={{ height: 40, minHeight: 0 }}
+						elevation={0}
+					/>
+				) : null}
 				<View style={styles.bottomSheetContainer}>
 					<View style={styles.lookupcontainer}>
 						<ScrollView

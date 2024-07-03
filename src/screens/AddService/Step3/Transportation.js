@@ -27,8 +27,9 @@ const Transportation = (props) => {
 	const [displayName, setDisplayName] = useState(""); //LOOKUP -д харагдах утга (display value)
 	const [actionKey, setActionKey] = useState(""); //Сонгогдсон OBJECT -с ямар key -р утга авах (Жнь: {object}.id)
 	const [sheetTitle, setSheetTitle] = useState("");
+	const [showFilter, setShowFilter] = useState(false);
 
-	const setLookupData = (data, field, display, action_key, sheet_title) => {
+	const setLookupData = (data, field, display, action_key, sheet_title, show_filter) => {
 		// console.log("refRBSheet", refRBSheet);
 		setData(data); //Lookup -д харагдах дата
 		setFieldName(field); //Context -н object -н update хийх key
@@ -36,6 +37,7 @@ const Transportation = (props) => {
 		setUselessParam(!uselessParam);
 		setActionKey(action_key);
 		setSheetTitle(sheet_title);
+		setShowFilter(show_filter);
 	};
 
 	useEffect(() => {
@@ -94,7 +96,7 @@ const Transportation = (props) => {
 							<TouchableOpacity
 								style={styles.touchableSelect}
 								onPress={() => {
-									setLookupData(props.machineryType, "machineryTypeId", "name", "id", i18n.t("machineryType"));
+									setLookupData(props.machineryType, "machineryTypeId", "name", "id", i18n.t("machineryType"), true);
 								}}
 							>
 								<Text style={styles.selectedText} numberOfLines={1}>
@@ -114,7 +116,7 @@ const Transportation = (props) => {
 							<TouchableOpacity
 								style={styles.touchableSelect}
 								onPress={() => {
-									setLookupData(props.markData, "markId", "name", "id", i18n.t("mark"));
+									setLookupData(props.markData, "markId", "name", "id", i18n.t("mark"), true);
 								}}
 							>
 								<Text style={styles.selectedText} numberOfLines={1}>
@@ -134,7 +136,7 @@ const Transportation = (props) => {
 							<TouchableOpacity
 								style={styles.touchableSelect}
 								onPress={() => {
-									setLookupData(props.powerData, "powerId", "name", "id", i18n.t("power"));
+									setLookupData(props.powerData, "powerId", "name", "id", i18n.t("power"), true);
 								}}
 							>
 								<Text style={styles.selectedText} numberOfLines={1}>
@@ -254,6 +256,7 @@ const Transportation = (props) => {
 					}}
 					actionKey={actionKey}
 					sheetTitle={sheetTitle}
+					showFilter={showFilter}
 				/>
 			</SafeAreaView>
 		</KeyboardAvoidingView>
