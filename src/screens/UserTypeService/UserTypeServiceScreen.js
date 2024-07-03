@@ -535,7 +535,8 @@ const UserTypeServiceScreen = (props) => {
 										tabBarItemStyle: {
 											flexDirection: "row",
 											marginVertical: 5,
-											alignItems: "center"
+											alignItems: "center",
+											width: "auto"
 										},
 										tabBarIcon: ({ focused }) => (
 											<Image
@@ -650,6 +651,7 @@ const styles = StyleSheet.create({
 		height: 30
 	},
 	typeText: {
+		flex: 1,
 		marginLeft: 5,
 		fontWeight: "500",
 		marginTop: 5
