@@ -67,6 +67,7 @@ const Advices = () => {
 									]}
 									onPress={() => {
 										state.setSelectedAdvice(el.id);
+										state.setSelectedAdviceName(el.name);
 										navigation.navigate("MainAdviceScreen");
 									}}
 								>

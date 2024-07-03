@@ -1,5 +1,5 @@
-import { StyleSheet, Text, View, Image, TouchableOpacity, ActivityIndicator, ScrollView, FlatList } from "react-native";
-import React, { useContext, useEffect, useLayoutEffect, useRef, useState } from "react";
+import { StyleSheet, Text, View, Image, TouchableOpacity, ActivityIndicator, FlatList } from "react-native";
+import React, { useContext, useEffect, useLayoutEffect, useState } from "react";
 import { StatusBar, Platform } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
@@ -14,16 +14,15 @@ import SpecialServiceListSekeleton from "../../components/Skeletons/SpecialServi
 import Empty from "../../components/Empty";
 import { i18n } from "../../refs/i18";
 import SpecialServiceData from "../../refs/SpecialServiceData";
+import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 
+const Tab = createMaterialTopTabNavigator();
 const SpecialServiceScreen = (props) => {
 	const state = useContext(MainContext);
-	const scrollViewRef = useRef();
 	const tabBarHeight = useBottomTabBarHeight();
 	const [value, setValue] = useState(null);
 	const [isFocus, setIsFocus] = useState(false);
-	const [active, setActive] = useState("");
 	const [isOpen, setIsOpen] = useState(false);
-	const [scrollIndex, setScrollIndex] = useState(null);
 
 	const [loadingServices, setLoadingServices] = useState(false);
 	const [specialServiceData, setSpecialServiceData] = useState([]);
@@ -51,7 +50,7 @@ const SpecialServiceScreen = (props) => {
 
 	const getSpecialServiceData = async () => {
 		if (!loadingServices && !isListEnd) {
-			console.log("getSpecialServiceData RUN ===========>", state.specialServiceParams);
+			// console.log("getSpecialServiceData RUN ===========>", state.specialServiceParams);
 			setLoadingServices(true);
 			await axios
 				.get(`${SERVER_URL}advertisement`, {
@@ -75,7 +74,7 @@ const SpecialServiceScreen = (props) => {
 					}
 				})
 				.catch((error) => {
-					console.error("Error fetching get SpecialServiceData:", error);
+					// console.error("Error fetching get SpecialServiceData:", error);
 					if (error.response.status == "401") {
 						state.Handle_401();
 					}
@@ -87,11 +86,6 @@ const SpecialServiceScreen = (props) => {
 	};
 
 	useEffect(() => {
-		SpecialServiceData.map((el) => {
-			if (el.type == state.selectedSpecialService) {
-				setScrollIndex(el.index);
-			}
-		});
 		//Side filter -с check хийгдэх үед GET service -н PARAM -уудыг бэлдээд SERVICE -г дуудах
 		getSpecialServiceData();
 	}, [
@@ -160,88 +154,9 @@ const SpecialServiceScreen = (props) => {
 			</View>
 		);
 	};
-
-	return (
-		<SideMenu
-			menu={
-				<SideBarFilter
-					setIsOpen={setIsOpen}
-					isOpen={isOpen}
-					isSpecial={1}
-					listEndFnc={setIsListEnd}
-					setSpecialServiceData={setSpecialServiceData}
-				/>
-			}
-			isOpen={isOpen}
-			onChange={(isOpen) => setIsOpen(isOpen)}
-		>
-			<SafeAreaProvider
-				style={{
-					flex: 1,
-					backgroundColor: "#fff",
-					paddingBottom: tabBarHeight
-				}}
-			>
-				<StatusBar translucent barStyle={Platform.OS == "ios" ? "dark-content" : "default"} />
-				<View style={{ marginBottom: 10 }}>
-					<ScrollView
-						horizontal={true}
-						showsHorizontalScrollIndicator={false}
-						contentContainerStyle={{ paddingRight: 20 }}
-						ref={scrollViewRef}
-						onContentSizeChange={() => scrollViewRef.current.scrollTo({ x: scrollIndex * 150, animated: true })}
-					>
-						{SpecialServiceData?.map((el, index) => {
-							return (
-								<TouchableOpacity
-									key={index}
-									style={[
-										styles.typeContainer,
-										{
-											marginLeft: index == 0 ? 20 : 10,
-											borderColor: el.type == state.selectedSpecialService ? MAIN_COLOR : "#fff",
-											paddingBottom: el.type == state.selectedSpecialService ? 5 : 0
-										}
-									]}
-									onPress={() => {
-										state.setSelectedSpecialService(el.type);
-										state.setSpecialServiceParams((prevState) => ({
-											...prevState,
-											page: 1,
-											specialService: el.type
-										}));
-										setIsListEnd(false);
-										setSpecialServiceData([]);
-									}}
-								>
-									<Image
-										style={[
-											styles.typeLogo,
-											{
-												width: el.type == state.selectedSpecialService ? 30 : 25,
-												height: el.type == state.selectedSpecialService ? 30 : 25
-											}
-										]}
-										resizeMode="contain"
-										source={el.icon}
-									/>
-									<Text
-										style={[
-											styles.typeText,
-											{
-												color: el.type == state.selectedSpecialService ? MAIN_COLOR : "#000",
-												fontSize: el.type == state.selectedSpecialService ? 18 : 14,
-												paddingBottom: el.type == state.selectedSpecialService ? 5 : 0
-											}
-										]}
-									>
-										{i18n.t(el.title)}
-									</Text>
-								</TouchableOpacity>
-							);
-						})}
-					</ScrollView>
-				</View>
+	const TabComp = () => {
+		return (
+			<>
 				<View
 					style={{
 						flexDirection: "row",
@@ -306,6 +221,125 @@ const SpecialServiceScreen = (props) => {
 							bounces={false}
 						/>
 					)}
+				</View>
+			</>
+		);
+	};
+	return (
+		<SideMenu
+			menu={
+				<SideBarFilter
+					setIsOpen={setIsOpen}
+					isOpen={isOpen}
+					isSpecial={1}
+					listEndFnc={setIsListEnd}
+					setSpecialServiceData={setSpecialServiceData}
+				/>
+			}
+			isOpen={isOpen}
+			onChange={(isOpen) => setIsOpen(isOpen)}
+		>
+			<SafeAreaProvider
+				style={{
+					flex: 1,
+					backgroundColor: "#fff",
+					paddingBottom: tabBarHeight
+				}}
+			>
+				<StatusBar translucent barStyle={Platform.OS == "ios" ? "dark-content" : "default"} />
+				<View style={{ flex: 1, height: 100 }}>
+					<Tab.Navigator
+						initialRouteName={state.selectedSpecialService}
+						screenOptions={{
+							tabBarAndroidRipple: {
+								color: "transparent"
+							},
+							tabBarLabelStyle: {
+								width: "100%",
+								textTransform: "none"
+							},
+							tabBarItemStyle: {
+								width: "auto",
+								marginRight: 10
+							},
+							tabBarStyle: {
+								backgroundColor: "#fff"
+							},
+							tabBarIndicatorStyle: {
+								backgroundColor: MAIN_COLOR,
+								height: 3
+								// width: 50,
+							},
+							tabBarScrollEnabled: true
+						}}
+						sceneContainerStyle={{
+							backgroundColor: "#fff",
+							marginTop: 10
+						}}
+						style={{
+							backgroundColor: "#fff"
+						}}
+					>
+						{SpecialServiceData.map((el, index) => {
+							return (
+								<Tab.Screen
+									key={index}
+									name={el.type}
+									component={TabComp}
+									listeners={{
+										focus: (e) => {},
+										tabPress: (e) => {
+											var tabName = e.target.split("-")?.[0];
+
+											state.setSelectedSpecialService(tabName);
+											state.setSpecialServiceParams((prevState) => ({
+												...prevState,
+												page: 1,
+												specialService: tabName
+											}));
+											setIsListEnd(false);
+											setSpecialServiceData([]);
+										}
+									}}
+									options={{
+										tabBarItemStyle: {
+											flexDirection: "row",
+											marginVertical: 5,
+											alignItems: "center",
+											width: "auto"
+										},
+										tabBarIcon: ({ focused }) => (
+											<Image
+												style={[
+													styles.typeLogo,
+													{
+														width: el.type == state.selectedSpecialService ? 30 : 28,
+														height: el.type == state.selectedSpecialService ? 30 : 28
+													}
+												]}
+												resizeMode="contain"
+												source={el.icon}
+											/>
+										),
+										tabBarLabel: ({ focused }) => (
+											<Text
+												style={[
+													styles.typeText,
+													{
+														color: el.type == state.selectedSpecialService ? MAIN_COLOR : "#000",
+														fontSize: el.type == state.selectedSpecialService ? 18 : 14
+													}
+												]}
+											>
+												{i18n.t(el.title)}
+											</Text>
+										),
+										animationEnabled: false
+									}}
+								/>
+							);
+						})}
+					</Tab.Navigator>
 				</View>
 			</SafeAreaProvider>
 		</SideMenu>
@@ -386,7 +420,7 @@ const styles = StyleSheet.create({
 		height: 25
 	},
 	typeText: {
-		marginLeft: 5,
+		marginLeft: 10,
 		fontWeight: "500"
 	}
 });

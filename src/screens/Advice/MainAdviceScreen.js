@@ -15,21 +15,22 @@ import RBSheet from "react-native-raw-bottom-sheet";
 import { WebView } from "react-native-webview";
 import MainContext from "../../contexts/MainContext";
 import { i18n } from "../../refs/i18";
+import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
+import AdvicesMainSkeleton from "../../components/Skeletons/AdvicesMainSkeleton";
 
 const width = Dimensions.get("window").width;
 const height = Dimensions.get("window").height;
 
+const Tab = createMaterialTopTabNavigator();
+
 const MainAdviceScreen = (props) => {
 	const state = useContext(MainContext);
-	const scrollViewRef = useRef();
 	const sheetRef = useRef(); //*****Bottomsheet
 	const webview = useRef();
 	const tabBarHeight = useBottomTabBarHeight();
 	const [value, setValue] = useState(null);
 	const [isFocus, setIsFocus] = useState(false);
-	const [active, setActive] = useState("");
 	const [isOpen, setIsOpen] = useState(false);
-	const [scrollIndex, setScrollIndex] = useState(null);
 
 	const [loadingServices, setLoadingServices] = useState(false);
 	const [adviceData, setAdviceData] = useState([]);
@@ -66,6 +67,7 @@ const MainAdviceScreen = (props) => {
 	}, [props.navigation]);
 
 	const getAdviceCategory = async () => {
+		// console.log("RUN getAdviceCategory");
 		setLoadingAdvices(true);
 		await axios
 			.get(`${SERVER_URL}reference/main-direction`, {
@@ -134,65 +136,9 @@ const MainAdviceScreen = (props) => {
 		const { url } = navState;
 	};
 
-	return (
-		<SideMenu
-			menu={<AdviceSideBarFilter setIsOpen={setIsOpen} isOpen={isOpen} setAdviceDataParams={setAdviceDataParams} />}
-			isOpen={isOpen}
-			onChange={(isOpen) => setIsOpen(isOpen)}
-		>
-			<SafeAreaProvider
-				style={{
-					flex: 1,
-					backgroundColor: "#fff",
-					paddingBottom: tabBarHeight
-				}}
-			>
-				<StatusBar translucent barStyle={Platform.OS == "ios" ? "dark-content" : "default"} />
-				<View style={{ marginBottom: 10 }}>
-					<ScrollView
-						horizontal={true}
-						showsHorizontalScrollIndicator={false}
-						contentContainerStyle={{ paddingRight: 20 }}
-						ref={scrollViewRef}
-						onContentSizeChange={() => scrollViewRef.current.scrollTo({ x: 300, animated: true })}
-					>
-						{advices?.map((el, index) => {
-							return (
-								<TouchableOpacity
-									key={index}
-									style={[
-										styles.typeContainer,
-										{
-											marginLeft: index == 0 ? 20 : 10,
-											borderColor: el.id == state.selectedAdvice ? MAIN_COLOR : "#fff",
-											paddingBottom: el.id == state.selectedAdvice ? 5 : 0
-										}
-									]}
-									onPress={() => {
-										state.setSelectedAdvice(el.id);
-										setAdviceDataParams((prevState) => ({
-											...prevState,
-											mainDirectionId: el.id
-										}));
-									}}
-								>
-									<Text
-										style={[
-											styles.typeText,
-											{
-												color: el.id == state.selectedAdvice ? MAIN_COLOR : "#000",
-												fontSize: el.id == state.selectedAdvice ? 18 : 14,
-												paddingBottom: el.id == state.selectedAdvice ? 5 : 0
-											}
-										]}
-									>
-										{el.name}
-									</Text>
-								</TouchableOpacity>
-							);
-						})}
-					</ScrollView>
-				</View>
+	const TabComp = () => {
+		return (
+			<>
 				<View
 					style={{
 						flexDirection: "row",
@@ -262,6 +208,104 @@ const MainAdviceScreen = (props) => {
 						})
 					)}
 				</ScrollView>
+			</>
+		);
+	};
+	return (
+		<SideMenu
+			menu={<AdviceSideBarFilter setIsOpen={setIsOpen} isOpen={isOpen} setAdviceDataParams={setAdviceDataParams} />}
+			isOpen={isOpen}
+			onChange={(isOpen) => setIsOpen(isOpen)}
+		>
+			<SafeAreaProvider
+				style={{
+					flex: 1,
+					backgroundColor: "#fff",
+					paddingBottom: tabBarHeight
+				}}
+			>
+				<StatusBar translucent barStyle={Platform.OS == "ios" ? "dark-content" : "default"} />
+				{!loadingAdvices && advices.length > 0 ? (
+					<View style={{ flex: 1, height: 100 }}>
+						<Tab.Navigator
+							initialRouteName={state.selectedAdviceName}
+							screenOptions={{
+								tabBarAndroidRipple: {
+									color: "transparent"
+								},
+								tabBarLabelStyle: {
+									width: "100%",
+									textTransform: "none"
+								},
+								tabBarItemStyle: {
+									width: "auto",
+									marginRight: 10
+								},
+								tabBarStyle: {
+									backgroundColor: "#fff"
+								},
+								tabBarIndicatorStyle: {
+									backgroundColor: MAIN_COLOR,
+									height: 3
+									// width: 50,
+								},
+								tabBarScrollEnabled: true
+							}}
+							sceneContainerStyle={{
+								backgroundColor: "#fff",
+								marginTop: 10
+							}}
+							style={{
+								backgroundColor: "#fff"
+							}}
+						>
+							{advices.map((el, index) => {
+								return (
+									<Tab.Screen
+										key={el.id}
+										name={el.name}
+										component={TabComp}
+										listeners={{
+											focus: (e) => {},
+											tabPress: (e) => {
+												state.setSelectedAdvice(el.id);
+												state.setSelectedAdviceName(el.name);
+												setAdviceDataParams((prevState) => ({
+													...prevState,
+													mainDirectionId: el.id
+												}));
+											}
+										}}
+										options={{
+											tabBarItemStyle: {
+												flexDirection: "row",
+												marginVertical: 5,
+												alignItems: "center",
+												width: "auto"
+											},
+											tabBarLabel: ({ focused }) => (
+												<Text
+													style={[
+														styles.typeText,
+														{
+															color: el.id == state.selectedAdvice ? MAIN_COLOR : "#000",
+															fontSize: el.id == state.selectedAdvice ? 18 : 14
+														}
+													]}
+												>
+													{el.name}
+												</Text>
+											),
+											animationEnabled: false
+										}}
+									/>
+								);
+							})}
+						</Tab.Navigator>
+					</View>
+				) : (
+					<AdvicesMainSkeleton />
+				)}
 				<RBSheet
 					ref={sheetRef}
 					height={height - 100}
@@ -362,11 +406,6 @@ const styles = StyleSheet.create({
 		alignSelf: "flex-start",
 		paddingVertical: 5,
 		borderBottomWidth: 2
-	},
-	typeLogo: {
-		resizeMode: "contain",
-		width: 30,
-		height: 30
 	},
 	typeText: {
 		marginLeft: 5,
