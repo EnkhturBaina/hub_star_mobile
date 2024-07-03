@@ -421,7 +421,7 @@ const Confirmation = (props) => {
 									/>
 								</>
 							) : null}
-							<View style={{ width: "100%", marginTop: 8 }}>
+							<View className="w-full mt-2">
 								<GradientButton text={i18n.t("save")} action={saveProfileData} />
 							</View>
 						</ScrollView>

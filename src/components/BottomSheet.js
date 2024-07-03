@@ -115,8 +115,6 @@ const BottomSheet = ({
 		</View>
 	);
 };
-{
-}
 
 export default BottomSheet;
 

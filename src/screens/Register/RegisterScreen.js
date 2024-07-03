@@ -226,7 +226,6 @@ const RegisterScreen = (props) => {
 						<Text style={{ color: "color: rgb(59 130 246)", marginLeft: 8 }}>{i18n.t("login")}</Text>
 					</TouchableOpacity>
 				</View>
-
 				<RBSheet
 					ref={refRBSheet}
 					closeOnDragDown={true}

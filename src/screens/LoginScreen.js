@@ -198,6 +198,7 @@ const LoginScreen = (props) => {
 				<View style={{ width: "100%", marginTop: 8 }}>
 					<GradientButton text={i18n.t("login")} action={login} />
 				</View>
+
 				<View style={{ flexDirection: "row", alignItems: "center" }}>
 					<Text style={{ fontWeight: "500", marginVertical: 8 }}>{i18n.t("createAccount")}?</Text>
 					<TouchableOpacity onPress={() => props.navigation.navigate("RegisterScreen")}>
