@@ -1156,6 +1156,7 @@ const ProfileStackNavigator = (props) => {
 				name="PROFILE_SingleServiceScreen"
 				component={SingleServiceScreen}
 				options={{
+					gestureEnabled: false,
 					title: "",
 					headerTitleStyle: {
 						fontWeight: "800"
