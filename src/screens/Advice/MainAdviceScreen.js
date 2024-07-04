@@ -230,6 +230,7 @@ const MainAdviceScreen = (props) => {
 						<Tab.Navigator
 							initialRouteName={state.selectedAdviceName}
 							screenOptions={{
+								swipeEnabled: false,
 								tabBarAndroidRipple: {
 									color: "transparent"
 								},

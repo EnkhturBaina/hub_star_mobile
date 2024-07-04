@@ -482,6 +482,7 @@ const UserTypeServiceScreen = (props) => {
 					<Tab.Navigator
 						initialRouteName={state.selectedUserType}
 						screenOptions={{
+							swipeEnabled: false,
 							tabBarAndroidRipple: {
 								color: "transparent"
 							},

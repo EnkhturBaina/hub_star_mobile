@@ -251,6 +251,7 @@ const SpecialServiceScreen = (props) => {
 					<Tab.Navigator
 						initialRouteName={state.selectedSpecialService}
 						screenOptions={{
+							swipeEnabled: false,
 							tabBarAndroidRipple: {
 								color: "transparent"
 							},
