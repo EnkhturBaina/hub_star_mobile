@@ -11,7 +11,10 @@ const LoanInput = (props) => {
 				autoCapitalize="none"
 				autoCorrect={false}
 				returnKeyType="done"
-				style={[styles.generalInput, { height: props.multiline ? 80 : "" }]}
+				style={[
+					styles.generalInput,
+					{ height: props.multiline ? 80 : "", textAlignVertical: props.multiline ? "top" : "center" }
+				]}
 				editable={!props.disabled}
 				selectTextOnFocus={false}
 				placeholder={props?.multiline ? "" : props.label}

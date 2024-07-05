@@ -130,7 +130,6 @@ const RegisterScreen = (props) => {
 			<ScrollView
 				contentContainerStyle={styles.scrollContainer}
 				bounces={false}
-				automaticallyAdjustKeyboardInsets={true}
 			>
 				<TouchableOpacity activeOpacity={0.9} onPress={() => {}} style={{ alignItems: "center", marginVertical: 20 }}>
 					<Avatar size={100} rounded source={PersonCircle} title="Bj" containerStyle={{ backgroundColor: "grey" }}>

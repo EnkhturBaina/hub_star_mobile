@@ -138,16 +138,12 @@ const EditProfile = (props) => {
 			}}
 		>
 			<CustomSnackbar visible={visibleSnack} dismiss={onDismissSnackBar} text={snackBarMsg} topPos={1} />
-			<KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={{ flex: 1 }}>
+			<KeyboardAvoidingView behavior={Platform.OS === "ios" ? "" : "height"} style={{ flex: 1 }}>
 				{loadingProfileData ? (
 					<EditProfileSkeleton />
 				) : (
 					<View style={{ flex: 1 }}>
-						<ScrollView
-							contentContainerStyle={styles.scrollContainer}
-							bounces={false}
-							automaticallyAdjustKeyboardInsets={true}
-						>
+						<ScrollView contentContainerStyle={styles.scrollContainer} bounces={false}>
 							<LoanInput
 								label={i18n.t("lastName")}
 								value={profileData?.lastName}

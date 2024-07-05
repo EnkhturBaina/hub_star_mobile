@@ -255,11 +255,7 @@ const Confirmation = (props) => {
 					</View>
 				) : (
 					<View style={{ flex: 1 }}>
-						<ScrollView
-							contentContainerStyle={styles.scrollContainer}
-							bounces={false}
-							automaticallyAdjustKeyboardInsets={true}
-						>
+						<ScrollView contentContainerStyle={styles.scrollContainer} bounces={false}>
 							<View style={styles.touchableSelectContainer}>
 								<Text style={styles.label}>{i18n.t("userType")}</Text>
 								<TouchableOpacity

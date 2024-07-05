@@ -16,9 +16,12 @@ import LoanInput from "../../components/LoanInput";
 import MainContext from "../../contexts/MainContext";
 import axios from "axios";
 import { i18n } from "../../refs/i18";
+import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 
 const Step2Special = (props) => {
 	const state = useContext(MainContext);
+
+	const tabBarHeight = useBottomTabBarHeight();
 
 	const [provinces, setProvinces] = useState([]);
 	const [districts, setDistricts] = useState([]);
@@ -90,139 +93,143 @@ const Step2Special = (props) => {
 	//generalData.loanAmount?.replace(/,/g, "")
 
 	return (
-		<KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={{ flex: 1 }}>
-			<SafeAreaView
-				style={{
-					flex: 1,
-					backgroundColor: "#fff"
-				}}
-			>
-				<View style={{ flex: 1 }}>
-					<ScrollView
-						contentContainerStyle={styles.scrollContainer}
-						bounces={false}
-						automaticallyAdjustKeyboardInsets={true}
-					>
-						<LoanInput
-							label={i18n.t("adTitle")}
-							value={state.serviceData?.title}
-							onChangeText={(e) =>
-								state.setServiceData((prevState) => ({
-									...prevState,
-									title: e
-								}))
-							}
-						/>
-						<View style={styles.touchableSelectContainer}>
-							<Text style={styles.label}>{i18n.t("adProvince")}</Text>
-							<TouchableOpacity
-								style={styles.touchableSelect}
-								onPress={() => {
-									setLookupData(provinces, "provinceId", "name", "id", i18n.t("adTitle"), true);
-								}}
-							>
-								<Text style={styles.selectedText} numberOfLines={1}>
-									{state.serviceData?.provinceId
-										? provinces?.map((el, index) => {
-												if (el.id === state.serviceData?.provinceId) {
-													return el.name;
-												}
-										  })
-										: i18n.t("choose")}
-								</Text>
-								<Icon name="keyboard-arrow-down" type="material-icons" size={30} color={GRAY_ICON_COLOR} />
-							</TouchableOpacity>
-						</View>
-						<View style={styles.touchableSelectContainer}>
-							<Text style={styles.label}>{i18n.t("adDistrict")}</Text>
-							<TouchableOpacity
-								style={styles.touchableSelect}
-								onPress={() => {
-									setLookupData(districts, "districtId", "name", "id", i18n.t("adDistrict"), true);
-								}}
-								disabled={districts?.length == 0}
-							>
-								<Text style={styles.selectedText} numberOfLines={1}>
-									{state.serviceData?.districtId
-										? districts?.map((el, index) => {
-												if (el.id === state.serviceData?.districtId) {
-													return el.name;
-												}
-										  })
-										: i18n.t("choose")}
-								</Text>
-								<Icon name="keyboard-arrow-down" type="material-icons" size={30} color={GRAY_ICON_COLOR} />
-							</TouchableOpacity>
-						</View>
-						<View style={styles.touchableSelectContainer}>
-							<Text style={styles.label}>{i18n.t("adKhoroo")}</Text>
-							<TouchableOpacity
-								style={styles.touchableSelect}
-								onPress={() => {
-									setLookupData(khoroos, "khorooId", "name", "id", i18n.t("adKhoroo"), true);
-								}}
-								disabled={khoroos?.length == 0}
-							>
-								<Text style={styles.selectedText} numberOfLines={1}>
-									{state.serviceData?.khorooId
-										? khoroos?.map((el, index) => {
-												if (el.id === state.serviceData?.khorooId) {
-													return el.name;
-												}
-										  })
-										: i18n.t("choose")}
-								</Text>
-								<Icon name="keyboard-arrow-down" type="material-icons" size={30} color={GRAY_ICON_COLOR} />
-							</TouchableOpacity>
-						</View>
-						<LoanInput
-							label={i18n.t("adAddress")}
-							value={state.serviceData?.address}
-							onChangeText={(e) =>
-								state.setServiceData((prevState) => ({
-									...prevState,
-									address: e
-								}))
-							}
-							numberOfLines={3}
-							multiline
-						/>
-					</ScrollView>
-				</View>
-
-				<BottomSheet
-					bodyText={data}
-					dragDown={true}
-					backClick={true}
-					type="lookup"
-					fieldName={fieldName}
-					displayName={displayName}
-					lookUpType="profile"
-					handle={uselessParam}
-					action={(e) => {
-						state.setServiceData((prevState) => ({
-							...prevState,
-							[fieldName]: e
-						}));
-						if (fieldName == "provinceId") {
-							state.setServiceData((prevState) => ({
-								...prevState,
-								districtId: null,
-								khorooId: null
-							}));
-						} else if (fieldName == "districtId") {
-							state.setServiceData((prevState) => ({
-								...prevState,
-								khorooId: null
-							}));
-						}
+		<View
+			style={{
+				flex: 1,
+				backgroundColor: "#fff",
+				paddingBottom: tabBarHeight
+			}}
+		>
+			<KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={{ flex: 1 }}>
+				<SafeAreaView
+					style={{
+						flex: 1,
+						backgroundColor: "#fff"
 					}}
-					actionKey={actionKey}
-					sheetTitle={sheetTitle}
-					showFilter={showFilter}
-				/>
-			</SafeAreaView>
-		</KeyboardAvoidingView>
+				>
+					<View style={{ flex: 1 }}>
+						<ScrollView contentContainerStyle={styles.scrollContainer} bounces={false}>
+							<LoanInput
+								label={i18n.t("adTitle")}
+								value={state.serviceData?.title}
+								onChangeText={(e) =>
+									state.setServiceData((prevState) => ({
+										...prevState,
+										title: e
+									}))
+								}
+							/>
+							<View style={styles.touchableSelectContainer}>
+								<Text style={styles.label}>{i18n.t("adProvince")}</Text>
+								<TouchableOpacity
+									style={styles.touchableSelect}
+									onPress={() => {
+										setLookupData(provinces, "provinceId", "name", "id", i18n.t("adTitle"), true);
+									}}
+								>
+									<Text style={styles.selectedText} numberOfLines={1}>
+										{state.serviceData?.provinceId
+											? provinces?.map((el, index) => {
+													if (el.id === state.serviceData?.provinceId) {
+														return el.name;
+													}
+											  })
+											: i18n.t("choose")}
+									</Text>
+									<Icon name="keyboard-arrow-down" type="material-icons" size={30} color={GRAY_ICON_COLOR} />
+								</TouchableOpacity>
+							</View>
+							<View style={styles.touchableSelectContainer}>
+								<Text style={styles.label}>{i18n.t("adDistrict")}</Text>
+								<TouchableOpacity
+									style={styles.touchableSelect}
+									onPress={() => {
+										setLookupData(districts, "districtId", "name", "id", i18n.t("adDistrict"), true);
+									}}
+									disabled={districts?.length == 0}
+								>
+									<Text style={styles.selectedText} numberOfLines={1}>
+										{state.serviceData?.districtId
+											? districts?.map((el, index) => {
+													if (el.id === state.serviceData?.districtId) {
+														return el.name;
+													}
+											  })
+											: i18n.t("choose")}
+									</Text>
+									<Icon name="keyboard-arrow-down" type="material-icons" size={30} color={GRAY_ICON_COLOR} />
+								</TouchableOpacity>
+							</View>
+							<View style={styles.touchableSelectContainer}>
+								<Text style={styles.label}>{i18n.t("adKhoroo")}</Text>
+								<TouchableOpacity
+									style={styles.touchableSelect}
+									onPress={() => {
+										setLookupData(khoroos, "khorooId", "name", "id", i18n.t("adKhoroo"), true);
+									}}
+									disabled={khoroos?.length == 0}
+								>
+									<Text style={styles.selectedText} numberOfLines={1}>
+										{state.serviceData?.khorooId
+											? khoroos?.map((el, index) => {
+													if (el.id === state.serviceData?.khorooId) {
+														return el.name;
+													}
+											  })
+											: i18n.t("choose")}
+									</Text>
+									<Icon name="keyboard-arrow-down" type="material-icons" size={30} color={GRAY_ICON_COLOR} />
+								</TouchableOpacity>
+							</View>
+							<LoanInput
+								label={i18n.t("adAddress")}
+								value={state.serviceData?.address}
+								onChangeText={(e) =>
+									state.setServiceData((prevState) => ({
+										...prevState,
+										address: e
+									}))
+								}
+								numberOfLines={3}
+								multiline
+							/>
+						</ScrollView>
+					</View>
+
+					<BottomSheet
+						bodyText={data}
+						dragDown={true}
+						backClick={true}
+						type="lookup"
+						fieldName={fieldName}
+						displayName={displayName}
+						lookUpType="profile"
+						handle={uselessParam}
+						action={(e) => {
+							state.setServiceData((prevState) => ({
+								...prevState,
+								[fieldName]: e
+							}));
+							if (fieldName == "provinceId") {
+								state.setServiceData((prevState) => ({
+									...prevState,
+									districtId: null,
+									khorooId: null
+								}));
+							} else if (fieldName == "districtId") {
+								state.setServiceData((prevState) => ({
+									...prevState,
+									khorooId: null
+								}));
+							}
+						}}
+						actionKey={actionKey}
+						sheetTitle={sheetTitle}
+						showFilter={showFilter}
+					/>
+				</SafeAreaView>
+			</KeyboardAvoidingView>
+		</View>
 	);
 };
 

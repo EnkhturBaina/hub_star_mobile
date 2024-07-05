@@ -24,6 +24,7 @@ import google_logo from "../../assets/google.png";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as LocalAuthentication from "expo-local-authentication";
 import { i18n } from "../refs/i18";
+import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 
 const LoginScreen = (props) => {
 	const state = useContext(MainContext);
@@ -108,12 +109,7 @@ const LoginScreen = (props) => {
 			>
 				<Icon name="arrow-left" type="feather" size={30} style={{ paddingTop: 60, paddingLeft: 20 }} />
 			</TouchableOpacity>
-			<ScrollView
-				contentContainerStyle={styles.container}
-				bounces={false}
-				showsVerticalScrollIndicator={false}
-				automaticallyAdjustKeyboardInsets={true}
-			>
+			<ScrollView contentContainerStyle={styles.container} bounces={false} showsVerticalScrollIndicator={false}>
 				<Image
 					style={{
 						resizeMode: "contain",

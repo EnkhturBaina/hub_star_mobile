@@ -256,7 +256,8 @@ const AddService = (props) => {
 		<SafeAreaView
 			style={{
 				flex: 1,
-				backgroundColor: "#fff"
+				backgroundColor: "#fff",
+				paddingBottom: 10
 			}}
 		>
 			<CustomSnackbar visible={visibleSnack} dismiss={onDismissSnackBar} text={snackBarMsg} topPos={-10} />

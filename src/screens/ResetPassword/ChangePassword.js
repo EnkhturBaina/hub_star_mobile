@@ -115,7 +115,7 @@ const ChangePassword = (props) => {
 				flex: 1
 			}}
 		>
-			<ScrollView bounces={false} contentContainerStyle={styles.mainContainer} automaticallyAdjustKeyboardInsets={true}>
+			<ScrollView bounces={false} contentContainerStyle={styles.mainContainer}>
 				{errorMsg ? <Text style={{ fontWeight: "bold", textAlign: "center", color: "red" }}>{errorMsg}</Text> : null}
 				<Image source={change} resizeMode="contain" style={{ width: "100%", height: 200 }} />
 				<Text style={styles.topText}>{i18n.t("pleaseEnterNewPassword")}</Text>

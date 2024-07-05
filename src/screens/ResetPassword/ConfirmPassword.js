@@ -78,7 +78,6 @@ const ConfirmPassword = (props) => {
 				keyboardShouldPersistTaps="always" // INPUT -с гадна дарахад keep keyboard open
 				bounces={false}
 				contentContainerStyle={styles.mainContainer}
-				automaticallyAdjustKeyboardInsets={true}
 			>
 				<Text style={{ fontWeight: "500" }}>
 					{i18n.t("sendConfirmOTP1")} <Text style={{ fontWeight: "bold" }}>{props.route?.params?.email_prop}</Text>{" "}

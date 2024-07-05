@@ -17,9 +17,11 @@ import BottomSheet from "../../../components/BottomSheet";
 import ImageModal from "../../../components/ImageModal";
 import { i18n } from "../../../refs/i18";
 import TermCheckbox from "../../../components/TermCheckbox";
+import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 
 const Transportation = (props) => {
 	const state = useContext(MainContext);
+	const tabBarHeight = useBottomTabBarHeight();
 
 	const [data, setData] = useState(""); //BottomSheet рүү дамжуулах Дата
 	const [uselessParam, setUselessParam] = useState(false); //BottomSheet -г дуудаж байгааг мэдэх гэж ашиглаж байгамоо
@@ -64,202 +66,206 @@ const Transportation = (props) => {
 	}, [props.tempUnitAmount, props.tempPackageAmount]);
 
 	return (
-		<KeyboardAvoidingView
-			behavior={Platform.OS === "ios" ? "padding" : "height"}
-			style={{ flex: 1 }}
-			keyboardVerticalOffset={Platform.OS === "ios" ? 40 : 0}
+		<View
+			style={{
+				flex: 1,
+				backgroundColor: "#fff",
+				paddingBottom: tabBarHeight
+			}}
 		>
-			<SafeAreaView
-				style={{
-					flex: 1,
-					backgroundColor: "#fff"
-				}}
+			<KeyboardAvoidingView
+				behavior={Platform.OS === "ios" ? "padding" : "height"}
+				style={{ flex: 1 }}
+				keyboardVerticalOffset={Platform.OS === "ios" ? 40 : 0}
 			>
-				<View style={{ flex: 1 }}>
-					<ScrollView
-						contentContainerStyle={styles.scrollContainer}
-						bounces={false}
-						automaticallyAdjustKeyboardInsets={true}
-					>
-						<Text
-							style={{
-								fontWeight: "bold",
-								marginLeft: 5,
-								fontSize: 16,
-								alignSelf: "flex-end"
-							}}
-						>
-							{i18n.t("transportation")}
-						</Text>
-						<View style={styles.touchableSelectContainer}>
-							<Text style={styles.label}>{i18n.t("machineryType")}</Text>
-							<TouchableOpacity
-								style={styles.touchableSelect}
-								onPress={() => {
-									setLookupData(props.machineryType, "machineryTypeId", "name", "id", i18n.t("machineryType"), true);
-								}}
-							>
-								<Text style={styles.selectedText} numberOfLines={1}>
-									{state.serviceData?.machineryTypeId
-										? props.machineryType?.map((el, index) => {
-												if (el.id === state.serviceData?.machineryTypeId) {
-													return el.name;
-												}
-										  })
-										: i18n.t("choose")}
-								</Text>
-								<Icon name="keyboard-arrow-down" type="material-icons" size={30} color={GRAY_ICON_COLOR} />
-							</TouchableOpacity>
-						</View>
-						<View style={styles.touchableSelectContainer}>
-							<Text style={styles.label}>{i18n.t("mark")}</Text>
-							<TouchableOpacity
-								style={styles.touchableSelect}
-								onPress={() => {
-									setLookupData(props.markData, "markId", "name", "id", i18n.t("mark"), true);
-								}}
-							>
-								<Text style={styles.selectedText} numberOfLines={1}>
-									{state.serviceData?.markId
-										? props.markData?.map((el, index) => {
-												if (el.id === state.serviceData?.markId) {
-													return el.name;
-												}
-										  })
-										: i18n.t("choose")}
-								</Text>
-								<Icon name="keyboard-arrow-down" type="material-icons" size={30} color={GRAY_ICON_COLOR} />
-							</TouchableOpacity>
-						</View>
-						<View style={styles.touchableSelectContainer}>
-							<Text style={styles.label}>{i18n.t("power")}</Text>
-							<TouchableOpacity
-								style={styles.touchableSelect}
-								onPress={() => {
-									setLookupData(props.powerData, "powerId", "name", "id", i18n.t("power"), true);
-								}}
-							>
-								<Text style={styles.selectedText} numberOfLines={1}>
-									{state.serviceData?.powerId
-										? props.powerData?.map((el, index) => {
-												if (el.id === state.serviceData?.powerId) {
-													return el.name;
-												}
-										  })
-										: i18n.t("choose")}
-								</Text>
-								<Icon name="keyboard-arrow-down" type="material-icons" size={30} color={GRAY_ICON_COLOR} />
-							</TouchableOpacity>
-						</View>
-						<LoanInput
-							label={i18n.t("unitAmountHour")}
-							keyboardType="number-pad"
-							value={props.tempUnitAmount}
-							onChangeText={(e) => {
-								props.setTempUnitAmount(state.addCommas(state.removeNonNumeric(e)));
-								// state.setServiceData((prevState) => ({
-								// 	...prevState,
-								// 	unitAmount: state.addCommas(state.removeNonNumeric(e))
-								// }))
-							}}
-						/>
-						<LoanInput
-							label={i18n.t("packageAmountDay")}
-							keyboardType="number-pad"
-							value={props.tempPackageAmount}
-							onChangeText={(e) => {
-								props.setTempPackageAmount(state.addCommas(state.removeNonNumeric(e)));
-								// state.setServiceData((prevState) => ({
-								// 	...prevState,
-								// 	packageAmount: state.addCommas(state.removeNonNumeric(e))
-								// }))
-							}}
-						/>
-						<Text style={styles.label}>{i18n.t("uploadImage")}</Text>
-						<ImageModal />
-						<LoanInput
-							label={i18n.t("desciption")}
-							value={state.serviceData?.desciption}
-							onChangeText={(e) =>
-								state.setServiceData((prevState) => ({
-									...prevState,
-									desciption: e
-								}))
-							}
-							numberOfLines={3}
-							multiline
-						/>
-						<LoanInput
-							label={i18n.t("email")}
-							value={state.serviceData?.email}
-							onChangeText={(e) =>
-								state.setServiceData((prevState) => ({
-									...prevState,
-									email: e
-								}))
-							}
-							keyboardType="email-address"
-						/>
-						<LoanInput
-							label={i18n.t("phoneNumber")}
-							value={state.serviceData?.phone}
-							onChangeText={(e) =>
-								state.setServiceData((prevState) => ({
-									...prevState,
-									phone: e
-								}))
-							}
-							keyboardType="number-pad"
-							maxLength={8}
-						/>
-						<CheckBox
-							containerStyle={{
-								padding: 0,
-								marginLeft: 0,
-								marginTop: 10
-							}}
-							textStyle={{
-								fontWeight: "bold",
-								marginLeft: 5
-							}}
-							title={i18n.t("openMessenger")}
-							checked={state.serviceData?.isMessenger}
-							onPress={() => {
-								state.setServiceData((prevState) => ({
-									...prevState,
-									isMessenger: !state.serviceData?.isMessenger
-								}));
-							}}
-							iconType="material-community"
-							checkedIcon="checkbox-outline"
-							uncheckedIcon="checkbox-blank-outline"
-							checkedColor={MAIN_COLOR}
-							uncheckedColor={MAIN_COLOR}
-						/>
-						<TermCheckbox />
-					</ScrollView>
-				</View>
-				<BottomSheet
-					bodyText={data}
-					dragDown={true}
-					backClick={true}
-					type="lookup"
-					fieldName={fieldName}
-					displayName={displayName}
-					lookUpType="profile"
-					handle={uselessParam}
-					action={(e) => {
-						state.setServiceData((prevState) => ({
-							...prevState,
-							[fieldName]: e
-						}));
+				<SafeAreaView
+					style={{
+						flex: 1,
+						backgroundColor: "#fff"
 					}}
-					actionKey={actionKey}
-					sheetTitle={sheetTitle}
-					showFilter={showFilter}
-				/>
-			</SafeAreaView>
-		</KeyboardAvoidingView>
+				>
+					<View style={{ flex: 1 }}>
+						<ScrollView contentContainerStyle={styles.scrollContainer} bounces={false}>
+							<Text
+								style={{
+									fontWeight: "bold",
+									marginLeft: 5,
+									fontSize: 16,
+									alignSelf: "flex-end"
+								}}
+							>
+								{i18n.t("transportation")}
+							</Text>
+							<View style={styles.touchableSelectContainer}>
+								<Text style={styles.label}>{i18n.t("machineryType")}</Text>
+								<TouchableOpacity
+									style={styles.touchableSelect}
+									onPress={() => {
+										setLookupData(props.machineryType, "machineryTypeId", "name", "id", i18n.t("machineryType"), true);
+									}}
+								>
+									<Text style={styles.selectedText} numberOfLines={1}>
+										{state.serviceData?.machineryTypeId
+											? props.machineryType?.map((el, index) => {
+													if (el.id === state.serviceData?.machineryTypeId) {
+														return el.name;
+													}
+											  })
+											: i18n.t("choose")}
+									</Text>
+									<Icon name="keyboard-arrow-down" type="material-icons" size={30} color={GRAY_ICON_COLOR} />
+								</TouchableOpacity>
+							</View>
+							<View style={styles.touchableSelectContainer}>
+								<Text style={styles.label}>{i18n.t("mark")}</Text>
+								<TouchableOpacity
+									style={styles.touchableSelect}
+									onPress={() => {
+										setLookupData(props.markData, "markId", "name", "id", i18n.t("mark"), true);
+									}}
+								>
+									<Text style={styles.selectedText} numberOfLines={1}>
+										{state.serviceData?.markId
+											? props.markData?.map((el, index) => {
+													if (el.id === state.serviceData?.markId) {
+														return el.name;
+													}
+											  })
+											: i18n.t("choose")}
+									</Text>
+									<Icon name="keyboard-arrow-down" type="material-icons" size={30} color={GRAY_ICON_COLOR} />
+								</TouchableOpacity>
+							</View>
+							<View style={styles.touchableSelectContainer}>
+								<Text style={styles.label}>{i18n.t("power")}</Text>
+								<TouchableOpacity
+									style={styles.touchableSelect}
+									onPress={() => {
+										setLookupData(props.powerData, "powerId", "name", "id", i18n.t("power"), true);
+									}}
+								>
+									<Text style={styles.selectedText} numberOfLines={1}>
+										{state.serviceData?.powerId
+											? props.powerData?.map((el, index) => {
+													if (el.id === state.serviceData?.powerId) {
+														return el.name;
+													}
+											  })
+											: i18n.t("choose")}
+									</Text>
+									<Icon name="keyboard-arrow-down" type="material-icons" size={30} color={GRAY_ICON_COLOR} />
+								</TouchableOpacity>
+							</View>
+							<LoanInput
+								label={i18n.t("unitAmountHour")}
+								keyboardType="number-pad"
+								value={props.tempUnitAmount}
+								onChangeText={(e) => {
+									props.setTempUnitAmount(state.addCommas(state.removeNonNumeric(e)));
+									// state.setServiceData((prevState) => ({
+									// 	...prevState,
+									// 	unitAmount: state.addCommas(state.removeNonNumeric(e))
+									// }))
+								}}
+							/>
+							<LoanInput
+								label={i18n.t("packageAmountDay")}
+								keyboardType="number-pad"
+								value={props.tempPackageAmount}
+								onChangeText={(e) => {
+									props.setTempPackageAmount(state.addCommas(state.removeNonNumeric(e)));
+									// state.setServiceData((prevState) => ({
+									// 	...prevState,
+									// 	packageAmount: state.addCommas(state.removeNonNumeric(e))
+									// }))
+								}}
+							/>
+							<Text style={styles.label}>{i18n.t("uploadImage")}</Text>
+							<ImageModal />
+							<LoanInput
+								label={i18n.t("desciption")}
+								value={state.serviceData?.desciption}
+								onChangeText={(e) =>
+									state.setServiceData((prevState) => ({
+										...prevState,
+										desciption: e
+									}))
+								}
+								numberOfLines={3}
+								multiline
+							/>
+							<LoanInput
+								label={i18n.t("email")}
+								value={state.serviceData?.email}
+								onChangeText={(e) =>
+									state.setServiceData((prevState) => ({
+										...prevState,
+										email: e
+									}))
+								}
+								keyboardType="email-address"
+							/>
+							<LoanInput
+								label={i18n.t("phoneNumber")}
+								value={state.serviceData?.phone}
+								onChangeText={(e) =>
+									state.setServiceData((prevState) => ({
+										...prevState,
+										phone: e
+									}))
+								}
+								keyboardType="number-pad"
+								maxLength={8}
+							/>
+							<CheckBox
+								containerStyle={{
+									padding: 0,
+									marginLeft: 0,
+									marginTop: 10
+								}}
+								textStyle={{
+									fontWeight: "bold",
+									marginLeft: 5
+								}}
+								title={i18n.t("openMessenger")}
+								checked={state.serviceData?.isMessenger}
+								onPress={() => {
+									state.setServiceData((prevState) => ({
+										...prevState,
+										isMessenger: !state.serviceData?.isMessenger
+									}));
+								}}
+								iconType="material-community"
+								checkedIcon="checkbox-outline"
+								uncheckedIcon="checkbox-blank-outline"
+								checkedColor={MAIN_COLOR}
+								uncheckedColor={MAIN_COLOR}
+							/>
+							<TermCheckbox />
+						</ScrollView>
+					</View>
+					<BottomSheet
+						bodyText={data}
+						dragDown={true}
+						backClick={true}
+						type="lookup"
+						fieldName={fieldName}
+						displayName={displayName}
+						lookUpType="profile"
+						handle={uselessParam}
+						action={(e) => {
+							state.setServiceData((prevState) => ({
+								...prevState,
+								[fieldName]: e
+							}));
+						}}
+						actionKey={actionKey}
+						sheetTitle={sheetTitle}
+						showFilter={showFilter}
+					/>
+				</SafeAreaView>
+			</KeyboardAvoidingView>
+		</View>
 	);
 };
 

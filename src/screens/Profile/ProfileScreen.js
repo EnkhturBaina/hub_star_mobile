@@ -447,6 +447,7 @@ const styles = StyleSheet.create({
 		paddingHorizontal: 20,
 		paddingBottom: 30,
 		borderBottomWidth: 1,
-		borderBottomColor: MAIN_COLOR_GRAY
+		borderBottomColor: MAIN_COLOR_GRAY,
+		width: "100%"
 	}
 });
