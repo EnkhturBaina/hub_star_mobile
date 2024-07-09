@@ -17,7 +17,7 @@ export const MAIN_BORDER_RADIUS = 12;
 export const IOS_VERSION = "1.4.5";
 export const ANDROID_VERSION = "63";
 
-export const SERVER_URL = "http://192.82.92.170:8080/";
+export const SERVER_URL = "http://192.82.92.171:8080/";
 export const IMG_URL = "http://192.82.92.170:8080/local-files/";
 // export const SERVER_URL = "http://192.168.5.120:8080/";
 // export const IMG_URL = "http://192.168.5.120:8080/local-files/";
