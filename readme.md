@@ -2,8 +2,6 @@
 
 **Note**
 
-## contants.js (IOS_VERSION, ANDROID_VERSION) UPDATE хийх
-
 ## app.json (version, ios->buildNumber, android->versionCode) UPDATE хийх
 
 1. eas build --platform android //ANDROID BUILD
