@@ -2,7 +2,7 @@
 	"expo": {
 		"name": "HubStar",
 		"slug": "HubStar",
-		"version": "1.0.23",
+		"version": "1.0.24",
 		"orientation": "portrait",
 		"icon": "./assets/icon.png",
 		"userInterfaceStyle": "light",
@@ -18,7 +18,7 @@
 			},
 			"supportsTablet": true,
 			"bundleIdentifier": "com.hubstar.app",
-			"buildNumber": "1.0.23",
+			"buildNumber": "1.0.24",
 			"infoPlist": {
 				"NSFaceIDUsageDescription": "FaceID эсвэл TouchID ашиглан тохиргоо идэвхжүүлснээр та апп руу шууд нэвтрэх боломжтой.",
 				"CFBundleAllowMixedLocalizations": true,
@@ -59,7 +59,7 @@
 				"backgroundColor": "#ffffff"
 			},
 			"package": "com.hubstar.app",
-			"versionCode": 23,
+			"versionCode": 24,
 			"permissions": [
 				"android.permission.USE_BIOMETRIC",
 				"android.permission.USE_FINGERPRINT",
