@@ -222,7 +222,7 @@ export const MainStore = (props) => {
 			.post(
 				`${SERVER_URL}authentication/login`,
 				{
-					email: email?.toLowerCase(),
+					username: email?.toLowerCase(),
 					password
 				},
 				{
@@ -244,6 +244,7 @@ export const MainStore = (props) => {
 					setEmail(response.data?.response?.user?.email);
 					setUserId(response.data?.response?.user?.id);
 					setLastName(response.data?.response?.user?.lastName);
+
 					setFirstName(response.data?.response?.user?.firstName);
 					setPhone(response.data?.response?.user?.phone);
 					// setEndDate(response.data?.endDate);
