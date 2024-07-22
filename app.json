@@ -26,7 +26,7 @@
 					"NSAllowsArbitraryLoads": true,
 					"NSAllowsLocalNetworking": true,
 					"NSExceptionDomains": {
-						"192.82.92.170": {
+						"192.82.92.171": {
 							"NSIncludesSubdomains": true,
 							"NSExceptionAllowsInsecureHTTPLoads": true
 						}
