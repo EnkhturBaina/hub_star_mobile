@@ -274,7 +274,7 @@ export const MainStore = (props) => {
 			})
 			.catch(function (error) {
 				setIsLoggedIn(false);
-				// console.log("error2", error.response.data);
+				console.log("error2", error.response.data);
 				if (error.response.data.statusCode == 400) {
 					setErrorMsg(i18n.t("wrongLogin"));
 				} else {
