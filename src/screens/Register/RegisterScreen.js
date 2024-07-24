@@ -82,7 +82,7 @@ const RegisterScreen = (props) => {
 					.post(
 						`${SERVER_URL}authentication/register`,
 						{
-							email: email?.toLowerCase(),
+							username: email?.toLowerCase(),
 							password,
 							firstName,
 							lastName
@@ -127,10 +127,7 @@ const RegisterScreen = (props) => {
 			}}
 		>
 			<CustomSnackbar visible={visibleSnack} dismiss={onDismissSnackBar} text={snackBarMsg} topPos={1} />
-			<ScrollView
-				contentContainerStyle={styles.scrollContainer}
-				bounces={false}
-			>
+			<ScrollView contentContainerStyle={styles.scrollContainer} bounces={false}>
 				<TouchableOpacity activeOpacity={0.9} onPress={() => {}} style={{ alignItems: "center", marginVertical: 20 }}>
 					<Avatar size={100} rounded source={PersonCircle} title="Bj" containerStyle={{ backgroundColor: "grey" }}>
 						{/* <Avatar.Accessory size={28} onPress={() => {}} color="#fff" style={{ backgroundColor: MAIN_COLOR }} /> */}

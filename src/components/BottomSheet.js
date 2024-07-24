@@ -135,7 +135,7 @@ const styles = StyleSheet.create({
 		width: "100%",
 		height: "100%",
 		justifyContent: "flex-start",
-		paddingBottom: Platform.OS == "ios" ? 100 : 45
+		paddingBottom: Platform.OS == "ios" ? 100 : 85
 	},
 	bottomSheetBodyLookup: {
 		flex: 1,
