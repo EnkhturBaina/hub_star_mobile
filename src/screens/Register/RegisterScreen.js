@@ -63,9 +63,11 @@ const RegisterScreen = (props) => {
 		let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
 		if (email == "") {
 			onToggleSnackBar(`${i18n.t("pleaseEnterEmail")} ${i18n.t("pleaseEnter")}`);
-		} else if (reg.test(email) === false) {
-			onToggleSnackBar(`${i18n.t("pleaseEnterEmailCorrect")} ${i18n.t("pleaseEnter")}`);
-		} else if (lastName == "") {
+		}
+		// else if (reg.test(email) === false) {
+		// 	onToggleSnackBar(`${i18n.t("pleaseEnterEmailCorrect")} ${i18n.t("pleaseEnter")}`);
+		// }
+		else if (lastName == "") {
 			onToggleSnackBar(`${i18n.t("lastName")} ${i18n.t("pleaseEnter")}`);
 		} else if (firstName == "") {
 			onToggleSnackBar(`${i18n.t("firstName")} ${i18n.t("pleaseEnter")}`);
@@ -141,11 +143,11 @@ const RegisterScreen = (props) => {
 				) : null}
 
 				<View style={styles.sectionStyle}>
-					<Icon name="mail" type="ion-icon" size={20} style={styles.inputIcon} color={GRAY_ICON_COLOR} />
+					<Icon name="user" type="font-awesome" size={20} style={styles.inputIcon} color={GRAY_ICON_COLOR} />
 					<TextInput
 						style={styles.generalInput}
 						value={email}
-						placeholder={i18n.t("email")}
+						placeholder={i18n.t("emailOrPhone")}
 						keyboardType="email-address"
 						returnKeyType="done"
 						onChangeText={setEmail}

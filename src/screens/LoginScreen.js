@@ -76,8 +76,6 @@ const LoginScreen = (props) => {
 	const login = () => {
 		if (email == "") {
 			onToggleSnackBar(i18n.t("pleaseEnterEmail"));
-		} else if (reg.test(email) === false) {
-			onToggleSnackBar(i18n.t("pleaseEnterEmailCorrect"));
 		} else if (password == "") {
 			onToggleSnackBar(i18n.t("pleaseEnterPassword"));
 		} else {
@@ -128,11 +126,11 @@ const LoginScreen = (props) => {
 				) : null}
 				<View style={styles.stackSection}>
 					<View style={styles.sectionStyle}>
-						<Icon name="mail" type="ion-icon" size={20} style={styles.inputIcon} color={GRAY_ICON_COLOR} />
+						<Icon name="user" type="font-awesome" size={20} style={styles.inputIcon} color={GRAY_ICON_COLOR} />
 						<TextInput
 							style={styles.generalInput}
 							value={email}
-							placeholder={i18n.t("email")}
+							placeholder={i18n.t("emailOrPhone")}
 							keyboardType="email-address"
 							returnKeyType="done"
 							onChangeText={setEmail}
