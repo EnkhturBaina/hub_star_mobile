@@ -11,10 +11,11 @@ import {
 	LoginStackNavigator,
 	ProfileStackNavigator
 } from "./MainStackNavigation";
-import { MAIN_COLOR } from "../constant";
+import { MAIN_COLOR, SERVER_URL, X_API_KEY } from "../constant";
 import MainContext from "../contexts/MainContext";
 import SplashScreen from "../screens/SplashScreen";
 import { i18n } from "../refs/i18";
+import axios from "axios";
 
 const TABS = [
 	{
@@ -58,7 +59,28 @@ const BottomTab = createBottomTabNavigator();
 
 const BottomBar = (props) => {
 	const state = useContext(MainContext);
+
 	const [activeTabName, setActiveTabName] = useState("");
+	const getProfileData = async () => {
+		await axios
+			.get(`${SERVER_URL}authentication`, {
+				headers: {
+					"X-API-KEY": X_API_KEY,
+					Authorization: `Bearer ${state.token}`
+				}
+			})
+			.then((response) => {
+				console.log("get ProfileData", JSON.stringify(response.data.response));
+				state.setIsConfirmed(response.data.response?.user?.isConfirm);
+			})
+			.catch((error) => {
+				console.error("Error fetching EditProfile=>get ProfileData=>:", error);
+				if (error.response.status == "401") {
+					state.Handle_401();
+				}
+			});
+	};
+
 	if (state.isLoading) {
 		// Апп ачааллах бүрт SplashScreen харуулах
 		return <SplashScreen />;
@@ -100,6 +122,7 @@ const BottomBar = (props) => {
 							listeners={{
 								focus: (e) => {
 									var tabName = e.target.split("-")?.[0];
+									console.log("tabName", tabName);
 									setActiveTabName(tabName);
 								},
 								tabPress: (e) => {
@@ -107,6 +130,8 @@ const BottomBar = (props) => {
 									if (tabName == "Нэмэх") {
 										// state.clearServiceData();
 										// state.setCurrentStep(1);
+									} else if (tabName == "add") {
+										getProfileData();
 									}
 								}
 							}}

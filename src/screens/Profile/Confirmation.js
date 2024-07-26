@@ -25,9 +25,11 @@ import * as ImagePicker from "expo-image-picker";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { ImageZoom } from "@likashefqet/react-native-image-zoom";
 import { i18n } from "../../refs/i18";
+import { useIsFocused } from "@react-navigation/native";
 
 const Confirmation = (props) => {
 	const state = useContext(MainContext);
+	const isFocused = useIsFocused();
 
 	const tabBarHeight = useBottomTabBarHeight();
 	const [confirmType, setConfirmType] = useState(null);
@@ -137,7 +139,8 @@ const Confirmation = (props) => {
 
 	useEffect(() => {
 		getProfileData();
-	}, []);
+	}, [isFocused]);
+
 	useEffect(() => {
 		if (confirmType != null) {
 			if (confirmType == "1") {
@@ -196,7 +199,8 @@ const Confirmation = (props) => {
 						frontPassportImageId: profileData?.frontPassportImageId,
 						selfieImageId: profileData?.selfieImageId,
 						behindPassportImageId: profileData?.behindPassportImageId,
-						organizationLogoId: profileData?.organizationLogoId
+						organizationLogoId: profileData?.organizationLogoId,
+						isConfirm: true
 					},
 					{
 						headers: {

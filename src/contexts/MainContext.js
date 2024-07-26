@@ -25,6 +25,7 @@ export const MainStore = (props) => {
 	const [userData, setUserData] = useState(null);
 	const [userMainDirID, setUserMainDirID] = useState(null);
 	const [advertisement, setAdvertisement] = useState([]);
+	const [isConfirmed, setIsConfirmed] = useState(false);
 
 	const ORDER_DATA = [
 		{ label: i18n.t("orderZA"), value: "DESC" },
@@ -682,7 +683,9 @@ export const MainStore = (props) => {
 				selectedAdvice,
 				setSelectedAdvice,
 				selectedAdviceName,
-				setSelectedAdviceName
+				setSelectedAdviceName,
+				isConfirmed,
+				setIsConfirmed
 			}}
 		>
 			{props.children}
