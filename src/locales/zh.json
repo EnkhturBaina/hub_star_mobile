@@ -136,6 +136,7 @@
 	"regext1Spec": "1个特殊字符或1个数字（!@#$%^&*_）",
 	"regexNotMatch": "密码不匹配。",
 	"repeatPassword": "重复密码",
+	"enterRepeatPassword": "請重新輸入密碼.",
 	"confirmate": "确认",
 	"sendConfirmOTP1": "我们已向您的手机发送了验证码",
 	"sendConfirmOTP2": " .",

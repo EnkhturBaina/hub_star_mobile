@@ -32,13 +32,12 @@ import { i18n } from "../../refs/i18";
 
 const RegisterScreen = (props) => {
 	const [errorMsg, setErrorMsg] = useState("");
-	const [email, setEmail] = useState("");
-	const [lastName, setLastName] = useState("");
-	const [firstName, setFirstName] = useState("");
+	const [username, setUsername] = useState("");
 	const [password, setPassword] = useState("");
-	// const [mobileNmber, setMobileNumber] = useState("");
+	const [repeatPassword, setRepeatPassword] = useState("");
 	const [termCheck, setTermCheck] = useState(false);
 	const [hidePassword, setHidePassword] = useState(true);
+	const [hidePassword2, setHidePassword2] = useState(true);
 	const [isWaiting, setIsWaiting] = useState(false);
 
 	const refRBSheet = useRef();
@@ -58,24 +57,24 @@ const RegisterScreen = (props) => {
 	const hideShowPassword = () => {
 		setHidePassword(!hidePassword);
 	};
+	const hideShowPassword2 = () => {
+		setHidePassword2(!hidePassword2);
+	};
 
 	const register = async () => {
-		let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
-		if (email == "") {
-			onToggleSnackBar(`${i18n.t("pleaseEnterEmail")} ${i18n.t("pleaseEnter")}`);
-		}
-		// else if (reg.test(email) === false) {
-		// 	onToggleSnackBar(`${i18n.t("pleaseEnterEmailCorrect")} ${i18n.t("pleaseEnter")}`);
-		// }
-		else if (lastName == "") {
-			onToggleSnackBar(`${i18n.t("lastName")} ${i18n.t("pleaseEnter")}`);
-		} else if (firstName == "") {
-			onToggleSnackBar(`${i18n.t("firstName")} ${i18n.t("pleaseEnter")}`);
+		if (username == "") {
+			onToggleSnackBar(i18n.t("pleaseEnterEmail"));
 		} else if (password == "") {
 			onToggleSnackBar(i18n.t("pleaseEnterPassword"));
-		} else if (password.length < 8) {
-			onToggleSnackBar(i18n.t("regexPassword8"));
-		} else if (!termCheck) {
+		} else if (repeatPassword == "") {
+			onToggleSnackBar(i18n.t("enterRepeatPassword"));
+		} else if (password !== repeatPassword) {
+			onToggleSnackBar(i18n.t("regexNotMatch"));
+		}
+		//  else if (password.length < 8) {
+		// 	onToggleSnackBar(i18n.t("regexPassword8"));
+		// }
+		else if (!termCheck) {
 			onToggleSnackBar(i18n.t("pleaseConfirmTerm"));
 		} else {
 			setIsWaiting(true);
@@ -84,10 +83,8 @@ const RegisterScreen = (props) => {
 					.post(
 						`${SERVER_URL}authentication/register`,
 						{
-							username: email?.toLowerCase(),
-							password,
-							firstName,
-							lastName
+							username: username?.toLowerCase(),
+							password
 						},
 						{
 							headers: {
@@ -146,31 +143,11 @@ const RegisterScreen = (props) => {
 					<Icon name="user" type="font-awesome" size={20} style={styles.inputIcon} color={GRAY_ICON_COLOR} />
 					<TextInput
 						style={styles.generalInput}
-						value={email}
+						value={username}
 						placeholder={i18n.t("emailOrPhone")}
 						keyboardType="email-address"
 						returnKeyType="done"
-						onChangeText={setEmail}
-					/>
-				</View>
-				<View style={styles.sectionStyle}>
-					<Icon name="user" type="font-awesome" size={20} style={styles.inputIcon} color={GRAY_ICON_COLOR} />
-					<TextInput
-						style={styles.generalInput}
-						value={lastName}
-						placeholder={i18n.t("lastName")}
-						returnKeyType="done"
-						onChangeText={setLastName}
-					/>
-				</View>
-				<View style={styles.sectionStyle}>
-					<Icon name="user" type="font-awesome" size={20} style={styles.inputIcon} color={GRAY_ICON_COLOR} />
-					<TextInput
-						style={styles.generalInput}
-						value={firstName}
-						placeholder={i18n.t("firstName")}
-						returnKeyType="done"
-						onChangeText={setFirstName}
+						onChangeText={setUsername}
 					/>
 				</View>
 				<View style={styles.sectionStyle}>
@@ -184,6 +161,19 @@ const RegisterScreen = (props) => {
 					/>
 					<TouchableOpacity style={styles.imageStyle} onPress={() => hideShowPassword()}>
 						<Icon name={hidePassword ? "eye" : "eye-closed"} type="octicon" color={MAIN_COLOR} />
+					</TouchableOpacity>
+				</View>
+				<View style={styles.sectionStyle}>
+					<Icon name="key" type="ionicon" size={20} color={GRAY_ICON_COLOR} style={styles.inputIcon} />
+					<TextInput
+						placeholder={i18n.t("repeatPassword")}
+						value={repeatPassword}
+						onChangeText={setRepeatPassword}
+						secureTextEntry={hidePassword2}
+						style={styles.generalInput}
+					/>
+					<TouchableOpacity style={styles.imageStyle} onPress={() => hideShowPassword2()}>
+						<Icon name={hidePassword2 ? "eye" : "eye-closed"} type="octicon" color={MAIN_COLOR} />
 					</TouchableOpacity>
 				</View>
 				<View style={styles.stackSection2}>

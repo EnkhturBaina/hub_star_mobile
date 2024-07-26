@@ -136,6 +136,7 @@
 	"regext1Spec": "1 тусгай тэмдэгт эсвэл 1 тоо (!@#$%^&*_)",
 	"regexNotMatch": "Нууц үг таарахгүй байна.",
 	"repeatPassword": "Нууц үг давтах",
+	"enterRepeatPassword": "Нууц үг давтан оруулна уу.",
 	"confirmate": "Баталгаажуулах",
 	"sendConfirmOTP1": "Бид таны ",
 	"sendConfirmOTP2": " луу баталгаажуулах код илгээлээ.",

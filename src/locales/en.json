@@ -136,6 +136,7 @@
 	"regext1Spec": "1 special character or 1 number (!@#$%^&*_)",
 	"regexNotMatch": "Passwords do not match.",
 	"repeatPassword": "Repeat Password",
+	"enterRepeatPassword": "Please re-enter the password.",
 	"confirmate": "Confirm",
 	"sendConfirmOTP1": "We sent a verification code to your ",
 	"sendConfirmOTP2": " .",
