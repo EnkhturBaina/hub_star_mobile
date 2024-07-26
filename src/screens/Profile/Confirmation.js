@@ -155,24 +155,33 @@ const Confirmation = (props) => {
 	}, [confirmType]);
 
 	const saveProfileData = async () => {
+		console.log("confirmType", confirmType);
 		if (!profileData.userType) {
 			onToggleSnackBar(`${i18n.t("userType")} ${i18n.t("pleaseChoose")}`);
 		} else if (!profileData.mainDirectionId) {
 			onToggleSnackBar(`${i18n.t("mainDir")} ${i18n.t("pleaseChoose")}`);
-		} else if (!profileData.organizationName) {
+		} else if (confirmType == "1" && !profileData?.frontPassportImageId) {
+			onToggleSnackBar(`${i18n.t("frontPassportImageId")} ${i18n.t("pleaseEnter")}`);
+		} else if (confirmType == "1" && !profileData?.behindPassportImageId) {
+			onToggleSnackBar(`${i18n.t("behindPassportImageId")} ${i18n.t("pleaseEnter")}`);
+		} else if (confirmType == "2" && !profileData?.frontPassportImageId) {
+			onToggleSnackBar(`${i18n.t("frontPassportImageIdORG")} ${i18n.t("pleaseEnter")}`);
+		} else if (confirmType == "2" && !profileData?.selfieImageId) {
+			onToggleSnackBar(`${i18n.t("behindPassportImageIdORG")} ${i18n.t("pleaseEnter")}`);
+		} else if (confirmType == "2" && !profileData?.organizationLogoId) {
+			onToggleSnackBar(`${i18n.t("organizationLogoId")} ${i18n.t("pleaseEnter")}`);
+		} else if (confirmType == "2" && !profileData.organizationName) {
 			onToggleSnackBar(`${i18n.t("orgName")} ${i18n.t("pleaseEnter")}`);
-		} else if (!profileData.organizationRegno) {
+		} else if (confirmType == "2" && !profileData.organizationRegno) {
 			onToggleSnackBar(`${i18n.t("orgRegister")} ${i18n.t("pleaseEnter")}`);
 		}
 		//  else if (!profileData.webUrl) {
 		// 	onToggleSnackBar("Веб хуудас оруулна уу.");
 		// }
-		else if (tempState) {
+		else if (confirmType == "2" && !tempState) {
+			onToggleSnackBar(`${i18n.t("orgIndustry")} ${i18n.t("pleaseEnter")}`);
+		} else if (confirmType == "2" && !profileData.experience) {
 			onToggleSnackBar(`${i18n.t("orgExperience")} ${i18n.t("pleaseEnter")}`);
-		} else if (!profileData.experience) {
-			onToggleSnackBar(`${i18n.t("orgExperience")} ${i18n.t("pleaseEnter")}`);
-		} else if (!profileData.address) {
-			onToggleSnackBar(`${i18n.t("address")} ${i18n.t("pleaseEnter")}`);
 		} else {
 			axios
 				.patch(
@@ -213,6 +222,7 @@ const Confirmation = (props) => {
 	};
 
 	const uploadImageAsBinary = async (val) => {
+		console.log("val", val);
 		const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
 
 		if (status !== "granted") {
