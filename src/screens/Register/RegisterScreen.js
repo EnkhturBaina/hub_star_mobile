@@ -10,7 +10,7 @@ import {
 	KeyboardAvoidingView,
 	Platform
 } from "react-native";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Avatar, Icon, CheckBox, Divider, Button } from "@rneui/themed";
 import PersonCircle from "../../../assets/PersonCircle.png";
 import {
@@ -29,6 +29,8 @@ import CustomSnackbar from "../../components/CustomSnackbar";
 import RBSheet from "react-native-raw-bottom-sheet";
 import axios from "axios";
 import { i18n } from "../../refs/i18";
+import WebView from "react-native-webview";
+import Empty from "../../components/Empty";
 
 const RegisterScreen = (props) => {
 	const [errorMsg, setErrorMsg] = useState("");
@@ -39,6 +41,30 @@ const RegisterScreen = (props) => {
 	const [hidePassword, setHidePassword] = useState(true);
 	const [hidePassword2, setHidePassword2] = useState(true);
 	const [isWaiting, setIsWaiting] = useState(false);
+	const [termData, setTermData] = useState(null);
+
+	const getTermData = async () => {
+		await axios
+			.get(`${SERVER_URL}reference/pages/TERM_OF_SERVICE`, {
+				headers: {
+					"X-API-KEY": X_API_KEY
+				}
+			})
+			.then((response) => {
+				// console.log("get TermData response", JSON.stringify(response.data.response));
+				setTermData(response.data.response);
+			})
+			.catch((error) => {
+				console.error("Error fetching STEP1 get Directions:", error);
+				if (error.response.status == "401") {
+					state.Handle_401();
+				}
+			});
+	};
+
+	useEffect(() => {
+		getTermData();
+	}, []);
 
 	const refRBSheet = useRef();
 	const screen = Dimensions.get("screen");
@@ -186,7 +212,7 @@ const RegisterScreen = (props) => {
 							backgroundColor: MAIN_BG_GRAY
 						}}
 						textStyle={{
-							fontWeight: "normal",
+							fontWeight: "bold",
 							marginLeft: 5
 						}}
 						title={i18n.t("confirmTerm")}
@@ -237,37 +263,34 @@ const RegisterScreen = (props) => {
 					<ScrollView
 						contentContainerStyle={{
 							flexGrow: 1,
-							paddingBottom: 40,
+							paddingBottom: 10,
 							marginHorizontal: 20
 						}}
 					>
-						{/* {conditionData != "" ? (
-            <WebView
-              originWhitelist={["*"]}
-              source={{ html: conditionData }}
-              style={{ flex: 1 }}
-            />
-          ) : (
-            <Empty text="Үр дүн олдсонгүй." />
-          )} */}
-						<View
-							style={{
-								width: "90%",
-								marginLeft: "auto",
-								marginRight: "auto"
-							}}
-						>
-							<Button
-								onPress={() => {
-									setTermCheck(true);
-									refRBSheet.current.close();
-								}}
-								title={i18n.t("confirm")}
-								color={MAIN_COLOR}
-								radius={12}
-							/>
-						</View>
+						{termData != null ? (
+							<WebView originWhitelist={["*"]} source={{ html: termData.body }} style={{ flex: 1 }} />
+						) : (
+							<Empty text={i18n.t("noResultsFound")} />
+						)}
 					</ScrollView>
+					<View
+						style={{
+							width: "90%",
+							marginLeft: "auto",
+							marginRight: "auto",
+							marginBottom: 20
+						}}
+					>
+						<Button
+							onPress={() => {
+								setTermCheck(true);
+								refRBSheet.current.close();
+							}}
+							title={i18n.t("confirm")}
+							color={MAIN_COLOR}
+							radius={12}
+						/>
+					</View>
 				</RBSheet>
 			</ScrollView>
 		</KeyboardAvoidingView>
